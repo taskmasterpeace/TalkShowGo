@@ -1,0 +1,16 @@
+# Talk Show Go Worker
+# Runs BullMQ workers for background job processing
+
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install dependencies
+COPY package*.json ./
+RUN npm install
+
+# Copy source code
+COPY . .
+
+# Run the worker
+CMD ["npm", "run", "worker"]

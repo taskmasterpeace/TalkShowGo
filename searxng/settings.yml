@@ -1,0 +1,75 @@
+# SearXNG Configuration for Talk Show Go
+# JSON API enabled for programmatic access
+
+use_default_settings: true
+
+general:
+  instance_name: "Talk Show Go Search"
+  debug: false
+  privacypolicy_url: false
+  donation_url: false
+  enable_metrics: false
+
+search:
+  safe_search: 0
+  autocomplete: ""
+  default_lang: "en"
+  formats:
+    - html
+    - json  # Enable JSON API responses
+
+server:
+  # Set secret key for production
+  secret_key: "talkshowgo-searxng-secret-key-change-in-production"
+  limiter: false  # Disable rate limiting for internal use
+  image_proxy: false
+  http_protocol_version: "1.1"
+  method: "GET"
+
+ui:
+  static_use_hash: true
+  default_theme: simple
+  results_on_new_tab: false
+
+# Engine settings - enable/disable specific search engines
+engines:
+  # General web search
+  - name: google
+    engine: google
+    shortcut: g
+    disabled: false
+
+  - name: bing
+    engine: bing
+    shortcut: bi
+    disabled: false
+
+  - name: duckduckgo
+    engine: duckduckgo
+    shortcut: ddg
+    disabled: false
+
+  # Wikipedia for entity info
+  - name: wikipedia
+    engine: wikipedia
+    shortcut: wp
+    disabled: false
+
+  # News sources
+  - name: google news
+    engine: google_news
+    shortcut: gn
+    disabled: false
+
+  - name: bing news
+    engine: bing_news
+    shortcut: bin
+    disabled: false
+
+# Output plugins
+outgoing:
+  request_timeout: 10.0
+  max_request_timeout: 30.0
+  useragent_suffix: ""
+  pool_connections: 100
+  pool_maxsize: 20

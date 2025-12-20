@@ -1,0 +1,96 @@
+{
+  "channel_id": "UCsbjTS5ELYvqXQ_SF2WCbqg",
+  "channel_name": "Algorithm Institute of Battle Rap",
+  "analyzed_at": "2025-12-18T17:33:11.031Z",
+  "videos_analyzed": 5,
+  "opening_patterns": [
+    "Setting vivid scene with specific details (fluorescent lights, time stamps, locations)",
+    "Introducing subject with full name and background context",
+    "Starting with dramatic moment or turning point",
+    "Opening with atmospheric description of key location",
+    "Beginning with character establishing details and hometown origins"
+  ],
+  "closing_patterns": [
+    "Trailing off mid-sentence to create cliffhanger effect",
+    "Building to climactic moment then cutting abruptly",
+    "Ending on unresolved tension or 'what happens next' implication"
+  ],
+  "transition_phrases": [
+    "Chapter [Number]",
+    "What followed was...",
+    "By the time...",
+    "In the [time period] that followed",
+    "But [subject] didn't know that...",
+    "The [noun] begins"
+  ],
+  "tone_descriptors": [
+    "Cinematic",
+    "Suspenseful",
+    "Documentary-style",
+    "Noir-influenced",
+    "Dramatic"
+  ],
+  "narrative_structure": "Atmospheric scene-setting → Character introduction with backstory → Chronological progression through key events using chapter breaks → Building tension toward climactic moments → Abrupt endings that leave resolution unclear",
+  "vocabulary_complexity": "complex",
+  "average_word_count": 2018,
+  "average_sentence_length": 15,
+  "example_segments": [
+    {
+      "type": "opening",
+      "text": "Young X, born Darrell Ferguson, was a battle rapper from Portsmouth, Virginia whose presence on stage was impossible to ignore. He got his start in the early 2010, honing his craft in local Virginia leagues like Seven Cities Sharks. In those small room battles, Young X quickly became a hometown favorite for his infectious energy and quick wit. His Southern drawl and effortless charisma made him stand out, allowing him to connect with crowds on a personal level. It wasn't long before his talent and personality propelled him beyond the local circuit and onto bigger platforms in the battle rap",
+      "video_title": "Young X: The Hilarious Legacy"
+    },
+    {
+      "type": "closing",
+      "text": "algorithm institute where the stories are from the battle rap culture speaking facts that we know it's the algorithm Institute go like and subscribe if you dig in the content that we provide if you listen to us you ain't hearing no lies we better than the mother bloggers all combined it's the algorithm Institute of Battle Rap it's the algorithm Institute of battle Rap hey hey. Leave a comment in. The comments. Oh we refine our comment. Sam sa.",
+      "video_title": "Young X: The Hilarious Legacy"
+    },
+    {
+      "type": "opening",
+      "text": "The fluorescent lights in the Cobb county interrogation room cast everything in a sickly green pallor. Outside, January 2019 crept toward dawn, but inside this windowless box, time had ceased to matter. The man they called Clone sat across from Detective Morrison, his tattooed arms resting on the metal table between them. The ink told stories, 359 inches etched on his skin, wheat plants climbing up his forearm, symbols of a life he'd tried to leave behind in Warner Robbins for the bright lights of battle rap stages. Morrison had been at nearly 30 minutes already. The detective's technique was",
+      "video_title": "Clone: Three Words, One Rat"
+    },
+    {
+      "type": "closing",
+      "text": "say. Hey. It's the Algorithm Institute where the stories are told from the battle rap culture Speaking facts that we know it's the Algorithm Institute go like and subscribe if you dig in the content that we provide if you listen to us you ain't hearing no lies we better than the mother bloggers all combined it's the Algorithm Institute of Battle Rap it's the Algorithm Institute of Battle Rap. We were coming to comment. Oh, we replied our comment.",
+      "video_title": "Clone: Three Words, One Rat"
+    },
+    {
+      "type": "opening",
+      "text": "The standoff October 13, 2022. The afternoon sun cast long shadows across Wilkinson Avenue in Jersey City. When federal agents closed in inside a modest home. Battle rap legend Sue Surf, born Ray John Cox, realized the walls were finally closing in. The U.S. marshals Service New York New Jersey Regional Fugitive Task Force had surrounded the residents, a coordinated operation that would mark the beginning of the end. When Serf and a female companion attempted to flee through the back door, they discovered law enforcement had already established a perimeter. There was no escape route. They retreated back inside.",
+      "video_title": "Tsu Surf: Confessions of a Crip"
+    },
+    {
+      "type": "closing",
+      "text": "locked but the streets want. To read. Hey it's the algorithm institute where the stories are told from the battle rap culture Speaking facts that we know it's the algorithm Institute Go like and subscribe if you dig in the content that we provide if you listen to us you ain't hearing no lies we better than the mother bloggers all combined it's the algorithm institute of battle rap it's the algorithm institute of battle rap. We replied every comment.",
+      "video_title": "Tsu Surf: Confessions of a Crip"
+    }
+  ],
+  "videos_used": [
+    {
+      "video_id": "V63oKWbxLUs",
+      "title": "Young X: The Hilarious Legacy",
+      "transcript_source": "assemblyai"
+    },
+    {
+      "video_id": "2JLpPTr0e8w",
+      "title": "Clone: Three Words, One Rat",
+      "transcript_source": "assemblyai"
+    },
+    {
+      "video_id": "Ulz3QA6f9vw",
+      "title": "Tsu Surf: Confessions of a Crip",
+      "transcript_source": "assemblyai"
+    },
+    {
+      "video_id": "TdrZLgZZ3DU",
+      "title": "Pat Stay: The Trial of Adam Drake",
+      "transcript_source": "assemblyai"
+    },
+    {
+      "video_id": "7Aeb2xZjm4M",
+      "title": "T-Rex: The Pillar That Never Moved",
+      "transcript_source": "assemblyai"
+    }
+  ]
+}
