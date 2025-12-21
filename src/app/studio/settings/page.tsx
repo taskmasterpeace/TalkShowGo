@@ -36,9 +36,14 @@ import {
   Volume2,
   Check,
   X,
+  Wrench,
+  Play,
+  AlertCircle,
 } from 'lucide-react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { SHOW_TYPES, SHOW_TYPE_COLORS, type ShowType } from '@/lib/show-types'
+import { loadWizardState, resetWizardState, type SetupWizardState } from '@/lib/setup-wizard'
 import { PROMPT_ROLES, getPromptStats } from '@/lib/prompt-registry'
 import { HOSTS } from '@/lib/hosts/types'
 import { HOST_VOICE_MAP } from '@/lib/elevenlabs'
@@ -53,6 +58,7 @@ interface VoiceSettings {
 }
 
 export default function StudioSettingsPage() {
+  const router = useRouter()
   const [activeTab, setActiveTab] = useState('show-types')
   const [enabledShowTypes, setEnabledShowTypes] = useState<Set<string>>(
     new Set(Object.keys(SHOW_TYPES).filter(id => SHOW_TYPES[id].isEnabled))
@@ -66,6 +72,17 @@ export default function StudioSettingsPage() {
     style: 0.15,
   })
   const [hasChanges, setHasChanges] = useState(false)
+  const [wizardState, setWizardState] = useState<SetupWizardState | null>(null)
+
+  // Load wizard state on mount
+  useEffect(() => {
+    setWizardState(loadWizardState())
+  }, [])
+
+  const handleResetWizard = () => {
+    resetWizardState()
+    router.push('/studio/setup')
+  }
 
   const promptStats = getPromptStats()
 
@@ -128,7 +145,7 @@ export default function StudioSettingsPage() {
 
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-4">
+        <TabsList className="grid w-full grid-cols-5">
           <TabsTrigger value="show-types" className="flex items-center gap-2">
             <Tv className="h-4 w-4" />
             Show Types
@@ -144,6 +161,10 @@ export default function StudioSettingsPage() {
           <TabsTrigger value="prompts" className="flex items-center gap-2">
             <FileText className="h-4 w-4" />
             Prompts
+          </TabsTrigger>
+          <TabsTrigger value="system" className="flex items-center gap-2">
+            <Wrench className="h-4 w-4" />
+            System
           </TabsTrigger>
         </TabsList>
 
@@ -435,6 +456,117 @@ export default function StudioSettingsPage() {
                     View All Prompts
                     <ExternalLink className="h-4 w-4 ml-2" />
                   </Button>
+                </Link>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* System Tab */}
+        <TabsContent value="system" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Setup Wizard</CardTitle>
+              <CardDescription>
+                Re-run the setup wizard to reconfigure Talk Show Go
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="flex items-center justify-between p-4 border rounded-lg">
+                <div className="flex items-center gap-3">
+                  <div className={`h-10 w-10 rounded-lg flex items-center justify-center ${
+                    wizardState?.completed ? 'bg-green-500/10 text-green-500' :
+                    wizardState?.skipped ? 'bg-amber-500/10 text-amber-500' :
+                    'bg-muted text-muted-foreground'
+                  }`}>
+                    <Play className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-medium">Setup Wizard Status</p>
+                    <p className="text-sm text-muted-foreground">
+                      {wizardState?.completed ? 'Completed' :
+                       wizardState?.skipped ? 'Skipped' :
+                       'Not completed'}
+                      {wizardState?.lastUpdated && (
+                        <span> - Last updated {new Date(wizardState.lastUpdated).toLocaleDateString()}</span>
+                      )}
+                    </p>
+                  </div>
+                </div>
+                <Badge variant={wizardState?.completed ? 'default' : 'secondary'}>
+                  {wizardState?.completed ? 'Complete' :
+                   wizardState?.skipped ? 'Skipped' : 'Pending'}
+                </Badge>
+              </div>
+
+              <div className="flex gap-2">
+                <Button onClick={handleResetWizard} variant="outline" className="gap-2">
+                  <RotateCcw className="h-4 w-4" />
+                  Reset & Run Setup Wizard
+                </Button>
+                <Link href="/studio/setup">
+                  <Button variant="ghost" className="gap-2">
+                    <Play className="h-4 w-4" />
+                    Continue Setup
+                  </Button>
+                </Link>
+              </div>
+
+              <p className="text-sm text-muted-foreground">
+                The setup wizard helps configure Docker services, AI providers, API keys, and voice settings.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>System Status</CardTitle>
+              <CardDescription>
+                View the status of all connected services
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <Link href="/studio/system-status">
+                <Button className="gap-2">
+                  <ExternalLink className="h-4 w-4" />
+                  Open System Status Dashboard
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Documentation</CardTitle>
+              <CardDescription>
+                Access deployment guides and troubleshooting resources
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-2">
+              <div className="grid grid-cols-2 gap-2">
+                <Link href="/docs/DEPLOYMENT.md" className="block">
+                  <div className="p-3 border rounded-lg hover:bg-muted transition-colors">
+                    <p className="font-medium text-sm">Deployment Guide</p>
+                    <p className="text-xs text-muted-foreground">Complete setup from scratch</p>
+                  </div>
+                </Link>
+                <Link href="/docs/troubleshooting/COMMON-ISSUES.md" className="block">
+                  <div className="p-3 border rounded-lg hover:bg-muted transition-colors">
+                    <p className="font-medium text-sm">Troubleshooting</p>
+                    <p className="text-xs text-muted-foreground">Common issues and fixes</p>
+                  </div>
+                </Link>
+                <Link href="/docs/api-keys/ELEVENLABS.md" className="block">
+                  <div className="p-3 border rounded-lg hover:bg-muted transition-colors">
+                    <p className="font-medium text-sm">API Keys</p>
+                    <p className="text-xs text-muted-foreground">Configure external services</p>
+                  </div>
+                </Link>
+                <Link href="/docs/services/OLLAMA.md" className="block">
+                  <div className="p-3 border rounded-lg hover:bg-muted transition-colors">
+                    <p className="font-medium text-sm">Services</p>
+                    <p className="text-xs text-muted-foreground">Ollama, SearXNG, Qdrant</p>
+                  </div>
                 </Link>
               </div>
             </CardContent>
