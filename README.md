@@ -25,21 +25,28 @@ Talk Show Go transforms the way content creators produce audio shows:
 ## Quick Start
 
 ```bash
-# Install dependencies
+# 1. Clone and install
+git clone https://github.com/yourusername/talkshowgo.git
+cd talkshowgo
 npm install
 
-# Start Docker services (Postgres + Redis)
-docker-compose up -d
+# 2. Configure environment
+cp .env.example .env.local
+# Edit .env.local with your API keys
 
-# Run database migrations
+# 3. Start Docker services
+docker compose up -d
+
+# 4. Run database migrations
 npm run db:migrate
 
-# Start development server
+# 5. Start development server
 npm run dev
-
-# In another terminal, start workers
-npm run worker
 ```
+
+Visit http://localhost:3000/studio/system-status to verify all services are running.
+
+> **New to Talk Show Go?** See the [Deployment Guide](docs/DEPLOYMENT.md) for complete setup instructions.
 
 ## The Pipeline
 
@@ -152,10 +159,37 @@ Talk Show Go includes 7 distinct host personalities:
 
 ## Documentation
 
+### Deployment & Setup
+
+- [**Deployment Guide**](docs/DEPLOYMENT.md) - Complete setup from scratch
+- [Docker Setup](docs/docker/DOCKER-SETUP.md) - Docker configuration
+- [Services Reference](docs/docker/SERVICES.md) - All Docker services explained
+- [Networking](docs/docker/NETWORKING.md) - Ports and connectivity
+
+### API Keys & External Services
+
+- [ElevenLabs](docs/api-keys/ELEVENLABS.md) - Voice generation setup
+- [Twitter API](docs/api-keys/TWITTER.md) - Social media integration
+- [News APIs](docs/api-keys/NEWS-APIS.md) - News aggregation setup
+- [Optional APIs](docs/api-keys/OPTIONAL.md) - OpenAI, Anthropic, YouTube, Perplexity
+
+### Service Configuration
+
+- [Ollama](docs/services/OLLAMA.md) - Local LLM setup
+- [SearXNG](docs/services/SEARXNG.md) - Self-hosted search
+- [Qdrant](docs/services/QDRANT.md) - Vector database
+- [Voice](docs/services/VOICE.md) - TTS and voice cloning
+
+### Troubleshooting
+
+- [Common Issues](docs/troubleshooting/COMMON-ISSUES.md) - FAQ and fixes
+- [Health Checks](docs/troubleshooting/HEALTH-CHECKS.md) - Service verification
+
+### Development
+
 - [CLAUDE.md](CLAUDE.md) - Development guidelines
 - [SECURITY.md](SECURITY.md) - Security best practices
 - [API-DOCS.md](API-DOCS.md) - API reference
-- [QUICKSTART.md](QUICKSTART.md) - Getting started guide
 
 ## Development
 
