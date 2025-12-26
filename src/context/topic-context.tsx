@@ -36,8 +36,7 @@ export function TopicProvider({ children }: { children: React.ReactNode }) {
       if (!res.ok) throw new Error('Failed to fetch topics')
       const data = await res.json()
 
-      // Sort by created_at descending (newest first) for display
-      // but we'll select the oldest (Battle Rap) by default
+      // Sort by created_at ascending (oldest first) - Battle Rap is the oldest
       const sortedTopics = Array.isArray(data)
         ? data.sort((a: Topic, b: Topic) =>
             new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
@@ -70,7 +69,10 @@ export function TopicProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   useEffect(() => {
-    fetchTopics()
+    // Only run on client side to avoid SSR fetch issues
+    if (typeof window !== 'undefined') {
+      fetchTopics()
+    }
   }, [fetchTopics])
 
   const selectTopic = useCallback((topic: Topic) => {
