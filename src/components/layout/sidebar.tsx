@@ -198,7 +198,7 @@ const secondaryNavigation = [
     description: 'Pipeline Status',
   },
   {
-    name: 'Settings',
+    name: 'Config',
     href: '/settings/usage',
     icon: Settings,
     description: 'Usage & Config',
