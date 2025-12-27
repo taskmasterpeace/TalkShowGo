@@ -50,6 +50,8 @@ export interface WorkflowOptions {
   skip_existing?: boolean       // Default true
   force_transcribe?: boolean    // Default false
   generate_docs?: boolean       // Default true
+  // Research package options
+  generate_package?: boolean    // Default false - generate and save ResearchPackage
   // Interview lookup options
   enable_interview_lookup?: boolean  // Default true - automatically search interviews for public figures
   max_interviews_per_entity?: number // Default 1
@@ -140,13 +142,15 @@ export interface WorkflowResult {
     markdown_path: string
     json_path: string
   }
+  // Research package (if generate_package=true)
+  research_package_id?: string
 
   // Errors
   errors: WorkflowError[]
 }
 
 export interface WorkflowError {
-  stage: 'query_interpretation' | 'search' | 'filter' | 'download' | 'transcribe' | 'docs' | 'document_search' | 'interview_lookup' | 'twitter_sentiment'
+  stage: 'query_interpretation' | 'search' | 'filter' | 'download' | 'transcribe' | 'docs' | 'document_search' | 'interview_lookup' | 'twitter_sentiment' | 'research_package'
   video_id?: string
   entity_name?: string
   message: string
@@ -1344,6 +1348,35 @@ export async function runResearchWorkflow(
     }
   }
 
+  // STEP 8: Generate and save research package (if enabled)
+  if (options.generate_package && result.sources.some(s => s.transcript)) {
+    console.log('[ResearchWorkflow] Step 8: Generating research package...')
+    try {
+      // Dynamically import to avoid circular dependency
+      const { assembleResearchPackage, saveResearchPackage } = await import('./research-package')
+      const pkg = await assembleResearchPackage(result, {
+        topic_id: options.topic_id,
+        include_transcripts: true,
+        generate_producer_materials: true,
+        generate_host_materials: true,
+      })
+      const saveResult = await saveResearchPackage(pkg)
+      if (saveResult.success) {
+        result.research_package_id = pkg.metadata.package_id
+        console.log(`[ResearchWorkflow] Research package saved: ${pkg.metadata.package_id}`)
+      } else {
+        throw new Error(saveResult.error)
+      }
+    } catch (error) {
+      console.error('[ResearchWorkflow] Research package error:', error)
+      errors.push({
+        stage: 'research_package',
+        message: String(error),
+        recoverable: true
+      })
+    }
+  }
+
   result.errors = errors
   result.completed_at = new Date().toISOString()
 
@@ -1376,6 +1409,10 @@ export async function runResearchWorkflow(
   const totalCost = result.interviews_cost_cents + result.twitter_cost_cents
   if (totalCost > 0) {
     console.log(`  - Total research cost: $${(totalCost / 100).toFixed(3)}`)
+  }
+  // Research package
+  if (result.research_package_id) {
+    console.log(`  - Research package ID: ${result.research_package_id}`)
   }
 
   return result

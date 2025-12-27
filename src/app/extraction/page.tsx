@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { AppShell } from '@/components/layout'
+import { useTopic } from '@/context/topic-context'
 import {
   Card,
   CardContent,
@@ -130,9 +131,6 @@ const getSentimentColor = (sentiment: string) => {
   }
 }
 
-// TODO: Get from context or URL
-const TOPIC_ID = 'battle-rap'
-
 export default function ExtractionPage() {
   const [activeTab, setActiveTab] = useState('entities')
   const [searchQuery, setSearchQuery] = useState('')
@@ -142,22 +140,26 @@ export default function ExtractionPage() {
   const [selectedEntity, setSelectedEntity] = useState<Entity | null>(null)
   const [dialogOpen, setDialogOpen] = useState(false)
 
+  const { selectedTopic } = useTopic()
+
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [selectedTopic])
 
   const fetchData = async () => {
+    if (!selectedTopic) return
+
     setLoading(true)
     try {
       // Fetch entities with context
-      const entitiesRes = await fetch(`/api/topics/${TOPIC_ID}/entities?withContext=true`)
+      const entitiesRes = await fetch(`/api/topics/${selectedTopic.id}/entities?withContext=true`)
       if (entitiesRes.ok) {
         const entitiesData = await entitiesRes.json()
         setEntities(entitiesData)
       }
 
       // Fetch claims
-      const claimsRes = await fetch(`/api/topics/${TOPIC_ID}/claims`)
+      const claimsRes = await fetch(`/api/topics/${selectedTopic.id}/claims`)
       if (claimsRes.ok) {
         const claimsData = await claimsRes.json()
         setClaims(claimsData)
@@ -185,7 +187,7 @@ export default function ExtractionPage() {
   }
 
   return (
-    <AppShell topicName="Battle Rap">
+    <AppShell topicName={selectedTopic?.name || 'EXTRACTION'}>
       <div className="space-y-6">
         {/* Page Header */}
         <div className="flex items-center justify-between">

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { AppShell } from '@/components/layout'
+import { useTopic } from '@/context/topic-context'
 import {
   Card,
   CardContent,
@@ -72,30 +73,23 @@ export default function AuditPage() {
   const [filterPlatform, setFilterPlatform] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
 
+  const { selectedTopic, topics } = useTopic()
+
   useEffect(() => {
     fetchSources()
-  }, [])
+  }, [selectedTopic])
 
   const fetchSources = async () => {
+    if (!selectedTopic) return
+
     setLoading(true)
     try {
-      // Get all topics and their sources
-      const topicsRes = await fetch('/api/topics')
-      const topics = await topicsRes.json()
-
-      let allSources: SourceAccount[] = []
-
-      for (const topic of topics) {
-        const sourcesRes = await fetch(`/api/topics/${topic.id}/sources`)
-        if (sourcesRes.ok) {
-          const topicSources = await sourcesRes.json()
-          if (Array.isArray(topicSources)) {
-            allSources = [...allSources, ...topicSources]
-          }
-        }
+      // Fetch sources for ONLY the selected topic
+      const res = await fetch(`/api/topics/${selectedTopic.id}/sources`)
+      if (res.ok) {
+        const data = await res.json()
+        setSources(Array.isArray(data) ? data : [])
       }
-
-      setSources(allSources)
     } catch (error) {
       console.error('Failed to fetch sources:', error)
     }
@@ -134,7 +128,7 @@ export default function AuditPage() {
   }
 
   return (
-    <AppShell topicName="Battle Rap">
+    <AppShell topicName={selectedTopic?.name || 'AUDIT'}>
       <div className="space-y-6">
         {/* Page Header */}
         <div className="flex items-center justify-between">

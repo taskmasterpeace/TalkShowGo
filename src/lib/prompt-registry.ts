@@ -112,8 +112,11 @@ const HOST_PROMPTS: PromptDefinition[] = [
 
 Write a {style} script about: "{query}"
 
+{channel_style}
+
 {entity_glossary}
 
+PRODUCTION FORMAT: {production_format}
 STYLE: {style}
 TONE: {tone}
 TARGET LENGTH: {max_length} words (~{duration_minutes} minutes when narrated)
@@ -145,6 +148,7 @@ REQUIREMENTS:
 7. Write in a conversational, engaging style for audio narration
 8. Include natural transitions between sections
 9. ENTITY ACCURACY: Verify gender and affiliations from the entity glossary
+10. CHANNEL STYLE: If a channel style guide is provided above, follow it exactly - use the opening patterns, transition phrases, tone, and closing patterns specified
 
 Write the complete {max_length}-word script now. Begin with the hook:`,
     variables: [
@@ -154,6 +158,8 @@ Write the complete {max_length}-word script now. Begin with the hook:`,
       { name: 'query', description: 'The story topic', required: true },
       { name: 'max_length', description: 'Target word count', example: '1500', required: true },
       { name: 'duration_minutes', description: 'Estimated audio duration', example: '10', required: true },
+      { name: 'channel_style', description: 'Channel-specific style guide (opening patterns, transitions, tone, closing)', required: false },
+      { name: 'production_format', description: 'Production format type (talk_show, news_bulletin, investigation, etc.)', example: 'news_bulletin', required: false },
       { name: 'entity_glossary', description: 'Entity context to prevent hallucinations', required: false },
       { name: 'chapter_instructions', description: 'Chapter structure with descriptions', required: true },
       { name: 'opening_instruction', description: 'How to start the story', example: 'Begin with "In the world of battle rap..."', required: true },

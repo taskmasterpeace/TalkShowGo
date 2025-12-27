@@ -7,7 +7,7 @@ Complete guide to deploying Talk Show Go from scratch. Whether you're setting up
 ## Table of Contents
 
 1. [Prerequisites](#prerequisites)
-2. [Quick Start (5 minutes)](#quick-start)
+2. [Quick Start (5 minutes)](#quitsg-start)
 3. [API Keys Setup](#api-keys-setup)
 4. [Docker Services](#docker-services)
 5. [Environment Configuration](#environment-configuration)
@@ -193,10 +193,10 @@ docker compose up -d
 docker compose ps
 
 # Check PostgreSQL
-docker exec ck-postgres pg_isready
+docker exec tsg-postgres pg_isready
 
 # Check Redis
-docker exec ck-redis redis-cli ping
+docker exec tsg-redis redis-cli ping
 ```
 
 For detailed Docker documentation:
@@ -269,10 +269,10 @@ Visit http://localhost:3000/studio/system-status to see:
 docker compose ps
 
 # Verify PostgreSQL
-docker exec -it ck-postgres psql -U postgres -d talkshowgo -c "SELECT 1"
+docker exec -it tsg-postgres psql -U postgres -d talkshowgo -c "SELECT 1"
 
 # Verify Redis
-docker exec -it ck-redis redis-cli ping
+docker exec -it tsg-redis redis-cli ping
 
 # Verify SearXNG
 curl http://localhost:8888/healthz
@@ -360,7 +360,7 @@ docker compose logs postgres
 docker compose ps postgres
 
 # Test connection
-docker exec -it ck-postgres psql -U postgres -d talkshowgo
+docker exec -it tsg-postgres psql -U postgres -d talkshowgo
 ```
 
 **API keys not working:**

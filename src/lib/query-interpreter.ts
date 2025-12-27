@@ -97,53 +97,22 @@ export interface InterpretQueryOptions {
 /**
  * Get the LLM prompt for query interpretation
  */
-function getQueryInterpretationPrompt(query: string, options?: InterpretQueryOptions): string {
+async function getQueryInterpretationPrompt(query: string, options?: InterpretQueryOptions): Promise<string> {
   const topicContext = options?.topic_context || 'battle rap'
-  const knownEntities = options?.known_entities?.join(', ') || 'none provided'
-  const depth = options?.depth || 'thorough'
 
-  return `You are a research assistant specializing in ${topicContext}. Analyze this search query and create a comprehensive search plan.
+  // Load prompt (with database override support)
+  const { loadPrompt } = await import('./prompt-loader')
+  const loaded = await loadPrompt({
+    prompt_id: 'query_interpretation',
+    variables: {
+      topic_context: topicContext,
+      query,
+    },
+  })
 
-Query: "${query}"
+  console.log(`[query-interpreter] Using ${loaded.source} prompt v${loaded.version}`)
 
-Known entities in this niche: ${knownEntities}
-
-Your task:
-1. Understand what information the user is looking for
-2. Identify all entities mentioned (people, organizations, events)
-3. Generate search queries that will find relevant content
-4. Consider different perspectives (if it's an incident, both sides' interviews)
-
-Respond with valid JSON only (no markdown, no explanation):
-{
-  "interpreted_as": "What the user is looking for in plain English",
-  "primary_queries": ["main search terms - 2-4 queries"],
-  "secondary_queries": ["supplementary searches - names + interview/reaction/speaks on - 3-6 queries"],
-  "entity_lookups": ["web searches to understand who entities are - only if needed"],
-  "search_type": "youtube_only",
-  "expected_content": "interviews | reactions | news | documentary | mixed",
-  "entities": [
-    {
-      "name": "entity name",
-      "type": "person | organization | event | unknown",
-      "role_hint": "battler | blogger | league | media | event",
-      "needs_context": true
-    }
-  ],
-  "keywords_must_have": ["at least one must be in title/description"],
-  "keywords_nice_to_have": ["helps rank relevance"],
-  "exclude_patterns": ["terms that indicate wrong content"]
-}
-
-Guidelines for ${topicContext} queries:
-- Battler names often have variations (nicknames, government names)
-- Add "interview", "reaction", "speaks on", "responds to" as secondary queries
-- For incidents/conflicts, search for each person's perspective separately
-- Consider blog channels: Chris Unbias, Angry Fan, JayBlac, etc.
-- Entity types: battler, blogger, league (URL, KOTD, RBE), media outlet, event
-- Exclude patterns help filter out: video games, unrelated "caps", etc.
-
-${depth === 'thorough' ? 'Generate comprehensive search plan with many query variations.' : 'Generate focused search plan with essential queries only.'}`
+  return loaded.filled
 }
 
 /**
@@ -265,7 +234,7 @@ export async function interpretQuery(
   console.log(`[QueryInterpreter] Interpreting query: "${query}"`)
 
   try {
-    const prompt = getQueryInterpretationPrompt(query, options)
+    const prompt = await getQueryInterpretationPrompt(query, options)
     const response = await callLLM(prompt)
     const plan = parseLLMResponse(response, query)
 

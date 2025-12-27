@@ -390,7 +390,7 @@ async function main() {
     `, [topicId])
 
     console.log('\n' + '█'.repeat(60))
-    console.log('CONTENT KINGDOM - SHOW SYNTHESIS TEST')
+    console.log('TALKSHOWGO - SHOW SYNTHESIS TEST')
     console.log('█'.repeat(60))
 
     // Synthesize different show types

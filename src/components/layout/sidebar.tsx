@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import Image from 'next/image'
 import {
   Radar,
   Target,
@@ -35,7 +36,7 @@ const navigation = [
   {
     name: 'Command Center',
     href: '/',
-    icon: Crown,
+    icon: Radio,
     description: 'Dashboard overview',
   },
   {
@@ -237,11 +238,16 @@ export function Sidebar() {
   return (
     <div className="flex flex-col h-full w-64 border-r-2 border-foreground bg-background">
       {/* Logo */}
-      <div className="flex items-center gap-2 px-4 py-4 border-b-2 border-foreground">
-        <Crown className="h-8 w-8 text-primary" />
+      <div className="flex items-center gap-3 px-4 py-4 border-b-2 border-foreground">
+        <Image
+          src="/logo.svg"
+          alt="TalkShowGo"
+          width={40}
+          height={48}
+          className="text-foreground"
+        />
         <div>
-          <h1 className="font-head text-lg leading-none">CONTENT</h1>
-          <h1 className="font-head text-lg leading-none text-primary">KINGDOM</h1>
+          <h1 className="font-head text-xl leading-none tracking-tight">TalkShowGo</h1>
         </div>
       </div>
 

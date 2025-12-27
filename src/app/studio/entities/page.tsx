@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { AppShell } from '@/components/layout'
+import { useTopic, Topic } from '@/context/topic-context'
 import {
   Card,
   CardContent,
@@ -57,10 +58,6 @@ interface Entity {
   created_at: string
 }
 
-interface Topic {
-  id: string
-  name: string
-}
 
 // ============================================
 // ENTITY CARD COMPONENT
@@ -393,8 +390,7 @@ function EntityDetailModal({
 // ============================================
 
 export default function EntitiesPage() {
-  const [topics, setTopics] = useState<Topic[]>([])
-  const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null)
+  const { topics, selectedTopic, selectTopic } = useTopic()
   const [entities, setEntities] = useState<Entity[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -409,36 +405,18 @@ export default function EntitiesPage() {
   const [selectedEntity, setSelectedEntity] = useState<Entity | null>(null)
   const [detailOpen, setDetailOpen] = useState(false)
 
-  // Fetch topics
+  // Fetch entities when topic changes
   useEffect(() => {
-    async function fetchTopics() {
-      try {
-        const res = await fetch('/api/topics')
-        const data = await res.json()
-        if (Array.isArray(data)) {
-          setTopics(data)
-          if (data.length > 0) {
-            setSelectedTopicId(data[0].id)
-          }
-        }
-      } catch {
-        setError('Failed to load topics')
-      }
-    }
-    fetchTopics()
-  }, [])
-
-  // Fetch entities
-  useEffect(() => {
-    if (!selectedTopicId) {
+    if (!selectedTopic) {
       setLoading(false)
       return
     }
 
+    const topicId = selectedTopic.id
     async function fetchEntities() {
       setLoading(true)
       try {
-        const res = await fetch(`/api/topics/${selectedTopicId}/entities`)
+        const res = await fetch(`/api/topics/${topicId}/entities`)
         const data = await res.json()
         setEntities(Array.isArray(data) ? data : data.entities || [])
         setError(null)
@@ -449,7 +427,7 @@ export default function EntitiesPage() {
       }
     }
     fetchEntities()
-  }, [selectedTopicId])
+  }, [selectedTopic?.id])
 
   // Filter and sort
   const filteredEntities = entities
@@ -603,7 +581,13 @@ export default function EntitiesPage() {
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <Select value={selectedTopicId || ''} onValueChange={setSelectedTopicId}>
+            <Select
+              value={selectedTopic?.id || ''}
+              onValueChange={(id) => {
+                const topic = topics.find(t => t.id === id)
+                if (topic) selectTopic(topic)
+              }}
+            >
               <SelectTrigger className="w-48">
                 <SelectValue placeholder="Select topic..." />
               </SelectTrigger>

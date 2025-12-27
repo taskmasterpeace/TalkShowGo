@@ -7,7 +7,7 @@
  * 3. Falls back to download audio + AssemblyAI transcription
  */
 
-import { YoutubeTranscript } from 'youtube-transcript'
+// youtube-caption-extractor imported dynamically in tryYouTubeCaptions()
 import { downloadYouTubeAudio, extractVideoId, getVideoInfo } from './youtube-download'
 import { transcribeAudio, isAssemblyAIConfigured, SpeakerSegment } from './assemblyai'
 import { createClient } from '@supabase/supabase-js'
@@ -89,16 +89,17 @@ async function tryYouTubeCaptions(videoId: string): Promise<string | null> {
   console.log(`[TranscriptFetcher] Trying YouTube captions for ${videoId}`)
 
   try {
-    const transcriptItems = await YoutubeTranscript.fetchTranscript(videoId)
+    const { getSubtitles } = await import('youtube-caption-extractor')
 
-    if (!transcriptItems || transcriptItems.length === 0) {
-      console.log(`[TranscriptFetcher] No YouTube captions available for ${videoId}`)
+    const subtitles = await getSubtitles({ videoID: videoId, lang: 'en' })
+
+    if (!subtitles || subtitles.length === 0) {
+      console.log(`[TranscriptFetcher] No YouTube captions for ${videoId}`)
       return null
     }
 
-    // Combine transcript items into full text
-    const fullText = transcriptItems
-      .map(item => item.text)
+    const fullText = subtitles
+      .map((item: any) => item.text)
       .join(' ')
       .replace(/\s+/g, ' ')
       .trim()
@@ -107,10 +108,10 @@ async function tryYouTubeCaptions(videoId: string): Promise<string | null> {
       return null
     }
 
-    console.log(`[TranscriptFetcher] Got YouTube captions: ${fullText.length} characters`)
+    console.log(`[TranscriptFetcher] Got captions: ${fullText.length} chars`)
     return fullText
   } catch (error) {
-    console.log(`[TranscriptFetcher] YouTube captions not available: ${error}`)
+    console.log(`[TranscriptFetcher] Caption extraction failed: ${error}`)
     return null
   }
 }

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { AppShell } from '@/components/layout'
+import { useTopic, Topic } from '@/context/topic-context'
 import {
   Card,
   CardContent,
@@ -84,10 +85,6 @@ interface TwitterSource {
   last_active?: string
 }
 
-interface Topic {
-  id: string
-  name: string
-}
 
 // ============================================
 // SOURCE CARD COMPONENT
@@ -489,8 +486,7 @@ function CSVImportModal({
 // ============================================
 
 export default function SourcePoolPage() {
-  const [topics, setTopics] = useState<Topic[]>([])
-  const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null)
+  const { topics, selectedTopic, selectTopic } = useTopic()
   const [sources, setSources] = useState<TwitterSource[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -504,35 +500,18 @@ export default function SourcePoolPage() {
 
   const [importOpen, setImportOpen] = useState(false)
 
-  // Fetch topics
-  useEffect(() => {
-    async function fetchTopics() {
-      try {
-        const res = await fetch('/api/topics')
-        const data = await res.json()
-        if (Array.isArray(data)) {
-          setTopics(data)
-          if (data.length > 0) {
-            setSelectedTopicId(data[0].id)
-          }
-        }
-      } catch {
-        setError('Failed to load topics')
-      } finally {
-        setLoading(false)
-      }
-    }
-    fetchTopics()
-  }, [])
-
   // Fetch sources when topic changes
   useEffect(() => {
-    if (!selectedTopicId) return
+    if (!selectedTopic) {
+      setLoading(false)
+      return
+    }
 
+    const topicId = selectedTopic.id
     async function fetchSources() {
       setLoading(true)
       try {
-        const res = await fetch(`/api/topics/${selectedTopicId}/sources?platform=twitter`)
+        const res = await fetch(`/api/topics/${topicId}/sources?platform=twitter`)
         const data = await res.json()
         setSources(Array.isArray(data) ? data : [])
         setError(null)
@@ -543,7 +522,7 @@ export default function SourcePoolPage() {
       }
     }
     fetchSources()
-  }, [selectedTopicId])
+  }, [selectedTopic?.id])
 
   // Filter and sort sources
   const filteredSources = sources
@@ -597,9 +576,9 @@ export default function SourcePoolPage() {
   }
 
   const handleDeleteSource = async (id: string) => {
-    if (!confirm('Delete this source?')) return
+    if (!selectedTopic || !confirm('Delete this source?')) return
     try {
-      await fetch(`/api/topics/${selectedTopicId}/sources?sourceId=${id}`, { method: 'DELETE' })
+      await fetch(`/api/topics/${selectedTopic.id}/sources?sourceId=${id}`, { method: 'DELETE' })
       setSources(sources.filter(s => s.id !== id))
       selectedSources.delete(id)
       setSelectedSources(new Set(selectedSources))
@@ -609,20 +588,20 @@ export default function SourcePoolPage() {
   }
 
   const handleBulkDelete = async () => {
-    if (!confirm(`Delete ${selectedSources.size} selected sources?`)) return
+    if (!selectedTopic || !confirm(`Delete ${selectedSources.size} selected sources?`)) return
     for (const id of Array.from(selectedSources)) {
-      await fetch(`/api/topics/${selectedTopicId}/sources?sourceId=${id}`, { method: 'DELETE' })
+      await fetch(`/api/topics/${selectedTopic.id}/sources?sourceId=${id}`, { method: 'DELETE' })
     }
     setSources(sources.filter(s => !selectedSources.has(s.id)))
     setSelectedSources(new Set())
   }
 
   const handleImport = async (newSources: Partial<TwitterSource>[]) => {
-    if (!selectedTopicId) return
+    if (!selectedTopic) return
 
     for (const source of newSources) {
       try {
-        const res = await fetch(`/api/topics/${selectedTopicId}/sources`, {
+        const res = await fetch(`/api/topics/${selectedTopic.id}/sources`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -678,7 +657,13 @@ export default function SourcePoolPage() {
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <Select value={selectedTopicId || ''} onValueChange={setSelectedTopicId}>
+            <Select
+              value={selectedTopic?.id || ''}
+              onValueChange={(id) => {
+                const topic = topics.find(t => t.id === id)
+                if (topic) selectTopic(topic)
+              }}
+            >
               <SelectTrigger className="w-48">
                 <SelectValue placeholder="Select topic..." />
               </SelectTrigger>

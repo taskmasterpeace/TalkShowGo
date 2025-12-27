@@ -146,6 +146,8 @@ export interface StoryConfig {
   topic_id?: string  // For entity context injection
   chapter_structure?: string[]  // Custom chapter structure
   opening_template?: string  // Custom opening line template
+  production_format?: string  // Production format: talk_show, news_bulletin, investigation, etc.
+  channel_style_file?: string  // Channel style file slug (e.g., 'algorithm-institute')
 }
 
 export interface GeneratedStory {
@@ -163,6 +165,12 @@ export interface StoryPipelineResult {
   audio_url?: string
   pipeline_id: string
   created_at: string
+  // Research package (if generate_package=true)
+  research_package_id?: string
+  research_package_urls?: {
+    json: string
+    markdown: string
+  }
 }
 
 // ============================================
@@ -422,23 +430,20 @@ async function analyzeResearchSources(
     return { perspectives: [], key_facts: [], conflicting_info: [] }
   }
 
-  const prompt = `Analyze these sources about "${query}" and extract:
-1. Different perspectives/viewpoints expressed
-2. Key facts that are confirmed across sources
-3. Any conflicting information between sources
+  // Load prompt (with database override support)
+  const { loadPrompt } = await import('./prompt-loader')
+  const loaded = await loadPrompt({
+    prompt_id: 'analyze_research_sources',
+    variables: {
+      query,
+      sources_text: sourcesText,
+    },
+  })
 
-Sources:
-${sourcesText}
-
-Respond in JSON:
-{
-  "perspectives": ["perspective 1", "perspective 2"],
-  "key_facts": ["fact 1", "fact 2"],
-  "conflicting_info": ["conflict 1 if any"]
-}`
+  console.log(`[story-pipeline] Using ${loaded.source} prompt v${loaded.version} for research analysis`)
 
   try {
-    const response = await callLocalLLM(prompt)
+    const response = await callLocalLLM(loaded.filled)
     return JSON.parse(response)
   } catch (error) {
     console.error('[Research] Analysis failed:', error)
@@ -516,6 +521,26 @@ async function buildStoryPrompt(
   research: ResearchResult,
   config: StoryConfig & { chapter_structure?: string[] }
 ): Promise<string> {
+  // === CHANNEL STYLE INJECTION ===
+  // Load channel-specific style if requested (e.g., Algorithm Institute style)
+  let channelStylePrompt = ''
+  if (config.channel_style_file) {
+    try {
+      const { loadStyleProfile, generateStylePrompt } = await import('./style-analyzer')
+      const styleProfile = await loadStyleProfile(config.channel_style_file)
+
+      if (styleProfile) {
+        channelStylePrompt = generateStylePrompt(styleProfile)
+        console.log(`[Story] Loaded channel style: ${styleProfile.channel_name}`)
+      } else {
+        console.warn(`[Story] Channel style file not found: ${config.channel_style_file}`)
+      }
+    } catch (error) {
+      console.error('[Story] Failed to load channel style:', error)
+      // Continue without style - better to generate something than fail
+    }
+  }
+
   // === ENTITY CONTEXT INJECTION ===
   // This prevents hallucinations like saying "Caps was connected to QOTR"
   // when it was actually Debo who owns QOTR
@@ -640,48 +665,35 @@ ${d.snippet}
     ? `BEGIN WITH: "${config.opening_template.replace('{topic}', research.query)}"`
     : 'Begin with "In the world of battle rap..."'
 
-  return `You are a professional scriptwriter for "${config.host_name}", a documentary channel known for in-depth, compelling storytelling.
+  // Load prompt (with database override support)
+  const { loadPrompt } = await import('./prompt-loader')
+  const loaded = await loadPrompt({
+    prompt_id: 'story_generation',
+    variables: {
+      host_name: config.host_name,
+      style: config.style,
+      tone: config.tone,
+      query: research.query,
+      max_length: String(config.max_length),
+      duration_minutes: String(Math.ceil((config.max_length || 800) / 150)),
+      entity_glossary: entitySection,
+      chapter_instructions: chapterInstructions,
+      opening_instruction: openingLine,
+      channel_style: channelStylePrompt,
+      production_format: config.production_format || 'news_bulletin',
+      facts_section: factsSection,
+      perspectives_section: perspectivesSection,
+      conflicts_section: conflictsSection,
+      transcript_content: transcriptContent,
+      interview_content: interviewContent || '',
+      twitter_content: twitterContent,
+      document_content: documentContent,
+    },
+  })
 
-Write a ${config.style} script about: "${research.query}"
+  console.log(`[story-pipeline] Using ${loaded.source} prompt v${loaded.version} for story generation`)
 
-${entitySection}
-
-STYLE: ${config.style}
-TONE: ${config.tone}
-TARGET LENGTH: ${config.max_length} words (~${Math.ceil((config.max_length || 800) / 150)} minutes when narrated)
-
-${openingLine}
-
-STORY STRUCTURE (write these sections in order):
-${chapterInstructions}
-
-${factsSection}
-
-${perspectivesSection}
-
-${conflictsSection}
-
-SOURCE TRANSCRIPTS (use these for facts and quotes):
-${transcriptContent}
-${interviewContent ? `\nINTERVIEW TRANSCRIPTS (key context about people - use quotes from these):\n${interviewContent}` : ''}
-${twitterContent}
-${documentContent}
-
-REQUIREMENTS:
-1. Follow the chapter structure above - include ALL sections
-2. USE QUOTES SPARINGLY: Only include 3-5 key quotes in the entire story. Each quote should be impactful and essential. Paraphrase most information instead of quoting.
-3. Build tension and narrative arc through the story
-4. Present BOTH perspectives fairly if there's a dispute
-5. Use SPECIFIC details (names, dates, places) from the sources
-6. DO NOT make up any facts - only use what's in the sources
-7. Write in a conversational, engaging style for audio narration
-8. Include natural transitions between sections
-9. ENTITY ACCURACY: Verify gender and affiliations from the entity glossary. Never assume - use only what's explicitly stated.
-${entityRequirement}
-${twitterContent ? `11. INCLUDE TWITTER REACTIONS: Reference the community sentiment and include 1-2 notable Twitter quotes from the reactions section.` : ''}
-${documentContent ? `12. REFERENCE OFFICIAL DOCUMENTS: For any claims about legal matters, court cases, arrests, or paperwork - cite the OFFICIAL DOCUMENTS section. Be factual and specific about what documents show.` : ''}
-
-Write the complete ${config.max_length}-word script now. Begin with the hook:`
+  return loaded.filled
 }
 
 /**
@@ -886,6 +898,7 @@ export async function runStoryPipeline(config: {
   story_options?: StoryConfig
   generate_audio?: boolean
   voice_id?: string
+  generate_package?: boolean  // Generate and save ResearchPackage
 }): Promise<StoryPipelineResult> {
   const pipelineId = `pipeline_${Date.now()}`
   console.log(`[Pipeline] Starting ${pipelineId} for: ${config.query}`)
@@ -985,13 +998,96 @@ export async function runStoryPipeline(config: {
     }
   }
 
+  // 5. Generate Research Package (optional)
+  let researchPackageId: string | undefined
+  let researchPackageUrls: StoryPipelineResult['research_package_urls']
+
+  if (config.generate_package) {
+    console.log('[Pipeline] Phase 5: Generating Research Package')
+    try {
+      const { assembleResearchPackage, saveResearchPackage } = await import('./research-package')
+
+      // Build a minimal WorkflowResult from ResearchResult
+      const workflowResult = {
+        run_id: pipelineId,
+        query: research.query,
+        query_plan: undefined,
+        started_at: new Date().toISOString(),
+        completed_at: new Date().toISOString(),
+        videos_found: research.sources.length,
+        videos_filtered: research.sources.length,
+        transcripts_from_youtube: research.sources.filter(s => s.transcript_source === 'youtube_captions').length,
+        transcripts_from_assemblyai: research.sources.filter(s => s.transcript_source === 'assemblyai').length,
+        transcripts_failed: 0,
+        entities_identified: 0,
+        public_figures_found: 0,
+        interviews_searched: research.interviews.length,
+        interviews_found: research.interviews.length,
+        interviews_from_cache: research.interviews.filter(i => i.from_cache).length,
+        interviews_cost_cents: 0,
+        twitter_searched: !!research.twitter,
+        twitter_event_date: research.twitter?.event_date,
+        twitter_tweets_found: research.twitter?.tweets_found || 0,
+        twitter_sentiment: research.twitter?.sentiment,
+        twitter_cost_cents: 0,
+        documents_searched: !!research.documents,
+        documents_found: research.documents?.length || 0,
+        sources: research.sources.map(s => ({
+          video_id: s.url.split('v=')[1] || '',
+          title: s.title,
+          channel: s.channel || '',
+          url: s.url,
+          views: s.views,
+          published_at: s.published_at,
+          transcript: s.transcript,
+          transcript_source: s.transcript_source,
+        })),
+        interviews: research.interviews.map(i => ({
+          entity_name: i.entity_name,
+          entity_type: i.entity_type,
+          video_id: i.video_url.split('v=')[1] || '',
+          title: i.video_title,
+          channel: i.channel,
+          url: i.video_url,
+          duration_seconds: 0,
+          transcript: i.transcript,
+          from_cache: i.from_cache,
+          cost_cents: 0,
+        })),
+        documents: research.documents,
+        errors: []
+      }
+
+      const pkg = await assembleResearchPackage(workflowResult as any, {
+        topic_id: config.topic_id,
+        include_transcripts: true,
+        generate_producer_materials: true,
+        generate_host_materials: true,
+      })
+
+      const saveResult = await saveResearchPackage(pkg)
+      if (saveResult.success) {
+        researchPackageId = pkg.metadata.package_id
+        researchPackageUrls = {
+          json: `/api/research-package/${researchPackageId}?format=json`,
+          markdown: `/api/research-package/${researchPackageId}?format=markdown`
+        }
+        console.log(`[Pipeline] Research package saved: ${researchPackageId}`)
+      }
+    } catch (error) {
+      console.error('[Pipeline] Research package generation failed:', error)
+    }
+  }
+
   return {
     research,
     story,
     audio_path: audioPath,
     audio_url: audioUrl,
     pipeline_id: pipelineId,
-    created_at: new Date().toISOString()
+    created_at: new Date().toISOString(),
+    research_package_id: researchPackageId,
+    research_package_urls: researchPackageUrls
   }
 }
 
@@ -1006,6 +1102,8 @@ export interface DailyShowConfig {
   voice_id?: string
   stories_count?: number
   hours_back?: number
+  production_format?: string
+  channel_style_file?: string
 }
 
 export interface DailyShowResult {
@@ -1032,7 +1130,9 @@ export async function generateDailyShow(config: DailyShowConfig): Promise<DailyS
     host_name = 'Algorithm Institute',
     voice_id = DEFAULT_VOICE_ID,
     stories_count = 3,
-    hours_back = 24
+    hours_back = 24,
+    production_format,
+    channel_style_file
   } = config
 
   console.log(`[DailyShow] Generating ${show_name} with ${stories_count} stories`)
@@ -1081,7 +1181,9 @@ export async function generateDailyShow(config: DailyShowConfig): Promise<DailyS
           max_length: 400,
           include_intro: false,
           include_outro: false,
-          host_name
+          host_name,
+          production_format,
+          channel_style_file
         },
         generate_audio: false // We'll generate combined audio
       })
@@ -1119,31 +1221,37 @@ async function generateShowIntro(
   hostName: string,
   topics: string[]
 ): Promise<string> {
-  const prompt = `Write a 20-30 second intro for "${showName}" hosted by ${hostName}.
+  const { loadPrompt } = await import('./prompt-loader')
+  const loaded = await loadPrompt({
+    prompt_id: 'show_intro',
+    variables: {
+      show_name: showName,
+      host_name: hostName,
+      story_list: topics.map((t, i) => `${i + 1}. ${t}`).join('\n'),
+    },
+  })
 
-Today's stories:
-${topics.map((t, i) => `${i + 1}. ${t}`).join('\n')}
+  console.log(`[story-pipeline] Using ${loaded.source} prompt v${loaded.version} for show intro`)
 
-Write an engaging, energetic intro that teases these stories. Be conversational and hype.`
-
-  return callClaudeAPI(prompt)
+  return callClaudeAPI(loaded.filled)
 }
 
 async function generateShowOutro(
   showName: string,
   hostName: string
 ): Promise<string> {
-  const prompt = `Write a 15-20 second outro for "${showName}" hosted by ${hostName}.
+  const { loadPrompt } = await import('./prompt-loader')
+  const loaded = await loadPrompt({
+    prompt_id: 'show_outro',
+    variables: {
+      show_name: showName,
+      host_name: hostName,
+    },
+  })
 
-Include:
-- Thank viewers
-- Tease tomorrow's show
-- Call to subscribe/follow
-- Sign off catchphrase
+  console.log(`[story-pipeline] Using ${loaded.source} prompt v${loaded.version} for show outro`)
 
-Keep it energetic and memorable.`
-
-  return callClaudeAPI(prompt)
+  return callClaudeAPI(loaded.filled)
 }
 
 // ============================================

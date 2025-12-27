@@ -6,11 +6,11 @@ How Docker services connect and communicate in Talk Show Go.
 
 ## Network Overview
 
-All Docker services run on a shared network: `ck-network`
+All Docker services run on a shared network: `tsg-network`
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                      ck-network                              │
+│                      tsg-network                              │
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
 │  ┌──────────┐    ┌───────────┐    ┌────────┐               │
@@ -114,10 +114,10 @@ docker compose ps
 
 # Check network
 docker network ls
-docker network inspect contentkingdom_ck-network
+docker network inspect talkshowgo_tsg-network
 
 # Test connectivity from within container
-docker exec ck-worker ping postgres
+docker exec tsg-worker ping postgres
 ```
 
 ### Port Already in Use

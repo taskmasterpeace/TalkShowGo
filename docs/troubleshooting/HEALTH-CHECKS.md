@@ -21,18 +21,18 @@ docker compose ps postgres
 
 **Verify connection:**
 ```bash
-docker exec ck-postgres pg_isready
+docker exec tsg-postgres pg_isready
 # Output: localhost:5432 - accepting connections
 ```
 
 **Test query:**
 ```bash
-docker exec ck-postgres psql -U postgres -d talkshowgo -c "SELECT 1"
+docker exec tsg-postgres psql -U postgres -d talkshowgo -c "SELECT 1"
 ```
 
 **Check tables exist:**
 ```bash
-docker exec ck-postgres psql -U postgres -d talkshowgo -c "\dt"
+docker exec tsg-postgres psql -U postgres -d talkshowgo -c "\dt"
 ```
 
 ---
@@ -46,13 +46,13 @@ docker compose ps redis
 
 **Verify connection:**
 ```bash
-docker exec ck-redis redis-cli ping
+docker exec tsg-redis redis-cli ping
 # Output: PONG
 ```
 
 **Check keys:**
 ```bash
-docker exec ck-redis redis-cli KEYS "*"
+docker exec tsg-redis redis-cli KEYS "*"
 ```
 
 ---
@@ -222,10 +222,10 @@ Create `scripts/health-check.sh`:
 #!/bin/bash
 
 echo "=== PostgreSQL ==="
-docker exec ck-postgres pg_isready
+docker exec tsg-postgres pg_isready
 
 echo "=== Redis ==="
-docker exec ck-redis redis-cli ping
+docker exec tsg-redis redis-cli ping
 
 echo "=== SearXNG ==="
 curl -s http://localhost:8888/healthz

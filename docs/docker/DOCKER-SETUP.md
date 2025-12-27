@@ -59,13 +59,13 @@ docker compose logs -f
 
 ```
 NAME                STATUS              PORTS
-ck-postgres         running (healthy)   0.0.0.0:5432->5432/tcp
-ck-redis            running (healthy)   0.0.0.0:6379->6379/tcp
-ck-postgrest        running             0.0.0.0:3333->3000/tcp
-ck-kong             running             0.0.0.0:8000->8000/tcp
-ck-searxng          running             0.0.0.0:8888->8080/tcp
-ck-qdrant           running             0.0.0.0:6333->6333/tcp
-ck-studio           running             0.0.0.0:3001->3000/tcp
+tsg-postgres         running (healthy)   0.0.0.0:5432->5432/tcp
+tsg-redis            running (healthy)   0.0.0.0:6379->6379/tcp
+tsg-postgrest        running             0.0.0.0:3333->3000/tcp
+tsg-kong             running             0.0.0.0:8000->8000/tcp
+tsg-searxng          running             0.0.0.0:8888->8080/tcp
+tsg-qdrant           running             0.0.0.0:6333->6333/tcp
+tsg-studio           running             0.0.0.0:3001->3000/tcp
 ```
 
 ---
@@ -111,10 +111,10 @@ docker compose logs --tail=100 postgres
 docker compose ps
 
 # PostgreSQL health
-docker exec ck-postgres pg_isready
+docker exec tsg-postgres pg_isready
 
 # Redis health
-docker exec ck-redis redis-cli ping
+docker exec tsg-redis redis-cli ping
 
 # SearXNG health
 curl http://localhost:8888/healthz
@@ -130,25 +130,25 @@ Data is persisted in Docker volumes:
 
 | Volume | Purpose |
 |--------|---------|
-| `contentkingdom_postgres_data` | PostgreSQL database |
-| `contentkingdom_redis_data` | Redis data |
-| `contentkingdom_qdrant_data` | Vector database |
+| `talkshowgo_postgres_data` | PostgreSQL database |
+| `talkshowgo_redis_data` | Redis data |
+| `talkshowgo_qdrant_data` | Vector database |
 
 ### Backup Data
 
 ```bash
 # Backup PostgreSQL
-docker exec ck-postgres pg_dump -U postgres talkshowgo > backup.sql
+docker exec tsg-postgres pg_dump -U postgres talkshowgo > backup.sql
 
 # Backup all volumes
-docker run --rm -v contentkingdom_postgres_data:/data -v $(pwd):/backup alpine tar czf /backup/postgres-backup.tar.gz -C /data .
+docker run --rm -v talkshowgo_postgres_data:/data -v $(pwd):/backup alpine tar czf /backup/postgres-backup.tar.gz -C /data .
 ```
 
 ### Restore Data
 
 ```bash
 # Restore PostgreSQL
-docker exec -i ck-postgres psql -U postgres talkshowgo < backup.sql
+docker exec -i tsg-postgres psql -U postgres talkshowgo < backup.sql
 ```
 
 ### Reset Everything

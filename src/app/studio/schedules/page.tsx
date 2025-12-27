@@ -204,11 +204,11 @@ export default function SchedulesPage() {
   if (topicLoading) {
     return (
       <AppShell>
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-8">
+        <div className="min-h-screen bg-background p-8">
           <div className="max-w-7xl mx-auto">
-            <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-6 flex items-center gap-3">
-              <Loader2 className="w-5 h-5 text-blue-300 animate-spin" />
-              <p className="text-blue-300">Loading topics...</p>
+            <div className="border-2 border-primary bg-primary/10 p-6 flex items-center gap-3">
+              <Loader2 className="w-5 h-5 text-primary animate-spin" />
+              <p className="text-primary">Loading topics...</p>
             </div>
           </div>
         </div>
@@ -220,10 +220,10 @@ export default function SchedulesPage() {
   if (!selectedTopic) {
     return (
       <AppShell>
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-8">
+        <div className="min-h-screen bg-background p-8">
           <div className="max-w-7xl mx-auto">
-            <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-6">
-              <p className="text-yellow-300">Please select a topic first</p>
+            <div className="border-2 border-yellow-500 bg-yellow-500/10 p-6">
+              <p className="text-yellow-500">Please select a topic first</p>
             </div>
           </div>
         </div>
@@ -233,18 +233,18 @@ export default function SchedulesPage() {
 
   return (
     <AppShell>
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-8">
+      <div className="min-h-screen bg-background p-8">
         <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-4xl font-bold text-white mb-2">Daily Show Schedules</h1>
-              <p className="text-gray-400">Automated recurring show generation</p>
+              <h1 className="text-4xl font-bold text-foreground mb-2">Daily Show Schedules</h1>
+              <p className="text-muted-foreground">Automated recurring show generation</p>
             </div>
             <button
               onClick={() => setShowCreateModal(true)}
-              className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+              className="flex items-center gap-2 px-6 py-3 border-2 border-foreground bg-primary text-primary-foreground hover:brutal-shadow transition-all"
             >
               <Plus className="w-5 h-5" />
               New Schedule
@@ -255,16 +255,16 @@ export default function SchedulesPage() {
         {/* Schedules List */}
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+            <Loader2 className="w-8 h-8 text-primary animate-spin" />
           </div>
         ) : schedules.length === 0 ? (
-          <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-12 text-center">
-            <Clock className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">No Schedules Yet</h3>
-            <p className="text-gray-400 mb-6">Create your first automated show schedule</p>
+          <div className="border-2 border-foreground bg-muted/30 p-12 text-center">
+            <Clock className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-foreground mb-2">No Schedules Yet</h3>
+            <p className="text-muted-foreground mb-6">Create your first automated show schedule</p>
             <button
               onClick={() => setShowCreateModal(true)}
-              className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
+              className="px-6 py-3 border-2 border-foreground bg-primary text-primary-foreground hover:brutal-shadow transition-all"
             >
               Create Schedule
             </button>
@@ -274,40 +274,40 @@ export default function SchedulesPage() {
             {schedules.map(schedule => (
               <div
                 key={schedule.id}
-                className="bg-gray-800/50 border border-gray-700 rounded-lg overflow-hidden"
+                className="border-2 border-foreground bg-background overflow-hidden"
               >
                 {/* Schedule Row */}
                 <div className="p-6">
                   <div className="flex items-center justify-between">
                     <div className="flex-1">
                       <div className="flex items-center gap-4 mb-2">
-                        <h3 className="text-xl font-semibold text-white">
+                        <h3 className="text-xl font-semibold text-foreground">
                           {schedule.show_name_prefix || 'Untitled'} Daily
                         </h3>
                         {schedule.is_active ? (
-                          <span className="px-3 py-1 bg-green-500/20 text-green-400 text-sm rounded-full flex items-center gap-1">
+                          <span className="px-3 py-1 border-2 border-green-500 bg-green-500/20 text-green-400 text-sm flex items-center gap-1">
                             <CheckCircle2 className="w-4 h-4" />
                             Active
                           </span>
                         ) : (
-                          <span className="px-3 py-1 bg-gray-500/20 text-gray-400 text-sm rounded-full flex items-center gap-1">
+                          <span className="px-3 py-1 border-2 border-muted-foreground bg-muted/20 text-muted-foreground text-sm flex items-center gap-1">
                             <Pause className="w-4 h-4" />
                             Paused
                           </span>
                         )}
                         {schedule.last_run_status === 'success' && (
-                          <span className="px-3 py-1 bg-green-500/20 text-green-400 text-sm rounded-full">
+                          <span className="px-3 py-1 border-2 border-green-500 bg-green-500/20 text-green-400 text-sm">
                             Last: Success
                           </span>
                         )}
                         {schedule.last_run_status === 'failed' && (
-                          <span className="px-3 py-1 bg-red-500/20 text-red-400 text-sm rounded-full">
+                          <span className="px-3 py-1 border-2 border-red-500 bg-red-500/20 text-red-400 text-sm">
                             Last: Failed
                           </span>
                         )}
                       </div>
 
-                      <div className="flex items-center gap-6 text-sm text-gray-400">
+                      <div className="flex items-center gap-6 text-sm text-muted-foreground">
                         <span className="flex items-center gap-2">
                           <Calendar className="w-4 h-4" />
                           {formatSchedule(schedule)}
@@ -325,11 +325,11 @@ export default function SchedulesPage() {
                       </div>
 
                       {schedule.description && (
-                        <p className="text-gray-500 text-sm mt-2">{schedule.description}</p>
+                        <p className="text-muted-foreground text-sm mt-2">{schedule.description}</p>
                       )}
 
                       {schedule.last_run_error && (
-                        <div className="mt-2 flex items-start gap-2 text-red-400 text-sm">
+                        <div className="mt-2 flex items-start gap-2 text-red-500 text-sm border-2 border-red-500 bg-red-500/10 p-2">
                           <AlertCircle className="w-4 h-4 mt-0.5" />
                           <span>{schedule.last_run_error}</span>
                         </div>
@@ -340,15 +340,15 @@ export default function SchedulesPage() {
                     <div className="flex items-center gap-2">
                       <button
                         onClick={() => runNow(schedule.id)}
-                        className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-blue-400 hover:text-blue-300"
+                        className="p-2 border-2 border-transparent hover:border-primary hover:bg-primary/10 transition-all text-primary"
                         title="Run Now"
                       >
                         <Play className="w-5 h-5" />
                       </button>
                       <button
                         onClick={() => toggleSchedule(schedule)}
-                        className={`p-2 hover:bg-gray-700 rounded-lg transition-colors ${
-                          schedule.is_active ? 'text-yellow-400' : 'text-green-400'
+                        className={`p-2 border-2 border-transparent hover:border-foreground hover:bg-muted/20 transition-all ${
+                          schedule.is_active ? 'text-yellow-500' : 'text-green-500'
                         }`}
                         title={schedule.is_active ? 'Pause' : 'Activate'}
                       >
@@ -360,7 +360,7 @@ export default function SchedulesPage() {
                       </button>
                       <button
                         onClick={() => toggleExpanded(schedule.id)}
-                        className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-gray-400"
+                        className="p-2 border-2 border-transparent hover:border-foreground hover:bg-muted/20 transition-all text-muted-foreground"
                         title="View History"
                       >
                         {expandedSchedule === schedule.id ? (
@@ -371,7 +371,7 @@ export default function SchedulesPage() {
                       </button>
                       <button
                         onClick={() => deleteSchedule(schedule.id)}
-                        className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-red-400 hover:text-red-300"
+                        className="p-2 border-2 border-transparent hover:border-red-500 hover:bg-red-500/10 transition-all text-red-500"
                         title="Delete"
                       >
                         <Trash2 className="w-5 h-5" />
@@ -382,12 +382,12 @@ export default function SchedulesPage() {
 
                 {/* Execution History */}
                 {expandedSchedule === schedule.id && (
-                  <div className="border-t border-gray-700 bg-gray-900/50 p-6">
+                  <div className="border-t-2 border-foreground bg-muted/30 p-6">
                     <div className="flex items-center justify-between mb-4">
-                      <h4 className="text-lg font-semibold text-white">Execution History</h4>
+                      <h4 className="text-lg font-semibold text-foreground">Execution History</h4>
                       <button
                         onClick={() => loadHistory(schedule.id)}
-                        className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-gray-400"
+                        className="p-2 border-2 border-transparent hover:border-foreground hover:bg-muted/20 transition-all text-muted-foreground"
                       >
                         <RotateCcw className="w-4 h-4" />
                       </button>
@@ -395,36 +395,36 @@ export default function SchedulesPage() {
 
                     {!runHistory[schedule.id] ? (
                       <div className="flex items-center justify-center py-8">
-                        <Loader2 className="w-6 h-6 text-blue-500 animate-spin" />
+                        <Loader2 className="w-6 h-6 text-primary animate-spin" />
                       </div>
                     ) : runHistory[schedule.id].length === 0 ? (
-                      <p className="text-gray-500 text-center py-8">No execution history yet</p>
+                      <p className="text-muted-foreground text-center py-8">No execution history yet</p>
                     ) : (
                       <div className="space-y-3">
                         {runHistory[schedule.id].map(run => (
                           <div
                             key={run.id}
-                            className="bg-gray-800/50 border border-gray-700 rounded-lg p-4"
+                            className="border-2 border-foreground bg-background p-4"
                           >
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-4">
                                 {run.status === 'success' ? (
-                                  <CheckCircle2 className="w-5 h-5 text-green-400" />
+                                  <CheckCircle2 className="w-5 h-5 text-green-500" />
                                 ) : run.status === 'failed' ? (
-                                  <XCircle className="w-5 h-5 text-red-400" />
+                                  <XCircle className="w-5 h-5 text-red-500" />
                                 ) : (
-                                  <Loader2 className="w-5 h-5 text-yellow-400" />
+                                  <Loader2 className="w-5 h-5 text-yellow-500" />
                                 )}
                                 <div>
-                                  <div className="text-white font-medium">
+                                  <div className="text-foreground font-medium">
                                     {run.show_name || 'Show Generation'}
                                   </div>
-                                  <div className="text-sm text-gray-400">
+                                  <div className="text-sm text-muted-foreground">
                                     {new Date(run.executed_at).toLocaleString()}
                                   </div>
                                 </div>
                               </div>
-                              <div className="text-right text-sm text-gray-400">
+                              <div className="text-right text-sm text-muted-foreground">
                                 {run.duration_seconds && (
                                   <div>{Math.floor(run.duration_seconds / 60)}m {run.duration_seconds % 60}s</div>
                                 )}
@@ -432,14 +432,14 @@ export default function SchedulesPage() {
                                   <div>{run.stories_count} stories</div>
                                 )}
                                 {(run.cost_llm_cents > 0 || run.cost_tts_cents > 0) && (
-                                  <div className="text-green-400">
+                                  <div className="text-green-500">
                                     ${((run.cost_llm_cents + run.cost_tts_cents) / 100).toFixed(2)}
                                   </div>
                                 )}
                               </div>
                             </div>
                             {run.error_message && (
-                              <div className="mt-2 text-red-400 text-sm flex items-start gap-2">
+                              <div className="mt-2 text-red-500 text-sm flex items-start gap-2 border-2 border-red-500 bg-red-500/10 p-2">
                                 <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
                                 <span>{run.error_message}</span>
                               </div>
@@ -485,11 +485,10 @@ function CreateScheduleModal({
   onClose: () => void
   onCreated: () => void
 }) {
-  const [scheduleType, setScheduleType] = useState<'daily' | 'weekly' | 'interval' | 'cron'>('daily')
+  const [scheduleType, setScheduleType] = useState<'daily' | 'weekly' | 'interval'>('daily')
   const [scheduleTime, setScheduleTime] = useState('09:00')
   const [selectedDays, setSelectedDays] = useState<number[]>([1, 2, 3, 4, 5]) // Mon-Fri
   const [intervalHours, setIntervalHours] = useState(6)
-  const [cronExpression, setCronExpression] = useState('0 9 * * *')
   const [timezone, setTimezone] = useState('America/New_York')
   const [templateId, setTemplateId] = useState('')
   const [hostSlug, setHostSlug] = useState('marcus-blaze')
@@ -535,8 +534,6 @@ function CreateScheduleModal({
         body.schedule_days_of_week = selectedDays
       } else if (scheduleType === 'interval') {
         body.schedule_interval_hours = intervalHours
-      } else if (scheduleType === 'cron') {
-        body.schedule_cron = cronExpression
       }
 
       const res = await fetch('/api/schedules/daily-show', {
@@ -560,24 +557,24 @@ function CreateScheduleModal({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="p-6 border-b border-gray-700">
-          <h2 className="text-2xl font-bold text-white">Create New Schedule</h2>
+      <div className="bg-background border-2 border-foreground max-w-2xl w-full max-h-[90vh] overflow-y-auto brutal-shadow">
+        <div className="p-6 border-b-2 border-foreground">
+          <h2 className="text-2xl font-bold text-foreground">Create New Schedule</h2>
         </div>
 
         <div className="p-6 space-y-6">
           {/* Schedule Type */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Schedule Type</label>
-            <div className="grid grid-cols-4 gap-2">
-              {(['daily', 'weekly', 'interval', 'cron'] as const).map(type => (
+            <label className="block text-sm font-medium text-foreground mb-2">Schedule Type</label>
+            <div className="grid grid-cols-3 gap-2">
+              {(['daily', 'weekly', 'interval'] as const).map(type => (
                 <button
                   key={type}
                   onClick={() => setScheduleType(type)}
-                  className={`px-4 py-2 rounded-lg border transition-colors ${
+                  className={`px-4 py-2 border-2 transition-all ${
                     scheduleType === type
-                      ? 'bg-blue-600 border-blue-500 text-white'
-                      : 'bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600'
+                      ? 'border-foreground bg-primary text-primary-foreground brutal-shadow'
+                      : 'border-foreground bg-background text-foreground hover:bg-muted/20'
                   }`}
                 >
                   {type.charAt(0).toUpperCase() + type.slice(1)}
@@ -589,83 +586,73 @@ function CreateScheduleModal({
           {/* Schedule Configuration */}
           {scheduleType === 'daily' && (
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Time</label>
+              <label className="block text-sm font-medium text-foreground mb-2">Time</label>
               <input
                 type="time"
                 value={scheduleTime}
                 onChange={(e) => setScheduleTime(e.target.value)}
-                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                className="w-full px-4 py-2 bg-background border-2 border-foreground text-foreground"
               />
+              <p className="text-xs text-muted-foreground mt-1">Show will generate every day at this time</p>
             </div>
           )}
 
           {scheduleType === 'weekly' && (
             <>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Days of Week</label>
+                <label className="block text-sm font-medium text-foreground mb-2">Days of Week</label>
                 <div className="flex gap-2">
                   {DAYS_OF_WEEK.map((day, idx) => (
                     <button
                       key={idx}
                       onClick={() => toggleDay(idx)}
-                      className={`px-4 py-2 rounded-lg border transition-colors ${
+                      className={`px-4 py-2 border-2 transition-all ${
                         selectedDays.includes(idx)
-                          ? 'bg-blue-600 border-blue-500 text-white'
-                          : 'bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600'
+                          ? 'border-foreground bg-primary text-primary-foreground brutal-shadow'
+                          : 'border-foreground bg-background text-foreground hover:bg-muted/20'
                       }`}
                     >
                       {day}
                     </button>
                   ))}
                 </div>
+                <p className="text-xs text-muted-foreground mt-1">Select which days to generate shows</p>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Time</label>
+                <label className="block text-sm font-medium text-foreground mb-2">Time</label>
                 <input
                   type="time"
                   value={scheduleTime}
                   onChange={(e) => setScheduleTime(e.target.value)}
-                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                  className="w-full px-4 py-2 bg-background border-2 border-foreground text-foreground"
                 />
+                <p className="text-xs text-muted-foreground mt-1">Show will generate on selected days at this time</p>
               </div>
             </>
           )}
 
           {scheduleType === 'interval' && (
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Interval (hours)</label>
+              <label className="block text-sm font-medium text-foreground mb-2">Interval (hours)</label>
               <input
                 type="number"
                 min="1"
                 max="24"
                 value={intervalHours}
                 onChange={(e) => setIntervalHours(parseInt(e.target.value))}
-                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                className="w-full px-4 py-2 bg-background border-2 border-foreground text-foreground"
               />
-            </div>
-          )}
-
-          {scheduleType === 'cron' && (
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Cron Expression</label>
-              <input
-                type="text"
-                value={cronExpression}
-                onChange={(e) => setCronExpression(e.target.value)}
-                placeholder="0 9 * * 1-5"
-                className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white"
-              />
-              <p className="text-xs text-gray-500 mt-1">Format: minute hour day month weekday</p>
+              <p className="text-xs text-muted-foreground mt-1">Show will generate every {intervalHours} hours continuously</p>
             </div>
           )}
 
           {/* Timezone */}
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Timezone</label>
+            <label className="block text-sm font-medium text-foreground mb-2">Timezone</label>
             <select
               value={timezone}
               onChange={(e) => setTimezone(e.target.value)}
-              className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white"
+              className="w-full px-4 py-2 bg-background border-2 border-foreground text-foreground"
             >
               <option value="America/New_York">Eastern (ET)</option>
               <option value="America/Chicago">Central (CT)</option>
@@ -676,53 +663,53 @@ function CreateScheduleModal({
           </div>
 
           {/* Show Configuration */}
-          <div className="border-t border-gray-700 pt-6">
-            <h3 className="text-lg font-semibold text-white mb-4">Show Configuration</h3>
+          <div className="border-t-2 border-foreground pt-6">
+            <h3 className="text-lg font-semibold text-foreground mb-4">Show Configuration</h3>
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Show Name Prefix</label>
+                <label className="block text-sm font-medium text-foreground mb-2">Show Name Prefix</label>
                 <input
                   type="text"
                   value={showNamePrefix}
                   onChange={(e) => setShowNamePrefix(e.target.value)}
                   placeholder="Battle Rap"
-                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                  className="w-full px-4 py-2 bg-background border-2 border-foreground text-foreground"
                 />
-                <p className="text-xs text-gray-500 mt-1">Will create "{showNamePrefix} Daily"</p>
+                <p className="text-xs text-muted-foreground mt-1">Will create "{showNamePrefix} Daily"</p>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Stories Count</label>
+                  <label className="block text-sm font-medium text-foreground mb-2">Stories Count</label>
                   <input
                     type="number"
                     min="1"
                     max="10"
                     value={storiesCount}
                     onChange={(e) => setStoriesCount(parseInt(e.target.value))}
-                    className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                    className="w-full px-4 py-2 bg-background border-2 border-foreground text-foreground"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Hours Lookback</label>
+                  <label className="block text-sm font-medium text-foreground mb-2">Hours Lookback</label>
                   <input
                     type="number"
                     min="1"
                     max="168"
                     value={hoursBack}
                     onChange={(e) => setHoursBack(parseInt(e.target.value))}
-                    className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                    className="w-full px-4 py-2 bg-background border-2 border-foreground text-foreground"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Host</label>
+                <label className="block text-sm font-medium text-foreground mb-2">Host</label>
                 <select
                   value={hostSlug}
                   onChange={(e) => setHostSlug(e.target.value)}
-                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                  className="w-full px-4 py-2 bg-background border-2 border-foreground text-foreground"
                 >
                   <option value="marcus-blaze">Marcus Blaze (Hot Take King)</option>
                   <option value="maya-sterling">Maya Sterling (Investigative)</option>
@@ -735,13 +722,13 @@ function CreateScheduleModal({
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Description (Optional)</label>
+                <label className="block text-sm font-medium text-foreground mb-2">Description (Optional)</label>
                 <textarea
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Notes about this schedule..."
                   rows={2}
-                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                  className="w-full px-4 py-2 bg-background border-2 border-foreground text-foreground"
                 />
               </div>
             </div>
@@ -749,18 +736,18 @@ function CreateScheduleModal({
         </div>
 
         {/* Footer */}
-        <div className="p-6 border-t border-gray-700 flex items-center justify-end gap-4">
+        <div className="p-6 border-t-2 border-foreground flex items-center justify-end gap-4">
           <button
             onClick={onClose}
             disabled={creating}
-            className="px-6 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition-colors"
+            className="px-6 py-2 border-2 border-foreground bg-background text-foreground hover:bg-muted/20 transition-all"
           >
             Cancel
           </button>
           <button
             onClick={handleCreate}
             disabled={creating}
-            className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50"
+            className="px-6 py-2 border-2 border-foreground bg-primary text-primary-foreground hover:brutal-shadow transition-all flex items-center gap-2 disabled:opacity-50"
           >
             {creating && <Loader2 className="w-4 h-4 animate-spin" />}
             Create Schedule

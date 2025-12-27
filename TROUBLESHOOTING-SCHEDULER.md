@@ -43,13 +43,13 @@ start-scheduler.bat
 
 ---
 
-### ❌ "Database 'contentkingdom' not found"
+### ❌ "Database 'talkshowgo' not found"
 
 **Problem:** Database doesn't exist
 
 **Solution:** The script will automatically create it. If it fails:
 ```bash
-docker exec tsg-postgres psql -U postgres -c "CREATE DATABASE contentkingdom;"
+docker exec tsg-postgres psql -U postgres -c "CREATE DATABASE talkshowgo;"
 ```
 
 ---
@@ -60,7 +60,7 @@ docker exec tsg-postgres psql -U postgres -c "CREATE DATABASE contentkingdom;"
 
 **Solution:** The script will automatically run the migration. If it fails:
 ```bash
-docker exec -i tsg-postgres psql -U postgres -d contentkingdom < supabase/migrations/019_daily_show_scheduler.sql
+docker exec -i tsg-postgres psql -U postgres -d talkshowgo < supabase/migrations/019_daily_show_scheduler.sql
 ```
 
 ---
@@ -180,7 +180,7 @@ curl http://localhost:8000/daily_show_schedules
 **Debug:**
 ```bash
 # View schedule in database
-docker exec tsg-postgres psql -U postgres -d contentkingdom -c "SELECT id, show_name_prefix, schedule_type, is_active, next_scheduled_at FROM daily_show_schedules;"
+docker exec tsg-postgres psql -U postgres -d talkshowgo -c "SELECT id, show_name_prefix, schedule_type, is_active, next_scheduled_at FROM daily_show_schedules;"
 
 # Check if scheduler is processing
 docker logs tsg-worker -f | findstr "Executing schedule"
@@ -253,7 +253,7 @@ docker exec tsg-postgres pg_isready -U postgres
 docker exec tsg-postgres psql -U postgres -l
 
 # Check scheduler tables
-docker exec tsg-postgres psql -U postgres -d contentkingdom -c "\dt daily_show*"
+docker exec tsg-postgres psql -U postgres -d talkshowgo -c "\dt daily_show*"
 ```
 
 ### Check Redis
@@ -320,7 +320,7 @@ This will:
 ### View All Schedules
 
 ```bash
-docker exec tsg-postgres psql -U postgres -d contentkingdom -c "
+docker exec tsg-postgres psql -U postgres -d talkshowgo -c "
 SELECT
   id,
   show_name_prefix,
@@ -337,7 +337,7 @@ ORDER BY created_at DESC;
 ### View Execution History
 
 ```bash
-docker exec tsg-postgres psql -U postgres -d contentkingdom -c "
+docker exec tsg-postgres psql -U postgres -d talkshowgo -c "
 SELECT
   h.show_name,
   h.status,
@@ -354,7 +354,7 @@ LIMIT 20;
 ### Find Failed Runs
 
 ```bash
-docker exec tsg-postgres psql -U postgres -d contentkingdom -c "
+docker exec tsg-postgres psql -U postgres -d talkshowgo -c "
 SELECT
   executed_at,
   show_name,
@@ -383,8 +383,8 @@ docker restart tsg-postgres tsg-redis tsg-worker tsg-postgrest
 docker-compose down
 
 # Remove volumes (DELETES ALL DATA)
-docker volume rm contentkingdom_postgres-data
-docker volume rm contentkingdom_redis-data
+docker volume rm talkshowgo_postgres-data
+docker volume rm talkshowgo_redis-data
 
 # Start fresh
 docker-compose up -d
@@ -466,10 +466,10 @@ docker-compose down
 docker-compose up -d
 
 # View database
-docker exec -it tsg-postgres psql -U postgres -d contentkingdom
+docker exec -it tsg-postgres psql -U postgres -d talkshowgo
 
 # List schedules in DB
-docker exec tsg-postgres psql -U postgres -d contentkingdom -c "SELECT * FROM daily_show_schedules;"
+docker exec tsg-postgres psql -U postgres -d talkshowgo -c "SELECT * FROM daily_show_schedules;"
 
 # Test API
 curl http://localhost:8000/daily_show_schedules

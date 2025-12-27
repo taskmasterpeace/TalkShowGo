@@ -30,6 +30,12 @@ export interface NicheAudioSettings {
   voice_id: string
   model_id: string
   style: number  // 0-1, documentary style vs conversational
+  speakers?: Array<{
+    name: string
+    personality: string
+    voice_id: string
+    archetype: string  // 'anchor', 'analyst', 'narrator', 'hype', etc.
+  }>
 }
 
 export interface NicheSettings {
@@ -101,7 +107,21 @@ export const BATTLE_RAP_SETTINGS: NicheSettings = {
   audio_settings: {
     voice_id: 'ZJ7BlVZrxZKBDMTIK5c9',
     model_id: 'eleven_turbo_v2_5',
-    style: 0.15
+    style: 0.15,
+    speakers: [
+      {
+        name: 'host1',
+        personality: 'Hip-hop culture expert, animated storyteller, knows every battler and league',
+        voice_id: 'ZJ7BlVZrxZKBDMTIK5c9',
+        archetype: 'narrator'
+      },
+      {
+        name: 'analyst',
+        personality: 'Battle rap analyst with deep knowledge of bars, wordplay, and battle history',
+        voice_id: 'TxGEqnHWrfWFTfGW9XjX',
+        archetype: 'analyst'
+      }
+    ]
   }
 }
 
@@ -134,5 +154,72 @@ export const HOOD_HISTORY_SETTINGS: NicheSettings = {
     voice_id: 'ZJ7BlVZrxZKBDMTIK5c9',
     model_id: 'eleven_turbo_v2_5',
     style: 0.2
+  }
+}
+
+// Orangeburg, SC local news settings
+export const ORANGEBURG_SC_SETTINGS: NicheSettings = {
+  name: 'Orangeburg, SC',
+  slug: 'orangeburg-sc',
+  entity_types: [
+    'politician',
+    'law_enforcement',
+    'government_official',
+    'city_employee',
+    'university_official',
+    'business_owner',
+    'community_leader',
+    'nonprofit_leader',
+    'victim',
+    'suspect',
+    'witness',
+    'student',
+    'athlete',
+    'coach',
+    'emergency_responder',
+    'news_reporter',
+    'location',
+    'business',
+    'school',
+    'government_agency'
+  ],
+
+  research_settings: {
+    interview_search_suffix: 'press conference OR statement OR interview',
+    max_interview_lookups: 2,
+    prefer_longest_interviews: false,
+    min_interview_duration_minutes: 2,
+    max_interview_duration_minutes: 30,
+    default_lookback_hours: 24,
+    deep_research_max_rounds: 2,
+    interview_lookup_enabled: false,
+    twitter_enabled: true
+  },
+
+  story_settings: {
+    opening_template: 'In Orangeburg, South Carolina...',
+    default_length: 'short',
+    chapter_structure: ['Breaking', 'What Happened', 'Response', 'What\'s Next'],
+    long_chapter_structure: ['Breaking', 'Background', 'What Happened', 'Official Response', 'Community Impact', 'What\'s Next']
+  },
+
+  audio_settings: {
+    voice_id: 'ZJ7BlVZrxZKBDMTIK5c9',
+    model_id: 'eleven_turbo_v2_5',
+    style: 0.05,  // Neutral news anchor (vs 0.15 documentary)
+    speakers: [
+      {
+        name: 'sarah',
+        personality: 'Warm, community-focused news anchor, cares about local residents',
+        voice_id: 'EXAVITQu4vr4xnSDxMaL',
+        archetype: 'anchor'
+      },
+      {
+        name: 'marcus',
+        personality: 'Analytical, fact-focused co-host, keeps things organized',
+        voice_id: 'TxGEqnHWrfWFTfGW9XjX',
+        archetype: 'analyst'
+      }
+    ]
   }
 }

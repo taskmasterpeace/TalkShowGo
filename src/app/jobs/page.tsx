@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { AppShell } from '@/components/layout'
+import { useTopic } from '@/context/topic-context'
 import {
   Card,
   CardContent,
@@ -112,59 +113,55 @@ interface JobStatus {
 }
 
 export default function JobsPage() {
+  const { selectedTopic } = useTopic()
   const [jobStatuses, setJobStatuses] = useState<Map<string, JobStatus>>(new Map())
   const [recentRuns, setRecentRuns] = useState<JobRun[]>([])
   const [loading, setLoading] = useState(true)
   const [triggeringJob, setTriggeringJob] = useState<string | null>(null)
   const [retryingJob, setRetryingJob] = useState<string | null>(null)
-  const [topicId, setTopicId] = useState<string | null>(null)
 
-  // Fetch job data on mount
+  // Fetch job data when topic changes
   useEffect(() => {
-    fetchJobData()
-  }, [])
+    if (selectedTopic) {
+      fetchJobData()
+    }
+  }, [selectedTopic?.id])
 
   const fetchJobData = async () => {
+    if (!selectedTopic) return
+
+    setLoading(true)
     try {
-      // Get active topic
-      const topicsRes = await fetch('/api/topics')
-      const topics = await topicsRes.json()
-      const activeTopic = topics[0]
+      // Fetch recent job runs
+      const runsRes = await fetch(`/api/jobs?topic_id=${selectedTopic.id}&limit=50`)
+      const runsData = await runsRes.json()
 
-      if (activeTopic) {
-        setTopicId(activeTopic.id)
+      if (Array.isArray(runsData)) {
+        setRecentRuns(runsData)
 
-        // Fetch recent job runs
-        const runsRes = await fetch(`/api/jobs?topic_id=${activeTopic.id}&limit=50`)
-        const runsData = await runsRes.json()
+        // Build status map from recent runs
+        const statusMap = new Map<string, JobStatus>()
+        const today = new Date()
+        today.setHours(0, 0, 0, 0)
 
-        if (Array.isArray(runsData)) {
-          setRecentRuns(runsData)
+        for (const jobDef of JOB_DEFINITIONS) {
+          const jobRuns = runsData.filter((r: JobRun) => r.job_type === jobDef.id)
+          const todayRuns = jobRuns.filter((r: JobRun) =>
+            new Date(r.created_at) >= today
+          )
+          const completedRuns = jobRuns.filter((r: JobRun) => r.status === 'completed')
 
-          // Build status map from recent runs
-          const statusMap = new Map<string, JobStatus>()
-          const today = new Date()
-          today.setHours(0, 0, 0, 0)
-
-          for (const jobDef of JOB_DEFINITIONS) {
-            const jobRuns = runsData.filter((r: JobRun) => r.job_type === jobDef.id)
-            const todayRuns = jobRuns.filter((r: JobRun) =>
-              new Date(r.created_at) >= today
-            )
-            const completedRuns = jobRuns.filter((r: JobRun) => r.status === 'completed')
-
-            statusMap.set(jobDef.id, {
-              job_type: jobDef.id,
-              last_run: jobRuns[0] || null,
-              runs_today: todayRuns.length,
-              success_rate: jobRuns.length > 0
-                ? (completedRuns.length / jobRuns.length) * 100
-                : 0
-            })
-          }
-
-          setJobStatuses(statusMap)
+          statusMap.set(jobDef.id, {
+            job_type: jobDef.id,
+            last_run: jobRuns[0] || null,
+            runs_today: todayRuns.length,
+            success_rate: jobRuns.length > 0
+              ? (completedRuns.length / jobRuns.length) * 100
+              : 0
+          })
         }
+
+        setJobStatuses(statusMap)
       }
     } catch (error) {
       console.error('Error fetching job data:', error)
@@ -174,14 +171,14 @@ export default function JobsPage() {
   }
 
   const triggerJob = async (jobType: string) => {
-    if (!topicId) return
+    if (!selectedTopic) return
 
     setTriggeringJob(jobType)
     try {
       const res = await fetch(`/api/jobs/${jobType}/trigger`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ topic_id: topicId })
+        body: JSON.stringify({ topic_id: selectedTopic.id })
       })
 
       if (res.ok) {

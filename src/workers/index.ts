@@ -96,3 +96,13 @@ workers.forEach((worker) => {
 })
 
 console.log('Workers started')
+
+// Start Daily Show Scheduler
+import { getDailyShowScheduler } from '../lib/scheduler/daily-show-scheduler'
+
+const dailyShowScheduler = getDailyShowScheduler()
+dailyShowScheduler.start().then(() => {
+  console.log('[Worker] Daily Show Scheduler started')
+}).catch((error) => {
+  console.error('[Worker] Failed to start Daily Show Scheduler:', error)
+})

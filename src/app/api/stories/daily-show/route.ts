@@ -41,7 +41,9 @@ export async function POST(request: NextRequest) {
       generate_audio = false,
       template_id,
       selected_topics,
-      custom_script
+      custom_script,
+      production_format,
+      channel_style_file
     } = body
 
     // Get host personality if slug provided
@@ -81,7 +83,9 @@ export async function POST(request: NextRequest) {
         host_name: effectiveHostName,
         voice_id,
         stories_count,
-        hours_back
+        hours_back,
+        production_format,
+        channel_style_file
       })
     }
 

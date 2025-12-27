@@ -19,7 +19,7 @@
     "stop": "docker-compose down",
     "check:ai": "curl -s http://localhost:11434/api/tags",
     "check:voice": "curl -s http://localhost:8765/health",
-    "check:db": "docker exec ck-postgres pg_isready -U postgres",
+    "check:db": "docker exec tsg-postgres pg_isready -U postgres",
     "dia:up": "docker compose up dia --build -d",
     "dia:logs": "docker compose logs -f dia",
     "dia:test": "tsx test-dia.ts",

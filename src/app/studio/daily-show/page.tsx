@@ -182,6 +182,10 @@ export default function DailyShowPage() {
   const [selectedTemplate, setSelectedTemplate] = useState<ShowTemplate | null>(null)
   const [selectedHost, setSelectedHost] = useState<Host | null>(null)
 
+  // Channel style & production format
+  const [productionFormat, setProductionFormat] = useState('news_bulletin')
+  const [useAlgorithmStyle, setUseAlgorithmStyle] = useState(true)
+
   // Topics state
   const [proposedTopics, setProposedTopics] = useState<ProposedTopic[]>([])
   const [selectedTopicIndices, setSelectedTopicIndices] = useState<Set<number>>(new Set())
@@ -374,7 +378,9 @@ export default function DailyShowPage() {
           template_id: selectedTemplate.id,
           host_slug: selectedHost.id,
           selected_topics: Array.from(selectedTopicIndices).map(i => proposedTopics[i]),
-          custom_script: editedScript
+          custom_script: editedScript,
+          production_format: productionFormat,
+          channel_style_file: useAlgorithmStyle ? 'algorithm-institute-of-battle-rap' : null
         })
       })
 
@@ -517,6 +523,42 @@ export default function DailyShowPage() {
                   </div>
                 </button>
               ))}
+            </div>
+
+            {/* Production Format & Channel Style Controls */}
+            <div className="mt-6 space-y-4 p-4 border-2 border-foreground bg-muted/30">
+              <div>
+                <label className="block font-bold mb-2">Production Format</label>
+                <select
+                  value={productionFormat}
+                  onChange={(e) => setProductionFormat(e.target.value)}
+                  className="w-full p-2 border-2 border-foreground bg-background"
+                >
+                  <option value="talk_show">Talk Show (Multi-perspective debate)</option>
+                  <option value="news_bulletin">News Bulletin (Breaking news)</option>
+                  <option value="news_coverage">News Coverage (In-depth reporting)</option>
+                  <option value="hot_take">Hot Take (Opinion/reaction)</option>
+                  <option value="investigation">Investigation (Deep dive)</option>
+                  <option value="narrative_story">Narrative Story (Storytelling)</option>
+                  <option value="recap">Recap (Summary)</option>
+                  <option value="prediction_panel">Prediction Panel (Speculation)</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={useAlgorithmStyle}
+                    onChange={(e) => setUseAlgorithmStyle(e.target.checked)}
+                    className="w-4 h-4"
+                  />
+                  <span className="font-bold">Use Algorithm Institute channel style</span>
+                </label>
+                <p className="text-sm text-muted-foreground mt-1 ml-6">
+                  Writes in your channel's signature style: cinematic openings, chapter transitions, dramatic tone, iconic closing
+                </p>
+              </div>
             </div>
           </div>
         )

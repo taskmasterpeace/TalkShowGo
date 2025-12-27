@@ -1,208 +1,228 @@
-# Talk Show Go
+# TalkShowGo
 
 AI-powered content generation platform for talk shows, documentaries, and narrative storytelling. Monitor social media, extract entities and claims, and automatically produce publication-ready audio content.
 
-## What It Does
-
-Talk Show Go transforms the way content creators produce audio shows:
-
-- **Automated Research** - Scans Twitter and YouTube for trending topics in your niche
-- **Entity Intelligence** - Extracts and tracks people, organizations, and events with context
-- **Narrative Assembly** - Builds coherent stories from multiple signals and sources
-- **AI Voices** - Generates professional audio with customizable host personalities
-- **Multi-Format Output** - Creates daily shows, documentaries, deep dives, and more
-
-## Use Cases
-
-| Format | Description |
-|--------|-------------|
-| **Daily News Show** | Automated daily briefing on trending topics in your niche |
-| **Documentary Narrative** | Deep-dive stories with historical context and multiple sources |
-| **Interview Breakdowns** | Summarize and analyze long-form interviews |
-| **Topic Explainers** | Educational content breaking down complex subjects |
-| **Opinion/Commentary** | Hot takes and analysis with personality |
-
 ## Quick Start
 
+### One-Click Start (Windows)
+```
+Double-click: start.bat
+   — or —
+Right-click start.ps1 → Run with PowerShell
+```
+
+### Command Line
 ```bash
-# 1. Clone and install
+# Clone and install
 git clone https://github.com/yourusername/talkshowgo.git
 cd talkshowgo
 npm install
 
-# 2. Configure environment
+# Configure environment
 cp .env.example .env.local
-# Edit .env.local with your API keys
 
-# 3. Start Docker services
-docker compose up -d
-
-# 4. Run database migrations
-npm run db:migrate
-
-# 5. Start development server
-npm run dev
+# Start everything
+npm run go
 ```
 
-Visit http://localhost:3000/studio/system-status to verify all services are running.
+Visit **http://localhost:3000** to access the app.
 
-> **New to Talk Show Go?** See the [Deployment Guide](docs/DEPLOYMENT.md) for complete setup instructions.
+> **First time?** Run the Setup Wizard at `/studio/setup` or check the [Deployment Guide](docs/DEPLOYMENT.md).
 
-## The Pipeline
+---
 
-Talk Show Go uses an intelligence pipeline with military-inspired codenames:
+## What It Does
 
-| Phase | Codename | Purpose |
-|-------|----------|---------|
-| 1 | **OUTPOST** | Topic setup & source configuration |
-| 2 | **PERIMETER** | Signal monitoring (Twitter/YouTube scanning) |
-| 3 | **EXTRACTION** | Entity extraction from content |
-| 4 | **AUDIT** | Credibility scoring & source evaluation |
-| 5 | **TRIBUNAL** | Claim verification & nominations |
-| 6 | **NEXUS** | Story assembly from signals |
-| 7 | **SANCTION** | Story approval & script generation |
-| 8 | **SIGNAL** | Export & distribution |
+TalkShowGo transforms content creation with an automated intelligence pipeline:
+
+| Capability | Description |
+|------------|-------------|
+| **Automated Research** | Scans Twitter and YouTube for trending topics in your niche |
+| **Entity Intelligence** | Extracts people, organizations, and events with context |
+| **Story Assembly** | Builds coherent narratives from multiple sources |
+| **Multi-Voice Audio** | Generates professional dialogue with Dia TTS |
+| **Multi-Format Output** | Daily shows, documentaries, deep dives, and more |
+
+---
+
+## The Intelligence Pipeline
+
+TalkShowGo uses 8 phases with military-inspired codenames:
+
+```
+OUTPOST → PERIMETER → EXTRACTION → AUDIT → TRIBUNAL → NEXUS → SANCTION → SIGNAL
+   ↓           ↓            ↓          ↓         ↓         ↓         ↓         ↓
+ Setup     Monitor      Extract     Score    Verify   Assemble   Approve   Export
+```
+
+| Phase | Page | Purpose |
+|-------|------|---------|
+| **OUTPOST** | `/outpost` | Configure topics, sources, and entities |
+| **PERIMETER** | `/perimeter` | Monitor Twitter/YouTube for signals |
+| **EXTRACTION** | `/extraction` | Extract entities and claims from content |
+| **AUDIT** | `/audit` | Score source credibility |
+| **TRIBUNAL** | `/tribunal` | Community verification and nominations |
+| **NEXUS** | `/nexus` | Assemble signals into story candidates |
+| **SANCTION** | `/sanction` | Approve stories and generate scripts |
+| **SIGNAL** | `/signal` | Export and distribute content |
+
+---
+
+## The Studio
+
+Your production hub at `/studio`:
+
+| Feature | Description |
+|---------|-------------|
+| **Daily Show** | 5-step wizard to create automated news shows |
+| **Schedules** | Automate show generation (daily, weekly, interval) |
+| **Templates** | Customize show formats, intros, and outros |
+| **Hosts** | 8 AI host personalities with unique styles |
+| **Entities** | Manage entity context, roles, and affiliations |
+| **Sources** | Configure Twitter and YouTube sources |
+
+### Host Personalities
+
+| Host | Style |
+|------|-------|
+| **Maya Sterling** | Investigative anchor (Rachel Maddow) |
+| **Marcus Blaze** | Hot take king (Stephen A Smith) |
+| **Devon Sharp** | Witty satirist (Jon Stewart) |
+| **Tasha Raw** | Unfiltered real talk |
+| **James Noble** | Smooth documentary narrator |
+| **DJ Momentum** | High energy hype |
+| **King Knowledge** | Street analyst |
+| **Algorithm Institute** | Battle rap documentary narrator |
+
+---
 
 ## Tech Stack
 
-- **Frontend**: Next.js 14, Tailwind CSS
-- **Backend**: Node.js, PostgreSQL (pgvector), Redis + BullMQ
-- **AI**: Local LLMs (Ollama), OpenAI, Anthropic Claude
-- **Voice**: ElevenLabs, Chatterbox TTS
-- **Search**: SearXNG (self-hosted), Perplexity Sonar
-- **Sources**: Twitter (twitterapi.io), YouTube (youtubei.js)
+### Core Services (Docker)
+- **PostgreSQL** + pgvector — Main database
+- **Redis** + BullMQ — Job queue
+- **PostgREST** — REST API for database
+- **Kong** — API gateway
+- **SearXNG** — Self-hosted web search
+- **Qdrant** — Vector database for RAG
 
-## Features
+### Voice Generation
+- **Dia TTS** (Primary) — Multi-voice dialogue with emotional markers
+- **ElevenLabs** (Legacy) — Single voice generation
 
-### The Studio
+### AI Services
+- **Ollama** — Local LLM for entity extraction
+- **OpenAI / Anthropic** — Cloud LLM options
 
-The Studio is your production hub:
-
-- **Daily Show** - Create automated daily news shows
-- **Templates** - Customize show formats and intros
-- **Hosts** - Choose from 7 AI host personalities
-- **Voices** - Manage TTS voices and clone your own
-- **Prompts** - Fine-tune AI generation prompts
-
-### Research Sources
-
-| Source | Cost | Best For |
+### Data Sources
+| Source | Cost | Use Case |
 |--------|------|----------|
-| YouTube (youtubei.js) | Free | Video content, transcripts |
+| YouTube (youtubei.js) | Free | Videos, transcripts, comments |
 | Twitter (twitterapi.io) | $0.15/1K tweets | Real-time trends |
-| SearXNG | Free (self-hosted) | Web search, documents |
-| Perplexity Sonar | 5 credits/month | AI-enhanced search |
+| SearXNG | Free | Web search |
+| Perplexity Sonar | 5 credits/month | AI-enhanced research |
 
-### Entity Intelligence
-
-Every person, organization, and event is tracked with context:
-- Role and affiliations
-- Credibility scoring
-- Mention history
-- Cross-referenced claims
+---
 
 ## Environment Variables
 
-Copy `.env.example` to `.env` and configure:
+Create `.env.local` from `.env.example`:
 
 ```env
 # Database
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/talkshowgo
 
 # AI Services
-PRESIDIUM_URL=http://localhost:11434
+OLLAMA_HOST=http://localhost:11434
 OPENAI_API_KEY=your-key
 ANTHROPIC_API_KEY=your-key
 
-# Voice
-ELEVENLABS_API_KEY=your-key
-CHATTERBOX_URL=http://localhost:4123
+# Voice (Dia runs locally, no key needed)
+ELEVENLABS_API_KEY=your-key  # Optional legacy
 
 # Sources
 TWITTER_API_KEY=your-key
-YOUTUBE_API_KEY=your-key
 PERPLEXITY_API_KEY=your-key
 ```
+
+---
+
+## Commands
+
+```bash
+# Development
+npm run go              # Start Docker + Next.js
+npm run dev             # Start Next.js only
+npm run worker          # Start background worker
+
+# Docker
+npm run docker:up       # Start all services
+npm run docker:reset    # Wipe and restart
+
+# Health Checks
+npm run check:db        # Database connection
+npm run check:ai        # LLM service
+npm run check:voice     # Dia TTS
+
+# Production
+npm run build           # Build for production
+npm run start           # Start production server
+npm run lint            # Run linting
+```
+
+---
 
 ## Project Structure
 
 ```
 src/
-├── app/                 # Next.js pages
-│   ├── api/            # API routes
-│   ├── studio/         # Production hub
-│   ├── outpost/        # Source management
-│   ├── perimeter/      # Signal monitor
-│   ├── extraction/     # Entity map
-│   ├── nexus/          # Story desk
-│   └── guide/          # User manual
+├── app/                    # Next.js App Router
+│   ├── api/               # API routes
+│   ├── studio/            # Production hub
+│   ├── outpost/           # Source management
+│   ├── perimeter/         # Signal monitor
+│   ├── extraction/        # Entity map
+│   ├── audit/             # Credibility ledger
+│   ├── nexus/             # Story desk
+│   └── settings/          # Configuration
 ├── components/
-│   ├── ui/             # UI components
-│   └── layout/         # App shell
-├── lib/                # Core libraries
-│   ├── rag/            # Vector search
-│   └── workers/        # Job processors
-└── workers/            # Background jobs
+│   ├── ui/                # UI components (shadcn)
+│   └── layout/            # App shell, sidebar
+├── context/               # React context (TopicContext)
+├── lib/                   # Core libraries
+│   ├── dia.ts            # Dia TTS client
+│   ├── youtube-api.ts    # YouTube client
+│   ├── twitter-api.ts    # Twitter client
+│   └── hosts/            # Host personalities
+└── workers/               # Background job processors
 ```
 
-## Host Personalities
-
-Talk Show Go includes 7 distinct host personalities:
-
-1. **Maya Sterling** - Investigative anchor (Rachel Maddow style)
-2. **Marcus Blaze** - Hot take king (Stephen A Smith style)
-3. **Devon Sharp** - Witty satirist (Jon Stewart style)
-4. **Tasha Raw** - Unfiltered real talk
-5. **James Noble** - Smooth documentary narrator
-6. **DJ Momentum** - High energy hype
-7. **King Knowledge** - Street analyst
+---
 
 ## Documentation
 
-### Deployment & Setup
+| Guide | Description |
+|-------|-------------|
+| [CLAUDE.md](CLAUDE.md) | Development guidelines and API reference |
+| [Deployment Guide](docs/DEPLOYMENT.md) | Complete setup from scratch |
+| [Architecture](docs/ARCHITECTURE.md) | System design and data flow |
+| [Docker Services](docs/docker/SERVICES.md) | All Docker services explained |
+| [Dia Migration](docs/DIA-MIGRATION.md) | Multi-voice TTS setup |
+| [Common Issues](docs/troubleshooting/COMMON-ISSUES.md) | FAQ and fixes |
+| [Health Checks](docs/troubleshooting/HEALTH-CHECKS.md) | Service verification |
 
-- [**Deployment Guide**](docs/DEPLOYMENT.md) - Complete setup from scratch
-- [Docker Setup](docs/docker/DOCKER-SETUP.md) - Docker configuration
-- [Services Reference](docs/docker/SERVICES.md) - All Docker services explained
-- [Networking](docs/docker/NETWORKING.md) - Ports and connectivity
+---
 
-### API Keys & External Services
+## Current Niche: Battle Rap
 
-- [ElevenLabs](docs/api-keys/ELEVENLABS.md) - Voice generation setup
-- [Twitter API](docs/api-keys/TWITTER.md) - Social media integration
-- [News APIs](docs/api-keys/NEWS-APIS.md) - News aggregation setup
-- [Optional APIs](docs/api-keys/OPTIONAL.md) - OpenAI, Anthropic, YouTube, Perplexity
+TalkShowGo is currently configured for battle rap coverage:
 
-### Service Configuration
+- **16 Twitter sources** — URL, KOTD, RBE, JayBlac, Angry Fan, etc.
+- **6 YouTube channels** — URLTV, KOTD, RBE, No Studio'N, etc.
+- **62 entities** — Battlers, bloggers, leagues tracked with context
+- **Voice** — Algorithm Institute documentary narrator style
 
-- [Ollama](docs/services/OLLAMA.md) - Local LLM setup
-- [SearXNG](docs/services/SEARXNG.md) - Self-hosted search
-- [Qdrant](docs/services/QDRANT.md) - Vector database
-- [Voice](docs/services/VOICE.md) - TTS and voice cloning
-
-### Troubleshooting
-
-- [Common Issues](docs/troubleshooting/COMMON-ISSUES.md) - FAQ and fixes
-- [Health Checks](docs/troubleshooting/HEALTH-CHECKS.md) - Service verification
-
-### Development
-
-- [CLAUDE.md](CLAUDE.md) - Development guidelines
-- [SECURITY.md](SECURITY.md) - Security best practices
-- [API-DOCS.md](API-DOCS.md) - API reference
-
-## Development
-
-```bash
-# Run linting
-npm run lint
-
-# Build for production
-npm run build
-
-# Start production server
-npm start
-```
+---
 
 ## License
 

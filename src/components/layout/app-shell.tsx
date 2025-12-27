@@ -2,6 +2,7 @@
 
 import { Sidebar } from './sidebar'
 import { Topbar } from './topbar'
+import { TopicTabs } from '@/components/topic-tabs'
 
 interface AppShellProps {
   children: React.ReactNode
@@ -14,6 +15,7 @@ export function AppShell({ children, topicName }: AppShellProps) {
       <Sidebar />
       <div className="flex flex-col flex-1 overflow-hidden">
         <Topbar topicName={topicName} />
+        <TopicTabs />
         <main className="flex-1 overflow-y-auto p-6 bg-muted/30">
           {children}
         </main>

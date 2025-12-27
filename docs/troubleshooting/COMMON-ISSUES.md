@@ -53,7 +53,7 @@ netstat -tulpn | grep :5432
 1. Check PostgreSQL is running:
 ```bash
 docker compose ps postgres
-docker exec ck-postgres pg_isready
+docker exec tsg-postgres pg_isready
 ```
 
 2. Verify connection string:
@@ -81,7 +81,7 @@ docker compose logs postgres
 npm run db:migrate
 
 # Or manually
-docker exec -i ck-postgres psql -U postgres -d talkshowgo < supabase/migrations/001_initial_schema.sql
+docker exec -i tsg-postgres psql -U postgres -d talkshowgo < supabase/migrations/001_initial_schema.sql
 ```
 
 ---

@@ -105,7 +105,7 @@ export async function generateSpeech(
       },
       body: JSON.stringify({
         text,
-        model_id: options.model_id || 'eleven_turbo_v2_5',
+        model_id: options.model_id || 'eleven_monolingual_v1',
         voice_settings: options.voice_settings || DEFAULT_SETTINGS,
       }),
     }
@@ -159,7 +159,7 @@ export async function streamSpeech(
       },
       body: JSON.stringify({
         text,
-        model_id: options.model_id || 'eleven_turbo_v2_5',
+        model_id: options.model_id || 'eleven_monolingual_v1',
         voice_settings: options.voice_settings || DEFAULT_SETTINGS,
       }),
     }
@@ -524,6 +524,95 @@ export async function createMultiVoiceShow(
     segments: completedSegments,
     totalDuration,
   }
+}
+
+// ============================================
+// ELEVEN V3 DIALOGUE API (MULTI-SPEAKER IN ONE CALL)
+// ============================================
+
+export interface DialogueLine {
+  speaker: string
+  text: string
+  emotion?: string  // 'excited', 'laughs', 'serious', 'interrupting', 'thoughtful'
+}
+
+export interface DialogueSpeaker {
+  name: string
+  voice_id: string
+}
+
+export interface DialogueOptions {
+  model_id?: string
+  add_timestamps?: boolean
+}
+
+/**
+ * Generate multi-speaker dialogue using Eleven v3
+ * ONE API call for entire conversation with natural flow
+ *
+ * Uses speaker tags and emotion markers for natural dialogue:
+ * <sarah>[excited] Good evening!</sarah>
+ * <marcus>[laughs] Great to be here!</marcus>
+ */
+export async function generateDialogue(
+  speakers: DialogueSpeaker[],
+  dialogue: DialogueLine[],
+  options?: DialogueOptions
+): Promise<{
+  audio: ArrayBuffer
+  duration_seconds: number
+}> {
+  // Build dialogue text with speaker tags and emotions
+  const dialogueText = dialogue
+    .map(line => {
+      const emotion = line.emotion ? `[${line.emotion}] ` : ''
+      return `<${line.speaker}>${emotion}${line.text}</${line.speaker}>`
+    })
+    .join('\n')
+
+  // Map speakers to voice IDs
+  const speakerMap = speakers.reduce((map, s) => {
+    map[s.name] = s.voice_id
+    return map
+  }, {} as Record<string, string>)
+
+  console.log(`[ElevenLabs] Generating ${dialogue.length} dialogue lines with ${speakers.length} speakers`)
+
+  const response = await fetch(
+    `${ELEVENLABS_API_URL}/v1/text-to-speech/dialogue`,
+    {
+      method: 'POST',
+      headers: {
+        'xi-api-key': getApiKey(),
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        text: dialogueText,
+        model_id: options?.model_id || 'eleven_v3_alpha',
+        speakers: speakerMap,
+        voice_settings: {
+          stability: 0.5,
+          similarity_boost: 0.75,
+        },
+      }),
+    }
+  )
+
+  if (!response.ok) {
+    const error = await response.text()
+    console.error(`[ElevenLabs] Dialogue generation failed:`, error)
+    throw new Error(`Dialogue generation failed: ${error}`)
+  }
+
+  const audio = await response.arrayBuffer()
+
+  // Estimate duration based on word count (150 words per minute)
+  const wordCount = dialogue.reduce((sum, l) => sum + l.text.split(/\s+/).length, 0)
+  const duration_seconds = Math.ceil((wordCount / 150) * 60)
+
+  console.log(`[ElevenLabs] Generated dialogue: ${wordCount} words, ~${duration_seconds}s duration`)
+
+  return { audio, duration_seconds }
 }
 
 // ============================================

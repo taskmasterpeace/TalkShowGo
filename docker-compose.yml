@@ -202,6 +202,40 @@ services:
     networks:
       - tsg-network
 
+  # ============================================
+  # AI VOICE SERVICES
+  # ============================================
+
+  # Dia - Multi-Voice TTS with Dialogue Generation
+  # Supports [S1]/[S2] speaker tags and emotional markers
+  dia:
+    build:
+      context: ./docker/dia
+      dockerfile: Dockerfile
+    container_name: tsg-dia
+    restart: unless-stopped
+    ports:
+      - "8765:8765"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - CUDA_VISIBLE_DEVICES=0
+    volumes:
+      - dia_cache:/root/.cache
+    networks:
+      - tsg-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8765/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
 networks:
   tsg-network:
     driver: bridge
@@ -210,3 +244,4 @@ volumes:
   postgres_data:
   redis_data:
   qdrant_data:
+  dia_cache:

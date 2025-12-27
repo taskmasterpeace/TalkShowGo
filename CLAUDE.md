@@ -4,9 +4,28 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 # Talk Show Go - Intelligence-Driven Content Generation System
 
+## Quick Start
+
+### One-Click Start (Windows)
+Double-click one of these files in the project root:
+- **`start.bat`** - Command Prompt version
+- **`start.ps1`** - PowerShell version (right-click > Run with PowerShell)
+
+### Command Line Start
+```bash
+# Quick start - starts Docker + Next.js in one command
+npm run go
+
+# Stop everything
+npm run stop
+```
+
 ## Development Commands
 
 ```bash
+# Quick start (Docker + Next.js)
+npm run go
+
 # Start all Docker services (Postgres, Redis, PostgREST, Kong, SearXNG)
 npm run docker:up
 
@@ -23,17 +42,112 @@ npm run build
 npm run lint
 
 # Run database migrations (apply a specific migration)
-docker exec -i ck-postgres psql -U postgres -d talkshowgo < supabase/migrations/XXX_name.sql
+docker exec -i tsg-postgres psql -U postgres -d talkshowgo < supabase/migrations/XXX_name.sql
 
 # Reset Docker (wipe data and restart)
 npm run docker:reset
+
+# Stop all services
+npm run stop
+
+# Check if database is ready
+npm run check:db
 
 # Check if LLM service is running
 npm run check:ai
 
 # Check if voice service is running
 npm run check:voice
+
+# UI Testing with Playwright
+npx playwright test
+npx playwright test tests/branding.spec.ts
 ```
+
+---
+
+## Branding
+
+| Item | Value |
+|------|-------|
+| App Name | TalkShowGo |
+| Database | talkshowgo |
+| Container Prefix | tsg-* (tsg-postgres, tsg-redis, tsg-worker, etc.) |
+| Logo | /public/logo.svg |
+| User-Agent | TalkShowGo/1.0 |
+
+---
+
+## Common Search Patterns
+
+```bash
+# Find all database references
+grep -r "talkshowgo" --include="*.ts" --include="*.tsx" --include="*.yml" --include="*.md"
+
+# Find container references
+grep -r "tsg-" --include="*.ts" --include="*.tsx" --include="*.yml" --include="*.md"
+
+# Find API routes
+ls src/app/api/**/route.ts
+
+# Find all pages
+ls src/app/**/page.tsx
+```
+
+---
+
+## Topic Filtering Pattern
+
+All pages that filter by topic MUST use TopicContext:
+
+```typescript
+import { useTopic } from '@/context/topic-context'
+
+// In component:
+const { selectedTopic, topics, selectTopic } = useTopic()
+
+// Filter data by selected topic
+useEffect(() => {
+  if (selectedTopic) fetchData(selectedTopic.id)
+}, [selectedTopic])
+```
+
+**Never** use local topic state or hardcoded topic IDs in pages.
+
+---
+
+## Key UI Components
+
+| Component | Location |
+|-----------|----------|
+| TopicTabs | `src/components/topic-tabs.tsx` |
+| AppShell | `src/components/layout/app-shell.tsx` |
+| Sidebar | `src/components/layout/sidebar.tsx` |
+| Topbar | `src/components/layout/topbar.tsx` |
+| TopicContext | `src/context/topic-context.tsx` |
+
+---
+
+## Documentation Files
+
+| Location | Contents |
+|----------|----------|
+| `docs/docker/*.md` | Docker service documentation |
+| `docs/troubleshooting/*.md` | Issue fixes and solutions |
+| `SCHEDULER-README.md` | Scheduler quick start guide |
+| `TROUBLESHOOTING-SCHEDULER.md` | Scheduler troubleshooting |
+
+---
+
+## Anti-Patterns (Don't Do)
+
+- **DON'T** hardcode topic IDs → use `useTopic()` from TopicContext
+- **DON'T** use `ck-*` container names → use `tsg-*` prefix
+- **DON'T** reference "Content Kingdom" → use "TalkShowGo"
+- **DON'T** create local topic state in pages → use TopicContext
+- **DON'T** use ElevenLabs for TTS → use Dia (see Dia section below)
+
+---
 
 ## Vision
 
@@ -50,7 +164,7 @@ The first niche is **Battle Rap**, with the goal of being "the CNN of battle rap
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                         CONTENT KINGDOM                                  │
+│                           TALKSHOWGO                                     │
 ├─────────────────────────────────────────────────────────────────────────┤
 │  SOURCES                      PROCESSING                   OUTPUT       │
 │  ─────────                    ───────────                  ──────       │
@@ -96,12 +210,22 @@ Personalities: Aye Verb, Champagne Duane
 - **Qdrant** - Vector database for RAG
 - **Worker** - Background job processor
 - **SearXNG** - Self-hosted web search (port 8888)
+- **Dia** - Multi-voice TTS (PRIMARY) - Port 8765
+
+### Voice Services
+- **Dia TTS** (PRIMARY) - Multi-voice dialogue generation
+  - Port: 8765
+  - Features: [S1]/[S2] speaker tags, emotional markers
+  - Emotions: (laughs), (whispers), (sighs), (gasps), etc.
+  - Performance: ~2x realtime on GPU
+  - No API keys required
+- **ElevenLabs** (DEPRECATED) - Use Dia instead
+  - Legacy voice: "Battlerap Algorithm" (ID: ZJ7BlVZrxZKBDMTIK5c9)
 
 ### External APIs
 - **twitterapi.io** - Twitter data (NOT official Twitter API)
 - **youtubei.js** - Free YouTube client (no API key)
 - **youtube-transcript** - Transcript fetching
-- **ElevenLabs** - Text-to-speech with cloned voice
 - **Presidium/Ollama** - Local AI for entity extraction
 
 ### Key Libraries
@@ -109,6 +233,156 @@ Personalities: Aye Verb, Champagne Duane
 - BullMQ - Job queue
 - Supabase JS - Database client
 - youtubei.js - YouTube client
+
+## Dia Multi-Voice TTS (PRIMARY)
+
+### Overview
+Dia is our primary TTS service for multi-voice dialogue generation. It **REPLACES** ElevenLabs completely.
+
+**Key Features:**
+- [S1]/[S2] speaker tags for natural multi-voice conversations
+- Emotional markers: (laughs), (whispers), (sighs), (gasps), (coughs), (groans), (claps), (screams), etc.
+- Consistent voices via seed parameter
+- ~2x realtime generation on GPU
+- Fully local - no API keys, no usage limits, no costs
+
+### Quick Start
+
+```bash
+# Start Dia service
+npm run dia:up
+
+# Check if running
+npm run check:voice
+
+# Test it
+npm run dia:test
+```
+
+### TypeScript Usage
+
+```typescript
+import { generateDialogue, Emotion } from './src/lib/dia'
+
+// Generate 2-voice conversation
+const audio = await generateDialogue({
+  segments: [
+    { speaker: 1, text: `Welcome to the show! ${Emotion.laughs}` },
+    { speaker: 2, text: `Thanks for having me. ${Emotion.chuckle}` }
+  ],
+  seed: 42  // Same seed = same voices every time
+})
+
+await fs.writeFile('show.mp3', audio)
+```
+
+### 3-Speaker Shows
+
+Dia supports 2 voices per generation. For 3 speakers, use different seeds:
+
+```typescript
+// Maya (S1) + Marcus (S2) - Seed 100
+await generateDialogue({
+  segments: [
+    { speaker: 1, text: "Maya speaking" },
+    { speaker: 2, text: "Marcus responding" }
+  ],
+  seed: 100
+})
+
+// Maya (S1) + Sarah (S2) - Seed 200
+await generateDialogue({
+  segments: [
+    { speaker: 1, text: "Maya speaking" },
+    { speaker: 2, text: "Sarah responding" }
+  ],
+  seed: 200
+})
+```
+
+This creates 3 distinct voices:
+- S1 with seed 100 = Maya's voice
+- S2 with seed 100 = Marcus's voice
+- S2 with seed 200 = Sarah's voice
+
+### Emotional Markers
+
+```typescript
+import { Emotion } from './src/lib/dia'
+
+const text = `
+  Hey there! ${Emotion.laughs}
+  This is incredible! ${Emotion.gasps}
+  I can't believe it. ${Emotion.whispers}
+  ${Emotion.applause}
+`
+```
+
+**Available emotions:**
+- `Emotion.laughs`, `Emotion.chuckle` - Laughter
+- `Emotion.whispers` - Whispering
+- `Emotion.sighs`, `Emotion.gasps` - Breathing effects
+- `Emotion.coughs`, `Emotion.groans` - Vocal effects
+- `Emotion.claps`, `Emotion.applause` - Audience sounds
+- `Emotion.screams` - Screaming
+- `Emotion.inhales`, `Emotion.exhales` - Breath control
+- `Emotion.humming`, `Emotion.whistles` - Musical sounds
+- `Emotion.sneezes`, `Emotion.burps` - Natural sounds
+
+### API Endpoints
+
+**Base URL:** `http://localhost:8765`
+
+#### POST /generate
+Generate multi-voice speech
+
+```bash
+curl -X POST http://localhost:8765/generate \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": "[S1] Hey! (laughs) [S2] Hi! (chuckle)",
+    "seed": 42
+  }' \
+  --output output.mp3
+```
+
+#### GET /health
+Check service status
+
+```bash
+curl http://localhost:8765/health
+```
+
+### Migration from ElevenLabs
+
+**DO NOT use ElevenLabs anymore.** Use Dia instead.
+
+❌ **Old (DEPRECATED):**
+```typescript
+import { textToSpeech } from './src/lib/elevenlabs'
+const audio = await textToSpeech({
+  text: "...",
+  voice_id: 'EXAVITQu4vr4xnSDxMaL'
+})
+```
+
+✅ **New (USE THIS):**
+```typescript
+import { generateDialogue } from './src/lib/dia'
+const audio = await generateDialogue({
+  segments: [{ speaker: 1, text: "..." }],
+  seed: 42
+})
+```
+
+### Files
+- `src/lib/dia.ts` - TypeScript client (USE THIS)
+- `docker/dia/Dockerfile` - Dia service Docker image
+- `docker/dia/dia-api.py` - FastAPI wrapper
+- `docker/dia/README.md` - Service documentation
+- `docs/DIA-MIGRATION.md` - Complete migration guide
+- `test-dia.ts` - Test suite
+- `generate-orangeburg-3host-dia.ts` - 3-host example
 
 ## Database Schema
 
@@ -125,6 +399,7 @@ Personalities: Aye Verb, Champagne Duane
 - `claims` - Extracted claims from content
 - `stories` - Assembled narratives
 - `job_runs` - Background job tracking
+- `research_packages` - Complete research bundles (JSONB package_json)
 
 ### Entity Context (metadata JSONB)
 ```typescript
@@ -343,6 +618,157 @@ The Daily Show system creates automated news shows with two operating modes:
 - `show_templates` - Editable templates with intro/story/outro sections
 - `daily_show_runs` - Track generated shows and their settings
 
+## Research Package System
+
+The Research Package system bundles ALL research data for a story/topic into a well-organized, exportable format for:
+- **AI/LLM systems** - JSON API for automated content generation
+- **Human producers** - Markdown export for review and editing
+- **External tools** - Director's Palette integration
+
+### Package Structure
+
+```
+ResearchPackage
+├── metadata          # Package ID, stats, query context
+├── raw_sources       # Complete source data
+│   ├── youtube_videos (with transcripts)
+│   ├── tweets
+│   ├── comments
+│   └── web_documents (court records, articles)
+├── intelligence      # Processed data
+│   ├── entities (with context, roles, affiliations)
+│   ├── claims (with verdicts, evidence)
+│   ├── event_timeline
+│   └── consensus_summary
+├── producer          # Editorial materials
+│   ├── story_summary
+│   ├── key_facts
+│   ├── quotes_to_use
+│   ├── warnings (unverified claims, legal risks)
+│   └── suggested_angles
+├── host              # Script-ready materials
+│   ├── script_outline
+│   ├── talking_points
+│   ├── pronunciation_guide
+│   └── entity_glossary
+├── interviews        # First-person accounts
+└── twitter           # Community sentiment
+```
+
+### Research Package API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/research-package/{id}` | GET | Get package by ID |
+| `/api/research-package/topic/{topic_id}` | GET | All packages for a topic |
+| `/api/research-package/generate` | POST | Generate new package from query |
+
+**GET Query Parameters:**
+- `format=json|markdown` - Output format (default: json)
+- `sections=raw,entities,claims,producer,host` - Filter sections
+- `include_transcripts=true|false` - Include full transcripts
+
+**POST Generate Request:**
+```json
+{
+  "query": "Cassidy vs Hitman battle",
+  "topic_id": "864dbcf4-e1f7-4b1a-86ed-c18007439ad5",
+  "options": {
+    "enable_interviews": true,
+    "enable_twitter": true,
+    "enable_documents": false
+  },
+  "generate_producer_materials": true,
+  "generate_host_materials": true
+}
+```
+
+### Usage Examples
+
+```bash
+# Generate a new research package
+curl -X POST http://localhost:3000/api/research-package/generate \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "Bad Newz snitching allegations",
+    "topic_id": "864dbcf4-e1f7-4b1a-86ed-c18007439ad5"
+  }'
+
+# Get package as JSON
+curl http://localhost:3000/api/research-package/{id}?format=json
+
+# Get package as Markdown (downloadable)
+curl http://localhost:3000/api/research-package/{id}?format=markdown
+
+# Get all packages for a topic (summary mode)
+curl http://localhost:3000/api/research-package/topic/{topic_id}?summary=true
+
+# Get specific sections only
+curl http://localhost:3000/api/research-package/{id}?sections=producer,host
+```
+
+### Workflow Integration
+
+Research packages can be generated automatically during workflows:
+
+```typescript
+// In research workflow (auto-save to database)
+await runResearchWorkflow({
+  query: "Bad Newz snitching allegations",
+  topic_id: "...",
+  generate_package: true  // Saves package to DB
+})
+
+// In story pipeline (returns package URLs)
+const result = await runStoryPipeline({
+  query: "...",
+  generate_package: true
+})
+// result.research_package_id
+// result.research_package_urls.json
+// result.research_package_urls.markdown
+```
+
+### Director's Palette Export
+
+When exporting stories to Director's Palette, the research package is automatically included:
+- Full package JSON for AI systems
+- Package URLs for on-demand access
+- Enriched context for video production
+
+### Database Table
+
+```sql
+CREATE TABLE research_packages (
+    id UUID PRIMARY KEY,
+    topic_id UUID REFERENCES topics(id),
+    story_candidate_id UUID REFERENCES story_candidates(id),
+    query TEXT NOT NULL,
+    package_json JSONB NOT NULL,  -- Full ResearchPackage
+    stats JSONB,                   -- Quick access stats
+    headline VARCHAR(500),
+    markdown_path TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+### Apply Migration
+
+```bash
+docker exec -i tsg-postgres psql -U postgres -d talkshowgo < supabase/migrations/018_research_packages.sql
+```
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `src/types/research-package.ts` | TypeScript interfaces |
+| `src/lib/research-package.ts` | Package assembly logic |
+| `src/lib/research-package-markdown.ts` | Markdown export |
+| `src/app/api/research-package/[id]/route.ts` | GET package endpoint |
+| `src/app/api/research-package/topic/[topic_id]/route.ts` | GET by topic |
+| `src/app/api/research-package/generate/route.ts` | POST generate |
+
 ## Key Files
 
 ### Workers
@@ -362,6 +788,14 @@ The Daily Show system creates automated news shows with two operating modes:
 - `src/app/api/rss/discover/route.ts` - RSS feed discovery API
 - `src/app/api/settings/api-keys/route.ts` - API key management API
 - `src/app/settings/api-keys/page.tsx` - API key management UI
+
+### Research Package
+- `src/types/research-package.ts` - Complete TypeScript interfaces for package schema
+- `src/lib/research-package.ts` - Package assembly from WorkflowResult
+- `src/lib/research-package-markdown.ts` - Markdown export generator
+- `src/app/api/research-package/[id]/route.ts` - GET package by ID
+- `src/app/api/research-package/topic/[topic_id]/route.ts` - GET packages by topic
+- `src/app/api/research-package/generate/route.ts` - POST generate new package
 
 ### Types
 - `src/types/entity-context.ts` - Entity context schema
@@ -534,7 +968,16 @@ This ensures we find the actual person's interview (where they tell their story)
 - YouTube uses `youtubei.js` - no API key needed
 - Entity context is stored in `entities.metadata` JSONB field
 - Jobs are queued via BullMQ through Redis
-- The user's voice is "Battlerap Algorithm" (ID: ZJ7BlVZrxZKBDMTIK5c9)
+
+### Voice/TTS Guidelines
+- **PRIMARY TTS**: Use Dia (`src/lib/dia.ts`) for ALL audio generation
+- **DO NOT use ElevenLabs** - It's deprecated and replaced by Dia
+- Dia supports multi-voice dialogue with [S1]/[S2] tags and emotional markers
+- For consistent voices, use the same `seed` parameter
+- For 3-speaker shows, use different seeds for different voice pairs
+- Legacy voice: "Battlerap Algorithm" (ElevenLabs ID: ZJ7BlVZrxZKBDMTIK5c9) - DEPRECATED
+
+### Content Generation
 - The host personality is "Algorithm Institute" - documentary narrator style
 - Always consider entity context when processing content (is this a battler being discussed, or a blogger discussing others?)
 

@@ -11,7 +11,7 @@ Talk Show Go is an **intelligence-driven content generation system** that:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────┐
-│                         CONTENT KINGDOM                                  │
+│                           TALKSHOWGO                                     │
 ├─────────────────────────────────────────────────────────────────────────┤
 │  SOURCES                      PROCESSING                   OUTPUT       │
 │  ─────────                    ───────────                  ──────       │
@@ -260,13 +260,13 @@ const info = await perplexity.researchEntity("Geechi Gotti", "battle rap")
 
 ### Docker Services
 ```
-ck-postgres     - PostgreSQL database
-ck-redis        - Redis for job queue
-ck-postgrest    - REST API for database
-ck-kong         - API gateway
-ck-qdrant       - Vector database
-ck-worker       - Background job processor
-ck-searxng      - Self-hosted web search
+tsg-postgres     - PostgreSQL database
+tsg-redis        - Redis for job queue
+tsg-postgrest    - REST API for database
+tsg-kong         - API gateway
+tsg-qdrant       - Vector database
+tsg-worker       - Background job processor
+tsg-searxng      - Self-hosted web search
 ```
 
 ---
@@ -508,7 +508,7 @@ npm run worker
 
 ```bash
 # Run a migration
-docker exec -i ck-postgres psql -U postgres -d talkshowgo < supabase/migrations/xxx.sql
+docker exec -i tsg-postgres psql -U postgres -d talkshowgo < supabase/migrations/xxx.sql
 ```
 
 ### Testing APIs

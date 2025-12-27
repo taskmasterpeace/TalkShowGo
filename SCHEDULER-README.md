@@ -193,7 +193,7 @@ docker-compose logs -f
 
 ### View Schedules
 ```bash
-docker exec tsg-postgres psql -U postgres -d contentkingdom -c "
+docker exec tsg-postgres psql -U postgres -d talkshowgo -c "
 SELECT
   show_name_prefix,
   schedule_type,
@@ -207,7 +207,7 @@ ORDER BY created_at DESC;
 
 ### View Execution History
 ```bash
-docker exec tsg-postgres psql -U postgres -d contentkingdom -c "
+docker exec tsg-postgres psql -U postgres -d talkshowgo -c "
 SELECT
   show_name,
   status,
@@ -222,7 +222,7 @@ LIMIT 20;
 
 ### Find Failed Runs
 ```bash
-docker exec tsg-postgres psql -U postgres -d contentkingdom -c "
+docker exec tsg-postgres psql -U postgres -d talkshowgo -c "
 SELECT
   executed_at,
   show_name,

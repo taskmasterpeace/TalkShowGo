@@ -475,20 +475,24 @@ export class FreeYouTubeClient {
    */
   async getTranscript(videoId: string, language: string = 'en'): Promise<YouTubeTranscript | null> {
     try {
-      const { YoutubeTranscript } = await import('youtube-transcript')
+      const { getSubtitles } = await import('youtube-caption-extractor')
 
-      const transcript = await YoutubeTranscript.fetchTranscript(videoId, {
-        lang: language,
+      const subtitles = await getSubtitles({
+        videoID: videoId,
+        lang: language
       })
 
-      if (!transcript || transcript.length === 0) return null
+      if (!subtitles || subtitles.length === 0) {
+        console.log(`[YouTube] No captions for ${videoId}`)
+        return null
+      }
 
       trackYouTubeCall('transcript', 1)
 
-      const segments = transcript.map((item: any) => ({
+      const segments = subtitles.map((item: any) => ({
         text: item.text,
-        start: item.offset / 1000,
-        duration: item.duration / 1000,
+        start: parseFloat(item.start),
+        duration: parseFloat(item.dur),
       }))
 
       return {
@@ -498,7 +502,7 @@ export class FreeYouTubeClient {
         fullText: segments.map((s: any) => s.text).join(' '),
       }
     } catch (error) {
-      console.error(`Error fetching transcript for ${videoId}:`, error)
+      console.error(`[YouTube] Caption extraction failed for ${videoId}:`, error)
       return null
     }
   }

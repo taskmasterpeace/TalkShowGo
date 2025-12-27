@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" fill="none">
+  <!-- Microphone body with fingerprint pattern -->
+  <g stroke="currentColor" stroke-width="3" fill="none">
+    <!-- Outer fingerprint/mic shape -->
+    <path d="M50 5 C25 5 15 25 15 45 C15 65 25 85 50 85 C75 85 85 65 85 45 C85 25 75 5 50 5" />
+
+    <!-- Inner fingerprint rings -->
+    <path d="M50 15 C32 15 25 30 25 45 C25 60 32 75 50 75 C68 75 75 60 75 45 C75 30 68 15 50 15" />
+    <path d="M50 25 C38 25 33 35 33 45 C33 55 38 65 50 65 C62 65 67 55 67 45 C67 35 62 25 50 25" />
+    <path d="M50 35 C44 35 41 40 41 45 C41 50 44 55 50 55 C56 55 59 50 59 45 C59 40 56 35 50 35" />
+
+    <!-- Center spiral -->
+    <circle cx="50" cy="45" r="5" />
+  </g>
+
+  <!-- Microphone stand -->
+  <g stroke="currentColor" stroke-width="3">
+    <line x1="50" y1="85" x2="50" y2="100" />
+    <line x1="35" y1="105" x2="65" y2="105" />
+    <rect x="40" y="100" width="20" height="5" fill="currentColor" />
+  </g>
+
+  <!-- Audio waveform -->
+  <g stroke="currentColor" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <path d="M72 35 L78 35 L82 28 L86 42 L90 25 L94 38 L98 35" />
+    <path d="M98 35 L102 35" stroke-width="2" />
+    <!-- Arrow head -->
+    <path d="M99 32 L103 35 L99 38" stroke-width="2" />
+  </g>
+</svg>

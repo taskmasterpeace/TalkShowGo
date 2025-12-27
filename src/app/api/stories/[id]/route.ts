@@ -117,12 +117,29 @@ export async function PATCH(
   try {
     const { id } = await params
     const body = await request.json()
-    const { status, headline, summary } = body
+    const {
+      status,
+      headline,
+      summary,
+      script,
+      script_review_status,
+      script_reviewed_by,
+      review_notes
+    } = body
 
-    const updateData: Record<string, string> = {}
+    const updateData: Record<string, any> = {}
     if (status) updateData.status = status
     if (headline) updateData.headline = headline
     if (summary) updateData.summary = summary
+    if (script) updateData.script = script
+    if (script_review_status) updateData.script_review_status = script_review_status
+    if (script_reviewed_by) updateData.script_reviewed_by = script_reviewed_by
+    if (review_notes) updateData.review_notes = review_notes
+
+    // Set reviewed_at timestamp when status changes
+    if (script_review_status) {
+      updateData.script_reviewed_at = new Date().toISOString()
+    }
 
     const { data, error } = await supabase
       .from('story_candidates')

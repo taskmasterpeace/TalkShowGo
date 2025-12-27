@@ -83,9 +83,10 @@ interface ChartContainerProps {
   description?: string
   children: React.ReactNode
   className?: string
+  minHeight?: number
 }
 
-export function ChartContainer({ title, description, children, className }: ChartContainerProps) {
+export function ChartContainer({ title, description, children, className, minHeight = 250 }: ChartContainerProps) {
   return (
     <div className={cn("border-2 border-foreground bg-background p-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]", className)}>
       {(title || description) && (
@@ -94,7 +95,9 @@ export function ChartContainer({ title, description, children, className }: Char
           {description && <p className="text-sm text-muted-foreground">{description}</p>}
         </div>
       )}
-      {children}
+      <div style={{ minHeight: minHeight }} className="w-full">
+        {children}
+      </div>
     </div>
   )
 }

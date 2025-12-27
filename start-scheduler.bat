@@ -54,12 +54,12 @@ echo.
 
 REM Step 4: Check database exists
 echo [4/7] Checking database...
-docker exec tsg-postgres psql -U postgres -lqt | findstr contentkingdom >nul
+docker exec tsg-postgres psql -U postgres -lqt | findstr talkshowgo >nul
 if errorlevel 1 (
-    echo %RED%[ERROR] Database 'contentkingdom' not found!%RESET%
+    echo %RED%[ERROR] Database 'talkshowgo' not found!%RESET%
     echo.
     echo Creating database...
-    docker exec tsg-postgres psql -U postgres -c "CREATE DATABASE contentkingdom;" >nul 2>&1
+    docker exec tsg-postgres psql -U postgres -c "CREATE DATABASE talkshowgo;" >nul 2>&1
     echo %GREEN%[OK] Database created%RESET%
 )
 echo %GREEN%[OK] Database exists%RESET%
@@ -67,10 +67,10 @@ echo.
 
 REM Step 5: Check scheduler tables exist
 echo [5/7] Checking scheduler tables...
-docker exec tsg-postgres psql -U postgres -d contentkingdom -c "\dt daily_show_schedules" | findstr daily_show_schedules >nul
+docker exec tsg-postgres psql -U postgres -d talkshowgo -c "\dt daily_show_schedules" | findstr daily_show_schedules >nul
 if errorlevel 1 (
     echo %YELLOW%[WARN] Scheduler tables not found. Running migration...%RESET%
-    docker exec -i tsg-postgres psql -U postgres -d contentkingdom < supabase\migrations\019_daily_show_scheduler.sql
+    docker exec -i tsg-postgres psql -U postgres -d talkshowgo < supabase\migrations\019_daily_show_scheduler.sql
     if errorlevel 1 (
         echo %RED%[ERROR] Migration failed!%RESET%
         pause
@@ -199,7 +199,7 @@ echo View postgres logs:     docker logs tsg-postgres --tail 50
 echo View all containers:    docker ps -a
 echo Restart worker:         docker restart tsg-worker
 echo Stop all services:      docker-compose down
-echo View schedules in DB:   docker exec tsg-postgres psql -U postgres -d contentkingdom -c "SELECT * FROM daily_show_schedules;"
+echo View schedules in DB:   docker exec tsg-postgres psql -U postgres -d talkshowgo -c "SELECT * FROM daily_show_schedules;"
 echo.
 echo ========================================
 echo  Startup Complete!

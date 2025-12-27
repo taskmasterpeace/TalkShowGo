@@ -8,7 +8,7 @@ Detailed documentation for each Docker service in Talk Show Go.
 
 ### PostgreSQL (pgvector)
 
-**Container:** `ck-postgres`
+**Container:** `tsg-postgres`
 **Image:** `pgvector/pgvector:0.8.0-pg15`
 **Port:** 5432
 
@@ -22,22 +22,22 @@ DATABASE_URL=postgresql://postgres:postgres@localhost:5432/talkshowgo
 **Access Database:**
 ```bash
 # psql shell
-docker exec -it ck-postgres psql -U postgres -d talkshowgo
+docker exec -it tsg-postgres psql -U postgres -d talkshowgo
 
 # Run query
-docker exec ck-postgres psql -U postgres -d talkshowgo -c "SELECT COUNT(*) FROM topics"
+docker exec tsg-postgres psql -U postgres -d talkshowgo -c "SELECT COUNT(*) FROM topics"
 ```
 
 **Health Check:**
 ```bash
-docker exec ck-postgres pg_isready
+docker exec tsg-postgres pg_isready
 ```
 
 ---
 
 ### Redis
 
-**Container:** `ck-redis`
+**Container:** `tsg-redis`
 **Image:** `redis:7-alpine`
 **Port:** 6379
 
@@ -51,15 +51,15 @@ REDIS_URL=redis://localhost:6379
 **Access Redis:**
 ```bash
 # Redis CLI
-docker exec -it ck-redis redis-cli
+docker exec -it tsg-redis redis-cli
 
 # Check keys
-docker exec ck-redis redis-cli KEYS "*"
+docker exec tsg-redis redis-cli KEYS "*"
 ```
 
 **Health Check:**
 ```bash
-docker exec ck-redis redis-cli ping
+docker exec tsg-redis redis-cli ping
 # Returns: PONG
 ```
 
@@ -67,7 +67,7 @@ docker exec ck-redis redis-cli ping
 
 ### PostgREST
 
-**Container:** `ck-postgrest`
+**Container:** `tsg-postgrest`
 **Image:** `postgrest/postgrest:v12.0.2`
 **Port:** 3333
 
@@ -82,7 +82,7 @@ curl http://localhost:3333/
 
 ### Kong API Gateway
 
-**Container:** `ck-kong`
+**Container:** `tsg-kong`
 **Image:** `kong:2.8`
 **Ports:** 8000 (HTTP), 8443 (HTTPS)
 
@@ -101,7 +101,7 @@ curl http://localhost:8000/
 
 ### SearXNG
 
-**Container:** `ck-searxng`
+**Container:** `tsg-searxng`
 **Image:** `searxng/searxng:latest`
 **Port:** 8888
 
@@ -126,7 +126,7 @@ curl "http://localhost:8888/search?q=test&format=json"
 
 ### Qdrant
 
-**Container:** `ck-qdrant`
+**Container:** `tsg-qdrant`
 **Image:** `qdrant/qdrant:latest`
 **Ports:** 6333 (HTTP), 6334 (gRPC)
 
@@ -146,7 +146,7 @@ curl http://localhost:6333/
 
 ### Supabase Studio
 
-**Container:** `ck-studio`
+**Container:** `tsg-studio`
 **Image:** `supabase/studio:20231123-64a766a`
 **Port:** 3001
 
@@ -158,7 +158,7 @@ Web UI for database management.
 
 ### Worker
 
-**Container:** `ck-worker`
+**Container:** `tsg-worker`
 **Build:** `./Dockerfile.worker`
 
 Background job processor for:

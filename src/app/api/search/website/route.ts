@@ -34,7 +34,7 @@ async function searchLetsTalkBattleRap(query: string): Promise<SearchResult[]> {
   try {
     const response = await fetch(searchUrl, {
       headers: {
-        'User-Agent': 'ContentKingdom/1.0 (News Aggregator)',
+        'User-Agent': 'TalkShowGo/1.0 (News Aggregator)',
       },
     })
 

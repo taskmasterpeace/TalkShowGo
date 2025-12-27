@@ -26,13 +26,14 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
   try {
     // Dynamic import to avoid issues if library not installed
-    const { YoutubeTranscript } = await import('youtube-transcript')
+    const { getSubtitles } = await import('youtube-caption-extractor')
 
-    const transcript = await YoutubeTranscript.fetchTranscript(videoId, {
+    const subtitles = await getSubtitles({
+      videoID: videoId,
       lang: language
     })
 
-    if (!transcript || transcript.length === 0) {
+    if (!subtitles || subtitles.length === 0) {
       return NextResponse.json({
         error: 'No transcript available',
         video_id: videoId,
@@ -41,11 +42,11 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     }
 
     // Format segments
-    const segments = transcript.map((item: any) => ({
+    const segments = subtitles.map((item: any) => ({
       text: item.text,
-      start: item.offset / 1000,  // Convert ms to seconds
-      duration: item.duration / 1000,
-      start_formatted: formatTime(item.offset / 1000)
+      start: parseFloat(item.start),
+      duration: parseFloat(item.dur),
+      start_formatted: formatTime(parseFloat(item.start))
     }))
 
     // Build full text

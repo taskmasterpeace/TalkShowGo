@@ -40,7 +40,7 @@ export function Topbar({ topicName }: TopbarProps) {
           </span>
         </Button>
         <Avatar className="h-10 w-10 border-2 border-foreground">
-          <AvatarFallback className="font-bold">CK</AvatarFallback>
+          <AvatarFallback className="font-bold">TSG</AvatarFallback>
         </Avatar>
       </div>
     </header>

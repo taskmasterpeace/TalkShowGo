@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { AppShell } from '@/components/layout'
+import { useTopic } from '@/context/topic-context'
 import {
   Card,
   CardContent,
@@ -97,7 +98,6 @@ export default function PerimeterPage() {
   const [stats, setStats] = useState<Stats | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [topicId, setTopicId] = useState<string | null>(null)
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date())
   const [dbConnected, setDbConnected] = useState<boolean | null>(null)
 
@@ -108,48 +108,13 @@ export default function PerimeterPage() {
   const [pulling, setPulling] = useState(false)
   const [pullResult, setPullResult] = useState<PullResult | null>(null)
 
-  // Fetch topic ID first
-  useEffect(() => {
-    let mounted = true
-    async function fetchTopic() {
-      try {
-        const res = await fetch('/api/topics')
-        if (!res.ok) {
-          throw new Error(`API returned ${res.status}`)
-        }
-        const topics = await res.json()
-        if (!mounted) return
-
-        if (topics.error) {
-          setDbConnected(false)
-          setError('Database not connected. Run: docker-compose up -d')
-          setLoading(false)
-          return
-        }
-
-        setDbConnected(true)
-        if (topics.length > 0) {
-          setTopicId(topics[0].id)
-        } else {
-          // No topics - show setup message
-          setLoading(false)
-        }
-      } catch (err) {
-        if (!mounted) return
-        console.error('Failed to fetch topics:', err)
-        setDbConnected(false)
-        setError('Cannot connect to database. Make sure Docker is running: docker-compose up -d')
-        setLoading(false)
-      }
-    }
-    fetchTopic()
-    return () => { mounted = false }
-  }, [])
+  const { selectedTopic } = useTopic()
 
   // Fetch tweets when topic/filters change
   useEffect(() => {
-    if (!topicId) return
+    if (!selectedTopic) return
 
+    const topicId = selectedTopic.id
     async function fetchTweets() {
       setLoading(true)
       try {
@@ -171,12 +136,13 @@ export default function PerimeterPage() {
       }
     }
     fetchTweets()
-  }, [topicId, sortBy, filterType])
+  }, [selectedTopic, sortBy, filterType])
 
   // Fetch stats
   useEffect(() => {
-    if (!topicId) return
+    if (!selectedTopic) return
 
+    const topicId = selectedTopic.id
     async function fetchStats() {
       try {
         const res = await fetch(`/api/topics/${topicId}/stats`)
@@ -187,10 +153,10 @@ export default function PerimeterPage() {
       }
     }
     fetchStats()
-  }, [topicId])
+  }, [selectedTopic])
 
   const handleRefresh = async () => {
-    if (!topicId) return
+    if (!selectedTopic) return
     setLoading(true)
     try {
       const params = new URLSearchParams({
@@ -198,7 +164,7 @@ export default function PerimeterPage() {
         type: filterType,
         limit: '50',
       })
-      const res = await fetch(`/api/topics/${topicId}/tweets?${params}`)
+      const res = await fetch(`/api/topics/${selectedTopic.id}/tweets?${params}`)
       const data = await res.json()
       setTweets(data.tweets || [])
       setLastUpdated(new Date())
@@ -211,6 +177,8 @@ export default function PerimeterPage() {
 
   // Force Pull handler
   const handleForcePull = async () => {
+    if (!selectedTopic) return
+
     setPulling(true)
     setPullResult(null)
 
@@ -220,7 +188,7 @@ export default function PerimeterPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           type: pullType,
-          topicId,
+          topicId: selectedTopic.id,
           target: pullTarget,
         }),
       })
@@ -250,7 +218,7 @@ export default function PerimeterPage() {
   // Database not connected state
   if (dbConnected === false) {
     return (
-      <AppShell topicName="Battle Rap">
+      <AppShell topicName={selectedTopic?.name || 'PERIMETER'}>
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <div>
@@ -299,7 +267,7 @@ export default function PerimeterPage() {
   }
 
   return (
-    <AppShell topicName="Battle Rap">
+    <AppShell topicName={selectedTopic?.name || 'PERIMETER'}>
       <div className="space-y-6">
         {/* Page Header */}
         <div className="flex items-center justify-between">

@@ -76,8 +76,8 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
     // If no transcript provided, fetch it
     if (!transcript) {
-      const { YoutubeTranscript } = await import('youtube-transcript')
-      const transcriptData = await YoutubeTranscript.fetchTranscript(videoId)
+      const { getSubtitles } = await import('youtube-caption-extractor')
+      const transcriptData = await getSubtitles({ videoID: videoId, lang: 'en' })
       transcript = transcriptData.map((item: any) => item.text).join(' ')
     }
 

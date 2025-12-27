@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import {
   PROMPT_REGISTRY,
   PROMPT_ROLES,
@@ -9,6 +9,7 @@ import {
   type PromptDefinition,
   type PromptRole,
 } from '@/lib/prompt-registry'
+import PromptEditor from '@/components/prompt-editor'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -66,20 +67,79 @@ const ROLE_COLORS: Record<PromptRole, string> = {
   editor: 'bg-orange-500/10 text-orange-500 border-orange-500/20',
 }
 
+type EnrichedPrompt = PromptDefinition & {
+  has_override: boolean
+  override_version?: number
+  override_notes?: string
+}
+
 export default function PromptsPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedRole, setSelectedRole] = useState<PromptRole | 'all'>('all')
   const [expandedPrompts, setExpandedPrompts] = useState<Set<string>>(new Set())
   const [viewingPrompt, setViewingPrompt] = useState<PromptDefinition | null>(null)
+  const [editingPromptId, setEditingPromptId] = useState<string | null>(null)
+  const [enrichedPrompts, setEnrichedPrompts] = useState<EnrichedPrompt[]>([])
+  const [loading, setLoading] = useState(true)
+  const [customizedOnly, setCustomizedOnly] = useState(false)
 
-  const stats = getPromptStats()
+  // Load enriched prompts from API
+  useEffect(() => {
+    loadEnrichedPrompts()
+  }, [])
+
+  async function loadEnrichedPrompts() {
+    try {
+      setLoading(true)
+      const response = await fetch('/api/prompts')
+      const data = await response.json()
+      if (data.success) {
+        setEnrichedPrompts(data.prompts)
+      }
+    } catch (error) {
+      console.error('Failed to load prompts:', error)
+      // Fallback to registry
+      setEnrichedPrompts(
+        PROMPT_REGISTRY.map(p => ({ ...p, has_override: false }))
+      )
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const stats = useMemo(() => {
+    if (enrichedPrompts.length === 0) return getPromptStats()
+
+    const byRole: Record<PromptRole, number> = {
+      studio: 0,
+      producer: 0,
+      host: 0,
+      editor: 0,
+    }
+
+    for (const prompt of enrichedPrompts) {
+      byRole[prompt.role]++
+    }
+
+    return {
+      total: enrichedPrompts.length,
+      byRole,
+      byCategory: {},
+      editable: enrichedPrompts.filter(p => p.editable).length,
+      customized: enrichedPrompts.filter(p => p.has_override).length,
+    }
+  }, [enrichedPrompts])
 
   // Filter prompts based on search and role
   const filteredPrompts = useMemo(() => {
-    let prompts = PROMPT_REGISTRY
+    let prompts = enrichedPrompts
 
     if (selectedRole !== 'all') {
-      prompts = getPromptsByRole(selectedRole)
+      prompts = prompts.filter(p => p.role === selectedRole)
+    }
+
+    if (customizedOnly) {
+      prompts = prompts.filter(p => p.has_override)
     }
 
     if (searchQuery) {
@@ -94,7 +154,7 @@ export default function PromptsPage() {
     }
 
     return prompts
-  }, [searchQuery, selectedRole])
+  }, [searchQuery, selectedRole, enrichedPrompts, customizedOnly])
 
   // Group prompts by category
   const promptsByCategory = useMemo(() => {
@@ -193,6 +253,13 @@ export default function PromptsPage() {
             ))}
           </SelectContent>
         </Select>
+        <Button
+          variant={customizedOnly ? 'default' : 'outline'}
+          onClick={() => setCustomizedOnly(!customizedOnly)}
+        >
+          <Filter className="h-4 w-4 mr-2" />
+          Customized Only {stats.customized > 0 && `(${stats.customized})`}
+        </Button>
       </div>
 
       {/* Results Count */}
@@ -235,8 +302,13 @@ export default function PromptsPage() {
                                 >
                                   {prompt.role}
                                 </Badge>
-                                {prompt.editable && (
+                                {prompt.editable && !prompt.has_override && (
                                   <Badge variant="secondary">Editable</Badge>
+                                )}
+                                {prompt.has_override && (
+                                  <Badge variant="default" className="bg-blue-600">
+                                    Custom v{prompt.override_version}
+                                  </Badge>
                                 )}
                               </div>
                               <CardDescription className="mt-1">
@@ -405,11 +477,12 @@ export default function PromptsPage() {
                           </Button>
 
                           {prompt.editable && (
-                            <Button variant="outline" size="sm" disabled>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => setEditingPromptId(prompt.id)}
+                            >
                               <Edit2 className="h-4 w-4 mr-1" /> Edit
-                              <Badge variant="secondary" className="ml-2 text-xs">
-                                Coming Soon
-                              </Badge>
                             </Button>
                           )}
                         </div>
@@ -439,6 +512,18 @@ export default function PromptsPage() {
             Clear filters
           </Button>
         </div>
+      )}
+
+      {/* Prompt Editor Modal */}
+      {editingPromptId && (
+        <PromptEditor
+          promptId={editingPromptId}
+          onClose={() => setEditingPromptId(null)}
+          onSave={() => {
+            setEditingPromptId(null)
+            loadEnrichedPrompts()
+          }}
+        />
       )}
     </div>
   )

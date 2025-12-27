@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { AppShell } from '@/components/layout'
+import { useTopic } from '@/context/topic-context'
 import {
   Card,
   CardContent,
@@ -63,24 +64,21 @@ export default function NexusPage() {
   const [filterBucket, setFilterBucket] = useState('all')
   const [filterStatus, setFilterStatus] = useState('all')
 
+  const { selectedTopic } = useTopic()
+
   useEffect(() => {
     fetchStories()
-  }, [])
+  }, [selectedTopic])
 
   const fetchStories = async () => {
+    if (!selectedTopic) return
+
     setLoading(true)
     try {
-      // Get the active topic first
-      const topicsRes = await fetch('/api/topics')
-      const topics = await topicsRes.json()
-      const activeTopic = topics[0]
-
-      if (activeTopic) {
-        const res = await fetch(`/api/stories?topic_id=${activeTopic.id}`)
-        if (res.ok) {
-          const data = await res.json()
-          setStories(Array.isArray(data) ? data : [])
-        }
+      const res = await fetch(`/api/stories?topic_id=${selectedTopic.id}`)
+      if (res.ok) {
+        const data = await res.json()
+        setStories(Array.isArray(data) ? data : [])
       }
     } catch (error) {
       console.error('Failed to fetch stories:', error)
@@ -100,7 +98,7 @@ export default function NexusPage() {
   }, {} as Record<string, StoryCandidate[]>)
 
   return (
-    <AppShell topicName="Battle Rap">
+    <AppShell topicName={selectedTopic?.name || 'NEXUS'}>
       <div className="space-y-6">
         {/* Page Header */}
         <div className="flex items-center justify-between">

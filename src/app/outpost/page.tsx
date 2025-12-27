@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTopic } from '@/context/topic-context'
 import { AppShell } from '@/components/layout'
 import {
   Card,
@@ -125,8 +126,8 @@ const entityTypeOptions = [
 ]
 
 export default function OutpostPage() {
-  const [topics, setTopics] = useState<Topic[]>([])
-  const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null)
+  const { topics, selectedTopic, selectTopic } = useTopic()
+  const selectedTopicId = selectedTopic?.id || null
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [twitterSources, setTwitterSources] = useState<TwitterSource[]>([])
@@ -164,19 +165,7 @@ export default function OutpostPage() {
   const [rssDiscoveryStatus, setRssDiscoveryStatus] = useState<{configured: boolean, credits_remaining: number} | null>(null)
   const [addingDiscoveredFeeds, setAddingDiscoveredFeeds] = useState(false)
 
-  useEffect(() => { fetchTopics() }, [])
   useEffect(() => { if (selectedTopicId) fetchTopicData(selectedTopicId) }, [selectedTopicId])
-
-  const fetchTopics = async () => {
-    try {
-      const res = await fetch('/api/topics')
-      if (!res.ok) throw new Error('Failed')
-      const data = await res.json()
-      setTopics(data)
-      if (data.length > 0 && !selectedTopicId) setSelectedTopicId(data[0].id)
-      setLoading(false)
-    } catch { setError('Failed to load topics'); setLoading(false) }
-  }
 
   const fetchTopicData = async (topicId: string) => {
     setLoading(true)
@@ -205,7 +194,7 @@ export default function OutpostPage() {
       const res = await fetch('/api/topics', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(newTopic) })
       if (!res.ok) throw new Error()
       const topic = await res.json()
-      setTopics([topic, ...topics]); setSelectedTopicId(topic.id); setNewTopic({ name: '', description: '' }); setCreateTopicOpen(false)
+      selectTopic(topic); setNewTopic({ name: '', description: '' }); setCreateTopicOpen(false)
     } catch { setError('Failed to create topic') }
   }
 
@@ -390,7 +379,6 @@ export default function OutpostPage() {
   // Activity data will come from real pipeline runs once the system is active
   const activityData: { name: string; tweets: number; videos: number; articles: number }[] = []
 
-  const selectedTopic = topics.find(t => t.id === selectedTopicId)
   const totalSources = twitterSources.length + youtubeSources.length + rssFeeds.length
 
   const getStatusBadge = (status: string) => {
@@ -404,7 +392,13 @@ export default function OutpostPage() {
   }
 
   if (loading && topics.length === 0) {
-    return <AppShell topicName=""><div className="flex items-center justify-center h-64"><RefreshCw className="h-12 w-12 animate-spin text-muted-foreground" /></div></AppShell>
+    return (
+      <AppShell topicName="">
+        <div className="flex items-center justify-center h-64">
+          <RefreshCw className="h-12 w-12 animate-spin text-muted-foreground" />
+        </div>
+      </AppShell>
+    )
   }
 
   return (
@@ -430,10 +424,6 @@ export default function OutpostPage() {
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            <Select value={selectedTopicId || ''} onValueChange={setSelectedTopicId}>
-              <SelectTrigger className="w-[200px] border-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"><SelectValue placeholder="Select topic..." /></SelectTrigger>
-              <SelectContent>{topics.map(t => <SelectItem key={t.id} value={t.id}>{t.name}</SelectItem>)}</SelectContent>
-            </Select>
             <Dialog open={createTopicOpen} onOpenChange={setCreateTopicOpen}>
               <DialogTrigger asChild><Button variant="outline" className="gap-2 border-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"><Plus className="h-4 w-4" />New Topic</Button></DialogTrigger>
               <DialogContent>
@@ -693,6 +683,7 @@ export default function OutpostPage() {
                     <DialogFooter><Button variant="outline" onClick={() => setAddWebsiteOpen(false)}>Cancel</Button><Button onClick={handleAddWebsite}>Add</Button></DialogFooter>
                   </DialogContent>
                 </Dialog>
+                </div>
               </div>
               <div className="grid gap-3">
                 {rssFeeds.length === 0 ? <Card className="border-2 border-dashed"><CardContent className="p-12 text-center"><Rss className="h-12 w-12 mx-auto mb-4 opacity-30" /><p className="text-muted-foreground">No RSS feeds</p></CardContent></Card> : rssFeeds.map(f => (

@@ -47,11 +47,11 @@ Write-Host ""
 
 # Step 4: Check database exists
 Write-Host "[4/7] Checking database..." -ForegroundColor Yellow
-$dbExists = docker exec tsg-postgres psql -U postgres -lqt 2>$null | Select-String "contentkingdom"
+$dbExists = docker exec tsg-postgres psql -U postgres -lqt 2>$null | Select-String "talkshowgo"
 if (-not $dbExists) {
-    Write-Host "[WARN] Database 'contentkingdom' not found!" -ForegroundColor Yellow
+    Write-Host "[WARN] Database 'talkshowgo' not found!" -ForegroundColor Yellow
     Write-Host "Creating database..." -ForegroundColor Yellow
-    docker exec tsg-postgres psql -U postgres -c "CREATE DATABASE contentkingdom;" *>$null
+    docker exec tsg-postgres psql -U postgres -c "CREATE DATABASE talkshowgo;" *>$null
     Write-Host "[OK] Database created" -ForegroundColor Green
 } else {
     Write-Host "[OK] Database exists" -ForegroundColor Green
@@ -60,10 +60,10 @@ Write-Host ""
 
 # Step 5: Check scheduler tables exist
 Write-Host "[5/7] Checking scheduler tables..." -ForegroundColor Yellow
-$tableExists = docker exec tsg-postgres psql -U postgres -d contentkingdom -c "\dt daily_show_schedules" 2>$null | Select-String "daily_show_schedules"
+$tableExists = docker exec tsg-postgres psql -U postgres -d talkshowgo -c "\dt daily_show_schedules" 2>$null | Select-String "daily_show_schedules"
 if (-not $tableExists) {
     Write-Host "[WARN] Scheduler tables not found. Running migration..." -ForegroundColor Yellow
-    Get-Content "supabase\migrations\019_daily_show_scheduler.sql" | docker exec -i tsg-postgres psql -U postgres -d contentkingdom
+    Get-Content "supabase\migrations\019_daily_show_scheduler.sql" | docker exec -i tsg-postgres psql -U postgres -d talkshowgo
     if ($LASTEXITCODE -ne 0) {
         Write-Host "[ERROR] Migration failed!" -ForegroundColor Red
         Read-Host "Press Enter to exit"
@@ -198,7 +198,7 @@ Write-Host "View postgres logs:     " -NoNewline; Write-Host "docker logs tsg-po
 Write-Host "View all containers:    " -NoNewline; Write-Host "docker ps -a" -ForegroundColor Gray
 Write-Host "Restart worker:         " -NoNewline; Write-Host "docker restart tsg-worker" -ForegroundColor Gray
 Write-Host "Stop all services:      " -NoNewline; Write-Host "docker-compose down" -ForegroundColor Gray
-Write-Host "View schedules in DB:   " -NoNewline; Write-Host 'docker exec tsg-postgres psql -U postgres -d contentkingdom -c "SELECT * FROM daily_show_schedules;"' -ForegroundColor Gray
+Write-Host "View schedules in DB:   " -NoNewline; Write-Host 'docker exec tsg-postgres psql -U postgres -d talkshowgo -c "SELECT * FROM daily_show_schedules;"' -ForegroundColor Gray
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host " Startup Complete!" -ForegroundColor Cyan
