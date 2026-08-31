@@ -1,0 +1,362 @@
+[
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Snacks and water? That's the bounty, baby.",
+    "delivery": "Deadpan smirk",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1046
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Snacks and water? That's the bounty, baby. He gave her the key to her own humanity, not a snack tray.",
+    "delivery": "defiant joy",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1073
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "E6, not a 'key', Marcus. He gave her a snack tray.",
+    "delivery": "Deadpan, sharp",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 986
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Whew.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "E6, not a 'key', Marcus. He gave her a snack tray.",
+    "delivery": "Deadpan, sharp",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 890
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You call that a snack tray? She got the whole damn UNICORN of compassion, Tasha!",
+    "delivery": "passionate rebuttal",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 923
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Whew.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You're calling a humanitarian moment 'snack tray' like it's a crime report, Tasha. E6 is the TRUTH.",
+    "delivery": "scornful eye-roll",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1019
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "You call that a snack tray? She got the whole damn UNICORN of compassion, Tasha!",
+    "delivery": "dismissive eye-roll",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1057
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "You're calling a 'cps moment' a bounty?",
+    "delivery": "cold shock",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E14"
+    ],
+    "tag": "interrupting",
+    "ms": 1119
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Okay okay.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "CPS? That's a cold open from the hate machine, Tasha. E6’s the whole show.",
+    "delivery": "disbelief",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 905
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "That's E6. That's a bounty, Marcus.",
+    "delivery": "cold shock",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 791
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "E6's the proof he held the line when the whole world wanted him to break. She got the key, Tasha.",
+    "delivery": "defiant triumph",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 956
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "E6's the bounty. E12's the crowd.",
+    "delivery": "deadpan smirk",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6",
+      "E12"
+    ],
+    "tag": null,
+    "ms": 817
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "That 'snack tray' was the UNICORN. E6's the evidence she was a human.",
+    "delivery": "defiant joy",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 928
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Y'all been circling the same spot for two minutes. Grace was never the problem. The AUDIENCE is.",
+    "delivery": "calm verdict",
+    "addressed_to": "marcus-blaze|tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 1675
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You're calling a human connection 'bounty' like it's a transaction, Tasha. E6's the soul, not the snack.",
+    "delivery": "defiant joy",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": "interrupting",
+    "ms": 1020
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "E12's the crowd. She was a human, Marcus.",
+    "delivery": "cold shock",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E12"
+    ],
+    "tag": "interrupting",
+    "ms": 1432
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Nah.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "E6's the bounty. E12's the crowd.",
+    "delivery": "deadpan smirk",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 968
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "E6's the proof she was human before the crowd even knew her name. You calling it 'bounty'? That's the crime. I said what I said.",
+    "delivery": "defiant triumph",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1083
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "E6's a receipt. E12's the bounty.",
+    "delivery": "cold shock",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6",
+      "E12"
+    ],
+    "tag": null,
+    "ms": 847
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You calling it 'bounty' makes the crowd the villain, Tasha. E6's the soul, not the snack.",
+    "delivery": "scornful eye-roll",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1218
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Cap.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Bounty? That's a human being, Tasha. E6's the proof she was IN the room with him, not a snack tray.",
+    "delivery": "scornful eye-roll",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 967
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "E6's the snack. E12's the bounty.",
+    "delivery": "cold shock",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 952
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "E6's the proof she walked out with dignity, not a snack. You calling it 'bounty' is calling her a problem. You're the crime, Tasha.",
+    "delivery": "scornful eye-roll",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1291
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "E6's the snack. E12's the crowd.",
+    "delivery": "cold shock",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 804
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You're calling the UNICORN 'bounty'? That's the crime, Tasha. E6's the proof she was a person, not a snack.",
+    "delivery": "scornful eye-roll",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1100
+  }
+]

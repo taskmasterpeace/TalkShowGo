@@ -62,9 +62,9 @@ function hostSystem(host, beat, evTexts, sharedLaws) {
     `WHO YOU ARE:\n${host.behavioral_core}`,
     `LINES THAT SOUND LIKE YOU — rhythm and attitude reference ONLY. NEVER repeat or lightly reword ANY of them; invent NEW lines in this voice:\n- ` + host.exemplars.signature_lines.join('\n- '),
     `YOUR STANCE THIS BEAT: ${beat.stances[host.id]}`,
-    `RECEIPTS YOU ARE ALLOWED TO USE (cite id in brackets when you use one):\n${allowed || '(none - argue from what others say)'}`,
+    `RECEIPTS YOU ARE ALLOWED TO USE. Put their ids ONLY in the JSON "evidence" array. NEVER speak an id (like E6) out loud in your line - a human would say the FACT, not the label:\n${allowed || '(none - argue from what others say)'}`,
     `HARD RULES:\n- 1 to 3 sentences, at most ~${Math.round(28 * host.behavior.verbosity + 12)} words. Shorter is stronger.\n- Spoken register: contractions, informal grammar fine. This is talk, not writing.\n- NEVER use facts outside your receipts. Opinion is free but must SOUND like opinion because of who you are, never hedged.\n- No em-dashes. Max ONE catchphrase per episode: ${JSON.stringify(host.catchphrase_rare)} (you have probably already used it, so avoid).\n- Respond to what was ACTUALLY just said. Push back. Do not summarize. Do not validate by default.`,
-    `OUTPUT STRICT JSON, nothing else: {"line":"what you say","delivery":"3-6 word emotional direction","addressed_to":"marcus-blaze|tasha-raw|king-knowledge|null","evidence":["E6"]}`,
+    `OUTPUT STRICT JSON, nothing else: {"line":"what you say - pure human speech, no ids, no brackets","delivery":"3-6 word emotional direction","addressed_to":"marcus-blaze|tasha-raw|king-knowledge|null","evidence":["E6"]}`,
   ].join('\n\n')
 }
 function parseTurn(raw) {
@@ -100,27 +100,45 @@ async function main() {
   let spoken = 0, turnNo = 0, kkDropped = false, detonated = new Set()
   const transcript = () => turns.map(t => `${t.name}${t.tag ? ' [' + t.tag + ']' : ''} (${t.delivery}): ${t.line}`).join('\n')
 
+  const jaccard = (a, b) => { const A = new Set(a.toLowerCase().match(/[a-z']+/g) || []), B = new Set(b.toLowerCase().match(/[a-z']+/g) || []); if (!A.size || !B.size) return 0; let i = 0; for (const w of A) if (B.has(w)) i++; return i / (A.size + B.size - i) }
+  function badTurn(hostId, line) {
+    if (/\bE\d+\b/.test(line)) return 'you said an evidence id out loud; humans say the FACT, never the label'
+    const recent = turns.slice(-3).map(t => t.line)
+    const exemplars = hosts[hostId].exemplars.signature_lines
+    const ownPast = turns.filter(t => t.id === hostId).map(t => t.line)
+    for (const prev of [...recent, ...exemplars, ...ownPast]) if (jaccard(line, prev) > 0.55) return 'your draft repeated the room or your own known lines; say something NEW that advances the argument'
+    return null
+  }
   async function speak(hostId, instruction, tag) {
     const host = hosts[hostId]
     const sys = hostSystem(host, beat, evTexts, laws)
+    const lastLine = turns.length ? turns[turns.length - 1] : null
     const mine = turns.filter(t => t.id === hostId).map(t => '"' + t.line + '"')
-    const antiRepeat = `ANTI-REPEAT (absolute): do not repeat any phrase already in the transcript, yours or theirs. ADVANCE the argument with something NEW: a new angle, a new consequence, a concession-then-counter.` + (mine.length ? `\nLines you already said (never reuse their phrasing): ${mine.slice(-4).join(' ')}` : '')
-    const user = `TRANSCRIPT SO FAR:\n${transcript() || '(you open the beat)'}\n\n${antiRepeat}\n\n${instruction ? 'DIRECTOR NOTE (obey it): ' + instruction + '\n\n' : ''}Your next turn ONLY. JSON only.`
+    const antiRepeat = `ANTI-REPEAT (absolute): never repeat or echo any phrase already in the transcript, yours or theirs, and never reuse your signature lines. ADVANCE the argument: a new angle, a new consequence, a concession-then-counter.` + (mine.length ? `\nLines you already said (dead to you now): ${mine.slice(-4).join(' ')}` : '')
+    const respond = lastLine ? `THE LAST THING SAID (respond TO it, do not echo it): ${lastLine.name}: "${lastLine.line}"` : '(you open the beat)'
+    const buildUser = extra => `TRANSCRIPT SO FAR:\n${transcript() || '(empty)'}\n\n${respond}\n\n${antiRepeat}\n\n${instruction ? 'DIRECTOR NOTE (obey it, and for this turn IGNORE your signature lines entirely): ' + instruction + '\n\n' : ''}${extra ? 'YOUR PREVIOUS DRAFT WAS REJECTED: ' + extra + '\n\n' : ''}Your next turn ONLY. JSON only.`
     const t0 = Date.now()
-    const raw = await call(hostId, sys, user, host.model.temperature)
-    const t = parseTurn(raw)
+    let raw = await call(hostId, sys, buildUser(null), host.model.temperature, instruction ? 240 : 160)
+    let t = parseTurn(raw)
+    const problem = badTurn(hostId, t.line)
+    if (problem) {
+      console.error(`  reject(${hostId}): ${problem}`)
+      raw = await call(hostId, sys, buildUser(problem), Math.min(1.2, host.model.temperature + 0.1), instruction ? 240 : 160)
+      t = parseTurn(raw)
+    }
+    t.line = t.line.replace(/\[?\bE\d+\b\]?(?:'s)?/g, '').replace(/\s{2,}/g, ' ').replace(/—/g, '...').trim() || '(unusable turn)'
     turns.push({ id: hostId, name: host.name.toUpperCase(), ...t, tag: tag || null, ms: Date.now() - t0 })
     spoken += words(t.line); turnNo++
     console.error(`turn ${turnNo} ${hostId}${tag ? ' [' + tag + ']' : ''} ${words(t.line)}w ${Date.now() - t0}ms :: ${t.line.slice(0, 70)}`)
   }
   function backchannel(hostId) {
     const host = hosts[hostId]; const pool = BC[hostId] || ['Mm.']
-    turns.push({ id: hostId, name: host.name.toUpperCase(), line: pool[Math.floor(rand() * pool.length)], delivery: 'under them', addressed_to: null, evidence: [], tag: null, ms: 0 })
+    turns.push({ id: hostId, name: host.name.toUpperCase(), line: pool[Math.floor(rand() * pool.length)], delivery: 'under them', addressed_to: null, evidence: [], tag: null, ms: 0, bc: true })
     console.error(`      ${hostId} backchannel`)
   }
   let pendingReact = null
   function pickNext() {
-    const last = turns[turns.length - 1]
+    const last = [...turns].reverse().find(t => !t.bc) || null // backchannels never own the floor
     if (pendingReact) { const p = pendingReact; pendingReact = null; return p }
     const forced = beat.withheld.find(w => !detonated.has(w.evidence) && turnNo >= w.turn)
     if (forced) {
@@ -131,7 +149,8 @@ async function main() {
     if (!kkDropped && (turnNo >= beat.kk_drop.after_turn || spoken >= beat.target_spoken_words * 0.85)) { kkDropped = true; return { id: beat.kk_drop.host, instruction: beat.kk_drop.instruction, tag: null } }
     if (last && last.addressed_to && hosts[last.addressed_to] && last.addressed_to !== last.id && rand() < 0.75) return { id: last.addressed_to }
     const cands = cast.hosts.filter(h => h.id !== (last && last.id) && !(h.id === beat.kk_drop.host && !kkDropped))
-    const weights = cands.map(h => 0.25 + h.behavior.interruption_rate)
+    const shareOf = id => { const w = turns.filter(t => t.id === id).reduce((a, t) => a + (t.line.match(/\S+/g) || []).length, 0); return spoken ? w / spoken : 0 }
+    const weights = cands.map(h => (0.25 + h.behavior.interruption_rate) * (shareOf(h.id) > 0.45 ? 0.25 : 1)) // damp floor-hogs
     let r = rand() * weights.reduce((a, b) => a + b, 0)
     for (let i = 0; i < cands.length; i++) { r -= weights[i]; if (r <= 0) return { id: cands[i].id, tag: rand() < cands[i].behavior.interruption_rate * 0.5 ? 'interrupting' : null } }
     return { id: cands[0].id }
@@ -151,7 +170,17 @@ async function main() {
   if (!kkDropped) await speak(beat.kk_drop.host, beat.kk_drop.instruction)
   await speak(beat.exit.host, beat.exit.instruction)
 
-  const rawMd = `# FLOOR RAW — ${beat.id}\n\n` + transcript() + '\n'
+  // render for output: merge consecutive same-speaker turns, append evidence tags after the spoken line
+  function renderMd() {
+    const merged = []
+    for (const t of turns) {
+      const prev = merged[merged.length - 1]
+      if (prev && prev.id === t.id && !prev.bc && !t.bc) { prev.line += ' ' + t.line; prev.evidence = [...new Set([...prev.evidence, ...t.evidence])] }
+      else merged.push({ ...t, evidence: [...t.evidence] })
+    }
+    return merged.map(t => `${t.name}${t.tag ? ' [' + t.tag + ']' : ''} (${t.delivery}): ${t.line}${t.evidence.length ? ' ' + t.evidence.map(id => '[' + id + ']').join('') : ''}`).join('\n')
+  }
+  const rawMd = (`# FLOOR RAW - ${beat.id}\n\n` + renderMd() + '\n').replace(/—/g, '...')
   fs.writeFileSync(path.join(outDir, 'segment_raw.md'), rawMd)
 
   // MIX — messiness pass
@@ -160,9 +189,10 @@ async function main() {
   try {
     const mixed = PROVIDER === 'requesty' ? await callRequesty(mixSys, rawMd, 0.7, 1600) : await callOllama(MODELS['_mix'], mixSys, rawMd, 0.7, 1600, false)
     const evCountRaw = (rawMd.match(/\[E\d+\]/g) || []).length, evCountMix = (mixed.match(/\[E\d+\]/g) || []).length
-    if (evCountMix >= Math.floor(evCountRaw * 0.7) && mixed.split('\n').filter(l => /^[A-Z]{2,}/.test(l)).length >= turns.length * 0.7) {
-      finalMd = `# FLOOR MIXED — ${beat.id}\n\n` + mixed.trim() + '\n'
-    } else console.error('MIX rejected (dropped evidence/speakers), keeping raw')
+    const mixWords = (mixed.match(/\S+/g) || []).length, rawWords = (rawMd.match(/\S+/g) || []).length
+    if (evCountMix >= Math.floor(evCountRaw * 0.7) && mixWords >= rawWords * 0.75) {
+      finalMd = (`# FLOOR MIXED - ${beat.id}\n\n` + mixed.trim() + '\n').replace(/—/g, '...')
+    } else console.error(`MIX rejected (evidence ${evCountMix}/${evCountRaw}, words ${mixWords}/${rawWords}), keeping raw`)
   } catch (e) { console.error('MIX failed: ' + e.message + ' — keeping raw') }
   fs.writeFileSync(path.join(outDir, 'segment_final.md'), finalMd)
   fs.writeFileSync(path.join(outDir, 'turns.json'), JSON.stringify(turns, null, 2))
