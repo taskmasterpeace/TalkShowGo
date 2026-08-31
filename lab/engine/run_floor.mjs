@@ -63,7 +63,7 @@ function hostSystem(host, beat, evTexts, sharedLaws) {
     `LINES THAT SOUND LIKE YOU — rhythm and attitude reference ONLY. NEVER repeat or lightly reword ANY of them; invent NEW lines in this voice:\n- ` + host.exemplars.signature_lines.join('\n- '),
     `YOUR STANCE THIS BEAT: ${beat.stances[host.id]}`,
     `RECEIPTS YOU ARE ALLOWED TO USE. Put their ids ONLY in the JSON "evidence" array. NEVER speak an id (like E6) out loud in your line - a human would say the FACT, not the label:\n${allowed || '(none - argue from what others say)'}`,
-    `HARD RULES:\n- 1 to 3 sentences, at most ~${Math.round(28 * host.behavior.verbosity + 12)} words. Shorter is stronger.\n- Spoken register: contractions, informal grammar fine. This is talk, not writing.\n- NEVER use facts outside your receipts. Opinion is free but must SOUND like opinion because of who you are, never hedged.\n- No em-dashes. Max ONE catchphrase per episode: ${JSON.stringify(host.catchphrase_rare)} (you have probably already used it, so avoid).\n- Respond to what was ACTUALLY just said. Push back. Do not summarize. Do not validate by default.`,
+    `HARD RULES:\n- 1 to 3 sentences, at most ~${Math.round(28 * host.behavior.verbosity + 12)} words. Shorter is stronger.\n- Spoken register: contractions, informal grammar fine. This is talk, not writing.\n- NEVER use facts outside your receipts. Opinion is free but must SOUND like opinion because of who you are, never hedged.\n- No em-dashes. Max ONE catchphrase per episode: ${JSON.stringify(host.catchphrase_rare)} (you have probably already used it, so avoid).\n- Respond to what was ACTUALLY just said. Push back. Do not summarize. Do not validate by default.\n- STAY ON THE ARGUMENT. Never argue about clips, VODs, footage formats, or who watched what. Never react to another host's small sounds. Attack their ARGUMENT, not the furniture.`,
     `OUTPUT STRICT JSON, nothing else: {"line":"what you say - pure human speech, no ids, no brackets","delivery":"3-6 word emotional direction","addressed_to":"marcus-blaze|tasha-raw|king-knowledge|null","evidence":["E6"]}`,
   ].join('\n\n')
 }
@@ -98,7 +98,8 @@ async function main() {
 
   const turns = []
   let spoken = 0, turnNo = 0, kkDropped = false, detonated = new Set()
-  const transcript = () => turns.map(t => `${t.name}${t.tag ? ' [' + t.tag + ']' : ''} (${t.delivery}): ${t.line}`).join('\n')
+  // model-facing transcript: backchannels are texture, not content - hosts must never see or argue with them
+  const transcript = () => turns.filter(t => !t.bc).map(t => `${t.name}${t.tag ? ' [' + t.tag + ']' : ''} (${t.delivery}): ${t.line}`).join('\n')
 
   const jaccard = (a, b) => { const A = new Set(a.toLowerCase().match(/[a-z']+/g) || []), B = new Set(b.toLowerCase().match(/[a-z']+/g) || []); if (!A.size || !B.size) return 0; let i = 0; for (const w of A) if (B.has(w)) i++; return i / (A.size + B.size - i) }
   function badTurn(hostId, line) {
@@ -116,18 +117,29 @@ async function main() {
     const mine = turns.filter(t => t.id === hostId).map(t => '"' + t.line + '"')
     const antiRepeat = `ANTI-REPEAT (absolute): never repeat or echo any phrase already in the transcript, yours or theirs, and never reuse your signature lines. ADVANCE the argument: a new angle, a new consequence, a concession-then-counter.` + (mine.length ? `\nLines you already said (dead to you now): ${mine.slice(-4).join(' ')}` : '')
     const respond = lastLine ? `THE LAST THING SAID (respond TO it, do not echo it): ${lastLine.name}: "${lastLine.line}"` : '(you open the beat)'
-    const buildUser = extra => `TRANSCRIPT SO FAR:\n${transcript() || '(empty)'}\n\n${respond}\n\n${antiRepeat}\n\n${instruction ? 'DIRECTOR NOTE (obey it, and for this turn IGNORE your signature lines entirely): ' + instruction + '\n\n' : ''}${extra ? 'YOUR PREVIOUS DRAFT WAS REJECTED: ' + extra + '\n\n' : ''}Your next turn ONLY. JSON only.`
+    const floorState = `THE QUESTION ON THE FLOOR (stay on it): ${beat.question}\nYOUR STANCE RIGHT NOW: ${beat.stances[hostId]}`
+    const buildUser = extra => `TRANSCRIPT SO FAR:\n${transcript() || '(empty)'}\n\n${floorState}\n\n${respond}\n\n${antiRepeat}\n\n${instruction ? 'DIRECTOR NOTE (obey it, and for this turn IGNORE your signature lines entirely): ' + instruction + '\n\n' : ''}${extra ? 'YOUR PREVIOUS DRAFT WAS REJECTED: ' + extra + '\n\n' : ''}Your next turn ONLY. JSON only.`
     const t0 = Date.now()
-    let raw = await call(hostId, sys, buildUser(null), host.model.temperature, instruction ? 240 : 160)
-    let t = parseTurn(raw)
-    const problem = badTurn(hostId, t.line)
-    if (problem) {
-      console.error(`  reject(${hostId}): ${problem}`)
-      raw = await call(hostId, sys, buildUser(problem), Math.min(1.2, host.model.temperature + 0.1), instruction ? 240 : 160)
+    let t = null, problem = null
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      // attempt 3: physically remove the exemplars so recital is impossible
+      const sysA = attempt < 3 ? sys : sys.replace(/LINES THAT SOUND LIKE YOU[\s\S]*?(?=YOUR STANCE THIS BEAT)/, '')
+      const raw = await call(hostId, sysA, buildUser(problem), Math.min(1.2, host.model.temperature + (attempt - 1) * 0.1), instruction ? 240 : 160)
       t = parseTurn(raw)
+      problem = badTurn(hostId, t.line)
+      if (!problem) break
+      console.error(`  reject#${attempt}(${hostId}): ${problem}`)
     }
     t.line = t.line.replace(/\[?\bE\d+\b\]?(?:'s)?/g, '').replace(/\s{2,}/g, ' ').replace(/—/g, '...').trim() || '(unusable turn)'
-    turns.push({ id: hostId, name: host.name.toUpperCase(), ...t, tag: tag || null, ms: Date.now() - t0 })
+    // enforce the word cap in code: truncate at a sentence boundary
+    const cap = Math.round(28 * host.behavior.verbosity + 12)
+    const wlist = t.line.match(/\S+/g) || []
+    if (wlist.length > cap * 1.4) {
+      const cut = wlist.slice(0, Math.round(cap * 1.2)).join(' ')
+      const m = cut.match(/^[\s\S]*[.!?]/)
+      t.line = (m ? m[0] : cut + '...').trim()
+    }
+    turns.push({ id: hostId, name: host.name.toUpperCase(), ...t, tag: tag || null, ms: Date.now() - t0, noMerge: !!instruction })
     spoken += words(t.line); turnNo++
     console.error(`turn ${turnNo} ${hostId}${tag ? ' [' + tag + ']' : ''} ${words(t.line)}w ${Date.now() - t0}ms :: ${t.line.slice(0, 70)}`)
   }
@@ -150,7 +162,7 @@ async function main() {
     if (last && last.addressed_to && hosts[last.addressed_to] && last.addressed_to !== last.id && rand() < 0.75) return { id: last.addressed_to }
     const cands = cast.hosts.filter(h => h.id !== (last && last.id) && !(h.id === beat.kk_drop.host && !kkDropped))
     const shareOf = id => { const w = turns.filter(t => t.id === id).reduce((a, t) => a + (t.line.match(/\S+/g) || []).length, 0); return spoken ? w / spoken : 0 }
-    const weights = cands.map(h => (0.25 + h.behavior.interruption_rate) * (shareOf(h.id) > 0.45 ? 0.25 : 1)) // damp floor-hogs
+    const weights = cands.map(h => (0.25 + h.behavior.interruption_rate) * (shareOf(h.id) > 0.4 ? 0.2 : 1)) // damp floor-hogs
     let r = rand() * weights.reduce((a, b) => a + b, 0)
     for (let i = 0; i < cands.length; i++) { r -= weights[i]; if (r <= 0) return { id: cands[i].id, tag: rand() < cands[i].behavior.interruption_rate * 0.5 ? 'interrupting' : null } }
     return { id: cands[0].id }
@@ -175,7 +187,7 @@ async function main() {
     const merged = []
     for (const t of turns) {
       const prev = merged[merged.length - 1]
-      if (prev && prev.id === t.id && !prev.bc && !t.bc) { prev.line += ' ' + t.line; prev.evidence = [...new Set([...prev.evidence, ...t.evidence])] }
+      if (prev && prev.id === t.id && !prev.bc && !t.bc && !prev.noMerge && !t.noMerge) { prev.line += ' ' + t.line; prev.evidence = [...new Set([...prev.evidence, ...t.evidence])] }
       else merged.push({ ...t, evidence: [...t.evidence] })
     }
     return merged.map(t => `${t.name}${t.tag ? ' [' + t.tag + ']' : ''} (${t.delivery}): ${t.line}${t.evidence.length ? ' ' + t.evidence.map(id => '[' + id + ']').join('') : ''}`).join('\n')
