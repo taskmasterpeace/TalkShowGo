@@ -18,7 +18,7 @@ BEAT (trusted sources) -> EVIDENCE PACK -> PRODUCER (format + rundown) -> HOSTS 
 ## Phases
 
 - **P1 — Script Lab (NOW):** prove the writing. Pilot show: "What happened at Kai Cenat's house" (hand-fed evidence pack). Naked text, multiple formats, Robert judges the words.
-- **P2 — Plumbing:** Twitter ingest (twitterapi.io — key LIVE, tested 2026-08-31, returns same-day tweets) + YouTube ingest per beat. Plus a **source-verify step**: handles rot (`uraboratv` already returns not-found).
+- **P2 — Plumbing:** Twitter ingest (twitterapi.io — key LIVE, tested 2026-08-31, returns same-day tweets; ~$12-16/mo at our workload) + YouTube ingest per beat. Twitter goes behind a **thin provider adapter** (twitterapi.io primary, socialdata.tools funded fallback — X killed its affordable official tiers and C&D'd Nitter in Aug 2026, so unofficial pipes must be swappable). Plus a **source-verify step**: handles rot (`uraboratv` already returns not-found); verify resolves and stores userIds, polling runs on IDs. Gotchas doc: `scratchpad/twitter_api_landscape.md`.
 - **P3 — Voices:** cupcake mk-gateway `breeze-clone` — per-line `instruction` = the host's emotional reaction; locked ref clip + seed per host = same voice forever. Free on our box.
 - **P4 — Video:** fast video gen; the `greenlight -> Directors Palette` handoff seam already exists in the old code.
 

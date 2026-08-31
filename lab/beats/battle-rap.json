@@ -3,7 +3,7 @@
   "name": "Battle Rap",
   "status": "active",
   "description": "US battle rap: leagues, battlers, bloggers. Beat #1 - the proving ground, not the ceiling.",
-  "_law": "Handles rot. Run source-verify (twitterapi.io user/info per handle) before first ingest and monthly after. Never assume a seed handle is current.",
+  "_law": "Handles rot, userIds don't. Source-verify resolves each handle via user/info BEFORE first ingest and monthly after, and STORES the userId - all polling runs on userId, never userName. Never assume a seed handle is current.",
   "sources": {
     "twitter": [
       { "handle": "uraboratv", "label": "URL / Ultimate Rap League", "type": "league", "priority": 1, "status": "STALE - user/info returned not-found 2026-08-31; try candidates", "candidates": ["urltv"] },
