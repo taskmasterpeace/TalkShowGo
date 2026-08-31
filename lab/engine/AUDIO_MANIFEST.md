@@ -9,6 +9,10 @@ Law (Robert, 2026-08-31): every rendered audio file gets a row here the moment i
 | pilot_3voices_v2.mp3 | 6:32 | Claude (pilot Script A) | Kokoro v2 (pitch-locked, backchannels cut) | af_bella / am_fenrir / bm_george(UK elder) | distinctness fix; Kokoro still RETIRED per Robert |
 | (engine runs run_000-009 segments) | text only | qwen3:30b on cupcake Ollama (the FLOOR actor loop) | never voiced | - | the /loop iterations; judge-scored 3.25-3.45 |
 
+| nonverbal_test_reel.mp3 | 0:49 | Claude (5 test takes, self-labeled) | **Breeze TTS 2** on cupcake (breeze-design refs -> breeze-clone w/ `instruction`) | designed cast: tasha seed 101 / blaze seed 202 / knowledge seed 303 | ROBERT'S NONVERBAL TEST: inline (laughs)/(sighs) tags vs instruction-only, breathing, whisper-to-shout |
+| flareup_v3_breeze.mp3 | 1:59 | Claude (same v2 convo demo Robert liked at 1:40) | **Breeze TTS 2** breeze-clone, per-line instruction = delivery parentheticals | same locked designed cast | first full Breeze segment; ref-clip lock = no voice wobble by construction |
+| lab/cast/voices/*.wav | refs | - | breeze-design (seed-locked) | the canonical cast reference clips + ref texts | COMMITTED to git: these ARE the voice lock |
+
 ## Standing engine decisions (2026-08-31)
 - **VOICE ENGINE = Breeze TTS 2 on cupcake** (`/v1/audio/breeze-design` + `/v1/audio/breeze-clone` w/ per-line `instruction` for emotion/nonverbals). Kokoro retired (draft-only wobble). ElevenLabs Battlerap Algorithm stays the narrator option.
 - Cast reference voices live in `lab/cast/voices/` (designed once, seed-locked, cloned per line = consistency).
