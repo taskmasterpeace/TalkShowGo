@@ -1,0 +1,324 @@
+{
+  "topic": "What happened at Kai Cenat's house — August 2026",
+  "compiled": "2026-08-31",
+  "dominant_event": "Paternity pull-up at Kai Cenat's gate (AMP house): a woman calling herself Yasmin arrived with a ~2-year-old girl claiming Kai is the father; Kai denied it, filmed it, told the story on stream with footage, offered a live DNA test, and sent them off with snacks and an Uber. Confrontation on/about Aug 25-26, 2026; viral Aug 26-30.",
+  "entries": [
+    {
+      "id": "E1",
+      "claim": "A woman drove to Kai Cenat's house with a ~2-year-old girl and told him at the gate that he is the child's father; Kai denied it on stream and shared footage of the encounter.",
+      "source_name": "Complex (Alex Ocho)",
+      "source_type": "news",
+      "url": "https://www.complex.com/pop-culture/a/alex-ocho/kai-cenat-paternity-claim-amp-house-security-footage",
+      "date": "2026-08-26",
+      "tier": "CONFIRMED (multi-source)"
+    },
+    {
+      "id": "E2",
+      "claim": "The woman identified herself as Yasmin, said she drove 15 hours, and arrived at the gate around 10 a.m. while Kai was asleep; security phoned him twice before he came out.",
+      "source_name": "Complex + Kai Cenat's own stream VOD",
+      "source_type": "stream-clip",
+      "url": "https://www.youtube.com/watch?v=XKaujjjerB0",
+      "video_id": "XKaujjjerB0",
+      "date": "2026-08-26",
+      "tier": "CONFIRMED (multi-source)"
+    },
+    {
+      "id": "E3",
+      "claim": "On the footage Kai tells the woman: 'That is not my daughter. I've never seen you in my life,' and cites having been 'in a relationship for the last two years' as his timeline defense.",
+      "source_name": "TheShadeRoom (Tiara B) / Complex / HotNewHipHop",
+      "source_type": "news",
+      "url": "https://theshaderoom.com/kai-cenat-woman-showed-up-home-claimed-he-fathered-her-child/",
+      "date": "2026-08-28",
+      "tier": "CONFIRMED (multi-source)"
+    },
+    {
+      "id": "E4",
+      "claim": "Kai asked the child who her father was; the child answered 'You,' and Kai joked on stream: 'Oh, she trained the baby. Like, this baby a paid actor.'",
+      "source_name": "Complex / TheShadeRoom / VOD transcript",
+      "source_type": "stream-clip",
+      "url": "https://www.complex.com/pop-culture/a/alex-ocho/kai-cenat-paternity-claim-amp-house-security-footage",
+      "video_id": "XKaujjjerB0",
+      "date": "2026-08-26",
+      "tier": "CONFIRMED (multi-source)"
+    },
+    {
+      "id": "E5",
+      "claim": "Kai offered on stream to take a DNA test live: 'Y'all want me to take a DNA test LIVE for y'all? ... I will take the DNA test. It's not my kid.'",
+      "source_name": "Kai Cenat Live VOD 'i have a daughter...' (transcript, ~06:00-06:10 mark)",
+      "source_type": "stream-clip",
+      "url": "https://www.youtube.com/watch?v=XKaujjjerB0",
+      "video_id": "XKaujjjerB0",
+      "date": "2026-08-26",
+      "tier": "CONFIRMED (multi-source)"
+    },
+    {
+      "id": "E6",
+      "claim": "The encounter ended with Kai giving the woman and child snacks and water and ordering them an Uber back to their hotel, saying the child looked innocent.",
+      "source_name": "Complex / TheShadeRoom / HotNewHipHop / VOD",
+      "source_type": "news",
+      "url": "https://www.hotnewhiphop.com/1007273-kai-cenat-woman-confrontation-daughter",
+      "date": "2026-08-26",
+      "tier": "CONFIRMED (multi-source)"
+    },
+    {
+      "id": "E7",
+      "claim": "AMP member Davis (ImDavisss) arrived mid-encounter and hopped the pointed security gate rather than open it, to keep the gate closed; Kai narrated this over the footage.",
+      "source_name": "HotNewHipHop (Alexander Cole) + VOD transcript (~07:06)",
+      "source_type": "news",
+      "url": "https://www.hotnewhiphop.com/1007273-kai-cenat-woman-confrontation-daughter",
+      "video_id": "XKaujjjerB0",
+      "date": "2026-08-26",
+      "tier": "CONFIRMED (multi-source)"
+    },
+    {
+      "id": "E8",
+      "claim": "The confrontation happened at the AMP house (Kai's residence); HotNewHipHop and Complex's URL slug place it at the AMP house; outlets did not publish the exact address or city.",
+      "source_name": "HotNewHipHop",
+      "source_type": "news",
+      "url": "https://www.hotnewhiphop.com/1007273-kai-cenat-woman-confrontation-daughter",
+      "date": "2026-08-26",
+      "tier": "REPORTED (single source)"
+    },
+    {
+      "id": "E9",
+      "claim": "Kai said he believes the confrontation was rehearsed/staged, saying the woman's answers seemed scripted and the child was coached.",
+      "source_name": "rollingout / HotNewHipHop",
+      "source_type": "news",
+      "url": "https://rollingout.com/2026/08/26/why-kai-cenat-says-a-paternity-claim/",
+      "date": "2026-08-26",
+      "tier": "CONFIRMED (multi-source)"
+    },
+    {
+      "id": "E10",
+      "claim": "On the footage the woman claims she previously met Kai at 'JT house' in 'the basement' and tells him 'you look crazy right now'; Kai says he doesn't know any JT.",
+      "source_name": "Kai Cenat Live VOD transcript (~06:24-06:37)",
+      "source_type": "stream-clip",
+      "url": "https://www.youtube.com/watch?v=XKaujjjerB0",
+      "video_id": "XKaujjjerB0",
+      "date": "2026-08-26",
+      "tier": "REPORTED (single source)"
+    },
+    {
+      "id": "E11",
+      "claim": "On the footage the woman gives the child's name (heard as 'Tiana'/'Kiana') and says the child is 2 years old.",
+      "source_name": "Kai Cenat Live VOD transcript (~05:48) + HotNewHipHop",
+      "source_type": "stream-clip",
+      "url": "https://www.youtube.com/watch?v=XKaujjjerB0",
+      "video_id": "XKaujjjerB0",
+      "date": "2026-08-26",
+      "tier": "REPORTED (single source)"
+    },
+    {
+      "id": "E12",
+      "claim": "Kai's storytime VOD 'i have a daughter...' was posted Aug 26, 2026 on the Kai Cenat Live channel and had ~2.09M views by Aug 31.",
+      "source_name": "YouTube metadata via yt-dlp",
+      "source_type": "youtube",
+      "url": "https://www.youtube.com/watch?v=XKaujjjerB0",
+      "video_id": "XKaujjjerB0",
+      "date": "2026-08-26",
+      "tier": "CONFIRMED (multi-source)"
+    },
+    {
+      "id": "E13",
+      "claim": "Three days later (Aug 29) the channel posted a follow-up titled 'i brought my daughter on stream...' — leaning into the meme; the video is family/kids content (a little girl who says it's her second time on Kai's stream; 'that's my uncle's baby' exchange), not the woman or child from the gate.",
+      "source_name": "YouTube metadata + transcript via yt-dlp",
+      "source_type": "youtube",
+      "url": "https://www.youtube.com/watch?v=nvkH93ubnKo",
+      "video_id": "nvkH93ubnKo",
+      "date": "2026-08-29",
+      "tier": "REPORTED (single source)"
+    },
+    {
+      "id": "E14",
+      "claim": "TheShadeRoom's post of the clips drew viral reactions, including @og_ceee ('we must missed a episode of streamer university spring break gone wild'), @official_dtwinz07 invoking Michael Jackson's 'Billie Jean', @ritabonnita ('Baby is not safe with her'), and @miettah calling it 'a cps moment'.",
+      "source_name": "TheShadeRoom",
+      "source_type": "news",
+      "url": "https://theshaderoom.com/kai-cenat-woman-showed-up-home-claimed-he-fathered-her-child/",
+      "date": "2026-08-28",
+      "tier": "REPORTED (single source)"
+    },
+    {
+      "id": "E15",
+      "claim": "TheShadeRoom pushed the story on Threads ('Kai Cenat reacts after a woman shows up to his house claiming he...') around Aug 29-30, extending the viral cycle.",
+      "source_name": "TheShadeRoom on Threads",
+      "source_type": "tweet",
+      "url": "https://www.threads.com/@theshaderoom/post/DcmGxY-kdSa/",
+      "date": "2026-08-29",
+      "tier": "REPORTED (single source)"
+    },
+    {
+      "id": "E16",
+      "claim": "Complex Pop pushed the story on Threads with the 'This Baby a Paid Actor' headline.",
+      "source_name": "Complex Pop on Threads",
+      "source_type": "tweet",
+      "url": "https://www.threads.com/@complexpop/post/Dcg3OEsoAeQ/",
+      "date": "2026-08-26",
+      "tier": "REPORTED (single source)"
+    },
+    {
+      "id": "E17",
+      "claim": "No public statement, interview, or social account response from the woman ('Yasmin') had surfaced in searchable coverage as of Aug 31, 2026.",
+      "source_name": "Absence across Complex/TSR/HNHH/search sweep",
+      "source_type": "news",
+      "url": "https://theshaderoom.com/kai-cenat-woman-showed-up-home-claimed-he-fathered-her-child/",
+      "date": "2026-08-31",
+      "tier": "REPORTED (single source)"
+    },
+    {
+      "id": "E18",
+      "claim": "The same week, a viral video of an Arkansas trooper punching a man pulled from a car was falsely labeled as Kai Cenat being assaulted by police; fact-checks identified the man as Tedrick Washington, 23.",
+      "source_name": "Men's Journal via Yahoo News",
+      "source_type": "news",
+      "url": "https://www.yahoo.com/news/us/articles/kai-cenat-viral-police-officer-214350092.html",
+      "date": "2026-08-29",
+      "tier": "CONFIRMED (multi-source)"
+    },
+    {
+      "id": "E19",
+      "claim": "The real incident behind the mislabeled video: an Aug 19, 2026 Arkansas State Police pursuit (130+ mph) near Blytheville; Trooper Theodore Henderson broke the rear window of a 2023 Infiniti QX50, pulled passenger Tedrick Washington out by his hair/arm and struck him; Washington was charged with obstruction and resisting arrest; dashcam obtained by NEA Report.",
+      "source_name": "Men's Journal via Yahoo News / rollingout / KTAL",
+      "source_type": "news",
+      "url": "https://www.yahoo.com/news/us/articles/kai-cenat-viral-police-officer-214350092.html",
+      "date": "2026-08-19",
+      "tier": "CONFIRMED (multi-source)"
+    },
+    {
+      "id": "E20",
+      "claim": "The Kai Cenat misidentification spread partly because he resembles Washington and had recently held events in Arkansas (Streamer University at Hendrix College); multiple X trending fact-check modules debunked it around Aug 30.",
+      "source_name": "Men's Journal/Yahoo + X trending modules",
+      "source_type": "news",
+      "url": "https://www.ktalnews.com/entertainment-news/kai-cenant-traffic-stop-police-video/",
+      "date": "2026-08-30",
+      "tier": "CONFIRMED (multi-source)"
+    },
+    {
+      "id": "E21",
+      "claim": "Kai Cenat and IShowSpeed ran a 121-hour Minecraft Hardcore marathon Aug 7-12, 2026 from a house decorated to look like Minecraft, defeating the Ender Dragon, Wither, Elder Guardian, and Warden in one Hardcore world after 42 on-stream deaths.",
+      "source_name": "Streams Charts",
+      "source_type": "news",
+      "url": "https://streamscharts.com/news/kai-cenat-ishowspeed-2026-minecraft-marathon-recap",
+      "date": "2026-08-12",
+      "tier": "CONFIRMED (multi-source)"
+    },
+    {
+      "id": "E22",
+      "claim": "The Minecraft marathon logged just over 30 million hours watched across Twitch and YouTube, with Kai's Twitch channel peaking around 198K concurrent viewers.",
+      "source_name": "Streams Charts",
+      "source_type": "news",
+      "url": "https://streamscharts.com/news/kai-cenat-ishowspeed-2026-minecraft-marathon-recap",
+      "date": "2026-08-12",
+      "tier": "REPORTED (single source)"
+    },
+    {
+      "id": "E23",
+      "claim": "Mid-marathon (around Aug 11), Kai 'crashed out' on stream after IShowSpeed lost hours of Minecraft progress, which drama outlets covered as its own beat.",
+      "source_name": "Dexerto (headline via NewsNow aggregator listing)",
+      "source_type": "news",
+      "url": "https://www.newsnow.com/us/Entertainment/Celebrity+News/Kai+Cenat",
+      "date": "2026-08-11",
+      "tier": "REPORTED (single source)"
+    },
+    {
+      "id": "E24",
+      "claim": "Kai Cenat streamed a workout at Diamond Gym on Aug 4, 2026 ('DIAMOND GYM STREAM TONIGHT AT 7:30PM EST'), and in late August the Diamond Gym crew came to his house for a follow-up stream ('Diamond Gym Came To My House...', ~1.4M views).",
+      "source_name": "Kai Cenat on X + Kai Cenat Live YouTube",
+      "source_type": "tweet",
+      "url": "https://x.com/KaiCenat/status/2084693272560021830",
+      "video_id": "k6K41bVCXj4",
+      "date": "2026-08-29",
+      "tier": "CONFIRMED (multi-source)"
+    },
+    {
+      "id": "E25",
+      "claim": "Kai reacted live to the GTA 6 extended look on Aug 28, 2026 ('Streaming gta 6 live reaction today'), was brought near tears saying 'Take my money,' and per coverage has said he will hold a marathon when GTA 6 launches Nov 19, 2026.",
+      "source_name": "Kai Cenat on X + win.gg + Complex",
+      "source_type": "tweet",
+      "url": "https://x.com/KaiCenat/status/2093010486451171601",
+      "video_id": "lfDbrbVt2fA",
+      "date": "2026-08-28",
+      "tier": "CONFIRMED (multi-source)"
+    },
+    {
+      "id": "E26",
+      "claim": "On Saturday Aug 29, 2026 Kai announced his clothing brand Vivet's first-ever fashion show, set for Sept 12 at 8 p.m. in New York City during NYFW, developed with stylist Law Roach.",
+      "source_name": "Complex Style",
+      "source_type": "news",
+      "url": "https://www.complex.com/style/a/markelibert/kai-cenat-vivet-new-york-fashion-week-debut",
+      "date": "2026-08-29",
+      "tier": "CONFIRMED (multi-source)"
+    },
+    {
+      "id": "E27",
+      "claim": "Streamer University 2 ran July 15-20, 2026 at Hendrix College in Conway, Arkansas, after Kai returned from a long hiatus on July 6, 2026 with a Twitch+YouTube simulcast that drew ~1 million combined viewers.",
+      "source_name": "Wikipedia + Arkansas Times + Dexerto",
+      "source_type": "news",
+      "url": "https://arktimes.com/arkansas-blog/2026/07/15/kai-cenats-streamer-university-descends-on-arkansas",
+      "date": "2026-07-15",
+      "tier": "CONFIRMED (multi-source)"
+    },
+    {
+      "id": "E28",
+      "claim": "LAPD shut down Kai Cenat's Streamer University graduation pool party at a Tarzana mansion with roughly 2,000 attendees on/about July 21, 2026.",
+      "source_name": "TMZ (tag-page headline)",
+      "source_type": "news",
+      "url": "https://www.tmz.com/people/kai-cenat/",
+      "date": "2026-07-21",
+      "tier": "REPORTED (single source)"
+    },
+    {
+      "id": "E29",
+      "claim": "Swatting history at Kai's houses/stream mansions: swatted at ~6 a.m. during a Nov 2022 stream; swatted and briefly Twitch-banned in 2023; swatted with helicopter overhead on day 2 of Mafiathon 2 (Nov 2024); swatted at the Beverly Hills Mafiathon 3 mansion Sept 2, 2025 after a caller faked a family shooting (shortly after Kim Kardashian left the property).",
+      "source_name": "FOX 5 Atlanta / Complex / TMZ / iHeart",
+      "source_type": "news",
+      "url": "https://www.tmz.com/2025/09/02/kai-cenat-swatted-beverly-hills-kim-kardashian-stream/",
+      "date": "2025-09-02",
+      "tier": "CONFIRMED (multi-source)"
+    },
+    {
+      "id": "E30",
+      "claim": "No new swatting incident at Kai Cenat's house in August 2026 appears in any searchable news coverage as of Aug 31, 2026 — the paternity pull-up is the current 'his house' story.",
+      "source_name": "Negative finding across TMZ/NewsNow/Dexerto/FOX sweeps",
+      "source_type": "news",
+      "url": "https://www.newsnow.com/us/Entertainment/Celebrity+News/Kai+Cenat",
+      "date": "2026-08-31",
+      "tier": "REPORTED (single source)"
+    },
+    {
+      "id": "E31",
+      "claim": "Background: Kai announced he was single in late 2025 amid cheating rumors around ex-girlfriend Gigi; in Feb 2026 aggregator accounts claimed Gigi said she was pregnant and would seek up to $500K/month child support, with a later video reportedly saying she didn't know who the father was. No mainstream outlet confirmed the pregnancy claims.",
+      "source_name": "RAZOR BLADE (@vdmempire) on X + AOL syndication of breakup story",
+      "source_type": "tweet",
+      "url": "https://x.com/vdmempire/status/2027718113609834944",
+      "date": "2026-02-28",
+      "tier": "RUMOR/SPECULATION"
+    },
+    {
+      "id": "E32",
+      "claim": "Background: In April 2026, mid-hiatus, Kai teased 'Mafia reunion' on an Instagram Story (surfaced by FearedBuck), fueling Mafiathon 4 speculation; no Mafiathon 4 has been announced as of Aug 31, 2026.",
+      "source_name": "FearedBuck on X + Complex",
+      "source_type": "tweet",
+      "url": "https://x.com/FearedBuck/status/2039833158271566039",
+      "date": "2026-04-06",
+      "tier": "CONFIRMED (multi-source)"
+    },
+    {
+      "id": "E33",
+      "claim": "Background: In January 2026 Kai posted an 'I Quit' video announcing a shift from daily streaming, addressed mental health, and launched the clothing brand Vivet; the hiatus lasted until the July 6, 2026 return.",
+      "source_name": "Wikipedia (Kai Cenat article)",
+      "source_type": "news",
+      "url": "https://en.wikipedia.org/wiki/Kai_Cenat",
+      "date": "2026-01-13",
+      "tier": "CONFIRMED (multi-source)"
+    },
+    {
+      "id": "E34",
+      "claim": "Kai said on the storytime stream that he was scared during the encounter ('my heart start beating... I'm starting to panic'), and outlets framed the 15-hour drive to his gate as a security concern in a year when a superfan previously entered his home while he slept (story he told in April 2025).",
+      "source_name": "VOD transcript + Complex (fan break-in story)",
+      "source_type": "stream-clip",
+      "url": "https://www.complex.com/pop-culture/a/joshua-espinoza/kai-cenat-fan-broke-into-room-while-was-sleeping-almost-clapped-him",
+      "video_id": "XKaujjjerB0",
+      "date": "2026-08-26",
+      "tier": "CONFIRMED (multi-source)"
+    }
+  ]
+}
