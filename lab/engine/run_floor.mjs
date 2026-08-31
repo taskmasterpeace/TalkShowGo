@@ -120,6 +120,9 @@ async function main() {
     const allowedNums = new Set(allowedText.toLowerCase().replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b/g, m => SPELLED[m]).match(/\d+/g) || [])
     const lineNums = (line.toLowerCase().replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b/g, m => SPELLED[m]).match(/\d+/g) || [])
     for (const n of lineNums) if (!allowedNums.has(n)) return `the number ${n} is not in your receipts; you invented it - drop the number or use a fact you actually hold`
+    // end-name tic: ending every line with your opponent's name reads fake fast
+    const endsWithName = l => /,?\s+(marcus|tasha|king)[.!?"']*\s*$/i.test(l.trim())
+    if (endsWithName(line) && turns.filter(t => t.id === hostId && endsWithName(t.line)).length >= 2) return 'you keep ending your lines with his name - it has become a tic; end this line on the POINT instead'
     // catchphrase law: yours max once per episode, another host's NEVER
     for (const h of cast.hosts) for (const c of (h.catchphrase_rare || [])) {
       if (line.toLowerCase().includes(c.toLowerCase())) {
@@ -156,7 +159,15 @@ async function main() {
     }
     t.line = t.line.replace(/\[?\bE\d+\b\]?(?:'s)?/g, '').replace(/\s{2,}/g, ' ').replace(/—/g, '...').trim()
     // a regular turn that survived nothing gets SKIPPED, never rendered as a placeholder; scripted beats keep best attempt
-    if ((!t.line || (problem && !instruction))) { if (!instruction) { console.error(`  skip(${hostId}): no usable turn`); return false } t.line = t.line || '...' }
+    if (!t.line || t.line === '(unusable turn)' || (problem && !instruction)) { if (!instruction) { console.error(`  skip(${hostId}): no usable turn`); return false } t.line = (t.line && t.line !== '(unusable turn)') ? t.line : '...' }
+    // tag honesty: keep an evidence id only if the host holds it AND the line actually touches that receipt's content; opinion carries no tag
+    const contentWords = s => new Set((s.toLowerCase().match(/[a-z']{4,}/g) || []))
+    t.evidence = (t.evidence || []).filter(id => {
+      if (!(beat.allowed_evidence[hostId] || []).includes(id)) return false
+      const ev = contentWords(evTexts[id] || ''), ln = contentWords(t.line)
+      let hits = 0; for (const w of ln) if (ev.has(w)) hits++
+      return hits >= 2
+    })
     // enforce the word cap in code: truncate at a sentence boundary
     const cap = Math.round(28 * host.behavior.verbosity + 12)
     const wlist = t.line.match(/\S+/g) || []
@@ -222,7 +233,7 @@ async function main() {
       if (prev && prev.id === t.id && !prev.bc && !t.bc && !prev.noMerge && !t.noMerge) { prev.line += ' ' + t.line; prev.evidence = [...new Set([...prev.evidence, ...t.evidence])] }
       else merged.push({ ...t, evidence: [...t.evidence] })
     }
-    return merged.map(t => `${t.name}${t.tag ? ' [' + t.tag + ']' : ''} (${t.delivery}): ${t.line}${t.evidence.length ? ' ' + t.evidence.map(id => '[' + id + ']').join('') : ''}`).join('\n')
+    return merged.filter(t => t.line && t.line !== '(unusable turn)').map(t => `${t.name}${t.tag ? ' [' + t.tag + ']' : ''} (${t.delivery}): ${t.line}${t.evidence.length ? ' ' + t.evidence.map(id => '[' + id + ']').join('') : ''}`).join('\n')
   }
   const rawMd = (`# FLOOR RAW - ${beat.id}\n\n` + renderMd() + '\n').replace(/—/g, '...')
   fs.writeFileSync(path.join(outDir, 'segment_raw.md'), rawMd)

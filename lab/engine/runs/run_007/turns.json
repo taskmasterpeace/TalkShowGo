@@ -1,0 +1,384 @@
+[
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Snacks, water, Uber. That's a receipt.",
+    "delivery": "cold, flat, deadpan",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1005,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "(unusable turn)",
+    "delivery": "level",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 2269,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "That's grace, but grace is the bounty, Marcus.",
+    "delivery": "surgical, flat",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1386,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Whew.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Bounty is the *thing* you give. Grace is the *way* you give it. And that child said 'You'...not 'dad'...and he didn't flinch.",
+    "delivery": "fire|smirk|intense",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E4",
+      "E6"
+    ],
+    "tag": "interrupting",
+    "ms": 1668,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "You flinching, Marcus. The kid said 'You'.",
+    "delivery": "deadpan|cold|cut",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 859,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "That kid was two, Marcus, and he still held the gate. Not a single 'dad' but he didn't walk away.",
+    "delivery": "tired|resigned|sincere",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 3400,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Whew.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "He didn't walk away, Marcus. That's grace.",
+    "delivery": "quiet|level|dead",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 2065,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "TheShadeRoom copycat is posting a bounty now.",
+    "delivery": "deadpan|cold|flat",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E14"
+    ],
+    "tag": "interrupting",
+    "ms": 2783,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Wait... TheShadeRoom's copycat? That's not grace, that's a *council* of chaos. He gave water, they made a bounty. The kid's still two.",
+    "delivery": "disbelief|defiant",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1231,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "TheShadeRoom bounty is a *result* of the kindness, Marcus.",
+    "delivery": "quiet|cut|sharp",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E12"
+    ],
+    "tag": null,
+    "ms": 1057,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "What was he supposed to do instead? Demand her to name a real dad? He gave water, not a DNA test. Kids don't have dads on call.",
+    "delivery": "disgusted|skeptical|firm",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 9980,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Demanding 'dad' was the test, Marcus. He passed.",
+    "delivery": "cold|flat|cut",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1430,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Hm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Hm? That's not a counter, that's a *yawn*. The Shadecopycat's bounty is the punchline to his grace, not the punchline to the *kid*.",
+    "delivery": "disdain|scoff|punch",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 2420,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The kid's age was never the point. The audience's hunger for drama was. They're not watching the water - they're hunting the hunger.",
+    "delivery": "tired|sincere|quiet",
+    "addressed_to": "marcus-blaze|tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 5028,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "You'd have given water. You'd still post the bounty.",
+    "delivery": "cold|flat|cut",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E12"
+    ],
+    "tag": null,
+    "ms": 2979,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The problem wasn't the water. It was the crowd buying tickets to watch the kid get thirsty.",
+    "delivery": "tired|sincere|quiet",
+    "addressed_to": "null",
+    "evidence": [],
+    "tag": null,
+    "ms": 3481,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Crowd wants thirst. They got thirst.",
+    "delivery": "cold|flat|cut",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E6"
+    ],
+    "tag": "interrupting",
+    "ms": 815,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The crowd's thirst ain't the water. It's the *bounty* they're selling.",
+    "delivery": "quiet|sincere|cut",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 2402,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "The next one'll bring a knife. It's a reward, not a lesson.",
+    "delivery": "cold|flat|cut",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 3048,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "(unusable turn)",
+    "delivery": "level",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 3676,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "TheShadeRoom bounty's the *proof*, Marcus. They're already selling it.",
+    "delivery": "dead|cold|cut",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E12"
+    ],
+    "tag": null,
+    "ms": 1131,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Nah.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "The bounty's the *proof* he's a hero. You're not seeing the humanity, you're chasing the hype.",
+    "delivery": "disbelief|skeptical|firm",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 2417,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Humanity's the bait, Marcus. They're hungry.",
+    "delivery": "cold|flat|cut",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1637,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Bait? Nah. They're hungry for *this* - not the hunger, but the kid's *innocence* being seen.",
+    "delivery": "disbelief|sincere|punch",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1205,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "They're not hungry for innocence, Marcus. They want the knife.",
+    "delivery": "dead|cut|quiet",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 2029,
+    "noMerge": true
+  }
+]
