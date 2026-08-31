@@ -1,0 +1,360 @@
+[
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Snacks, water, Uber. That's the bait. And you know it.",
+    "delivery": "cold, quiet",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 8221,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Bait? You're calling compassion a *bait*? That's not grace, that's *humility*!",
+    "delivery": "scoffing, leaning in",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 2752,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Compassion's a bait, grace is the reward.",
+    "delivery": "deadpan|cold",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": "interrupting",
+    "ms": 1228,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You think handing a toddler snacks is bait? She said 'You' to Kai, not 'Dad'. He gave her water, ordered Uber...human to human.",
+    "delivery": "hot, firm",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 2141,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "That's a receipt. She's two, not 'dad'...you're not the kid’s dad.",
+    "delivery": "deadpan|cold",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 1469,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "She said 'You' ... not 'Dad' ... and he gave her water. That's not bait, that's a human being showing up.",
+    "delivery": "heated|firm",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 1019,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "That's real. That's up RIGHT NOW. Two million views turned decency into a bounty.",
+    "delivery": "quiet|staccato",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 969,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "That's the copycat comment, King. Viral bait's now a bounty.",
+    "delivery": "deadpan|cold",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": "interrupting",
+    "ms": 846,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "I SEEN the clip where she says 'You'... and you're calling that a bounty? That's not bait, that's a HUMAN.",
+    "delivery": "wide-eyed|defiant",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 1195,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "'You' was the kid's word...grace is the bait. Bounties get paid.",
+    "delivery": "cold|staccato",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 1558,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Hm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Walk me through the alternative then. For real for real. He was a human being, not a robot. What'd he do?",
+    "delivery": "defiant|challenging",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 1185,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "I’d do it too, but that’s why the bounty’s real.",
+    "delivery": "deadpan|cold",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 1113,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Bounty? Nah. He handed a baby water. Human. Period. That's the real 'bounty' right there.",
+    "delivery": "confident|defiant",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": "interrupting",
+    "ms": 1972,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The kid said 'You', not 'Dad'...grace wasn't the act, it was the demand. The audience turned a moment into a target.",
+    "delivery": "tired|certain",
+    "addressed_to": "null",
+    "evidence": [],
+    "tag": null,
+    "ms": 5127,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Okay okay.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Two-year-old's 'You' wasn't the act...it was the demand. Viral grace = bounty. Periodt.",
+    "delivery": "deadpan|tired",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 3161,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Nah.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The audience's hunger for the act made it a target, not the act itself.",
+    "delivery": "tired|certain",
+    "addressed_to": "null",
+    "evidence": [],
+    "tag": null,
+    "ms": 2962,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Next gate's a guy with a knife. Viral grace means he's coming for you.",
+    "delivery": "exhausted|matter-of-fact",
+    "addressed_to": "null",
+    "evidence": [],
+    "tag": null,
+    "ms": 3202,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The swatting's history, not the water. The audience's hunger makes the target, not the kid's word.",
+    "delivery": "tired|certain",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 4324,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "You're right about the hunger...bounty's already posted.",
+    "delivery": "cold|staccato",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": null,
+    "ms": 875,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm. The tapes don't lie...swatting's been the script since 2022. Grace was never the target, the audience was.",
+    "delivery": "measured|certain",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 2186,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "The fear's real, but handing a two-year-old water isn't a crime. He stayed human while the world screamed 'bounty'...that's grace, not a target.",
+    "delivery": "tired|defiant",
+    "addressed_to": "king-knowledge|null",
+    "evidence": [],
+    "tag": null,
+    "ms": 3918,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Handing water to a baby is the bait. Fear's the bounty.",
+    "delivery": "cold|staccato",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 817,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Two years old. Snacks. Water. Uber. That's how you say 'I see you' without a single lie.",
+    "delivery": "tired|defiant",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 4191,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Bounty's paid already. Next gate's a gun. Period.",
+    "delivery": "cold|staccato",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 1024,
+    "noMerge": true
+  }
+]

@@ -22,6 +22,7 @@
       "instruction": "NOW detonate the receipt you have been holding: the copycat comment under Shade Room's post [E14]. Deliver it flat and even. Let it sit. Do not explain it twice."
     }
   ],
+  "anaphora_exempt": ["said you", "not dad", "snacks", "water", "uber", "two"],
   "protected_facts": [
     { "note": "The child said the single word 'You' when Kai asked who her dad was. She NEVER said the word 'dad'. Do not phrase it as the kid calling him dad.", "banned_phrasings": ["called him dad", "calls him dad", "called him 'dad'", "said dad", "said 'dad'", "call him dad"] },
     { "note": "The child is about TWO years old (never three, never any other age).", "banned_phrasings": ["she's 3", "she was 3", "3 years old", "3-year-old", "three years old", "three-year-old"] }

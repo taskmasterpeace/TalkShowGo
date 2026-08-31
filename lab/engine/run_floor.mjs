@@ -110,10 +110,15 @@ async function main() {
     // protected facts: phrasings the beat card explicitly bans (fact-precision on real people)
     for (const pf of (beat.protected_facts || [])) for (const b of pf.banned_phrasings) if (line.toLowerCase().includes(b.toLowerCase())) return 'FACT PRECISION: ' + pf.note
     // anaphora guard: a 3-word phrase said 2x is dead; a 2-word phrase said 3x is dead (kills short-volley tennis)
+    // ...but FACTS are never tics: n-grams carrying the beat's core fact tokens are exempt (banning "she said 'you'" starved run_008)
+    const exempt = beat.anaphora_exempt || []
     for (const [n, cap] of [[3, 2], [2, 3]]) {
       const counts = {}
       for (const t of turns) for (const g of new Set(ngrams(t.line, n))) counts[g] = (counts[g] || 0) + 1
-      for (const g of new Set(ngrams(line, n))) if (counts[g] >= cap) return `the phrase "${g}" has been beaten to death in this room - that phrasing is DEAD, find completely new words`
+      for (const g of new Set(ngrams(line, n))) {
+        if (exempt.some(e => g.includes(e))) continue
+        if (counts[g] >= cap) return `the phrase "${g}" has been beaten to death in this room - that phrasing is DEAD, find completely new words`
+      }
     }
     // numeric hallucination guard: any number not in this host's receipts NOR already spoken on the floor is invented
     const allowedText = ((beat.allowed_evidence[hostId] || []).map(id => evTexts[id] || '').join(' ') + ' ' + beat.question + ' ' + turns.map(t => t.line).join(' '))
@@ -125,9 +130,11 @@ async function main() {
     if (endsWithName(line) && turns.filter(t => t.id === hostId && endsWithName(t.line)).length >= 2) return 'you keep ending your lines with his name - it has become a tic; end this line on the POINT instead'
     // catchphrase law: yours max once per episode, another host's NEVER
     for (const h of cast.hosts) for (const c of (h.catchphrase_rare || [])) {
-      if (line.toLowerCase().includes(c.toLowerCase())) {
+      const stem = c.toLowerCase().replace(/[^a-z]/g, '').slice(0, Math.max(4, c.length - 2)) // "Periodt" also catches the "Period." dodge
+      const hasIt = l => l.toLowerCase().replace(/[^a-z ]/g, '').split(/\s+/).some(w => w.startsWith(stem))
+      if (hasIt(line)) {
         if (h.id !== hostId) return `"${c}" is ${h.name}'s signature, not yours - never use another host's words`
-        if (turns.some(t => t.id === hostId && t.line.toLowerCase().includes(c.toLowerCase()))) return `you already used your catchphrase "${c}" this episode - once is the cap`
+        if (turns.some(t => t.id === hostId && hasIt(t.line))) return `you already used your catchphrase "${c}" (or a variant of it) this episode - once is the cap`
       }
     }
     const recent = turns.slice(-3).map(t => t.line)
@@ -166,7 +173,7 @@ async function main() {
       if (!(beat.allowed_evidence[hostId] || []).includes(id)) return false
       const ev = contentWords(evTexts[id] || ''), ln = contentWords(t.line)
       let hits = 0; for (const w of ln) if (ev.has(w)) hits++
-      return hits >= 2
+      return hits >= 1 // one real content-word link keeps the tag; paraphrase shouldn't orphan a legit cite
     })
     // enforce the word cap in code: truncate at a sentence boundary
     const cap = Math.round(28 * host.behavior.verbosity + 12)
