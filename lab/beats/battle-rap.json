@@ -1,0 +1,31 @@
+{
+  "id": "battle-rap",
+  "name": "Battle Rap",
+  "status": "active",
+  "description": "US battle rap: leagues, battlers, bloggers. Beat #1 - the proving ground, not the ceiling.",
+  "_law": "Handles rot. Run source-verify (twitterapi.io user/info per handle) before first ingest and monthly after. Never assume a seed handle is current.",
+  "sources": {
+    "twitter": [
+      { "handle": "uraboratv", "label": "URL / Ultimate Rap League", "type": "league", "priority": 1, "status": "STALE - user/info returned not-found 2026-08-31; try candidates", "candidates": ["urltv"] },
+      { "handle": "KingOfTheDot", "label": "King of the Dot", "type": "league", "priority": 1, "status": "unverified" },
+      { "handle": "RBE_studios", "label": "Rare Breed Entertainment", "type": "league", "priority": 1, "status": "unverified" },
+      { "handle": "JayBlac1615", "label": "Jay Blac (Champion)", "type": "blogger", "priority": 1, "status": "unverified" },
+      { "handle": "15MOFE", "label": "15 Minutes of Fame", "type": "league", "priority": 2, "status": "unverified" },
+      { "handle": "HipHopIsReal", "label": "HHIR", "type": "media", "priority": 2, "status": "unverified" },
+      { "handle": "champduane", "label": "Duane (Champion)", "type": "blogger", "priority": 2, "status": "unverified" },
+      { "handle": "AngryFan007", "label": "Angry Fan", "type": "blogger", "priority": 2, "status": "unverified" },
+      { "handle": "islandgodverb", "label": "Aye Verb", "type": "battler", "priority": 2, "status": "verified-from-our-records 2026" }
+    ],
+    "youtube": [
+      { "channel_name": "URLTV", "type": "league", "priority": 1, "status": "unverified" },
+      { "channel_name": "King Of The Dot Entertainment", "type": "league", "priority": 1, "status": "unverified" },
+      { "channel_name": "Rare Breed Entertainment", "type": "league", "priority": 1, "status": "unverified" },
+      { "channel_name": "Jayblac1615", "type": "blogger", "priority": 1, "status": "unverified" },
+      { "channel_name": "No Studio'N Network", "type": "blogger", "priority": 2, "status": "unverified" },
+      { "channel_name": "HipHopIsReal", "type": "interviews", "priority": 2, "status": "unverified" },
+      { "channel_name": "VladTV", "type": "interviews", "priority": 3, "status": "unverified", "note": "battle-rap content only" }
+    ],
+    "rss": [],
+    "web": []
+  }
+}

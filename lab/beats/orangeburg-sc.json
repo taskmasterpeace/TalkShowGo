@@ -1,0 +1,20 @@
+{
+  "id": "orangeburg-sc",
+  "name": "Orangeburg, South Carolina",
+  "status": "demo",
+  "description": "DEMO BEAT - exists to prove the machine generalizes to a local-town show ('a podcast from somebody who gets that place'). Not active. Same pipeline, different plugs.",
+  "_law": "Local beats lean RSS-first: the town paper's published feed, Google News RSS queries scoped to the town, county/city .gov feeds, police blotter feeds where published. Feeds exist to be read - never hostile-crawl a site that doesn't offer one.",
+  "sources": {
+    "twitter": [
+      { "handle": null, "label": "TO ADD: local reporters, city/county accounts, the scanner-chaser accounts every town has", "type": "seed-note" }
+    ],
+    "youtube": [
+      { "channel_name": null, "label": "TO ADD: nearest local news stations covering Orangeburg (Columbia SC market - e.g. WIS, WLTX), any local vloggers", "type": "seed-note" }
+    ],
+    "rss": [
+      { "label": "Google News - Orangeburg SC", "url": "https://news.google.com/rss/search?q=%22Orangeburg%22+%22South+Carolina%22&hl=en-US&gl=US&ceid=US:en", "note": "legal published feed; aggregates the local papers without us crawling them" },
+      { "label": "The Times and Democrat (Orangeburg's own paper)", "url": "https://thetandd.com/", "note": "VERIFY exact feed URL at activation (Lee Enterprises papers usually publish RSS). If no feed exists, the Google News query above carries it." }
+    ],
+    "web": []
+  }
+}
