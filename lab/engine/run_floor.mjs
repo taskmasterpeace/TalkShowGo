@@ -109,12 +109,14 @@ async function main() {
     if (/\bE\d+\b/.test(line)) return 'you said an evidence id out loud; humans say the FACT, never the label'
     // protected facts: phrasings the beat card explicitly bans (fact-precision on real people)
     for (const pf of (beat.protected_facts || [])) for (const b of pf.banned_phrasings) if (line.toLowerCase().includes(b.toLowerCase())) return 'FACT PRECISION: ' + pf.note
-    // anaphora guard: any 3-word phrase already said twice in the room is DEAD
-    const counts = {}
-    for (const t of turns) for (const g of new Set(ngrams(t.line, 3))) counts[g] = (counts[g] || 0) + 1
-    for (const g of new Set(ngrams(line, 3))) if (counts[g] >= 2) return `the phrase "${g}" has been said twice already - that phrasing is DEAD in this room, find completely new words`
-    // numeric hallucination guard: any number not present in this host's receipts is invented
-    const allowedText = ((beat.allowed_evidence[hostId] || []).map(id => evTexts[id] || '').join(' ') + ' ' + beat.question)
+    // anaphora guard: a 3-word phrase said 2x is dead; a 2-word phrase said 3x is dead (kills short-volley tennis)
+    for (const [n, cap] of [[3, 2], [2, 3]]) {
+      const counts = {}
+      for (const t of turns) for (const g of new Set(ngrams(t.line, n))) counts[g] = (counts[g] || 0) + 1
+      for (const g of new Set(ngrams(line, n))) if (counts[g] >= cap) return `the phrase "${g}" has been beaten to death in this room - that phrasing is DEAD, find completely new words`
+    }
+    // numeric hallucination guard: any number not in this host's receipts NOR already spoken on the floor is invented
+    const allowedText = ((beat.allowed_evidence[hostId] || []).map(id => evTexts[id] || '').join(' ') + ' ' + beat.question + ' ' + turns.map(t => t.line).join(' '))
     const allowedNums = new Set(allowedText.toLowerCase().replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b/g, m => SPELLED[m]).match(/\d+/g) || [])
     const lineNums = (line.toLowerCase().replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b/g, m => SPELLED[m]).match(/\d+/g) || [])
     for (const n of lineNums) if (!allowedNums.has(n)) return `the number ${n} is not in your receipts; you invented it - drop the number or use a fact you actually hold`
@@ -152,7 +154,9 @@ async function main() {
       if (!problem) break
       console.error(`  reject#${attempt}(${hostId}): ${problem}`)
     }
-    t.line = t.line.replace(/\[?\bE\d+\b\]?(?:'s)?/g, '').replace(/\s{2,}/g, ' ').replace(/—/g, '...').trim() || '(unusable turn)'
+    t.line = t.line.replace(/\[?\bE\d+\b\]?(?:'s)?/g, '').replace(/\s{2,}/g, ' ').replace(/—/g, '...').trim()
+    // a regular turn that survived nothing gets SKIPPED, never rendered as a placeholder; scripted beats keep best attempt
+    if ((!t.line || (problem && !instruction))) { if (!instruction) { console.error(`  skip(${hostId}): no usable turn`); return false } t.line = t.line || '...' }
     // enforce the word cap in code: truncate at a sentence boundary
     const cap = Math.round(28 * host.behavior.verbosity + 12)
     const wlist = t.line.match(/\S+/g) || []
@@ -164,6 +168,7 @@ async function main() {
     turns.push({ id: hostId, name: host.name.toUpperCase(), ...t, tag: tag || null, ms: Date.now() - t0, noMerge: !!instruction })
     spoken += words(t.line); turnNo++
     console.error(`turn ${turnNo} ${hostId}${tag ? ' [' + tag + ']' : ''} ${words(t.line)}w ${Date.now() - t0}ms :: ${t.line.slice(0, 70)}`)
+    return true
   }
   function backchannel(hostId) {
     const host = hosts[hostId]; const pool = BC[hostId] || ['Mm.']
@@ -184,7 +189,7 @@ async function main() {
     const shareOf = id => { const w = turns.filter(t => t.id === id).reduce((a, t) => a + (t.line.match(/\S+/g) || []).length, 0); return spoken ? w / spoken : 0 }
     // waypoints: the director's progression notes - momentum comes from the beat sheet, not model willpower
     const wp = (beat.waypoints || [])[wpIdx]
-    if (wp && spoken >= wp.after_words) { wpIdx++; if (wp.host !== (last && last.id)) return { id: wp.host, instruction: wp.note, tag: null } }
+    if (wp && spoken >= wp.after_words && wp.host !== (last && last.id)) { wpIdx++; return { id: wp.host, instruction: wp.note, tag: null } } // defer, never drop
     if (last && last.addressed_to && hosts[last.addressed_to] && last.addressed_to !== last.id && shareOf(last.addressed_to) <= 0.45 && rand() < 0.75) return { id: last.addressed_to }
     const cands = cast.hosts.filter(h => h.id !== (last && last.id) && !(h.id === beat.kk_drop.host && !kkDropped))
     const weights = cands.map(h => (0.25 + h.behavior.interruption_rate) * (shareOf(h.id) > 0.4 ? 0.2 : 1)) // damp floor-hogs

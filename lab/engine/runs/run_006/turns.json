@@ -1,0 +1,376 @@
+[
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Snacks, water, Uber. That's a receipt.",
+    "delivery": "Deadpan, eyes narrow",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1215,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Snacks, water, Uber? That's the *whole* story? She drove 15 hours for a hug and you call it a receipt?",
+    "delivery": "Furious",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E2",
+      "E6"
+    ],
+    "tag": null,
+    "ms": 2309,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "She drove 15 hours? That's the *real* story. Periodt.",
+    "delivery": "Deadpan, clipped",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 3075,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Whew.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "She drove 15 hours just to see him. He gave her water, snacks, and an Uber. That’s grace, not a receipt.",
+    "delivery": "exhausted passion",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 3237,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Whew.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Grace wasn't the issue. The audience made it one.",
+    "delivery": "weary sigh",
+    "addressed_to": "marcus-blaze|tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 3138,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "(unusable turn)",
+    "delivery": "level",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": "interrupting",
+    "ms": 3285,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Bounty's the new grace, Marcus. It's up RIGHT NOW.",
+    "delivery": "cold, clear",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": "interrupting",
+    "ms": 968,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Hm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Copycat comment under Shade Room: 'Baby not safe with her'.",
+    "delivery": "cold, clear",
+    "addressed_to": "null",
+    "evidence": [
+      "E14"
+    ],
+    "tag": "interrupting",
+    "ms": 7443,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You think a baby safe with her? That comment's not grace, it's a *crime* against a child.",
+    "delivery": "disbelief then fire",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 3633,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Kindness went viral, turned into bounty. That's real.",
+    "delivery": "sharp, quiet, unshakeable",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1810,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You heard her say it: 'Baby not safe with her.' So let me ask...what was he supposed to do, walk away? Like, for real?",
+    "delivery": "cold, challenging",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1090,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "(unusable turn)",
+    "delivery": "level",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 2229,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You saying 'baby not safe' is a crime. He gave her water. The baby looked innocent. That's not bounty, it's mercy. I seen the clip.",
+    "delivery": "furious, gentle",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E4"
+    ],
+    "tag": "interrupting",
+    "ms": 1211,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The child said 'You' when asked who her dad was. She was two. The audience never saw the clip, just the headline.",
+    "delivery": "weary, clear",
+    "addressed_to": "marcus-blaze|tasha-raw",
+    "evidence": [
+      "E12",
+      "E29"
+    ],
+    "tag": null,
+    "ms": 6368,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "That's real. I'd've done the same. Then the bounty posted.",
+    "delivery": "deadpan, unblinking",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1148,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "(unusable turn)",
+    "delivery": "level",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": "interrupting",
+    "ms": 5478,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "You called it a crime, Marcus. Now you say bounty?",
+    "delivery": "sharp, mocking",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1423,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You heard her say 'baby not safe'...now you quote it like it's gospel? The baby was two, innocent, and he gave her water. That's grace, not bounty.",
+    "delivery": "disbelief, then firm",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 4726,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Copycat's already here. They'll bring a gun.",
+    "delivery": "deadly calm",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1839,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "She drove 15 hours. Baby two. Water. Snacks. Uber. That's mercy, not bounty. Stop trying to make it a crime.",
+    "delivery": "exhausted-protective",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": "interrupting",
+    "ms": 5512,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Mercy's a meme now. Bounty's the price.",
+    "delivery": "sly, cold",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 879,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You're calling mercy a meme? The baby looked innocent. That's grace, not a price tag. I SEEN the clip.",
+    "delivery": "defiant, warm",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1290,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Mercy's dead. Bounty's the new mercy.",
+    "delivery": "deadly calm",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 929,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Mercy is alive. The baby was two. He gave water, snacks, Uber. That's not bounty...it's grace.",
+    "delivery": "warm firm",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 4190,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Mercy's a hashtag. Bounty's the price. You'll see it next week.",
+    "delivery": "deadly calm",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1021,
+    "noMerge": true
+  }
+]
