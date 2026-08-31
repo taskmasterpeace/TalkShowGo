@@ -11,7 +11,8 @@ Law (Robert, 2026-08-31): every rendered audio file gets a row here the moment i
 
 | nonverbal_test_reel.mp3 | 0:49 | Claude (5 test takes, self-labeled) | **Breeze TTS 2** on cupcake (breeze-design refs -> breeze-clone w/ `instruction`) | designed cast: tasha seed 101 / blaze seed 202 / knowledge seed 303 | ROBERT'S NONVERBAL TEST: inline (laughs)/(sighs) tags vs instruction-only, breathing, whisper-to-shout |
 | flareup_v3_breeze.mp3 | 1:59 | Claude (same v2 convo demo Robert liked at 1:40) | **Breeze TTS 2** breeze-clone, per-line instruction = delivery parentheticals | same locked designed cast | first full Breeze segment; ref-clip lock = no voice wobble by construction |
-| lab/cast/voices/*.wav | refs | - | breeze-design (seed-locked) | the canonical cast reference clips + ref texts | COMMITTED to git: these ARE the voice lock |
+| flareup_v4_breeze.mp3 | 2:06 | Claude (same v2 convo demo) | **Breeze TTS 2**, CFG LAW applied (direction 4.0 / plain 1.0) | Blaze REDESIGNED at cfg 4.0 + studio-quality descriptors (seed 202) - phone voice fixed; Tasha/KK refs unchanged | the corrected cut per Robert's note |
+| lab/cast/voices/*.wav | refs | - | breeze-design (seed-locked, cfg 4.0 since v4) | the canonical cast reference clips + ref texts | COMMITTED to git: these ARE the voice lock |
 
 ## Standing engine decisions (2026-08-31)
 - **VOICE ENGINE = Breeze TTS 2 on cupcake** (`/v1/audio/breeze-design` + `/v1/audio/breeze-clone` w/ per-line `instruction` for emotion/nonverbals). Kokoro retired (draft-only wobble). ElevenLabs Battlerap Algorithm stays the narrator option.
