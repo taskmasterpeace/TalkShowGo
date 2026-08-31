@@ -3,6 +3,20 @@
   "name": "Battle Rap",
   "status": "active",
   "description": "US battle rap: leagues, battlers, bloggers. Beat #1 - the proving ground, not the ceiling.",
+  "show": {
+    "name": "BARS & RECEIPTS",
+    "tagline": "The daily battle rap desk",
+    "timespan_hours": 24,
+    "format_bias": "auto",
+    "intro": {
+      "enabled": true,
+      "template": "Cold open: the hottest take on the floor commits in the first two sentences. Then the show ID and today's rundown in one breath."
+    },
+    "outro": {
+      "enabled": true,
+      "template": "The verdict lands, one prediction, one challenge to the comments, tease tomorrow. No fade-outs."
+    }
+  },
   "_law": "Handles rot, userIds don't. Source-verify resolves each handle via user/info BEFORE first ingest and monthly after, and STORES the userId - all polling runs on userId, never userName. Never assume a seed handle is current.",
   "sources": {
     "twitter": [
@@ -96,44 +110,65 @@
         "channel_name": "URLTV",
         "type": "league",
         "priority": 1,
-        "status": "unverified"
+        "status": "RESOLVED 2026-08-31",
+        "channel_id": "UCflIAeM03JFL9ml03LwYF-g",
+        "resolved_title": "Ultimate Rap League",
+        "subscribers": "@theUrltv"
       },
       {
         "channel_name": "King Of The Dot Entertainment",
         "type": "league",
         "priority": 1,
-        "status": "unverified"
+        "status": "RESOLVED 2026-08-31",
+        "channel_id": "UCIuFtIO8i_XqA8lM7q4B1FQ",
+        "resolved_title": "King Of The Dot Entertainment",
+        "subscribers": "@KingOfTheDot"
       },
       {
         "channel_name": "Rare Breed Entertainment",
         "type": "league",
         "priority": 1,
-        "status": "unverified"
+        "status": "RESOLVED 2026-08-31",
+        "channel_id": "UCVsYff7Yb4k_5v5iW5KouHA",
+        "resolved_title": "Rare Breed Ent",
+        "subscribers": "@RBE"
       },
       {
         "channel_name": "Jayblac1615",
         "type": "blogger",
         "priority": 1,
-        "status": "unverified"
+        "status": "RESOLVED 2026-08-31",
+        "channel_id": "UCdXzXtwGpGfpkQLejc4GMiQ",
+        "resolved_title": "Jayblac1615",
+        "subscribers": "@Jayblac1615"
       },
       {
         "channel_name": "No Studio'N Network",
         "type": "blogger",
         "priority": 2,
-        "status": "unverified"
+        "status": "RESOLVED 2026-08-31",
+        "channel_id": "UCFn7HhpZy3bG5q35N1sBdpA",
+        "resolved_title": "No Studio'N Network",
+        "subscribers": "@NoStudioNNetwork"
       },
       {
         "channel_name": "HipHopIsReal",
         "type": "interviews",
         "priority": 2,
-        "status": "unverified"
+        "status": "RESOLVED 2026-08-31",
+        "channel_id": "UCqf8wnnmpZz1EPZjEV3od4w",
+        "resolved_title": "hiphopisreal.com",
+        "subscribers": "@HipHopIsRealUniverse"
       },
       {
         "channel_name": "VladTV",
         "type": "interviews",
         "priority": 3,
-        "status": "unverified",
-        "note": "battle-rap content only"
+        "status": "RESOLVED 2026-08-31",
+        "note": "battle-rap content only",
+        "channel_id": "UCg7lal8IC-xPyKfgH4rdUcA",
+        "resolved_title": "djvlad",
+        "subscribers": "@vladtv"
       }
     ],
     "rss": [],
