@@ -28,7 +28,7 @@ const main = async () => {
       src.userId = hit.id
       src.followers = hit.followers
       src.display_name = hit.name
-      src.status = `VERIFIED ${today}`
+      src.status = hit.followers < 100 ? `SUSPECT ${today} - only ${hit.followers} followers (possible squatter)` : `VERIFIED ${today}`
       console.log(`OK   @${used}  id=${hit.id}  followers=${hit.followers}  (${hit.name})`)
     } else {
       src.status = `NOT FOUND ${today} - needs a human to find the current handle`

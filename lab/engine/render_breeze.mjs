@@ -16,23 +16,28 @@ const KEY = (fs.readFileSync(path.join(ROOT, '.env'), 'utf8').match(/^CUPCAKE_GA
 const GW = process.env.CUPCAKE_GATEWAY_URL || 'http://192.168.1.249:8700'
 const VDIR = path.join(ROOT, 'lab', 'cast', 'voices')
 
-const CAST = {
-  tasha: {
-    design: 'Young Black American woman, late twenties, sharp quick delivery, low warm tone with a permanent smirk in it, street-smart podcast host, crisp diction, dry and effortlessly cool',
-    ref_text: "I read every comment so you don't have to, and baby, the comments were NOT kind. Somebody has to say the thing everybody's thinking. That's me. That's the job.",
-    base: 'sharp, amused, zero patience, fast', seed: 101,
-  },
-  blaze: {
-    design: 'Big booming American male sports-debate host, thirties, slightly gravelly, explosive projection like he is arguing on live television, speeds up when excited, huge dynamic range',
-    ref_text: "Now HOLD ON, hold on, because everybody in this room is missing the point! I watched the whole thing twice, TWICE, and I am telling you nobody is built like this man. Nobody!",
-    base: 'explosive, incredulous, big dynamic swings', seed: 202,
-  },
-  knowledge: {
-    design: 'Older American man, late fifties, deep low resonant voice, slow deliberate cadence, calm gravitas, wise barbershop elder who has seen everything twice, unhurried',
-    ref_text: "See, y'all are arguing about the wave, and nobody is watching the tide. I've seen this exact story before. Different names, same ending. Sit down, I'll tell it.",
-    base: 'low, slow, measured, total certainty', seed: 303,
-  },
+/* Cast voice config lives in cast.json (voice.aesthetic / voice.seed / voice.ref_text) so the UI can edit it.
+ * CFG LAW (breeze-tts-2 skill): design + real direction = 4.0; pure clone / base read = 1.0. Never 1.3. */
+const FALLBACK = {
+  tasha: { design: 'Young Black American woman, late twenties, sharp quick delivery, low warm tone with a permanent smirk in it, street-smart podcast host, crisp diction, dry and effortlessly cool', ref_text: "I read every comment so you don't have to, and baby, the comments were NOT kind. Somebody has to say the thing everybody's thinking. That's me. That's the job.", base: 'sharp, amused, zero patience, fast', seed: 101 },
+  blaze: { design: 'Big booming American male sports-debate host, thirties, deep chest-resonant baritone, slightly gravelly, explosive projection like arguing on live television, speeds up when excited, huge dynamic range, clear full-bodied close-mic studio quality', ref_text: "Now HOLD ON, hold on, because everybody in this room is missing the point! I watched the whole thing twice, TWICE, and I am telling you nobody is built like this man. Nobody!", base: 'explosive, incredulous, big dynamic swings', seed: 202 },
+  knowledge: { design: 'Older American man, late fifties, deep low resonant voice, slow deliberate cadence, calm gravitas, wise barbershop elder who has seen everything twice, unhurried, clear texture, close-mic studio quality', ref_text: "See, y'all are arguing about the wave, and nobody is watching the tide. I've seen this exact story before. Different names, same ending. Sit down, I'll tell it.", base: 'low, slow, measured, total certainty', seed: 303 },
 }
+const CAST = (() => {
+  const out = structuredClone(FALLBACK)
+  try {
+    const cj = JSON.parse(fs.readFileSync(path.join(ROOT, 'lab', 'cast', 'cast.json'), 'utf8'))
+    for (const h of cj.hosts || []) {
+      const short = h.id === 'marcus-blaze' ? 'blaze' : h.id === 'king-knowledge' ? 'knowledge' : h.id === 'tasha-raw' ? 'tasha' : h.id
+      out[short] = out[short] || {}
+      if (h.voice?.aesthetic) out[short].design = h.voice.aesthetic
+      if (h.voice?.seed) out[short].seed = h.voice.seed
+      if (h.voice?.ref_text) out[short].ref_text = h.voice.ref_text
+      if (h.voice?.default_instruction) out[short].base = h.voice.default_instruction
+    }
+  } catch {}
+  return out
+})()
 const whoOf = n => { const s = n.toLowerCase(); if (s.includes('tasha')) return 'tasha'; if (s.includes('blaze') || s.includes('marcus')) return 'blaze'; if (s.includes('knowledge') || s.includes('king')) return 'knowledge'; return null }
 const ff = a => execSync(`ffmpeg -hide_banner -loglevel error -y ${a}`, { stdio: ['ignore', 'inherit', 'inherit'] })
 
@@ -49,7 +54,9 @@ async function post(ep, body, tries = 3) {
 const refOf = who => ({ b64: fs.readFileSync(path.join(VDIR, who + '.wav')).toString('base64'), text: fs.readFileSync(path.join(VDIR, who + '.ref.txt'), 'utf8').trim() })
 async function line(who, text, instruction, file) {
   const r = refOf(who)
-  const wav = await post('/v1/audio/breeze-clone', { text, ref_audio_b64: r.b64, ref_text: r.text, instruction, cfg_scale: 1.3, seed: CAST[who].seed })
+  // CFG LAW: real direction = 4.0; base/plain read = 1.0 (fast-path graphs exist only for these two)
+  const cfg = instruction && instruction.trim() && instruction !== CAST[who].base ? 4.0 : 1.0
+  const wav = await post('/v1/audio/breeze-clone', { text, ref_audio_b64: r.b64, ref_text: r.text, instruction, cfg_scale: cfg, seed: CAST[who].seed })
   fs.writeFileSync(file, wav)
 }
 function concatToMp3(parts, out, tmp) {
@@ -67,10 +74,13 @@ function concatToMp3(parts, out, tmp) {
 const [mode, a1, a2] = process.argv.slice(2)
 const main = async () => {
   if (mode === 'design') {
+    // optional: design ONE host only (node render_breeze.mjs design blaze) - NEVER clobber approved frozen refs
+    const only = a1 && CAST[a1] ? a1 : null
     fs.mkdirSync(VDIR, { recursive: true })
     for (const [who, c] of Object.entries(CAST)) {
+      if (only && who !== only) continue
       console.error(`designing ${who}...`)
-      const wav = await post('/v1/audio/breeze-design', { text: c.ref_text, design: c.design, cfg_scale: 1.3, seed: c.seed })
+      const wav = await post('/v1/audio/breeze-design', { text: c.ref_text, design: c.design, cfg_scale: 4.0, seed: c.seed })
       fs.writeFileSync(path.join(VDIR, who + '.wav'), wav)
       fs.writeFileSync(path.join(VDIR, who + '.ref.txt'), c.ref_text)
       console.error(`  ${who}.wav ${(wav.length / 1024).toFixed(0)}KB`)

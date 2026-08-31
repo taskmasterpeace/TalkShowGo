@@ -45,6 +45,13 @@ export default function Sources() {
     finally { setBusy(null); reload() }
   }
 
+  // enrich: activity from the latest pull
+  const pull = state.pulls?.[0]
+  const twWin: Record<string, number> = {}
+  for (const s of pull?.twitter || []) if (s.handle) twWin[s.handle.toLowerCase()] = s.in_window ?? 0
+  const ytWin: Record<string, number> = {}
+  for (const c of pull?.youtube || []) if (c.channel_id) ytWin[c.channel_id] = c.in_window ?? 0
+
   const chip = (status: string) => {
     const s = String(status || '')
     if (s.startsWith('VERIFIED') || s.startsWith('RESOLVED')) return <span className="chip ok">{s.split(' ')[0]}</span>
@@ -70,12 +77,13 @@ export default function Sources() {
         </div>
         <div className="overflow-x-auto">
           <table className="cmd-table">
-            <thead><tr><th>HANDLE</th><th>LABEL</th><th>TYPE</th><th>PRI</th><th>FOLLOWERS</th><th>USER ID</th><th>STATUS</th><th /></tr></thead>
+            <thead><tr><th>HANDLE</th><th /><th>LABEL</th><th>TYPE</th><th>PRI</th><th>FOLLOWERS</th><th>LAST 24H</th><th>USER ID</th><th>STATUS</th><th /></tr></thead>
             <tbody>
               {tw.map((s: any, i: number) => (
                 <tr key={i}>
-                  <td style={{ minWidth: 160 }}><div className="flex items-center gap-1"><span style={{ color: 'var(--cmd-faint)' }}>@</span>
+                  <td style={{ minWidth: 150 }}><div className="flex items-center gap-1"><span style={{ color: 'var(--cmd-faint)' }}>@</span>
                     <input className="cmd-input" style={{ border: 'none', padding: '2px 4px', background: 'transparent' }} defaultValue={s.handle} onBlur={e => e.target.value !== s.handle && patchTw(i, { handle: e.target.value })} /></div></td>
+                  <td>{s.handle && <a href={`https://x.com/${s.handle}`} target="_blank" rel="noreferrer" className="chip info" style={{ textDecoration: 'none' }} title={`open x.com/${s.handle} - eyeball it's the right account`}>↗</a>}</td>
                   <td style={{ minWidth: 150 }}><input className="cmd-input" style={{ border: 'none', padding: '2px 4px', background: 'transparent' }} defaultValue={s.label || ''} onBlur={e => e.target.value !== s.label && patchTw(i, { label: e.target.value })} /></td>
                   <td>
                     <select className="cmd-select" style={{ border: 'none', padding: '2px', background: 'transparent', width: 'auto' }} value={s.type} onChange={e => patchTw(i, { type: e.target.value })}>
@@ -88,6 +96,7 @@ export default function Sources() {
                     </select>
                   </td>
                   <td style={{ color: 'var(--cmd-amber)' }}>{s.followers?.toLocaleString?.() || '—'}</td>
+                  <td>{twWin[s.handle?.toLowerCase?.()] !== undefined ? <span className={`chip ${twWin[s.handle.toLowerCase()] > 0 ? 'ok' : ''}`}>{twWin[s.handle.toLowerCase()]}</span> : <span className="cmd-kbd">—</span>}</td>
                   <td className="cmd-kbd">{s.userId || '—'}</td>
                   <td>{chip(s.status)}</td>
                   <td><button className="chip err" style={{ cursor: 'pointer' }} onClick={() => removeTw(i)}>✕</button></td>
@@ -108,11 +117,12 @@ export default function Sources() {
         </div>
         <div className="overflow-x-auto">
           <table className="cmd-table">
-            <thead><tr><th>CHANNEL</th><th>TYPE</th><th>PRI</th><th>RESOLVED</th><th>SUBS</th><th>LATEST UPLOAD</th><th>STATUS</th><th /></tr></thead>
+            <thead><tr><th>CHANNEL</th><th /><th>TYPE</th><th>PRI</th><th>RESOLVED</th><th>HANDLE</th><th>LAST 24H</th><th>STATUS</th><th /></tr></thead>
             <tbody>
               {yt.map((c: any, i: number) => (
                 <tr key={i}>
                   <td style={{ minWidth: 190 }}><input className="cmd-input" style={{ border: 'none', padding: '2px 4px', background: 'transparent' }} defaultValue={c.channel_name} onBlur={e => e.target.value !== c.channel_name && patchYt(i, { channel_name: e.target.value })} /></td>
+                  <td>{c.channel_id && <a href={`https://www.youtube.com/channel/${c.channel_id}`} target="_blank" rel="noreferrer" className="chip info" style={{ textDecoration: 'none' }} title="open the channel - eyeball it's the right one">↗</a>}</td>
                   <td>
                     <select className="cmd-select" style={{ border: 'none', padding: '2px', background: 'transparent', width: 'auto' }} value={c.type} onChange={e => patchYt(i, { type: e.target.value })}>
                       {['league', 'blogger', 'interviews', 'media'].map(t => <option key={t}>{t}</option>)}
@@ -121,7 +131,7 @@ export default function Sources() {
                   <td>{c.priority}</td>
                   <td className="cmd-kbd">{c.resolved_title || '—'}</td>
                   <td style={{ color: 'var(--cmd-cyan)' }}>{c.subscribers || '—'}</td>
-                  <td className="cmd-kbd truncate" style={{ maxWidth: 260 }} title={c.latest?.title}>{c.latest ? `${c.latest.title} · ${c.latest.published || ''}` : '—'}</td>
+                  <td>{ytWin[c.channel_id] !== undefined ? <span className={`chip ${ytWin[c.channel_id] > 0 ? 'ok' : ''}`}>{ytWin[c.channel_id]}</span> : <span className="cmd-kbd">—</span>}</td>
                   <td>{chip(c.status)}</td>
                   <td><button className="chip err" style={{ cursor: 'pointer' }} onClick={() => removeYt(i)}>✕</button></td>
                 </tr>

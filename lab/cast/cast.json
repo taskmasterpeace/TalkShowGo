@@ -53,7 +53,7 @@
       },
       "catchphrase_rare": ["I said what I said"],
       "show_memory": "lab/cast/memory/marcus-blaze.json",
-      "voice": { "engine": "dialogue-native (see CONVO_ENGINE MASTER table)", "ref_clip": null, "seed": null, "default_instruction": "explosive, incredulous, speeds up when heated, big dynamic swings" }
+      "voice": { "engine": "breeze-tts-2 (see skill)", "seed": 202, "default_instruction": "explosive, incredulous, speeds up when heated, big dynamic swings", "aesthetic": "Big booming American male sports-debate host, thirties, deep chest-resonant baritone, slightly gravelly, explosive projection like arguing on live television, speeds up when excited, huge dynamic range, clear full-bodied close-mic studio quality", "ref_text": "Now HOLD ON, hold on, because everybody in this room is missing the point! I watched the whole thing twice, TWICE, and I am telling you nobody is built like this man. Nobody!" }
     },
     {
       "id": "tasha-raw",
@@ -79,7 +79,7 @@
       },
       "catchphrase_rare": ["Periodt"],
       "show_memory": "lab/cast/memory/tasha-raw.json",
-      "voice": { "engine": "dialogue-native (see CONVO_ENGINE MASTER table)", "ref_clip": null, "seed": null, "default_instruction": "sharp, amused, zero patience, fast, smirk in the voice; flat and even when she goes serious" }
+      "voice": { "engine": "breeze-tts-2 (see skill)", "seed": 101, "default_instruction": "sharp, amused, zero patience, fast, smirk in the voice; flat and even when she goes serious", "aesthetic": "Young Black American woman, late twenties, sharp quick delivery, low warm tone with a permanent smirk in it, street-smart podcast host, crisp diction, dry and effortlessly cool", "ref_text": "I read every comment so you don't have to, and baby, the comments were NOT kind. Somebody has to say the thing everybody's thinking. That's me. That's the job.", "_note": "ROBERT APPROVED 2026-08-31 (ASMR-smooth, alluring, sounds Black) - ref is FROZEN, never redesign" }
     },
     {
       "id": "king-knowledge",
@@ -105,7 +105,7 @@
       },
       "catchphrase_rare": ["The culture don't forget"],
       "show_memory": "lab/cast/memory/king-knowledge.json",
-      "voice": { "engine": "dialogue-native (see CONVO_ENGINE MASTER table)", "ref_clip": null, "seed": null, "default_instruction": "low, slow, measured, total certainty, leaves air after the wisdom" }
+      "voice": { "engine": "breeze-tts-2 (see skill)", "seed": 303, "default_instruction": "low, slow, measured, total certainty, leaves air after the wisdom", "aesthetic": "Older American man, late fifties, deep low resonant voice, slow deliberate cadence, calm gravitas, wise barbershop elder who has seen everything twice, unhurried, clear texture, close-mic studio quality", "ref_text": "See, y'all are arguing about the wave, and nobody is watching the tide. I've seen this exact story before. Different names, same ending. Sit down, I'll tell it." }
     }
   ]
 }

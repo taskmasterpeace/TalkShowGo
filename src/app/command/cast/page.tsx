@@ -12,6 +12,27 @@ const KNOBS = ['verbosity', 'filler_rate', 'interruption_rate', 'backchannel_rat
 export default function CastPage() {
   const { state, reload } = useCmdState()
   const [flash, setFlash] = useState<string | null>(null)
+  const [vbusy, setVbusy] = useState<string | null>(null)
+  const [vmsg, setVmsg] = useState<Record<string, string>>({})
+  const designVoice = async (hostId: string) => {
+    setVbusy(hostId); setVmsg(m => ({ ...m, [hostId]: '' }))
+    try {
+      const r = await fetch('/api/command/voice', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ host: hostId, action: 'design' }) })
+      const j = await r.json()
+      setVmsg(m => ({ ...m, [hostId]: j.ok ? `OK — new locked ref designed (seed ${j.seed})` : (j.busy ? 'BOX BUSY (video render running) — try again shortly' : 'ERR: ' + j.error) }))
+    } finally { setVbusy(null); reload() }
+  }
+  const uploadVoice = async (hostId: string, file: File) => {
+    const refText = window.prompt('Exact transcript of the clip (required — Breeze clones from ref audio + its exact words):')
+    if (!refText) return
+    setVbusy(hostId)
+    try {
+      const fd = new FormData(); fd.set('host', hostId); fd.set('ref_text', refText); fd.set('file', file)
+      const r = await fetch('/api/command/voice', { method: 'POST', body: fd })
+      const j = await r.json()
+      setVmsg(m => ({ ...m, [hostId]: j.ok ? 'OK — your reference is now the locked voice' : 'ERR: ' + j.error }))
+    } finally { setVbusy(null); reload() }
+  }
   if (!state) return <div className="p-8 cmd-kbd">LOADING CAST...</div>
   const cast = state.cast
   if (!cast) return <div className="p-8 cmd-kbd">NO CAST FILE</div>
@@ -63,8 +84,21 @@ export default function CastPage() {
 
               {/* REF VOICE */}
               <div className="p-3 border-b" style={{ borderColor: 'var(--cmd-line)' }}>
-                <div className="cmd-label flex justify-between"><span>REFERENCE VOICE (BREEZE · SEED-LOCKED)</span>{vw ? <span className="chip ok">LOCKED</span> : <span className="chip err">MISSING</span>}</div>
-                {vw && <audio controls preload="none" src={`/api/command/audio/voices/${vw}`} />}
+                <div className="cmd-label flex justify-between"><span>REFERENCE VOICE (BREEZE · SEED {h.voice?.seed})</span>{vw ? <span className="chip ok">LOCKED{h.voice?.source ? ' · ' + h.voice.source.split(' ')[0].toUpperCase() : ''}</span> : <span className="chip err">MISSING</span>}</div>
+                {vw && <audio controls preload="none" src={`/api/command/audio/voices/${vw}?t=${Date.now()}`} />}
+                {h.voice?._note && <div className="cmd-kbd mt-1" style={{ color: 'var(--cmd-green)' }}>{h.voice._note}</div>}
+                <div className="mt-2">
+                  <div className="cmd-label">VOICE AESTHETIC (separate from persona — &quot;phone-quality caller&quot; is a valid aesthetic)</div>
+                  <textarea className="cmd-textarea text-xs" rows={3} defaultValue={h.voice?.aesthetic || ''} onBlur={e => e.target.value !== h.voice?.aesthetic && patchHost(h.id, { voice: { ...h.voice, aesthetic: e.target.value } })} />
+                </div>
+                <div className="flex gap-2 mt-2 items-center flex-wrap">
+                  <button className="cmd-btn ghost" disabled={vbusy === h.id} onClick={() => designVoice(h.id)}>{vbusy === h.id ? 'DESIGNING…' : '🎙 DESIGN FROM DESCRIPTION'}</button>
+                  <label className="cmd-btn ghost" style={{ cursor: 'pointer' }}>
+                    ⬆ UPLOAD MY OWN (.wav)
+                    <input type="file" accept=".wav" className="hidden" onChange={e => e.target.files?.[0] && uploadVoice(h.id, e.target.files[0])} />
+                  </label>
+                </div>
+                {vmsg[h.id] && <div className="cmd-kbd mt-1" style={{ color: vmsg[h.id].startsWith('OK') ? 'var(--cmd-green)' : 'var(--cmd-amber)' }}>{vmsg[h.id]}</div>}
                 <div className="cmd-kbd mt-1">delivery: {h.voice?.default_instruction}</div>
               </div>
 

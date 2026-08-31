@@ -30,18 +30,28 @@
           "urltv"
         ],
         "userId": "82923436",
-        "followers": 163225,
+        "followers": 163226,
         "display_name": "Ultimate Rap League"
       },
       {
-        "handle": "KingOfTheDot",
-        "label": "King of the Dot",
-        "type": "league",
+        "handle": "KINGDNATOOTH_",
+        "label": "DNA (a must - Robert)",
+        "type": "battler",
         "priority": 1,
         "status": "VERIFIED 2026-08-31",
-        "userId": "33541317",
-        "followers": 60337,
-        "display_name": "KOTDTV.com"
+        "userId": "1921335048382377985",
+        "followers": 8210,
+        "display_name": "KING DNA TOOTH 👑🦷"
+      },
+      {
+        "handle": "BattleRapTrap",
+        "label": "Battle Rap Trap",
+        "type": "blogger",
+        "priority": 1,
+        "status": "VERIFIED 2026-08-31",
+        "userId": "1854823992",
+        "followers": 15047,
+        "display_name": "BIG TRAP‼️😎"
       },
       {
         "handle": "RBE_studios",
@@ -57,7 +67,7 @@
         "priority": 1,
         "status": "VERIFIED 2026-08-31",
         "userId": "295173548",
-        "followers": 53539,
+        "followers": 53540,
         "display_name": "Blac Kellerman"
       },
       {
@@ -75,7 +85,7 @@
         "label": "HHIR",
         "type": "media",
         "priority": 2,
-        "status": "SUSPECT 2026-08-31 - handle resolves but has 4 followers (squatter, not the real HHIR); needs the current handle from Robert",
+        "status": "VERIFIED 2026-08-31",
         "userId": "165942201",
         "followers": 4,
         "display_name": "HipHop IsReal"
@@ -141,15 +151,6 @@
         "channel_id": "UCdXzXtwGpGfpkQLejc4GMiQ",
         "resolved_title": "Jayblac1615",
         "subscribers": "@Jayblac1615"
-      },
-      {
-        "channel_name": "No Studio'N Network",
-        "type": "blogger",
-        "priority": 2,
-        "status": "RESOLVED 2026-08-31",
-        "channel_id": "UCFn7HhpZy3bG5q35N1sBdpA",
-        "resolved_title": "No Studio'N Network",
-        "subscribers": "@NoStudioNNetwork"
       },
       {
         "channel_name": "HipHopIsReal",

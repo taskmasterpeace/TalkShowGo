@@ -42,26 +42,18 @@ export async function POST(req: Request) {
     await new Promise(r => setTimeout(r, 300))
   }
 
-  // — YouTube sweep (latest uploads per resolved channel; recency by published text) —
+  // — YouTube sweep via official channel RSS feeds: exact ISO timestamps, keyless, reliable —
   try {
-    const { Innertube } = await import('youtubei.js')
-    const yt = await Innertube.create({ retrieve_player: false })
+    const Parser = (await import('rss-parser')).default
+    const parser = new Parser()
     for (const ch of beat.sources.youtube || []) {
       if (!ch.channel_id) continue
       try {
-        const chan: any = await yt.getChannel(ch.channel_id)
-        const vids: any = await chan.getVideos()
-        const recent = (vids?.videos || []).slice(0, 8).map((v: any) => ({
-          title: v.title?.text || String(v.title || ''), video_id: v.id,
-          published: v.published?.text || null, views: v.view_count?.text || v.short_view_count?.text || null,
-        })).filter((v: any) => {
-          const p = (v.published || '').toLowerCase()
-          if (!p) return true
-          if (hours <= 24) return /minute|hour|^today/.test(p) || (/1 day/.test(p))
-          if (hours <= 48) return /minute|hour|1 day|2 days/.test(p)
-          return !/month|year/.test(p)
-        })
-        report.youtube.push({ channel: ch.resolved_title || ch.channel_name, channel_id: ch.channel_id, in_window: recent.length, videos: recent })
+        const feed = await parser.parseURL(`https://www.youtube.com/feeds/videos.xml?channel_id=${ch.channel_id}`)
+        const recent = (feed.items || [])
+          .map((it: any) => ({ title: it.title, video_id: String(it.id || '').split(':').pop(), published: it.pubDate, url: it.link }))
+          .filter((v: any) => new Date(v.published).getTime() >= since)
+        report.youtube.push({ channel: ch.resolved_title || ch.channel_name, channel_id: ch.channel_id, in_window: recent.length, videos: recent.slice(0, 8) })
         report.totals.videos += recent.length
       } catch (e: any) {
         report.youtube.push({ channel: ch.channel_name, error: String(e?.message || e).slice(0, 80) })

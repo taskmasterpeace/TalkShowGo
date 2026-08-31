@@ -3,11 +3,56 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useCmdState, saveBeat, Flash } from './lib'
 
+function TopicsPanel({ topics, onMine, busy }: { topics: any; onMine: () => void; busy: boolean }) {
+  return (
+    <div className="cmd-panel">
+      <div className="cmd-h justify-between">
+        <div className="flex items-center gap-3"><div className="vu"><i /><i /><i /><i /></div><h2>THE TOPIC MINER — WHAT&apos;S THE STORY TODAY</h2></div>
+        <button className="cmd-btn" disabled={busy} onClick={onMine}>{busy ? 'MINING…' : '⛏ MINE TOPICS'}</button>
+      </div>
+      {topics?.error && <div className="p-4"><span className="chip err">{topics.error}</span></div>}
+      {topics?.the_lead && (
+        <div className="p-4 border-b" style={{ borderColor: 'var(--cmd-line)' }}>
+          <div className="cmd-label" style={{ color: 'var(--cmd-red)' }}>THE LEAD</div>
+          <div className="cmd-display text-lg" style={{ letterSpacing: '0.04em' }}>{topics.the_lead}</div>
+        </div>
+      )}
+      {(topics?.topics || []).length > 0 && (
+        <div className="p-4 space-y-3">
+          {topics.topics.map((t: any, i: number) => (
+            <div key={i} className="border p-3" style={{ borderColor: 'var(--cmd-line)' }}>
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="cmd-display" style={{ letterSpacing: '0.04em' }}>{t.title}</span>
+                <span className={`chip ${t.overlap_sources >= 2 ? 'ok' : 'info'}`}>{t.overlap_sources >= 2 ? `OVERLAP ×${t.overlap_sources}` : 'SOLO'}</span>
+                <span className={`chip ${t.kind === 'story' ? 'err' : t.kind === 'follow-up' ? 'warn' : ''}`}>{(t.kind || '').toUpperCase()}</span>
+              </div>
+              <div className="text-xs mt-1" style={{ color: 'var(--cmd-dim)' }}>{t.why_today}</div>
+              {t.angle && <div className="text-xs mt-1" style={{ color: 'var(--cmd-amber)' }}>ANGLE: {t.angle}</div>}
+              {(t.evidence || []).slice(0, 3).map((e: string, k: number) => <div key={k} className="cmd-kbd mt-1 truncate">{e}</div>)}
+            </div>
+          ))}
+        </div>
+      )}
+      {!topics && <div className="p-4 cmd-kbd">RUN PULL, THEN MINE — overlap across sources = the day&apos;s story; solo items become follow-ups.</div>}
+    </div>
+  )
+}
+
 export default function Desk() {
   const { state, reload } = useCmdState()
   const [busy, setBusy] = useState(false)
+  const [busy2, setBusy2] = useState(false)
   const [flash, setFlash] = useState<string | null>(null)
   const [report, setReport] = useState<any>(null)
+  const [topics2, setTopics2] = useState<any>(null)
+  const runMine = async () => {
+    setBusy2(true)
+    try {
+      const r = await fetch('/api/command/topics', { method: 'POST' })
+      const j = await r.json()
+      if (j.error) setTopics2({ error: j.error }); else setTopics2(j)
+    } finally { setBusy2(false) }
+  }
 
   if (!state) return <div className="p-8 cmd-kbd">BOOTING DESK...</div>
   const beat = state.beats[0] || null
@@ -78,6 +123,22 @@ export default function Desk() {
                   <option value="roundup">ROUNDUP</option>
                 </select>
               </div>
+            </div>
+            <div>
+              <label className="cmd-label">SHOW TYPE — THE ROOM&apos;S LAWS &amp; SEGMENTS</label>
+              <select className="cmd-select" value={show.show_type || 'the-panel'} onChange={e => setShow({ show_type: e.target.value })}>
+                {(state.show_types?.types || []).map((t: any) => <option key={t.id} value={t.id}>{t.name} — {t.inspiration.split(' - ')[0].split(':')[0]}</option>)}
+              </select>
+              {(() => {
+                const t = (state.show_types?.types || []).find((x: any) => x.id === (show.show_type || 'the-panel'))
+                if (!t) return null
+                return (
+                  <div className="mt-2 text-xs" style={{ color: 'var(--cmd-dim)' }}>
+                    <div className="flex flex-wrap gap-1 mb-1">{t.segments.map((s: any) => <span key={s.id} className="chip">{s.name}</span>)}</div>
+                    <div className="cmd-kbd">{t.cast_shape} · {t.laws.length} room laws · transitions per segment</div>
+                  </div>
+                )
+              })()}
             </div>
             {(['intro', 'outro'] as const).map(k => (
               <div key={k}>
@@ -154,11 +215,15 @@ export default function Desk() {
             )}
             <div className="mt-4 flex gap-2">
               <span className="chip ok">PULL · LIVE</span>
-              <span className="chip warn">EVIDENCE → SHOWPLAN · WIRE-UP NEXT</span>
+              <span className="chip ok">TOPIC MINER · LIVE</span>
+              <span className="chip warn">SHOWPLAN · WIRE-UP NEXT</span>
               <span className="chip warn">FLOOR → BREEZE · ENGINE READY</span>
               <span className="chip info">AVATAR STAGE · SEE ROADMAP</span>
             </div>
           </div>
+
+          {/* TOPIC MINER — stage 2 */}
+          <TopicsPanel topics={topics2 || state.topics} onMine={runMine} busy={busy2} />
 
           {/* ROADMAP */}
           <div className="cmd-panel">
