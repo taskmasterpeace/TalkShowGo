@@ -1,0 +1,39 @@
+{
+  "id": "flareup-grace-or-bounty",
+  "show": "kai-cenat-pullup",
+  "question": "The snacks-water-Uber ending: grace or bounty?",
+  "target_spoken_words": 330,
+  "max_turns": 18,
+  "stances": {
+    "marcus-blaze": "GRACE. The most humane celebrity response to an ambush ever: protocol held AND he stayed a human being. Defend it loud.",
+    "tasha-raw": "BOUNTY. The kindness went viral, which posts the reward for the next unstable person. Both things are true and you know it.",
+    "king-knowledge": "LAY OUT. Backchannel only until your drop. Then ONE verdict-shaped reframe: grace was never the problem, the audience is."
+  },
+  "allowed_evidence": {
+    "marcus-blaze": ["E2", "E4", "E6"],
+    "tasha-raw": ["E6", "E12"],
+    "king-knowledge": ["E12", "E29"]
+  },
+  "withheld": [
+    {
+      "host": "tasha-raw",
+      "evidence": "E14",
+      "turn": 7,
+      "instruction": "NOW detonate the receipt you have been holding: the copycat comment under Shade Room's post [E14]. Deliver it flat and even. Let it sit. Do not explain it twice."
+    }
+  ],
+  "kk_drop": {
+    "host": "king-knowledge",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight drop: name the thing both of them have been circling without seeing. Unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "tasha-raw",
+    "instruction": "Open the beat flat, setting bait: name how it ended (snacks, water, Uber) [E6] and stop talking. Short."
+  },
+  "exit": {
+    "host": "marcus-blaze",
+    "instruction": "Exhale, concede NOTHING, and tease that where the show goes next is heavier than this argument. Do not name it."
+  },
+  "_note": "Withholding is the point: Blaze does NOT hold E12 or E14 and must react to them live. Tasha does not hold E29 or E2. Evidence texts are joined from evidence.json by the engine."
+}
