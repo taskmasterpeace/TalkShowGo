@@ -10,12 +10,7 @@
 // youtube-caption-extractor imported dynamically in tryYouTubeCaptions()
 import { downloadYouTubeAudio, extractVideoId, getVideoInfo } from './youtube-download'
 import { transcribeAudio, isAssemblyAIConfigured, SpeakerSegment } from './assemblyai'
-import { createClient } from '@supabase/supabase-js'
-
-// Supabase client for database operations
-const supabaseUrl = process.env.SUPABASE_URL || 'http://localhost:8000'
-const supabaseKey = process.env.SUPABASE_ANON_KEY || ''
-const supabase = createClient(supabaseUrl, supabaseKey)
+import { supabase } from '@/lib/db'
 
 export type TranscriptStatus =
   | 'pending'

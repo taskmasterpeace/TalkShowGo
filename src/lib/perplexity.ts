@@ -193,7 +193,7 @@ class PerplexityClient {
       const data = await response.json()
 
       // Track the API call
-      trackPerplexityCall(model, options.topicId)
+      trackPerplexityCall(model === 'sonar-pro' ? 'sonar_pro' : model, options.topicId)
 
       // Parse the response
       const choice = data.choices?.[0]

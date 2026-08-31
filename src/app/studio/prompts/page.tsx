@@ -31,11 +31,6 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible'
-import {
   Search,
   Filter,
   ChevronDown,
@@ -108,7 +103,7 @@ export default function PromptsPage() {
   }
 
   const stats = useMemo(() => {
-    if (enrichedPrompts.length === 0) return getPromptStats()
+    if (enrichedPrompts.length === 0) return { ...getPromptStats(), customized: 0 }
 
     const byRole: Record<PromptRole, number> = {
       studio: 0,
@@ -276,11 +271,12 @@ export default function PromptsPage() {
             <div className="space-y-3">
               {prompts.map(prompt => (
                 <Card key={prompt.id} className="overflow-hidden">
-                  <Collapsible
-                    open={expandedPrompts.has(prompt.id)}
-                    onOpenChange={() => togglePromptExpand(prompt.id)}
-                  >
-                    <CollapsibleTrigger className="w-full">
+                  <div>
+                    <button
+                      type="button"
+                      className="w-full text-left"
+                      onClick={() => togglePromptExpand(prompt.id)}
+                    >
                       <CardHeader className="pb-2">
                         <div className="flex items-start justify-between">
                           <div className="flex items-start gap-3">
@@ -302,12 +298,12 @@ export default function PromptsPage() {
                                 >
                                   {prompt.role}
                                 </Badge>
-                                {prompt.editable && !prompt.has_override && (
+                                {prompt.editable && !(prompt as EnrichedPrompt).has_override && (
                                   <Badge variant="secondary">Editable</Badge>
                                 )}
-                                {prompt.has_override && (
+                                {(prompt as EnrichedPrompt).has_override && (
                                   <Badge variant="default" className="bg-blue-600">
-                                    Custom v{prompt.override_version}
+                                    Custom v{(prompt as EnrichedPrompt).override_version}
                                   </Badge>
                                 )}
                               </div>
@@ -323,9 +319,9 @@ export default function PromptsPage() {
                           </div>
                         </div>
                       </CardHeader>
-                    </CollapsibleTrigger>
+                    </button>
 
-                    <CollapsibleContent>
+                    {expandedPrompts.has(prompt.id) && (
                       <CardContent className="pt-0 space-y-4">
                         {/* Variables */}
                         {prompt.variables.length > 0 && (
@@ -487,8 +483,8 @@ export default function PromptsPage() {
                           )}
                         </div>
                       </CardContent>
-                    </CollapsibleContent>
-                  </Collapsible>
+                    )}
+                  </div>
                 </Card>
               ))}
             </div>

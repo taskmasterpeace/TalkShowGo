@@ -256,9 +256,13 @@ Respond in JSON format:
   try {
     const response = await callLLM(prompt)
     const parsed = JSON.parse(response)
+    if (!parsed.queries || !Array.isArray(parsed.queries)) {
+      console.warn('[DeepResearch] LLM response missing required "queries" array, falling back to simple query')
+      return [{ query, researchGoal: 'General research on the topic' }]
+    }
     return parsed.queries.slice(0, numQueries)
   } catch (error) {
-    console.error('Failed to generate queries:', error)
+    console.error('[DeepResearch] Failed to generate queries (invalid JSON from LLM):', error)
     // Fallback to simple query
     return [{ query, researchGoal: 'General research on the topic' }]
   }
@@ -300,12 +304,16 @@ Respond in JSON format:
   try {
     const response = await callLLM(prompt)
     const parsed = JSON.parse(response)
+    if (!parsed || typeof parsed !== 'object') {
+      console.warn('[DeepResearch] LLM returned non-object JSON when extracting learnings, returning empty')
+      return { learnings: [], followUpQuestions: [] }
+    }
     return {
-      learnings: parsed.learnings?.slice(0, numLearnings) || [],
-      followUpQuestions: parsed.followUpQuestions?.slice(0, 3) || []
+      learnings: Array.isArray(parsed.learnings) ? parsed.learnings.slice(0, numLearnings) : [],
+      followUpQuestions: Array.isArray(parsed.followUpQuestions) ? parsed.followUpQuestions.slice(0, 3) : []
     }
   } catch (error) {
-    console.error('Failed to extract learnings:', error)
+    console.error('[DeepResearch] Failed to extract learnings (invalid JSON from LLM):', error)
     return { learnings: [], followUpQuestions: [] }
   }
 }

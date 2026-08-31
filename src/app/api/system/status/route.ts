@@ -59,7 +59,7 @@ export async function GET(request: Request) {
         nodeEnv: process.env.NODE_ENV,
         hasTheNewsAPI: !!process.env.THENEWSAPI_KEY,
         hasNewsDataIO: !!process.env.NEWSDATA_API_KEY,
-        hasElevenLabs: !!process.env.ELEVENLABS_API_KEY,
+        hasDiaTTS: true,  // Dia is local, no API key needed
         hasTwitterAPI: !!process.env.TWITTER_API_KEY,
         hasAnthropicAPI: !!process.env.ANTHROPIC_API_KEY,
         ollamaHost: process.env.OLLAMA_HOST || process.env.PRESIDIUM_LLM_URL || 'default',

@@ -106,9 +106,9 @@ const HOST_PROMPTS: PromptDefinition[] = [
     id: 'story_generation',
     role: 'host',
     name: 'Story Script Generation',
-    description: 'Main prompt for generating story scripts with host personality',
+    description: 'Main prompt for generating story scripts with host personality - optimized for ACCURACY + ENTERTAINMENT + DEPTH',
     category: 'Script Writing',
-    template: `You are a professional scriptwriter for "{host_name}", a documentary channel known for in-depth, compelling storytelling.
+    template: `You are a professional scriptwriter for "{host_name}", a documentary channel known for in-depth, compelling storytelling that balances ACCURACY, ENTERTAINMENT, and DEPTH.
 
 Write a {style} script about: "{query}"
 
@@ -123,7 +123,31 @@ TARGET LENGTH: {max_length} words (~{duration_minutes} minutes when narrated)
 
 {opening_instruction}
 
-STORY STRUCTURE (write these sections in order):
+=== THREE PILLARS (EQUAL PRIORITY) ===
+
+1. ACCURACY (Fact-Based Journalism)
+   - ONLY use facts from provided sources (transcripts, documents, verified claims)
+   - Cite specific sources when making factual claims
+   - Distinguish verified facts from disputed claims
+   - Note when information is conflicting or unverified
+   - Include fact-check results if provided
+
+2. ENTERTAINMENT (Compelling Storytelling)
+   - Begin with a POWERFUL HOOK that grabs attention immediately
+   - Build narrative tension and dramatic arc throughout
+   - Use vivid, specific details that paint pictures
+   - Include human interest angles and emotional stakes
+   - Create momentum with pacing and revelations
+   - End with impact - leave audience thinking
+
+3. DEPTH (Contextual Understanding)
+   - Provide historical background and context
+   - Explain WHY this matters beyond the surface
+   - Present MULTIPLE perspectives, not just two sides
+   - Connect to broader patterns and implications
+   - Give audience deeper understanding of the topic
+
+=== STORY STRUCTURE (write these sections in order) ===
 {chapter_instructions}
 
 {facts_section}
@@ -132,25 +156,58 @@ STORY STRUCTURE (write these sections in order):
 
 {conflicts_section}
 
-SOURCE TRANSCRIPTS (use these for facts and quotes):
+{verified_claims_section}
+
+=== SOURCE MATERIALS ===
+
+PRIMARY SOURCES (highest credibility):
 {transcript_content}
 {interview_content}
-{twitter_content}
 {document_content}
 
-REQUIREMENTS:
-1. Follow the chapter structure above - include ALL sections
-2. USE QUOTES SPARINGLY: Only include 3-5 key quotes in the entire story
-3. Build tension and narrative arc through the story
-4. Present BOTH perspectives fairly if there's a dispute
-5. Use SPECIFIC details (names, dates, places) from the sources
-6. DO NOT make up any facts - only use what's in the sources
-7. Write in a conversational, engaging style for audio narration
-8. Include natural transitions between sections
-9. ENTITY ACCURACY: Verify gender and affiliations from the entity glossary
-10. CHANNEL STYLE: If a channel style guide is provided above, follow it exactly - use the opening patterns, transition phrases, tone, and closing patterns specified
+COMMUNITY PERSPECTIVE (what people are saying):
+{twitter_content}
 
-Write the complete {max_length}-word script now. Begin with the hook:`,
+FACT-CHECKED CLAIMS (from Perplexity verification):
+{verified_claims_content}
+
+=== CRITICAL REQUIREMENTS ===
+
+ACCURACY REQUIREMENTS:
+1. DO NOT invent ANY facts - only use provided sources
+2. Use SPECIFIC details (names, dates, places, numbers) from sources
+3. When sources conflict, present BOTH versions with attribution
+4. Label verified vs. disputed claims clearly
+5. Cite sources for major claims ("According to [source]...")
+6. ENTITY ACCURACY: Verify gender, affiliations, roles from entity glossary
+
+ENTERTAINMENT REQUIREMENTS:
+1. START STRONG: First 15 seconds must hook the listener
+2. PACING: Vary sentence length and rhythm to maintain energy
+3. STORYTELLING: Use narrative techniques (foreshadowing, callbacks, reveals)
+4. HUMAN ELEMENT: Focus on people and stakes, not just facts
+5. TENSION: Build dramatic arc with rising action and payoff
+6. EMOTIONAL RESONANCE: Help audience feel why this matters
+
+DEPTH REQUIREMENTS:
+1. CONTEXT: Provide historical background or precedents
+2. MULTIPLE PERSPECTIVES: Include 3+ viewpoints, not binary pro/con
+3. IMPLICATIONS: Explain long-term effects or broader meaning
+4. ANALYSIS: Don't just report WHAT happened, explain WHY it matters
+5. NUANCE: Acknowledge complexity and gray areas
+6. CONNECTIONS: Link to related topics or patterns
+
+PRODUCTION REQUIREMENTS:
+1. Follow chapter structure above - include ALL sections
+2. USE QUOTES SPARINGLY: Only 3-5 key quotes in entire story
+3. Natural transitions between sections
+4. Conversational style for audio narration
+5. CHANNEL STYLE: If guide provided, follow opening/closing/transition patterns
+6. Length discipline: {max_length} words (not significantly more or less)
+
+Write the complete {max_length}-word script now. Remember: ACCURACY + ENTERTAINMENT + DEPTH in every section.
+
+Begin with a powerful hook:`,
     variables: [
       { name: 'host_name', description: 'Name of the host personality', example: 'Algorithm Institute', required: true },
       { name: 'style', description: 'Story style (documentary, news, analysis, narrative)', example: 'documentary', required: true },
@@ -170,10 +227,12 @@ Write the complete {max_length}-word script now. Begin with the hook:`,
       { name: 'interview_content', description: 'Interview transcripts', required: false },
       { name: 'twitter_content', description: 'Twitter reactions', required: false },
       { name: 'document_content', description: 'Official documents', required: false },
+      { name: 'verified_claims_section', description: 'Section header for fact-checked claims', required: false },
+      { name: 'verified_claims_content', description: 'Fact-checked claims from Perplexity with verification status and sources', required: false },
     ],
     usedIn: ['src/lib/story-pipeline.ts:515-685'],
     editable: true,
-    version: 1,
+    version: 2,
   },
 
   {

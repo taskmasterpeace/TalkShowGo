@@ -37,8 +37,8 @@ export const API_PRICING = {
     sonar: 0,               // Free tier: 5 credits/month (tracked as credits)
     sonar_pro: 0,           // Pro tier: per-query cost
   },
-  elevenlabs: {
-    text_to_speech: 0.30,   // ~$0.30 per 1K characters (varies by plan)
+  dia: {
+    text_to_speech: 0,      // Free (local Dia TTS)
   },
   searxng: {
     search: 0,              // Free (self-hosted)
@@ -52,7 +52,7 @@ export const PERPLEXITY_MONTHLY_CREDITS = 5
 // TYPES
 // ============================================
 
-export type ServiceType = 'twitter' | 'youtube' | 'llm' | 'perplexity' | 'elevenlabs' | 'searxng'
+export type ServiceType = 'twitter' | 'youtube' | 'llm' | 'perplexity' | 'dia' | 'searxng'
 
 export interface APIUsageRecord {
   id?: string
@@ -289,8 +289,8 @@ export function trackPerplexityCall(model: 'sonar' | 'sonar_pro' = 'sonar', topi
   apiUsage.track('perplexity', model, 1, topicId)
 }
 
-export function trackElevenLabsCall(charactersUsed: number, topicId?: string) {
-  apiUsage.track('elevenlabs', 'text_to_speech', charactersUsed, topicId)
+export function trackDiaCall(charactersUsed: number, topicId?: string) {
+  apiUsage.track('dia', 'text_to_speech', charactersUsed, topicId)
 }
 
 export function trackSearXNGCall(topicId?: string) {

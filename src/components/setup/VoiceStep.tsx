@@ -14,9 +14,7 @@ import {
   ArrowRight,
   ArrowLeft,
   ExternalLink,
-  User,
 } from 'lucide-react'
-import Link from 'next/link'
 
 interface VoiceStepProps {
   onNext: () => void
@@ -24,41 +22,24 @@ interface VoiceStepProps {
   onVerified: (verified: boolean) => void
 }
 
-interface VoiceInfo {
-  id: string
-  name: string
-  category: string
-}
-
 export function VoiceStep({ onNext, onBack, onVerified }: VoiceStepProps) {
   const [status, setStatus] = useState<'checking' | 'connected' | 'error'>('checking')
-  const [voices, setVoices] = useState<VoiceInfo[]>([])
-  const [selectedVoice, setSelectedVoice] = useState<string | null>(null)
   const [testing, setTesting] = useState(false)
   const [testStatus, setTestStatus] = useState<'idle' | 'testing' | 'success' | 'error'>('idle')
-  const [credits, setCredits] = useState<string | null>(null)
+  const [diaInfo, setDiaInfo] = useState<{ device?: string; emotions?: number } | null>(null)
 
   const checkVoiceService = async () => {
     setStatus('checking')
 
     try {
-      const response = await fetch('/api/system/status')
+      const response = await fetch('/api/voices')
       const data = await response.json()
 
-      const voiceStatus = data.services?.voice?.elevenlabs
-      if (voiceStatus?.status === 'connected') {
+      if (data.configured) {
         setStatus('connected')
-
-        // Parse credits from message if available
-        if (voiceStatus.message) {
-          const creditsMatch = voiceStatus.message.match(/(\d+[\d,]*)\s*credits/i)
-          if (creditsMatch) {
-            setCredits(creditsMatch[1])
-          }
-        }
-
-        // Fetch available voices
-        await fetchVoices()
+        setDiaInfo({
+          emotions: data.supported_emotions?.length || 0,
+        })
       } else {
         setStatus('error')
       }
@@ -67,35 +48,17 @@ export function VoiceStep({ onNext, onBack, onVerified }: VoiceStepProps) {
     }
   }
 
-  const fetchVoices = async () => {
-    try {
-      // This would call an endpoint to list voices
-      // For now, we'll show default voices
-      setVoices([
-        { id: 'ZJ7BlVZrxZKBDMTIK5c9', name: 'Battlerap Algorithm', category: 'Cloned' },
-        { id: '21m00Tcm4TlvDq8ikWAM', name: 'Rachel', category: 'Pre-made' },
-        { id: 'AZnzlk1XvdvUeBnXmlld', name: 'Domi', category: 'Pre-made' },
-        { id: 'pNInz6obpgDQGcFmaJgB', name: 'Adam', category: 'Pre-made' },
-      ])
-      setSelectedVoice('ZJ7BlVZrxZKBDMTIK5c9')
-    } catch (error) {
-      console.error('Failed to fetch voices:', error)
-    }
-  }
-
   const testVoice = async () => {
-    if (!selectedVoice) return
-
     setTesting(true)
     setTestStatus('testing')
 
     try {
-      const response = await fetch('/api/voice', {
+      const response = await fetch('/api/voices', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           text: 'Welcome to Talk Show Go. Your AI-powered content generation platform.',
-          voice_id: selectedVoice,
+          seed: 42,
         }),
       })
 
@@ -129,7 +92,7 @@ export function VoiceStep({ onNext, onBack, onVerified }: VoiceStepProps) {
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold">Voice Configuration</h2>
         <p className="text-muted-foreground">
-          Test and configure text-to-speech for your shows
+          Test and configure Dia TTS for your shows
         </p>
       </div>
 
@@ -139,10 +102,10 @@ export function VoiceStep({ onNext, onBack, onVerified }: VoiceStepProps) {
             <div>
               <CardTitle className="flex items-center gap-2">
                 <Mic className="h-5 w-5" />
-                ElevenLabs
+                Dia TTS
               </CardTitle>
               <CardDescription>
-                Voice generation service
+                Local multi-voice text-to-speech service
               </CardDescription>
             </div>
             {status === 'checking' ? (
@@ -158,7 +121,7 @@ export function VoiceStep({ onNext, onBack, onVerified }: VoiceStepProps) {
             ) : (
               <Badge variant="destructive">
                 <XCircle className="h-3 w-3 mr-1" />
-                Not Connected
+                Not Running
               </Badge>
             )}
           </div>
@@ -166,45 +129,25 @@ export function VoiceStep({ onNext, onBack, onVerified }: VoiceStepProps) {
         <CardContent className="space-y-4">
           {status === 'connected' && (
             <>
-              {credits && (
-                <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
-                  <span className="text-sm">Available Credits</span>
-                  <Badge variant="secondary">{credits} credits</Badge>
+              <div className="space-y-2 p-3 bg-muted rounded-lg text-sm">
+                <div className="flex justify-between">
+                  <span>Multi-voice support</span>
+                  <Badge variant="secondary">[S1] / [S2] speakers</Badge>
                 </div>
-              )}
-
-              <div className="space-y-3">
-                <h4 className="font-medium flex items-center gap-2">
-                  <Volume2 className="h-4 w-4" />
-                  Available Voices
-                </h4>
-                <div className="grid grid-cols-2 gap-2">
-                  {voices.map(voice => (
-                    <div
-                      key={voice.id}
-                      className={`p-3 border rounded-lg cursor-pointer transition-all ${
-                        selectedVoice === voice.id
-                          ? 'border-primary bg-primary/5'
-                          : 'hover:border-primary/50'
-                      }`}
-                      onClick={() => setSelectedVoice(voice.id)}
-                    >
-                      <div className="flex items-center gap-2">
-                        <User className="h-4 w-4 text-muted-foreground" />
-                        <span className="font-medium">{voice.name}</span>
-                      </div>
-                      <Badge variant="outline" className="mt-1 text-xs">
-                        {voice.category}
-                      </Badge>
-                    </div>
-                  ))}
+                <div className="flex justify-between">
+                  <span>Emotional markers</span>
+                  <Badge variant="secondary">{diaInfo?.emotions || 'many'} supported</Badge>
+                </div>
+                <div className="flex justify-between">
+                  <span>Cost</span>
+                  <Badge variant="secondary">Free (local)</Badge>
                 </div>
               </div>
 
               <div className="flex items-center gap-3 pt-2">
                 <Button
                   onClick={testVoice}
-                  disabled={testing || !selectedVoice}
+                  disabled={testing}
                   variant="outline"
                   className="gap-2"
                 >
@@ -235,26 +178,11 @@ export function VoiceStep({ onNext, onBack, onVerified }: VoiceStepProps) {
           {status === 'error' && (
             <div className="space-y-3">
               <p className="text-sm text-muted-foreground">
-                ElevenLabs is not connected. Please configure your API key.
+                Dia TTS is not running. Start it with Docker:
               </p>
-              <div className="flex gap-2">
-                <a
-                  href="https://elevenlabs.io"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Button variant="default" size="sm" className="gap-1">
-                    <ExternalLink className="h-3 w-3" />
-                    Get API Key
-                  </Button>
-                </a>
-                <Link href="/docs/services/VOICE.md">
-                  <Button variant="outline" size="sm" className="gap-1">
-                    <ExternalLink className="h-3 w-3" />
-                    Voice Setup Guide
-                  </Button>
-                </Link>
-              </div>
+              <pre className="bg-muted p-3 rounded-lg text-sm overflow-x-auto">
+                npm run dia:up
+              </pre>
             </div>
           )}
         </CardContent>

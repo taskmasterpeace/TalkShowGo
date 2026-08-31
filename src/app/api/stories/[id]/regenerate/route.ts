@@ -100,7 +100,6 @@ export async function POST(
         host_name: 'Algorithm Institute',
         topic_id: options.topic_id,
       },
-      generate_audio: options.generate_audio,
     })
 
     // Update the story with new content

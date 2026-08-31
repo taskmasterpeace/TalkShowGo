@@ -25,7 +25,7 @@ const SERVICE_ICONS: Record<string, React.ReactNode> = {
   twitter: <Twitter className="h-5 w-5" />,
   youtube: <Youtube className="h-5 w-5" />,
   perplexity: <Search className="h-5 w-5" />,
-  elevenlabs: <Mic className="h-5 w-5" />,
+  dia: <Mic className="h-5 w-5" />,
   llm: <Brain className="h-5 w-5" />,
   searxng: <Search className="h-5 w-5" />,
 }
@@ -34,7 +34,7 @@ const SERVICE_COLORS: Record<string, string> = {
   twitter: 'bg-blue-500/10 text-blue-500 border-blue-500/20',
   youtube: 'bg-red-500/10 text-red-500 border-red-500/20',
   perplexity: 'bg-purple-500/10 text-purple-500 border-purple-500/20',
-  elevenlabs: 'bg-green-500/10 text-green-500 border-green-500/20',
+  dia: 'bg-green-500/10 text-green-500 border-green-500/20',
   llm: 'bg-orange-500/10 text-orange-500 border-orange-500/20',
   searxng: 'bg-gray-500/10 text-gray-500 border-gray-500/20',
 }
@@ -141,23 +141,23 @@ export default function UsageDashboardPage() {
             </CardContent>
           </Card>
 
-          {/* ElevenLabs */}
+          {/* Dia TTS */}
           <Card className="border-2">
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium flex items-center gap-2">
                 <Mic className="h-4 w-4 text-green-500" />
-                ElevenLabs
+                Dia TTS
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {((summary?.byService?.elevenlabs?.calls || 0) / 1000).toFixed(1)}K
+                {summary?.byService?.dia?.calls || 0}
               </div>
               <p className="text-xs text-muted-foreground">
-                characters used
+                generations
               </p>
               <p className="text-sm font-semibold text-green-600 mt-1">
-                {formatCost(summary?.byService?.elevenlabs?.cost || 0)}
+                Free (local)
               </p>
             </CardContent>
           </Card>

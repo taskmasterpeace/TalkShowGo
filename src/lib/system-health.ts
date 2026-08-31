@@ -7,7 +7,7 @@
 
 import { checkSearXNGHealth } from './web-search'
 import { checkOllamaHealth } from './presidium-ai'
-import { isElevenLabsConfigured, getSubscriptionInfo } from './elevenlabs'
+import { checkHealth as checkDiaHealth, isDiaAvailable } from './dia'
 import { supabase } from './db'
 
 // ============================================
@@ -378,44 +378,38 @@ export async function checkClaudeAPI(): Promise<ServiceHealth> {
 }
 
 /**
- * Check ElevenLabs TTS
+ * Check Dia TTS
  */
-export async function checkElevenLabs(): Promise<ServiceHealth> {
-  if (!isElevenLabsConfigured()) {
-    return {
-      name: 'ElevenLabs TTS',
-      status: 'missing',
-      message: 'Missing ELEVENLABS_API_KEY in environment',
-    }
-  }
-
-  const apiKey = process.env.ELEVENLABS_API_KEY
-
+export async function checkDiaTTS(): Promise<ServiceHealth> {
   try {
-    const subscription = await getSubscriptionInfo()
+    const available = await isDiaAvailable()
 
-    const remainingCredits = subscription.character_limit - subscription.character_count
-    const usagePercent = Math.round((subscription.character_count / subscription.character_limit) * 100)
+    if (!available) {
+      return {
+        name: 'Dia TTS',
+        status: 'error',
+        message: 'Dia TTS service not running - start with: npm run dia:up',
+      }
+    }
+
+    const health = await checkDiaHealth()
 
     return {
-      name: 'ElevenLabs TTS',
+      name: 'Dia TTS',
       status: 'connected',
-      message: `Connected (${remainingCredits.toLocaleString()} credits remaining)`,
-      configuredKey: maskApiKey(apiKey),
+      message: `Connected (${health.device}, multi-voice: ${health.supports_multi_voice})`,
       details: {
-        used: subscription.character_count,
-        limit: subscription.character_limit,
-        usagePercent,
-        remainingCredits,
-        voiceLimit: subscription.voice_limit,
+        model: health.model,
+        device: health.device,
+        supports_multi_voice: health.supports_multi_voice,
+        emotions: health.supported_emotions?.length || 0,
       }
     }
   } catch (error) {
     return {
-      name: 'ElevenLabs TTS',
+      name: 'Dia TTS',
       status: 'error',
       message: error instanceof Error ? error.message : 'Connection failed',
-      configuredKey: maskApiKey(apiKey),
     }
   }
 }
@@ -499,7 +493,7 @@ export async function getSystemHealth(): Promise<SystemHealthReport> {
     checkSearXNG(),
     checkOllama(),
     checkClaudeAPI(),
-    checkElevenLabs(),
+    checkDiaTTS(),
     checkPostgreSQL(),
   ])
 

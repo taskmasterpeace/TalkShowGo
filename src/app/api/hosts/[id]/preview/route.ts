@@ -10,7 +10,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { HOSTS, type HostArchetype } from '@/lib/hosts/types'
-import { generateSpeech, isElevenLabsConfigured } from '@/lib/elevenlabs'
+import { generateDialogue, isDiaAvailable } from '@/lib/dia'
 import * as fs from 'fs/promises'
 import * as path from 'path'
 
@@ -22,7 +22,7 @@ const TEST_SCRIPTS: Record<HostArchetype, string> = {
 
   witty_satirist: `Wait, wait, wait... are we seriously doing this right now? Let me get this straight. So you're telling me that THIS is the big announcement? I'm not even mad, I'm genuinely impressed at the audacity. Here's the thing though - and this is the beautiful part - nobody saw it coming. And scene.`,
 
-  unfiltered_real: `Alright, let's get into this mess because I don't got time for the bullsh*t. Y'all hear what happened? The streets is watching and they're NOT happy. I said what I said - this was bound to happen eventually. But hold up, y'all not ready for this part. It gets even crazier. Periodt.`,
+  unfiltered_real: `Alright, let's get into this mess because I don't got time for the nonsense. Y'all hear what happened? The streets is watching and they're NOT happy. I said what I said - this was bound to happen eventually. But hold up, y'all not ready for this part. It gets even crazier. Period.`,
 
   smooth_narrator: `In the world of battle rap, few moments define an era. This is one of them. The stage was set, the players were in position, and what happened next would change everything. This is the story of how one moment shifted the entire landscape. History would remember this as a turning point.`,
 
@@ -31,19 +31,16 @@ const TEST_SCRIPTS: Record<HostArchetype, string> = {
   street_analyst: `Now see, what people don't understand about this situation... this goes deeper than y'all think. Let me break this down for you, because if you know, you know. Real recognize real. The game is the game, and right now? The culture don't forget. That's game right there. Respect the game.`,
 }
 
-// Voice settings optimized for each archetype
-const VOICE_PRESETS: Record<HostArchetype, { stability: number; similarity_boost: number; style: number }> = {
-  investigative_anchor: { stability: 0.75, similarity_boost: 0.80, style: 0.10 },
-  hot_take_king: { stability: 0.55, similarity_boost: 0.75, style: 0.40 },
-  witty_satirist: { stability: 0.65, similarity_boost: 0.75, style: 0.30 },
-  unfiltered_real: { stability: 0.50, similarity_boost: 0.70, style: 0.45 },
-  smooth_narrator: { stability: 0.80, similarity_boost: 0.85, style: 0.05 },
-  hype_energy: { stability: 0.45, similarity_boost: 0.70, style: 0.50 },
-  street_analyst: { stability: 0.60, similarity_boost: 0.75, style: 0.25 },
+// Dia seed mapping for each archetype to get distinct voice characteristics
+const ARCHETYPE_SEEDS: Record<HostArchetype, number> = {
+  investigative_anchor: 100,
+  hot_take_king: 200,
+  witty_satirist: 300,
+  unfiltered_real: 400,
+  smooth_narrator: 500,
+  hype_energy: 600,
+  street_analyst: 700,
 }
-
-// Default voice ID for hosts (can be configured per-host via voiceProfileId)
-const DEFAULT_VOICE_ID = process.env.ELEVENLABS_VOICE_ID || 'ZJ7BlVZrxZKBDMTIK5c9'
 
 export async function POST(
   request: NextRequest,
@@ -61,10 +58,10 @@ export async function POST(
       )
     }
 
-    // Check ElevenLabs configuration
-    if (!isElevenLabsConfigured()) {
+    // Check Dia availability
+    if (!await isDiaAvailable()) {
       return NextResponse.json(
-        { error: 'ElevenLabs is not configured. Set ELEVENLABS_API_KEY environment variable.' },
+        { error: 'Dia TTS service is not available. Start it with: npm run dia:up' },
         { status: 503 }
       )
     }
@@ -76,9 +73,8 @@ export async function POST(
     console.log(`[HostPreview] Generating preview for ${host.name} (${host.archetype})`)
     console.log(`[HostPreview] Script length: ${script.split(/\s+/).length} words`)
 
-    // Get voice settings for this archetype
-    const voicePreset = VOICE_PRESETS[host.archetype]
-    const voiceId = host.voiceProfileId || DEFAULT_VOICE_ID
+    // Get seed for this archetype
+    const seed = ARCHETYPE_SEEDS[host.archetype] || 42
 
     // Check cache first
     const cacheKey = `${id}_${script.slice(0, 50).replace(/[^a-z0-9]/gi, '_')}`
@@ -105,21 +101,15 @@ export async function POST(
       // Cache miss - generate new audio
     }
 
-    // Generate audio
-    const audioBuffer = await generateSpeech(script, {
-      voice_id: voiceId,
-      model_id: 'eleven_turbo_v2_5',
-      voice_settings: {
-        stability: voicePreset.stability,
-        similarity_boost: voicePreset.similarity_boost,
-        style: voicePreset.style,
-        use_speaker_boost: true,
-      },
+    // Generate audio with Dia
+    const audioBuffer = await generateDialogue({
+      segments: [{ speaker: 1, text: script }],
+      seed,
     })
 
     // Save to cache
     await fs.mkdir(cacheDir, { recursive: true })
-    await fs.writeFile(cacheFile, Buffer.from(audioBuffer))
+    await fs.writeFile(cacheFile, audioBuffer)
 
     const audioUrl = `/audio/previews/${cacheKey}.mp3`
     const durationSeconds = Math.ceil(script.split(/\s+/).length / 2.5) // ~2.5 words per second
@@ -142,7 +132,7 @@ export async function POST(
       {
         success: false,
         error: String(error),
-        message: 'Failed to generate host preview. Check ElevenLabs configuration and logs.',
+        message: 'Failed to generate host preview. Check Dia TTS configuration and logs.',
       },
       { status: 500 }
     )
@@ -165,6 +155,8 @@ export async function GET(
       )
     }
 
+    const diaAvailable = await isDiaAvailable()
+
     return NextResponse.json({
       host: {
         id: host.id,
@@ -177,9 +169,9 @@ export async function GET(
         catchphrases: host.delivery.catchphrases,
       },
       test_script: TEST_SCRIPTS[host.archetype],
-      voice_preset: VOICE_PRESETS[host.archetype],
+      seed: ARCHETYPE_SEEDS[host.archetype],
       estimated_duration_seconds: Math.ceil(TEST_SCRIPTS[host.archetype].split(/\s+/).length / 2.5),
-      elevenlabs_configured: isElevenLabsConfigured(),
+      dia_available: diaAvailable,
     })
 
   } catch (error) {

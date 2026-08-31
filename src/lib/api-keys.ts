@@ -6,13 +6,13 @@
  * Database keys take precedence over environment variables.
  */
 
-import { supabase } from './supabase'
+import { supabase } from './db'
 
 // ============================================
 // TYPES
 // ============================================
 
-export type ServiceType = 'perplexity' | 'twitter' | 'elevenlabs' | 'openai' | 'anthropic'
+export type ServiceType = 'perplexity' | 'twitter' | 'openai' | 'anthropic'
 
 export interface APIKeyConfig {
   service: ServiceType
@@ -61,14 +61,6 @@ export const API_KEY_CONFIGS: Record<ServiceType, APIKeyConfig> = {
     envVar: 'TWITTER_API_KEY',
     docsUrl: 'https://twitterapi.io/docs',
     placeholder: 'your-twitter-api-key',
-  },
-  elevenlabs: {
-    service: 'elevenlabs',
-    displayName: 'ElevenLabs',
-    description: 'Text-to-speech with AI voices. Used for generating audio content.',
-    envVar: 'ELEVENLABS_API_KEY',
-    docsUrl: 'https://elevenlabs.io/docs',
-    placeholder: 'your-elevenlabs-api-key',
   },
   openai: {
     service: 'openai',
@@ -135,7 +127,7 @@ export async function getAllAPIKeyStatuses(): Promise<APIKeyStatus[]> {
   }>()
 
   if (!error && dbKeys) {
-    dbKeys.forEach(key => {
+    dbKeys.forEach((key: { service: string; api_key: string; is_active: boolean; last_verified_at: string | null; verification_status: string }) => {
       dbKeyMap.set(key.service, key)
     })
   }
@@ -288,8 +280,6 @@ export async function verifyAPIKey(service: ServiceType, apiKey: string): Promis
     switch (service) {
       case 'perplexity':
         return await verifyPerplexityKey(apiKey)
-      case 'elevenlabs':
-        return await verifyElevenLabsKey(apiKey)
       case 'twitter':
         return await verifyTwitterKey(apiKey)
       case 'openai':
@@ -320,19 +310,6 @@ async function verifyPerplexityKey(apiKey: string): Promise<boolean> {
       }),
     })
     return response.ok || response.status === 400 // 400 might mean bad request but valid key
-  } catch {
-    return false
-  }
-}
-
-async function verifyElevenLabsKey(apiKey: string): Promise<boolean> {
-  try {
-    const response = await fetch('https://api.elevenlabs.io/v1/user', {
-      headers: {
-        'xi-api-key': apiKey,
-      },
-    })
-    return response.ok
   } catch {
     return false
   }

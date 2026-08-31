@@ -52,7 +52,6 @@ interface APIKeyStatus {
 const SERVICE_ICONS: Record<string, React.ReactNode> = {
   perplexity: <Search className="h-5 w-5" />,
   twitter: <Twitter className="h-5 w-5" />,
-  elevenlabs: <Mic className="h-5 w-5" />,
   openai: <Brain className="h-5 w-5" />,
   anthropic: <Brain className="h-5 w-5" />,
 }
@@ -60,7 +59,6 @@ const SERVICE_ICONS: Record<string, React.ReactNode> = {
 const SERVICE_COLORS: Record<string, string> = {
   perplexity: 'bg-purple-500/10 text-purple-500 border-purple-500/20',
   twitter: 'bg-blue-500/10 text-blue-500 border-blue-500/20',
-  elevenlabs: 'bg-green-500/10 text-green-500 border-green-500/20',
   openai: 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20',
   anthropic: 'bg-orange-500/10 text-orange-500 border-orange-500/20',
 }
@@ -217,9 +215,9 @@ export default function APIKeysPage() {
   const getSourceIcon = (source: string) => {
     switch (source) {
       case 'database':
-        return <Database className="h-4 w-4" title="Stored in database" />
+        return <span title="Stored in database"><Database className="h-4 w-4" /></span>
       case 'environment':
-        return <Server className="h-4 w-4" title="From environment variable" />
+        return <span title="From environment variable"><Server className="h-4 w-4" /></span>
       default:
         return null
     }
@@ -435,12 +433,6 @@ export default function APIKeysPage() {
               <a href="https://twitterapi.io" target="_blank" rel="noopener noreferrer" className="text-primary underline">
                 twitterapi.io
               </a>. This is NOT the official Twitter API.
-            </p>
-            <p>
-              <strong>ElevenLabs:</strong> Create an account at{' '}
-              <a href="https://elevenlabs.io" target="_blank" rel="noopener noreferrer" className="text-primary underline">
-                elevenlabs.io
-              </a> and find your API key in Profile Settings.
             </p>
             <p>
               <strong>OpenAI:</strong> Get your API key from{' '}

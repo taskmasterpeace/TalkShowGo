@@ -110,7 +110,7 @@ export function WelcomeStep({ onNext, onSkip }: WelcomeStepProps) {
             <Badge variant="outline" className="w-6 h-6 rounded-full p-0 flex items-center justify-center">3</Badge>
             <div>
               <p className="font-medium">API Keys</p>
-              <p className="text-sm text-muted-foreground">Configure ElevenLabs, Twitter, and news sources</p>
+              <p className="text-sm text-muted-foreground">Configure Twitter, news sources, and other APIs</p>
             </div>
           </div>
           <div className="flex items-center gap-3">

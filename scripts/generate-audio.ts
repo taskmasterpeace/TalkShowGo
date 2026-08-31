@@ -1,12 +1,10 @@
 /**
- * Quick script to generate audio from an existing story
+ * Quick script to generate audio from an existing story using Dia TTS
  */
 
-import { generateSpeech, isElevenLabsConfigured } from '../src/lib/elevenlabs'
+import { generateDialogue, isDiaAvailable } from '../src/lib/dia'
 import * as fs from 'fs/promises'
 import * as path from 'path'
-
-const VOICE_ID = process.env.ELEVENLABS_VOICE_ID || 'ZJ7BlVZrxZKBDMTIK5c9'
 
 const STORY_SCRIPT = `
 In the world of battle rap, what started as online beef between a league owner and a blogger exploded into real violence on a rainy night in Connecticut. Two grown men in their 40s, one running a female battle rap league, the other known for controversial hot takes, would turn a celebration into chaos. This is the story of how words became fists, and how battle rap's behind-the-scenes drama spilled into the streets.
@@ -55,13 +53,13 @@ The rain that night washed away more than just dignity. It exposed the ugly real
 `
 
 async function main() {
-  if (!isElevenLabsConfigured()) {
-    console.error('ElevenLabs API key not configured')
+  const available = await isDiaAvailable()
+  if (!available) {
+    console.error('Dia TTS service is not running. Start with: npm run dia:up')
     process.exit(1)
   }
 
-  console.log('Generating audio for Debo vs Caps story...')
-  console.log(`Using voice: ${VOICE_ID}`)
+  console.log('Generating audio for Debo vs Caps story via Dia TTS...')
   console.log(`Script length: ${STORY_SCRIPT.length} characters`)
 
   // Clean script for TTS
@@ -72,15 +70,9 @@ async function main() {
     .trim()
 
   try {
-    const audioBuffer = await generateSpeech(cleanScript, {
-      voice_id: VOICE_ID,
-      model_id: 'eleven_turbo_v2_5',
-      voice_settings: {
-        stability: 0.75,
-        similarity_boost: 0.8,
-        style: 0.15,
-        use_speaker_boost: true
-      }
+    const audioBuffer = await generateDialogue({
+      segments: [{ speaker: 1, text: cleanScript }],
+      seed: 42
     })
 
     // Save to file
@@ -90,7 +82,7 @@ async function main() {
     const filename = `debo-vs-caps-${Date.now()}.mp3`
     const audioPath = path.join(outputDir, filename)
 
-    await fs.writeFile(audioPath, Buffer.from(audioBuffer))
+    await fs.writeFile(audioPath, audioBuffer)
 
     console.log(`Audio saved to: ${audioPath}`)
     console.log(`URL: /audio/${filename}`)

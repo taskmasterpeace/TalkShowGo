@@ -7,6 +7,16 @@
 
 const SEARXNG_URL = process.env.SEARXNG_URL || 'http://localhost:8888'
 
+interface SearXNGResult {
+  url: string
+  title: string
+  content: string
+  engine: string
+  category?: string
+  score?: number
+  publishedDate?: string
+}
+
 export interface WebSearchResult {
   title: string
   url: string
@@ -81,7 +91,7 @@ export async function searchWeb(
     // Map SearXNG results to our format
     const results: WebSearchResult[] = (data.results || [])
       .slice(0, max_results)
-      .map((result: any) => ({
+      .map((result: SearXNGResult) => ({
         title: result.title || '',
         url: result.url || '',
         content: result.content || '',

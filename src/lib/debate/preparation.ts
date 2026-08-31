@@ -10,11 +10,7 @@
 
 import { callOpenRouter, selectModelForHost } from '../openrouter'
 import type { DebateHost, PreparationRun, PreparationResult, ResearchRequest } from './types'
-import { createClient } from '@supabase/supabase-js'
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-const supabase = createClient(supabaseUrl, supabaseKey)
+import { supabase } from '@/lib/db'
 
 /**
  * Run preparation phase for all hosts in parallel

@@ -51,7 +51,7 @@ interface SystemHealthReport {
     nodeEnv: string
     hasTheNewsAPI: boolean
     hasNewsDataIO: boolean
-    hasElevenLabs: boolean
+    hasDiaTTS: boolean
     hasTwitterAPI: boolean
     hasAnthropicAPI: boolean
     ollamaHost: string
@@ -114,7 +114,7 @@ const SERVICE_ICONS: Record<string, React.ElementType> = {
   'SearXNG': Globe,
   'Ollama': Brain,
   'Claude API': Brain,
-  'ElevenLabs TTS': Mic,
+  'Dia TTS': Mic,
   'PostgreSQL': Database,
 }
 
@@ -385,8 +385,7 @@ export default function SystemStatusPage() {
                   </p>
                   <pre className="text-xs bg-muted p-2 rounded overflow-x-auto">
 {`THENEWSAPI_KEY=your_key
-NEWSDATA_API_KEY=your_key
-ELEVENLABS_API_KEY=your_key`}
+NEWSDATA_API_KEY=your_key`}
                   </pre>
                 </div>
                 <div className="border rounded-lg p-4 space-y-2">

@@ -69,7 +69,15 @@ export async function assembleResearchPackage(
   )
 
   // Convert Twitter data
-  const tweets = convertTwitterToTweets(result.twitter)
+  const tweets = convertTwitterToTweets(result.twitter ? {
+    tweets: result.twitter.top_reactions.map(r => ({
+      id: '',
+      text: r.text,
+      author: r.author,
+      metrics: { likes: r.likes, retweets: r.retweets },
+      sentiment: r.sentiment
+    }))
+  } : undefined)
 
   // Get comments from database if we have video IDs
   const comments = await fetchComments(result.sources.map(s => s.video_id))
@@ -136,7 +144,7 @@ export async function assembleResearchPackage(
     story_candidate_id: options.story_candidate_id,
     research_run_id: result.run_id,
     original_query: result.query,
-    interpreted_query: result.query_plan?.interpreted_query,
+    interpreted_query: result.query_plan?.interpreted_as,
     stats,
   }
 
@@ -350,7 +358,7 @@ async function fetchEntities(
     return {
       id: entity.id,
       name: entity.canonical_name,
-      aliases: metadata.aliases,
+      aliases: (metadata as any).aliases,
       type: entity.entity_type,
       role: metadata.role,
       sub_roles: metadata.sub_roles,

@@ -1,19 +1,15 @@
 /**
  * Story Pipeline Library
  *
- * End-to-end workflow for creating audio stories:
+ * End-to-end workflow for creating stories:
  * 1. Research - Search YouTube, gather transcripts
  * 2. Vet - Cross-reference sources, identify perspectives
  * 3. Write - Use Claude API to create compelling story
- * 4. Narrate - Use ElevenLabs to generate audio
  */
 
 import { getFreeYouTubeClient, YouTubeVideo, YouTubeTranscript } from './youtube-api'
 import { searchWeb, WebSearchResult } from './web-search'
-import { generateSpeech, isElevenLabsConfigured } from './elevenlabs'
 import { supabase } from './db'
-import * as fs from 'fs/promises'
-import * as path from 'path'
 
 // New research workflow (enhanced with query expansion, audio download, AssemblyAI)
 import { runResearchWorkflow, WorkflowResult, DocumentSearchResult } from './research-workflow'
@@ -22,7 +18,7 @@ import { runResearchWorkflow, WorkflowResult, DocumentSearchResult } from './res
 import { extractEntityNames, resolveEntityContext, EntityContextForPrompt } from './entity-context-resolver'
 
 // Niche-specific settings
-import { getNicheSettings, getStoryConfig, getAudioConfig } from './niche-settings'
+import { getNicheSettings, getStoryConfig } from './niche-settings'
 
 // Twitter sentiment
 import { formatTwitterForPrompt, TwitterSentiment } from './twitter-sentiment'
@@ -34,9 +30,6 @@ const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions'
 const REQUESTY_API_KEY = process.env.REQUESTY_API_KEY
 const REQUESTY_URL = 'https://router.requesty.ai/v1/chat/completions'
 
-// Default voice configuration (from CLAUDE.md)
-const DEFAULT_VOICE_ID = process.env.ELEVENLABS_VOICE_ID || 'ZJ7BlVZrxZKBDMTIK5c9' // Battlerap Algorithm
-
 // ============================================
 // TYPES
 // ============================================
@@ -44,6 +37,7 @@ const DEFAULT_VOICE_ID = process.env.ELEVENLABS_VOICE_ID || 'ZJ7BlVZrxZKBDMTIK5c
 export interface ResearchConfig {
   query: string
   topic_id?: string
+  research_mode?: 'youtube_first' | 'twitter_first'  // Research mode (default: youtube_first)
   max_videos?: number
   include_web_search?: boolean
   min_views?: number
@@ -101,7 +95,14 @@ export interface ResearchResult {
   sources: ResearchSource[]
   interviews: InterviewData[]  // Interview transcripts for identified public figures
   twitter?: TwitterReactionData  // Twitter reactions from the event timeframe
+  twitter_activity?: import('./twitter-intelligence').TwitterActivity  // Twitter activity analysis (twitter_first mode)
   documents?: DocumentSearchResult[]  // Court records, paperwork, official documents
+  verified_claims?: Array<{  // Fact-checked claims from Twitter (via Perplexity)
+    claim: string
+    verification: string
+    sources: string[]
+    status: 'verified' | 'disputed' | 'inconclusive'
+  }>
   perspectives: string[]
   key_facts: string[]
   conflicting_info: string[]
@@ -206,6 +207,7 @@ export async function researchTopic(config: ResearchConfig): Promise<ResearchRes
         query,
         topic_id: config.topic_id,
         topic_context: config.topic_context || 'battle rap',
+        research_mode: config.research_mode || 'youtube_first',  // NEW
         max_videos,
         force_transcribe,
         generate_docs,
@@ -397,6 +399,7 @@ function convertWorkflowToResearchResult(
     sources,
     interviews,
     twitter: twitterData,
+    twitter_activity: workflow.twitter_activity,  // Twitter activity analysis (twitter_first mode)
     documents: workflow.documents,  // Court records, paperwork, official documents
     perspectives,
     key_facts: keyFacts,
@@ -553,7 +556,7 @@ async function buildStoryPrompt(
 
       // Extract entity names from research
       const entityNames = await extractEntityNames(
-        research as any,  // ResearchResult is compatible
+        research,
         config.topic_id
       )
 
@@ -576,6 +579,51 @@ async function buildStoryPrompt(
       console.error('[Story] Entity context injection failed:', error)
       // Continue without entity context - better to generate something than fail
     }
+  }
+
+  // === TWITTER ACTIVITY (PRIMARY SOURCE - if twitter_first mode) ===
+  let twitterActivitySection = ''
+  if (research.twitter_activity) {
+    const activity = research.twitter_activity
+    twitterActivitySection = `
+=== PRIMARY SOURCE: TWITTER ACTIVITY ===
+Analyzed ${activity.tweets_analyzed} tweets from last 72 hours in the ${activity.niche} niche.
+
+THIS IS WHAT'S HAPPENING RIGHT NOW:
+
+TRENDING DISCUSSIONS:
+${activity.discussion_topics.slice(0, 5).map(t =>
+  `- ${t.topic} (${t.tweet_count} tweets, ${t.engagement_total} engagement)
+   Sentiment: ${t.sentiment}
+   Key quotes from the community:
+   ${t.key_quotes.slice(0, 3).map(q => `   * "${q}"`).join('\n')}
+`).join('\n')}
+
+TOP TWEETS (What people are saying):
+${activity.trending_tweets.slice(0, 10).map(tweet =>
+  `- @${tweet.author_handle}: "${tweet.text}"
+   (${tweet.engagement} engagement, ${tweet.timestamp.toLocaleDateString()})
+   Context: ${tweet.context}
+`).join('\n')}
+
+ENTITIES BEING DISCUSSED:
+${activity.entities.slice(0, 10).map(e =>
+  `- ${e.name} (${e.type}): ${e.mention_count} mentions, ${e.engagement} engagement
+`).join('\n')}
+
+CLAIMS BEING MADE:
+${activity.claims.slice(0, 5).map(c =>
+  `- "${c.claim_text}" (${c.type})
+   Supporting tweets: ${c.supporting_tweets.length}
+`).join('\n')}
+
+INSTRUCTION:
+1. The story is ABOUT what people are saying on Twitter
+2. Use the trending tweets and quotes as PRIMARY content
+3. Use YouTube transcripts to VERIFY or provide CONTEXT for what Twitter is discussing
+4. Structure the story around what the COMMUNITY is saying/feeling
+=== END TWITTER ACTIVITY ===
+`
   }
 
   // Compile research into context
@@ -637,6 +685,32 @@ ${d.snippet}
 === END DOCUMENTS ===`
     : ''
 
+  // Include verified claims from Perplexity fact-checking (ACCURACY pillar)
+  const verifiedClaimsSection = research.verified_claims && research.verified_claims.length > 0
+    ? `\n=== FACT-CHECKED CLAIMS (Verified via Perplexity) ===`
+    : ''
+
+  const verifiedClaimsContent = research.verified_claims && research.verified_claims.length > 0
+    ? `\n=== FACT-CHECKED CLAIMS FROM TWITTER (Perplexity Verification) ===
+These claims were extracted from Twitter discussions and verified against web sources.
+USE THESE to ensure accuracy and provide authoritative context.
+
+${research.verified_claims.map((vc) => {
+  const statusEmoji = vc.status === 'verified' ? '✓' : vc.status === 'disputed' ? '✗' : '?'
+  return `${statusEmoji} CLAIM: "${vc.claim}"
+   STATUS: ${vc.status.toUpperCase()}
+   VERIFICATION: ${vc.verification}
+   SOURCES: ${vc.sources.join(', ')}
+`
+}).join('\n')}
+=== END FACT-CHECKED CLAIMS ===
+
+INSTRUCTION: When these claims appear in the story:
+- If VERIFIED: State them confidently with source attribution
+- If DISPUTED: Present both sides and note the disagreement
+- If INCONCLUSIVE: Acknowledge uncertainty and multiple viewpoints`
+    : ''
+
   // Build the entity context requirement text
   const entityRequirement = entitySection
     ? `9. CRITICAL: Use the ENTITY GLOSSARY above to correctly identify people and their roles. Do NOT assume affiliations or roles not listed in the glossary.`
@@ -684,9 +758,12 @@ ${d.snippet}
       facts_section: factsSection,
       perspectives_section: perspectivesSection,
       conflicts_section: conflictsSection,
+      verified_claims_section: verifiedClaimsSection,
+      verified_claims_content: verifiedClaimsContent,
       transcript_content: transcriptContent,
       interview_content: interviewContent || '',
       twitter_content: twitterContent,
+      twitter_activity: twitterActivitySection,
       document_content: documentContent,
     },
   })
@@ -824,66 +901,6 @@ function extractTitle(script: string, query?: string): string | null {
 }
 
 // ============================================
-// AUDIO GENERATION (ElevenLabs)
-// ============================================
-
-/**
- * Generate audio from story script
- */
-export async function generateAudio(
-  story: GeneratedStory,
-  options: {
-    voice_id?: string
-    output_path?: string
-    model_id?: string
-  } = {}
-): Promise<{ audio_path: string; audio_buffer: ArrayBuffer }> {
-  if (!isElevenLabsConfigured()) {
-    throw new Error('ElevenLabs API key not configured')
-  }
-
-  const voiceId = options.voice_id || DEFAULT_VOICE_ID
-  const modelId = options.model_id || 'eleven_turbo_v2_5'
-
-  console.log(`[Audio] Generating audio with voice ${voiceId}...`)
-
-  // Clean script for TTS
-  const cleanScript = story.script
-    .replace(/^#.+$/gm, '') // Remove markdown headers
-    .replace(/\[.+?\]/g, '') // Remove brackets
-    .replace(/\*\*/g, '') // Remove bold markers
-    .trim()
-
-  // Generate audio
-  const audioBuffer = await generateSpeech(cleanScript, {
-    voice_id: voiceId,
-    model_id: modelId,
-    voice_settings: {
-      stability: 0.75,
-      similarity_boost: 0.8,
-      style: 0.15, // Documentary style
-      use_speaker_boost: true
-    }
-  })
-
-  // Save to file
-  const outputDir = options.output_path || path.join(process.cwd(), 'public', 'audio')
-  await fs.mkdir(outputDir, { recursive: true })
-
-  const filename = `story_${Date.now()}.mp3`
-  const audioPath = path.join(outputDir, filename)
-
-  await fs.writeFile(audioPath, Buffer.from(audioBuffer))
-
-  console.log(`[Audio] Saved to ${audioPath}`)
-
-  return {
-    audio_path: audioPath,
-    audio_buffer: audioBuffer
-  }
-}
-
-// ============================================
 // FULL PIPELINE
 // ============================================
 
@@ -896,8 +913,6 @@ export async function runStoryPipeline(config: {
   topic_id?: string
   research_options?: Partial<ResearchConfig>
   story_options?: StoryConfig
-  generate_audio?: boolean
-  voice_id?: string
   generate_package?: boolean  // Generate and save ResearchPackage
 }): Promise<StoryPipelineResult> {
   const pipelineId = `pipeline_${Date.now()}`
@@ -948,29 +963,7 @@ export async function runStoryPipeline(config: {
 
   console.log(`[Pipeline] Generated ${story.word_count} word story (~${Math.ceil(story.estimated_duration_seconds / 60)} min)`)
 
-  // Apply niche settings to audio options
-  const audioConfig = nicheSettings ? getAudioConfig(nicheSettings) : null
-  const voiceId = config.voice_id || audioConfig?.voice_id || DEFAULT_VOICE_ID
-
-  // 3. Audio Generation Phase (optional)
-  let audioPath: string | undefined
-  let audioUrl: string | undefined
-
-  if (config.generate_audio !== false && isElevenLabsConfigured()) {
-    console.log('[Pipeline] Phase 3: Audio Generation')
-    try {
-      const audio = await generateAudio(story, {
-        voice_id: voiceId,
-        model_id: audioConfig?.model_id
-      })
-      audioPath = audio.audio_path
-      audioUrl = `/audio/${path.basename(audio.audio_path)}`
-    } catch (error) {
-      console.error('[Pipeline] Audio generation failed:', error)
-    }
-  }
-
-  // 4. Save to database (optional)
+  // 3. Save to database (optional)
   if (config.topic_id) {
     try {
       await supabase.from('story_candidates').insert({
@@ -989,7 +982,6 @@ export async function runStoryPipeline(config: {
             word_count: story.word_count,
             duration_seconds: story.estimated_duration_seconds
           },
-          audio_url: audioUrl
         },
         status: 'candidate'
       })
@@ -1030,6 +1022,7 @@ export async function runStoryPipeline(config: {
         twitter_tweets_found: research.twitter?.tweets_found || 0,
         twitter_sentiment: research.twitter?.sentiment,
         twitter_cost_cents: 0,
+        entities_enriched: 0,
         documents_searched: !!research.documents,
         documents_found: research.documents?.length || 0,
         sources: research.sources.map(s => ({
@@ -1055,10 +1048,12 @@ export async function runStoryPipeline(config: {
           cost_cents: 0,
         })),
         documents: research.documents,
+        verified_claims: research.verified_claims,
+        research_mode: config.research_options?.research_mode || 'youtube_first',
         errors: []
-      }
+      } as WorkflowResult
 
-      const pkg = await assembleResearchPackage(workflowResult as any, {
+      const pkg = await assembleResearchPackage(workflowResult, {
         topic_id: config.topic_id,
         include_transcripts: true,
         generate_producer_materials: true,
@@ -1082,8 +1077,6 @@ export async function runStoryPipeline(config: {
   return {
     research,
     story,
-    audio_path: audioPath,
-    audio_url: audioUrl,
     pipeline_id: pipelineId,
     created_at: new Date().toISOString(),
     research_package_id: researchPackageId,
@@ -1099,7 +1092,6 @@ export interface DailyShowConfig {
   topic_id: string
   show_name?: string
   host_name?: string
-  voice_id?: string
   stories_count?: number
   hours_back?: number
   production_format?: string
@@ -1128,39 +1120,60 @@ export async function generateDailyShow(config: DailyShowConfig): Promise<DailyS
     topic_id,
     show_name = 'Battle Rap Daily',
     host_name = 'Algorithm Institute',
-    voice_id = DEFAULT_VOICE_ID,
-    stories_count = 3,
+    stories_count = 5,  // Changed from 3 to 5 for 15-20 minute shows
     hours_back = 24,
     production_format,
     channel_style_file
   } = config
 
-  console.log(`[DailyShow] Generating ${show_name} with ${stories_count} stories`)
+  console.log(`[DailyShow] Generating ${show_name} with ${stories_count} stories (target: 15-20 minutes)`)
+  console.log(`[DailyShow] Using TWITTER-FIRST mode - Twitter is PRIMARY intelligence source`)
 
-  // 1. Get recent stories/signals from the topic
-  const { data: recentStories } = await supabase
-    .from('story_candidates')
-    .select('*')
-    .eq('topic_id', topic_id)
-    .gte('created_at', new Date(Date.now() - hours_back * 60 * 60 * 1000).toISOString())
-    .order('engagement_total', { ascending: false })
-    .limit(stories_count)
-
-  // 2. If not enough stories, search for trending topics
+  // 1. Try to get trending topics from Twitter intelligence first
   let storyTopics: string[] = []
 
-  if (recentStories && recentStories.length > 0) {
-    storyTopics = recentStories.map(s => s.headline || s.summary?.substring(0, 50))
-  } else {
-    // Search for recent battle rap news
-    console.log('[DailyShow] No recent stories, searching for trending topics')
-    const youtube = getFreeYouTubeClient()
-    const recentVideos = await youtube.search('battle rap news today', 10)
+  try {
+    const { analyzeTwitterActivity } = await import('./twitter-intelligence')
+    console.log(`[DailyShow] Analyzing Twitter activity for topic_id=${topic_id}`)
 
-    // Extract topics from video titles
-    storyTopics = recentVideos
+    const twitterActivity = await analyzeTwitterActivity(topic_id, {
+      hoursBack: hours_back,
+      minEngagement: 10,
+      maxTweets: 200
+    })
+
+    // Use top discussion topics from Twitter as story topics
+    storyTopics = twitterActivity.discussion_topics
+      .sort((a, b) => b.engagement_total - a.engagement_total)
       .slice(0, stories_count)
-      .map(v => v.title)
+      .map(t => t.topic)
+
+    console.log(`[DailyShow] Found ${storyTopics.length} trending topics from Twitter`)
+
+  } catch (error) {
+    console.warn('[DailyShow] Twitter intelligence failed, falling back to story_candidates:', error)
+
+    // Fallback 1: Get recent stories from story_candidates
+    const { data: recentStories } = await supabase
+      .from('story_candidates')
+      .select('*')
+      .eq('topic_id', topic_id)
+      .gte('created_at', new Date(Date.now() - hours_back * 60 * 60 * 1000).toISOString())
+      .order('engagement_total', { ascending: false })
+      .limit(stories_count)
+
+    if (recentStories && recentStories.length > 0) {
+      storyTopics = recentStories.map(s => s.headline || s.summary?.substring(0, 50))
+    } else {
+      // Fallback 2: Search YouTube for trending topics
+      console.log('[DailyShow] No recent stories, searching YouTube for trending topics')
+      const youtube = getFreeYouTubeClient()
+      const recentVideos = await youtube.search('trending news today', 10)
+
+      storyTopics = recentVideos
+        .slice(0, stories_count)
+        .map(v => v.title)
+    }
   }
 
   // 3. Generate intro
@@ -1175,17 +1188,21 @@ export async function generateDailyShow(config: DailyShowConfig): Promise<DailyS
       const pipeline = await runStoryPipeline({
         query: topic,
         topic_id,
+        research_options: {
+          research_mode: 'twitter_first',  // Use Twitter as PRIMARY intelligence source
+          use_enhanced_workflow: true,     // Enable full research workflow
+          max_videos: 8                     // YouTube for context/verification
+        },
         story_options: {
           style: 'news',
           tone: 'engaging',
-          max_length: 400,
+          max_length: 650,  // Increased from 400 to 650 for more substantial stories (3-4 min each)
           include_intro: false,
           include_outro: false,
           host_name,
           production_format,
           channel_style_file
-        },
-        generate_audio: false // We'll generate combined audio
+        }
       })
 
       stories.push({

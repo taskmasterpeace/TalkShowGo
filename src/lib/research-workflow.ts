@@ -16,6 +16,7 @@ import { searchYouTube } from './youtube-api'
 import { supabase } from './db'
 import { enrichResearchWithTwitter, formatTwitterForPrompt, TwitterSentiment } from './twitter-sentiment'
 import { searchWeb, WebSearchResult } from './web-search'
+import { searchWithPerplexity, isPerplexityAvailable } from './perplexity'
 // Import will be added after research-docs.ts is created
 // import { generateResearchDocs } from './research-docs'
 
@@ -44,6 +45,7 @@ export interface WorkflowOptions {
   query: string
   topic_id?: string
   topic_context?: string        // e.g., "battle rap"
+  research_mode?: 'youtube_first' | 'twitter_first'  // Default 'youtube_first'
   max_videos?: number           // Default 15
   max_duration_minutes?: number // Default 120
   min_duration_seconds?: number // Default 60
@@ -52,6 +54,8 @@ export interface WorkflowOptions {
   generate_docs?: boolean       // Default true
   // Research package options
   generate_package?: boolean    // Default false - generate and save ResearchPackage
+  // Entity enrichment options
+  enable_entity_enrichment?: boolean  // Default true - enrich entities with web search + LLM
   // Interview lookup options
   enable_interview_lookup?: boolean  // Default true - automatically search interviews for public figures
   max_interviews_per_entity?: number // Default 1
@@ -117,6 +121,9 @@ export interface WorkflowResult {
   interviews_from_cache: number
   interviews_cost_cents: number
 
+  // Entity enrichment stats
+  entities_enriched: number
+
   // Twitter stats
   twitter_searched: boolean
   twitter_event_date?: string
@@ -137,7 +144,15 @@ export interface WorkflowResult {
   sources: ResearchSource[]
   interviews: InterviewSource[]  // Interview data for identified entities
   twitter?: TwitterSentiment     // Twitter reactions (if enabled)
+  twitter_activity?: import('./twitter-intelligence').TwitterActivity  // Twitter activity (if twitter_first mode)
   documents?: DocumentSearchResult[]  // Court records, paperwork (if allegations detected)
+  verified_claims?: Array<{  // Fact-checked claims from Twitter (via Perplexity)
+    claim: string
+    verification: string
+    sources: string[]
+    status: 'verified' | 'disputed' | 'inconclusive'
+  }>
+  research_mode: 'youtube_first' | 'twitter_first'  // Research mode used
   documentation?: {
     markdown_path: string
     json_path: string
@@ -150,7 +165,7 @@ export interface WorkflowResult {
 }
 
 export interface WorkflowError {
-  stage: 'query_interpretation' | 'search' | 'filter' | 'download' | 'transcribe' | 'docs' | 'document_search' | 'interview_lookup' | 'twitter_sentiment' | 'research_package'
+  stage: 'query_interpretation' | 'search' | 'filter' | 'download' | 'transcribe' | 'docs' | 'document_search' | 'interview_lookup' | 'twitter_sentiment' | 'fact_check' | 'research_package' | 'entity_enrichment'
   video_id?: string
   entity_name?: string
   message: string
@@ -899,7 +914,7 @@ function findMatchingEntity(
 
 /**
  * Search for documents related to legal/allegation stories
- * Uses web search to find court records, arrest records, news articles about paperwork
+ * Uses Perplexity (primary) or web search (fallback) for grounded results with citations
  */
 async function searchForDocuments(
   entityNames: string[],
@@ -910,6 +925,10 @@ async function searchForDocuments(
 
   const documents: DocumentSearchResult[] = []
   let realName: string | undefined
+
+  // Check if Perplexity is available
+  const usePerplexity = await isPerplexityAvailable()
+  console.log(`[DocumentSearch] Using ${usePerplexity ? 'Perplexity' : 'SearXNG fallback'}`)
 
   // Document types to search for
   const documentTypes = [
@@ -923,26 +942,46 @@ async function searchForDocuments(
   // First, try to find real name if we only have stage names
   for (const entityName of entityNames) {
     try {
-      const realNameQueries = [
-        `"${entityName}" real name`,
-        `"${entityName}" government name`,
-        `"${entityName}" born name`
-      ]
+      if (usePerplexity) {
+        // Use Perplexity for real name search (more accurate)
+        const query = `What is the real name or government name of ${entityName}? Provide factual information only.`
 
-      for (const query of realNameQueries) {
-        const results = await searchWeb(query, { max_results: 3 })
-        for (const result of results) {
-          // Look for patterns like "real name is X" or "born X"
-          const nameMatch = result.content?.match(
-            /(?:real name|born|government name)(?:\s+is)?[:\s]+([A-Z][a-z]+\s+[A-Z][a-z]+)/i
-          )
-          if (nameMatch && nameMatch[1]) {
-            realName = nameMatch[1].trim()
-            console.log(`[DocumentSearch] Found real name: ${realName} for ${entityName}`)
-            break
-          }
+        const result = await searchWithPerplexity(query, {
+          search_recency_filter: 'month',
+          systemPrompt: 'Provide factual biographical information. If the person uses a stage name, provide their legal/birth name.'
+        })
+
+        // Extract real name from answer
+        const nameMatch = result.answer.match(
+          /(?:real name|born|government name|legal name)(?:\s+is)?[:\s]+([A-Z][a-z]+\s+[A-Z][a-z]+)/i
+        )
+        if (nameMatch && nameMatch[1]) {
+          realName = nameMatch[1].trim()
+          console.log(`[DocumentSearch] Found real name via Perplexity: ${realName} for ${entityName}`)
+          break
         }
-        if (realName) break
+      } else {
+        // Fallback to SearXNG
+        const realNameQueries = [
+          `"${entityName}" real name`,
+          `"${entityName}" government name`,
+          `"${entityName}" born name`
+        ]
+
+        for (const query of realNameQueries) {
+          const results = await searchWeb(query, { max_results: 3 })
+          for (const result of results) {
+            const nameMatch = result.content?.match(
+              /(?:real name|born|government name)(?:\s+is)?[:\s]+([A-Z][a-z]+\s+[A-Z][a-z]+)/i
+            )
+            if (nameMatch && nameMatch[1]) {
+              realName = nameMatch[1].trim()
+              console.log(`[DocumentSearch] Found real name: ${realName} for ${entityName}`)
+              break
+            }
+          }
+          if (realName) break
+        }
       }
     } catch (error) {
       console.error(`[DocumentSearch] Error finding real name for ${entityName}:`, error)
@@ -956,49 +995,98 @@ async function searchForDocuments(
   for (const name of searchNames) {
     for (const docType of documentTypes) {
       try {
-        const query = location
-          ? `"${name}" ${docType} ${location}`
-          : `"${name}" ${docType}`
+        if (usePerplexity) {
+          // Use Perplexity for document search (grounded, cited results)
+          const query = location
+            ? `Find ${docType} for ${name} in ${location}. Include court case numbers, arrest records, and official documents.`
+            : `Find ${docType} for ${name}. Include court case numbers, arrest records, and official documents.`
 
-        const results = await searchWeb(query, { max_results: 3 })
+          const result = await searchWithPerplexity(query, {
+            search_recency_filter: 'month',
+            systemPrompt: 'Find factual legal documents, court records, and official paperwork. Provide direct links and cite sources.'
+          })
 
-        for (const result of results) {
-          // Determine document type from URL and content
-          let type: DocumentSearchResult['type'] = 'news_article'
-          const urlLower = result.url.toLowerCase()
-          const titleLower = result.title.toLowerCase()
+          // Process search results from Perplexity
+          for (const searchResult of result.search_results) {
+            let type: DocumentSearchResult['type'] = 'news_article'
+            const urlLower = searchResult.url.toLowerCase()
+            const titleLower = searchResult.title.toLowerCase()
 
-          if (urlLower.includes('court') || urlLower.includes('.gov') ||
-              titleLower.includes('court') || titleLower.includes('case')) {
-            type = 'court_record'
-          } else if (urlLower.includes('arrest') || titleLower.includes('arrest') ||
-                     titleLower.includes('mugshot')) {
-            type = 'official_document'
-          } else if (urlLower.includes('twitter') || urlLower.includes('instagram') ||
-                     urlLower.includes('facebook')) {
-            type = 'social_media'
+            if (urlLower.includes('court') || urlLower.includes('.gov') ||
+                titleLower.includes('court') || titleLower.includes('case')) {
+              type = 'court_record'
+            } else if (urlLower.includes('arrest') || titleLower.includes('arrest') ||
+                       titleLower.includes('mugshot')) {
+              type = 'official_document'
+            } else if (urlLower.includes('twitter') || urlLower.includes('instagram') ||
+                       urlLower.includes('facebook')) {
+              type = 'social_media'
+            }
+
+            // Calculate relevance score
+            let relevanceScore = 0
+            if (searchResult.title.toLowerCase().includes(name.toLowerCase())) relevanceScore += 30
+            if (searchResult.snippet?.toLowerCase().includes('paperwork')) relevanceScore += 20
+            if (searchResult.snippet?.toLowerCase().includes('snitch')) relevanceScore += 20
+            if (searchResult.snippet?.toLowerCase().includes('court')) relevanceScore += 15
+            if (type === 'court_record') relevanceScore += 25
+
+            if (relevanceScore >= 20) {
+              const exists = documents.some(d => d.url === searchResult.url)
+              if (!exists) {
+                documents.push({
+                  type,
+                  title: searchResult.title,
+                  url: searchResult.url,
+                  snippet: searchResult.snippet || '',
+                  relevance_score: relevanceScore
+                })
+              }
+            }
           }
 
-          // Calculate relevance score
-          let relevanceScore = 0
-          if (result.title.toLowerCase().includes(name.toLowerCase())) relevanceScore += 30
-          if (result.content?.toLowerCase().includes('paperwork')) relevanceScore += 20
-          if (result.content?.toLowerCase().includes('snitch')) relevanceScore += 20
-          if (result.content?.toLowerCase().includes('court')) relevanceScore += 15
-          if (type === 'court_record') relevanceScore += 25
+        } else {
+          // Fallback to SearXNG
+          const query = location
+            ? `"${name}" ${docType} ${location}`
+            : `"${name}" ${docType}`
 
-          // Only add if somewhat relevant
-          if (relevanceScore >= 20) {
-            // Check for duplicates
-            const exists = documents.some(d => d.url === result.url)
-            if (!exists) {
-              documents.push({
-                type,
-                title: result.title,
-                url: result.url,
-                snippet: result.content || '',
-                relevance_score: relevanceScore
-              })
+          const results = await searchWeb(query, { max_results: 3 })
+
+          for (const result of results) {
+            let type: DocumentSearchResult['type'] = 'news_article'
+            const urlLower = result.url.toLowerCase()
+            const titleLower = result.title.toLowerCase()
+
+            if (urlLower.includes('court') || urlLower.includes('.gov') ||
+                titleLower.includes('court') || titleLower.includes('case')) {
+              type = 'court_record'
+            } else if (urlLower.includes('arrest') || titleLower.includes('arrest') ||
+                       titleLower.includes('mugshot')) {
+              type = 'official_document'
+            } else if (urlLower.includes('twitter') || urlLower.includes('instagram') ||
+                       urlLower.includes('facebook')) {
+              type = 'social_media'
+            }
+
+            let relevanceScore = 0
+            if (result.title.toLowerCase().includes(name.toLowerCase())) relevanceScore += 30
+            if (result.content?.toLowerCase().includes('paperwork')) relevanceScore += 20
+            if (result.content?.toLowerCase().includes('snitch')) relevanceScore += 20
+            if (result.content?.toLowerCase().includes('court')) relevanceScore += 15
+            if (type === 'court_record') relevanceScore += 25
+
+            if (relevanceScore >= 20) {
+              const exists = documents.some(d => d.url === result.url)
+              if (!exists) {
+                documents.push({
+                  type,
+                  title: result.title,
+                  url: result.url,
+                  snippet: result.content || '',
+                  relevance_score: relevanceScore
+                })
+              }
             }
           }
         }
@@ -1046,6 +1134,7 @@ export async function runResearchWorkflow(
     interviews_found: 0,
     interviews_from_cache: 0,
     interviews_cost_cents: 0,
+    entities_enriched: 0,
     // Twitter stats
     twitter_searched: false,
     twitter_tweets_found: 0,
@@ -1056,12 +1145,74 @@ export async function runResearchWorkflow(
     // Results
     sources: [],
     interviews: [],
+    research_mode: options.research_mode || 'youtube_first',
     errors: []
   }
 
-  // STEP 0: Query interpretation & expansion
-  let queryPlan: QueryPlan
-  try {
+  // STEP 0: Query interpretation OR Twitter activity analysis
+  let queryPlan: QueryPlan = {
+    original_query: options.query,
+    interpreted_as: options.query,
+    primary_queries: [options.query],
+    secondary_queries: [],
+    entity_lookups: [],
+    search_type: 'youtube_only',
+    expected_content: 'mixed',
+    entities: [],
+    keywords_must_have: [],
+    keywords_nice_to_have: [],
+    exclude_patterns: [],
+    involves_legal_allegations: false,
+    document_search_recommended: false,
+    real_name_search_needed: false
+  }
+  let twitterActivity: import('./twitter-intelligence').TwitterActivity | null = null
+
+  // === BRANCHING POINT: Twitter-First vs YouTube-First ===
+  if (options.research_mode === 'twitter_first') {
+    console.log('[ResearchWorkflow] Using Twitter-first mode')
+
+    if (!options.topic_id) {
+      throw new Error('topic_id required for twitter_first mode')
+    }
+
+    try {
+      // Analyze Twitter activity from tweets_raw
+      const { analyzeTwitterActivity, convertTwitterActivityToQueryPlan } = await import('./twitter-intelligence')
+
+      twitterActivity = await analyzeTwitterActivity(options.topic_id, {
+        hoursBack: 72,
+        minEngagement: 10,
+        maxTweets: 200
+      })
+
+      result.twitter_activity = twitterActivity
+
+      // Convert to QueryPlan format for compatibility
+      queryPlan = convertTwitterActivityToQueryPlan(twitterActivity, options.query)
+      result.query_plan = queryPlan
+
+      console.log(`[ResearchWorkflow] Twitter activity analyzed: ${twitterActivity.trending_tweets.length} tweets, ${twitterActivity.entities.length} entities`)
+
+    } catch (error) {
+      console.error('[ResearchWorkflow] Twitter-first mode failed:', error)
+      console.log('[ResearchWorkflow] Falling back to YouTube-first mode')
+
+      errors.push({
+        stage: 'query_interpretation',
+        message: `Twitter-first failed: ${String(error)}`,
+        recoverable: true
+      })
+
+      // Fall back to youtube_first
+      result.research_mode = 'youtube_first'
+      twitterActivity = null
+    }
+  }
+
+  // YouTube-first mode (or fallback from twitter_first)
+  if (!twitterActivity) {
+    try {
     if (isQueryInterpreterConfigured()) {
       console.log('[ResearchWorkflow] Step 0: Interpreting query...')
       queryPlan = await interpretQuery(options.query, {
@@ -1113,7 +1264,11 @@ export async function runResearchWorkflow(
       document_search_recommended: false,
       real_name_search_needed: false
     }
+    }
   }
+
+  // === PATHS CONVERGE HERE ===
+  // Both twitter_first and youtube_first now have a queryPlan
 
   // STEP 1: Multi-query YouTube search
   console.log('[ResearchWorkflow] Step 1: Searching YouTube...')
@@ -1262,33 +1417,72 @@ export async function runResearchWorkflow(
     }
   }
 
+  // Identify entities from query plan (used by Steps 5 and 5.5)
+  const identifiedEntities = await identifyEntitiesForInterviewLookup(queryPlan, options.topic_id)
+  result.entities_identified = identifiedEntities.length
+  result.public_figures_found = identifiedEntities.filter(e => e.is_public_figure).length
+
   // STEP 5: Interview lookup for public figures (enabled by default)
-  if (options.enable_interview_lookup !== false) {
+  if (options.enable_interview_lookup !== false && identifiedEntities.length > 0) {
     console.log('[ResearchWorkflow] Step 5: Looking up interviews for public figures...')
+    console.log(`[ResearchWorkflow] Identified ${identifiedEntities.length} entities, ${result.public_figures_found} public figures`)
 
-    // Identify entities from query plan
-    const identifiedEntities = await identifyEntitiesForInterviewLookup(queryPlan, options.topic_id)
-    result.entities_identified = identifiedEntities.length
-    result.public_figures_found = identifiedEntities.filter(e => e.is_public_figure).length
+    // Look up interviews - pass queryPlan for keyword extraction
+    const interviewResult = await enrichWithInterviews(identifiedEntities, options, errors, queryPlan)
 
-    if (identifiedEntities.length > 0) {
-      console.log(`[ResearchWorkflow] Identified ${identifiedEntities.length} entities, ${result.public_figures_found} public figures`)
+    result.interviews = interviewResult.interviews
+    result.interviews_searched = interviewResult.stats.searched
+    result.interviews_found = interviewResult.stats.found
+    result.interviews_from_cache = interviewResult.stats.from_cache
+    result.interviews_cost_cents = interviewResult.stats.cost_cents
+  }
 
-      // Look up interviews - pass queryPlan for keyword extraction
-      const interviewResult = await enrichWithInterviews(identifiedEntities, options, errors, queryPlan)
+  // STEP 5.5: Entity enrichment - enrich identified entities with web search + LLM
+  if (options.enable_entity_enrichment !== false && identifiedEntities.length > 0) {
+    console.log('[ResearchWorkflow] Step 5.5: Enriching entities with web context...')
 
-      result.interviews = interviewResult.interviews
-      result.interviews_searched = interviewResult.stats.searched
-      result.interviews_found = interviewResult.stats.found
-      result.interviews_from_cache = interviewResult.stats.from_cache
-      result.interviews_cost_cents = interviewResult.stats.cost_cents
+    try {
+      const { enrichEntity } = await import('./entity-enrichment')
+
+      // Only enrich entities that have DB IDs and are pending
+      const entitiesToEnrich = identifiedEntities.filter(e => e.id)
+      let enriched = 0
+
+      for (const entity of entitiesToEnrich.slice(0, 5)) {  // Cap at 5 to avoid slowdown
+        try {
+          const enrichResult = await enrichEntity({
+            entity_id: entity.id!,
+            topic_id: options.topic_id,
+            force: false,  // Skip already-enriched entities
+            niche_keywords: [...(queryPlan.keywords_must_have || []), ...(queryPlan.keywords_nice_to_have || [])]
+          })
+
+          if (enrichResult.was_enriched) {
+            enriched++
+            console.log(`[ResearchWorkflow] Enriched: ${enrichResult.entity_name} (${enrichResult.entity_type})`)
+          }
+        } catch (entityError) {
+          console.warn(`[ResearchWorkflow] Failed to enrich entity ${entity.name}:`, entityError)
+        }
+      }
+
+      result.entities_enriched = enriched
+      console.log(`[ResearchWorkflow] Enriched ${enriched}/${entitiesToEnrich.length} entities`)
+    } catch (error) {
+      console.error('[ResearchWorkflow] Entity enrichment error:', error)
+      errors.push({
+        stage: 'entity_enrichment',
+        message: String(error),
+        recoverable: true
+      })
     }
   }
 
-  // STEP 6: Twitter sentiment (if enabled)
+  // STEP 6: Twitter sentiment (if enabled and NOT twitter_first mode)
   // Twitter requires knowing WHEN the event happened (from video dates)
   // Then searches for reactions from that specific time period
-  if (options.enable_twitter_sentiment) {
+  // Skip if we already have twitter_activity from twitter_first mode
+  if (options.enable_twitter_sentiment && !result.twitter_activity) {
     console.log('[ResearchWorkflow] Step 6: Searching Twitter for reactions...')
 
     try {
@@ -1324,6 +1518,71 @@ export async function runResearchWorkflow(
       console.error('[ResearchWorkflow] Twitter sentiment error:', error)
       errors.push({
         stage: 'twitter_sentiment',
+        message: String(error),
+        recoverable: true
+      })
+    }
+  }
+
+  // STEP 6.5: Fact-check claims from Twitter using Perplexity (if twitter_first mode)
+  if (result.twitter_activity && await isPerplexityAvailable()) {
+    console.log('[ResearchWorkflow] Step 6.5: Fact-checking Twitter claims with Perplexity...')
+
+    try {
+      const verifiedClaims: Array<{
+        claim: string
+        verification: string
+        sources: string[]
+        status: 'verified' | 'disputed' | 'inconclusive'
+      }> = []
+
+      // Take top 3 claims by engagement
+      const topClaims = result.twitter_activity.claims
+        .sort((a, b) => b.engagement - a.engagement)
+        .slice(0, 3)
+
+      for (const claim of topClaims) {
+        try {
+          const query = `Is this claim accurate? "${claim.claim_text}" Provide recent factual information with sources.`
+
+          const verification = await searchWithPerplexity(query, {
+            search_recency_filter: 'week',
+            systemPrompt: 'Fact-check the claim objectively. Provide evidence for or against. Cite credible sources only.'
+          })
+
+          // Determine verification status from answer
+          let status: 'verified' | 'disputed' | 'inconclusive' = 'inconclusive'
+          const answerLower = verification.answer.toLowerCase()
+          if (answerLower.includes('accurate') || answerLower.includes('correct') || answerLower.includes('confirmed')) {
+            status = 'verified'
+          } else if (answerLower.includes('false') || answerLower.includes('incorrect') || answerLower.includes('disputed')) {
+            status = 'disputed'
+          }
+
+          verifiedClaims.push({
+            claim: claim.claim_text,
+            verification: verification.answer,
+            sources: verification.citations,
+            status
+          })
+
+          console.log(`[ResearchWorkflow] Fact-checked: "${claim.claim_text.substring(0, 50)}..." → ${status}`)
+
+        } catch (claimError) {
+          console.error(`[ResearchWorkflow] Error fact-checking claim:`, claimError)
+        }
+      }
+
+      // Store verified claims in result (will be used in story generation)
+      if (verifiedClaims.length > 0) {
+        result.verified_claims = verifiedClaims
+        console.log(`[ResearchWorkflow] Verified ${verifiedClaims.length} claims from Twitter`)
+      }
+
+    } catch (error) {
+      console.error('[ResearchWorkflow] Claim verification error:', error)
+      errors.push({
+        stage: 'fact_check',
         message: String(error),
         recoverable: true
       })

@@ -132,7 +132,7 @@ interface HostPreviewInfo {
     style: number
   }
   estimated_duration_seconds: number
-  elevenlabs_configured: boolean
+  dia_available: boolean
 }
 
 function TestVoiceDialog({
@@ -208,7 +208,7 @@ function TestVoiceDialog({
         setError(data.error || 'Failed to generate preview')
       }
     } catch {
-      setError('Failed to generate preview. Check ElevenLabs configuration.')
+      setError('Failed to generate preview. Check Dia TTS configuration.')
     } finally {
       setGenerating(false)
     }
@@ -260,9 +260,9 @@ function TestVoiceDialog({
                   <span>~{previewInfo.estimated_duration_seconds} seconds</span>
                 </div>
                 <div className="flex items-center justify-between text-sm mt-1">
-                  <span className="text-muted-foreground">ElevenLabs Status</span>
-                  <span className={previewInfo.elevenlabs_configured ? 'text-green-500' : 'text-amber-500'}>
-                    {previewInfo.elevenlabs_configured ? 'Configured' : 'Not Configured'}
+                  <span className="text-muted-foreground">Dia TTS Status</span>
+                  <span className={previewInfo.dia_available ? 'text-green-500' : 'text-amber-500'}>
+                    {previewInfo.dia_available ? 'Available' : 'Not Running'}
                   </span>
                 </div>
               </div>
@@ -335,7 +335,7 @@ function TestVoiceDialog({
                 </Button>
                 <Button
                   onClick={handleGeneratePreview}
-                  disabled={generating || !script.trim() || !previewInfo.elevenlabs_configured}
+                  disabled={generating || !script.trim() || !previewInfo.dia_available}
                   style={{ backgroundColor: hostColor }}
                   className="text-white"
                 >

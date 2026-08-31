@@ -7,7 +7,6 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Input } from '@/components/ui/input'
-import { Calendar } from '@/components/ui/calendar'
 import {
   Select,
   SelectContent,
@@ -23,11 +22,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
 import {
   Loader2,
   Search,
@@ -247,22 +241,18 @@ Return stories with:
 
             <div>
               <label className="text-sm font-medium mb-2 block">Target Date</label>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button variant="outline" className="w-[200px] justify-start">
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {format(targetDate, 'PPP')}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={targetDate}
-                    onSelect={(date) => date && setTargetDate(date)}
-                    initialFocus
-                  />
-                </PopoverContent>
-              </Popover>
+              <div className="flex items-center gap-2">
+                <CalendarIcon className="h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="date"
+                  value={format(targetDate, 'yyyy-MM-dd')}
+                  onChange={(e) => {
+                    const d = new Date(e.target.value + 'T00:00:00')
+                    if (!isNaN(d.getTime())) setTargetDate(d)
+                  }}
+                  className="w-[200px]"
+                />
+              </div>
             </div>
 
             <div className="flex items-end">

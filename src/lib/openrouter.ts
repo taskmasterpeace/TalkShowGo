@@ -81,6 +81,18 @@ export async function callOpenRouter(request: OpenRouterRequest): Promise<{
   const serviceName = IS_REQUESTY ? 'Requesty' : 'OpenRouter'
   console.log(`[${serviceName}] Calling ${request.model} (max_tokens: ${request.max_tokens || 'default'}, temp: ${request.temperature || 0.7})`)
 
+  const requestBody = {
+    model: request.model,
+    messages: request.messages,
+    max_tokens: request.max_tokens || 1000,
+    temperature: request.temperature !== undefined ? request.temperature : 0.7,
+    ...(request.top_p !== undefined && { top_p: request.top_p }),
+    ...(request.frequency_penalty !== undefined && { frequency_penalty: request.frequency_penalty }),
+    ...(request.presence_penalty !== undefined && { presence_penalty: request.presence_penalty })
+  }
+
+  console.log(`[${serviceName}] Request body:`, JSON.stringify(requestBody, null, 2).substring(0, 500))
+
   const response = await fetch(API_URL, {
     method: 'POST',
     headers: {
@@ -92,15 +104,7 @@ export async function callOpenRouter(request: OpenRouterRequest): Promise<{
         'X-Title': 'Talk Show Go - Multi-Host System'
       } : {})
     },
-    body: JSON.stringify({
-      model: request.model,
-      messages: request.messages,
-      max_tokens: request.max_tokens || 1000,
-      temperature: request.temperature !== undefined ? request.temperature : 0.7,
-      top_p: request.top_p,
-      frequency_penalty: request.frequency_penalty,
-      presence_penalty: request.presence_penalty
-    })
+    body: JSON.stringify(requestBody)
   })
 
   if (!response.ok) {
@@ -180,38 +184,9 @@ export function selectModelForHost(host: DebateHost): string {
   // Auto-selection based on personality attributes
   const { analytical_depth, opinion_strength, speed, humor, aggression, empathy, formality } = host
 
-  // High analytical depth + high opinion strength = Deep reasoning needed
-  if (analytical_depth > 80 && opinion_strength > 70) {
-    return 'anthropic/claude-opus-4.5'
-  }
-
-  // High speed + high humor = Fast creative responses
-  if (speed > 80 && humor > 60) {
-    return 'openai/gpt-4o'
-  }
-
-  // High aggression + need for budget efficiency = DeepSeek
-  if (aggression > 75) {
-    return 'deepseek/deepseek-chat'
-  }
-
-  // High empathy + analytical = Claude Sonnet (balanced)
-  if (empathy > 70 && analytical_depth > 60) {
-    return 'anthropic/claude-sonnet-4-20250514'
-  }
-
-  // High formality + analytical = Gemini Pro (structured)
-  if (formality > 70 && analytical_depth > 60) {
-    return 'google/gemini-2.0-flash-exp:free'
-  }
-
-  // Contrarian/alternative perspectives = Llama
-  if (opinion_strength > 70 && aggression > 60) {
-    return 'meta-llama/llama-3.3-70b-instruct'
-  }
-
-  // Default: Balanced, cost-effective
-  return 'google/gemini-2.0-flash-exp:free'
+  // For now, just use DeepSeek which is widely supported and cheap
+  // TODO: Test which models actually work with Requesty and update this
+  return 'deepseek/deepseek-chat'
 }
 
 /**

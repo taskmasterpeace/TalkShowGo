@@ -2,10 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { getDailyShowScheduler } from '@/lib/scheduler/daily-show-scheduler'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_KEY!
-)
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_KEY!
+  )
+}
 
 /**
  * POST /api/schedules/daily-show/[id]/run-now
@@ -17,6 +19,7 @@ export async function POST(
 ) {
   try {
     const scheduler = getDailyShowScheduler()
+    const supabase = getSupabase()
     const { data: schedule, error } = await supabase
       .from('daily_show_schedules')
       .select('*')

@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TalkShowGo - How It Works</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0c0d12;--surface:#13141c;--card:#191a25;--card-hover:#1e2030;
+  --border:#262840;--text:#d8dae6;--muted:#6e7190;--dim:#484b6a;
+  --accent:#8b7cf7;--accent-soft:rgba(139,124,247,0.1);
+  --blue:#5b9cf5;--green:#4ecb8d;--orange:#e89748;--pink:#d46ab3;--cyan:#4fc4d6;--red:#e55c6c;
+}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+a{color:var(--accent);text-decoration:none}
+
+/* Layout */
+.app{max-width:960px;margin:0 auto;padding:24px 24px 80px}
+header{text-align:center;padding:40px 0 32px}
+header h1{font-size:1.6rem;font-weight:700;letter-spacing:-0.03em;margin-bottom:4px}
+header p{color:var(--muted);font-size:0.85rem}
+
+/* Query bar */
+.query-bar{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:16px 20px;margin-bottom:32px;display:flex;align-items:center;gap:12px;
+}
+.query-bar label{color:var(--muted);font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;white-space:nowrap}
+.query-bar input{
+  flex:1;background:transparent;border:none;color:var(--text);font-size:1rem;
+  font-family:inherit;outline:none;
+}
+.query-bar input::placeholder{color:var(--dim)}
+.query-bar .run-btn{
+  background:var(--accent);color:white;border:none;border-radius:8px;
+  padding:8px 18px;font-size:0.8rem;font-weight:600;cursor:pointer;white-space:nowrap;
+}
+.query-bar .run-btn:hover{filter:brightness(1.1)}
+
+/* Pipeline overview */
+.pipeline-strip{
+  display:flex;gap:4px;margin-bottom:36px;position:sticky;top:0;z-index:20;
+  background:var(--bg);padding:8px 0 12px;
+}
+.pip-step{
+  flex:1;padding:8px 6px;border-radius:8px;text-align:center;font-size:0.65rem;
+  font-weight:600;cursor:pointer;transition:all 0.15s;border:1px solid transparent;
+  color:var(--muted);background:var(--card);
+}
+.pip-step:hover{border-color:var(--border);color:var(--text)}
+.pip-step.active{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.pip-step.done{color:var(--green);opacity:0.8}
+.pip-step .pip-num{display:block;font-size:1rem;margin-bottom:2px}
+.pip-step .pip-label{display:block;line-height:1.2}
+
+/* Stage cards */
+.stage{
+  margin-bottom:24px;border:1px solid var(--border);border-radius:14px;
+  overflow:hidden;transition:all 0.2s;background:var(--card);
+}
+.stage.highlighted{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent),0 4px 24px rgba(139,124,247,0.08)}
+.stage-header{
+  display:flex;align-items:center;gap:14px;padding:16px 20px;cursor:pointer;
+  transition:background 0.15s;
+}
+.stage-header:hover{background:var(--card-hover)}
+.stage-num{
+  width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:0.8rem;font-weight:700;flex-shrink:0;
+}
+.stage-info{flex:1;min-width:0}
+.stage-title{font-size:0.95rem;font-weight:600;letter-spacing:-0.02em}
+.stage-sub{color:var(--muted);font-size:0.75rem;margin-top:1px}
+.stage-file{
+  font-family:'JetBrains Mono','Fira Code','Consolas',monospace;
+  font-size:0.68rem;color:var(--dim);background:rgba(255,255,255,0.03);
+  padding:3px 8px;border-radius:5px;
+}
+.stage-arrow{color:var(--dim);font-size:1.1rem;transition:transform 0.2s}
+.stage.open .stage-arrow{transform:rotate(90deg)}
+
+.stage-body{display:none;border-top:1px solid var(--border);padding:0}
+.stage.open .stage-body{display:block}
+
+/* Tabs inside stage */
+.stage-tabs{display:flex;border-bottom:1px solid var(--border);background:rgba(0,0,0,0.15)}
+.stage-tab{
+  padding:10px 18px;font-size:0.72rem;font-weight:500;cursor:pointer;
+  color:var(--muted);border-bottom:2px solid transparent;transition:all 0.15s;
+}
+.stage-tab:hover{color:var(--text)}
+.stage-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.stage-panel{display:none;padding:18px 22px}
+.stage-panel.active{display:block}
+
+/* Content styles */
+.prompt-box{
+  background:#0e1208;border:1px solid #2a3a20;border-radius:10px;padding:16px;
+  font-family:'JetBrains Mono','Fira Code','Consolas',monospace;font-size:0.75rem;
+  line-height:1.65;white-space:pre-wrap;word-break:break-word;color:#b8d4a8;
+  margin:10px 0;overflow-x:auto;
+}
+.prompt-box .v{color:var(--orange);font-weight:600}
+.prompt-box .c{color:#5a6a4a;font-style:italic}
+
+.data-box{
+  background:#0a0c14;border:1px solid var(--border);border-radius:10px;padding:16px;
+  font-family:'JetBrains Mono','Fira Code','Consolas',monospace;font-size:0.73rem;
+  line-height:1.6;white-space:pre-wrap;color:#a0b0d0;margin:10px 0;
+}
+
+.flow-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.flow-dot{
+  width:8px;height:8px;border-radius:50%;margin-top:7px;flex-shrink:0;
+}
+.flow-text{font-size:0.8rem;color:#b0b4c8}
+.flow-text strong{color:var(--text)}
+
+.tag{
+  display:inline-block;padding:2px 8px;border-radius:5px;font-size:0.65rem;font-weight:600;
+}
+.tag-blue{background:rgba(91,156,245,0.12);color:var(--blue)}
+.tag-green{background:rgba(78,203,141,0.12);color:var(--green)}
+.tag-orange{background:rgba(232,151,72,0.12);color:var(--orange)}
+.tag-pink{background:rgba(212,106,179,0.12);color:var(--pink)}
+.tag-cyan{background:rgba(79,196,214,0.12);color:var(--cyan)}
+.tag-red{background:rgba(229,92,108,0.12);color:var(--red)}
+.tag-accent{background:var(--accent-soft);color:var(--accent)}
+
+.sep{
+  text-align:center;padding:8px 0;color:var(--dim);font-size:0.75rem;
+  display:flex;align-items:center;gap:12px;
+}
+.sep::before,.sep::after{content:'';flex:1;height:1px;background:var(--border)}
+
+h4{font-size:0.8rem;margin:14px 0 6px;color:var(--text);font-weight:600}
+p{margin-bottom:8px;font-size:0.8rem;color:#9498b4}
+.small{font-size:0.72rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>TalkShowGo: How It Works</h1>
+    <p>Trace a query through the entire pipeline &mdash; see every prompt, every data transform, every decision</p>
+  </header>
+
+  <div class="query-bar">
+    <label>Query</label>
+    <input id="queryInput" type="text" value="Bad Newz snitching allegations" placeholder="Enter a topic to trace...">
+    <button class="run-btn" onclick="traceQuery()">Trace It</button>
+  </div>
+
+  <div class="pipeline-strip" id="pipStrip"></div>
+
+  <div id="stages"></div>
+</div>
+
+<script>
+const Q = () => document.getElementById('queryInput').value || 'Bad Newz snitching allegations';
+
+const stages = [
+  {
+    num: '1', title: 'Query Interpretation', sub: 'User query → structured search plan',
+    file: 'prompt-registry.ts', color: 'var(--blue)',
+    whyTab: () => `
+      <p>Your query enters the system. An LLM analyzes it and generates a <strong>search plan</strong> &mdash; multiple YouTube queries, entity names to look up, and flags for special handling (legal stories, interviews, etc.).</p>
+      <h4>Auto-Detection</h4>
+      <p>The system scans for keywords like <span class="tag tag-red">snitch</span> <span class="tag tag-red">paperwork</span> <span class="tag tag-red">court</span> <span class="tag tag-red">arrest</span> <span class="tag tag-red">allegations</span> and automatically enables document search and real-name lookup.</p>
+      <h4>For "${Q()}"</h4>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--green)"></div><div class="flow-text">Detects this is a <strong>controversy/legal</strong> story</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--green)"></div><div class="flow-text">Enables <strong>document search</strong> for court records</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--green)"></div><div class="flow-text">Flags <strong>real name search</strong> needed (gov name for records)</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--green)"></div><div class="flow-text">Generates <strong>10+ search queries</strong> for YouTube and web</div></div>
+    `,
+    promptTab: () => `
+      <p>This prompt is sent to Claude Sonnet 4 via OpenRouter:</p>
+      <div class="prompt-box">Analyze this query about <span class="v">{topic_context}</span>:
+"<span class="v">${Q()}</span>"
+
+Return a JSON object with:
+1. story_type: What kind of story? (battle, news, controversy, interview, documentary)
+2. entities: List of people/organizations mentioned with their roles
+3. time_context: When did this happen? (recent, historical, ongoing)
+4. search_queries: 5-10 YouTube search queries to find relevant videos
+5. interview_searches: Search queries to find interviews with key people
+6. involves_legal_allegations: Does this involve court/legal matters?
+7. document_search_recommended: Should we search for official documents?
+
+Respond in JSON only.</div>
+    `,
+    dataTab: () => `
+      <h4>Input</h4>
+      <div class="data-box">"${Q()}"</div>
+      <h4>Output &rarr; QueryPlan</h4>
+      <div class="data-box">{
+  "story_type": "controversy",
+  "entities": [
+    { "name": "Bad Newz", "role": "battler" }
+  ],
+  "time_context": "recent",
+  "search_queries": [
+    "Bad Newz snitch allegations",
+    "Bad Newz paperwork exposed",
+    "Bad Newz court records battle rap",
+    "Bad Newz snitching reaction",
+    "Bad Newz responds allegations"
+  ],
+  "interview_searches": [
+    "Bad Newz interview HHIR",
+    "Bad Newz exclusive sit down"
+  ],
+  "involves_legal_allegations": true,
+  "document_search_recommended": true
+}</div>
+      <p class="small">This plan gets passed to the Research Workflow.</p>
+    `,
+  },
+  {
+    num: '2', title: 'Multi-Source Research', sub: '10-step research across YouTube, Twitter, Web, Docs',
+    file: 'research-workflow.ts (1,400+ lines)', color: 'var(--green)',
+    whyTab: () => `
+      <p>The search plan triggers a <strong>10-step research pipeline</strong> that gathers data from every available source:</p>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--blue)"></div><div class="flow-text"><strong>YouTube Search</strong> &mdash; up to 15 videos via youtubei.js (free, no API key)</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--blue)"></div><div class="flow-text"><strong>Transcript Fetching</strong> &mdash; YouTube captions, or AssemblyAI fallback</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--blue)"></div><div class="flow-text"><strong>Comment Analysis</strong> &mdash; extract reactions, engagement signals</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--cyan)"></div><div class="flow-text"><strong>Web Search</strong> &mdash; SearXNG (self-hosted at localhost:8888)</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--red)"></div><div class="flow-text"><strong>Document Search</strong> &mdash; court records, official docs (for legal stories)</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--orange)"></div><div class="flow-text"><strong>Perplexity Fact-Check</strong> &mdash; verify key claims against the web</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--blue)"></div><div class="flow-text"><strong>Twitter Reactions</strong> &mdash; community sentiment from twitterapi.io</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--pink)"></div><div class="flow-text"><strong>Interview Prioritization</strong> &mdash; 30min+ videos get +40 score bonus</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--accent)"></div><div class="flow-text"><strong>Source Analysis</strong> &mdash; LLM extracts perspectives, facts, conflicts</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--green)"></div><div class="flow-text"><strong>Package Assembly</strong> &mdash; bundle everything into a ResearchPackage</div></div>
+      <h4>Interview Scoring</h4>
+      <p>Longer content gets prioritized over short reaction clips:</p>
+      <div class="data-box">30+ min  →  +40 bonus  (long-form interviews)
+20+ min  →  +25 bonus
+10+ min  →  +10 bonus
+Title has "interview"/"exclusive"  →  +30
+Known platform (HHIR, VladTV)     →  +20</div>
+    `,
+    promptTab: () => `
+      <p>After gathering sources, this prompt analyzes them:</p>
+      <div class="prompt-box">Analyze these sources about "<span class="v">${Q()}</span>" and extract:
+1. Different perspectives/viewpoints expressed
+2. Key facts that are confirmed across sources
+3. Any conflicting information between sources
+
+Sources:
+<span class="v">{sources_text}</span>
+<span class="c">// Each source includes: title, channel name, transcript excerpt (up to 2000 chars)</span>
+
+Respond in JSON:
+{
+  "perspectives": ["perspective 1", "perspective 2", ...],
+  "key_facts": ["fact 1", "fact 2", ...],
+  "conflicting_info": ["conflict 1 if any", ...]
+}</div>
+      <p class="small">The sources_text variable contains the actual YouTube transcripts, interview excerpts, and document text gathered in the previous steps.</p>
+    `,
+    dataTab: () => `
+      <h4>Output &rarr; WorkflowResult</h4>
+      <div class="data-box">{
+  query: "${Q()}",
+
+  sources: [                          // YouTube videos with transcripts
+    { title: "Bad Newz Paperwork EXPOSED",
+      channel: "JayBlac",
+      transcript: "So the paperwork came out and...",
+      duration_seconds: 1842,
+      views: 45000 },
+    // ... up to 15 sources
+  ],
+
+  interviews: [                       // Full interviews found
+    { entity: "Bad Newz",
+      platform: "HHIR",
+      transcript: "Let me explain what happened...",
+      duration_minutes: 35 }
+  ],
+
+  twitter: {                          // Community sentiment
+    tweets_analyzed: 127,
+    sentiment: "mostly negative",
+    key_quotes: [
+      "@jayblac: This paperwork is REAL...",
+      "@verbgang: Bad Newz gotta respond to this"
+    ]
+  },
+
+  documents: [                        // Court records if found
+    { type: "court_record", source: "...", content: "..." }
+  ],
+
+  perspectives: [
+    "Multiple bloggers confirm paperwork is authentic",
+    "Bad Newz supporters say documents are fabricated",
+    "Some commentators note the timing is suspicious"
+  ],
+
+  key_facts: [
+    "Paperwork surfaced on social media on [date]",
+    "Documents appear to reference [case details]"
+  ],
+
+  conflicting_info: [
+    "Some sources say confession, others say cooperation agreement"
+  ],
+
+  verified_claims: [
+    { claim: "Paperwork is real", verdict: "disputed", evidence: "..." }
+  ]
+}</div>
+    `,
+  },
+  {
+    num: '3', title: 'Entity Resolution', sub: 'Look up every person/org to prevent hallucinations',
+    file: 'entity-context-resolver.ts', color: 'var(--orange)',
+    whyTab: () => `
+      <p>This is the <strong>anti-hallucination layer</strong>. Every entity mentioned in the research gets looked up in the database so the LLM knows exactly who they are.</p>
+      <h4>Why This Matters</h4>
+      <p>Without this, Claude might write "Cassidy, the female battler from QOTR" when Cassidy is actually a <strong>male</strong> rapper from Philadelphia. Or confuse two people with similar names. The entity glossary prevents all of this.</p>
+      <h4>Resolution Chain</h4>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--blue)"></div><div class="flow-text"><strong>Database lookup</strong> &mdash; search entities table by name + topic_id</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--green)"></div><div class="flow-text"><strong>Cache hit?</strong> &mdash; skip DB if recently resolved</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--orange)"></div><div class="flow-text"><strong>Web enrichment</strong> &mdash; SearXNG + Ollama for unknown entities</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--muted)"></div><div class="flow-text"><strong>Fallback</strong> &mdash; basic entry with just the name</div></div>
+      <h4>Gender Verification</h4>
+      <p>Special logic prevents gender inference errors. If someone <strong>owns</strong> a female league (like QOTR), they aren't necessarily female. The system flags these with <span class="tag tag-red">GENDER NEEDS REVIEW</span>.</p>
+    `,
+    promptTab: () => `
+      <p>No LLM prompt here &mdash; this is a database lookup. But its <strong>output</strong> is injected into every story prompt as a glossary:</p>
+      <div class="prompt-box">=== ENTITY GLOSSARY (CRITICAL - Use for accuracy) ===
+
+BAD NEWZ (Person - Male)
+  Role: Battle Rapper
+  Affiliations: URL, East Coast battle scene
+  Status: Active
+  Note: Subject of snitching/paperwork allegations
+
+JAYBLAC (Person - Male)
+  Role: Blogger / Media personality
+  Affiliations: Jayblac1615 (YouTube)
+  is_commentator: true
+  bias_indicators: Generally neutral, covers all leagues
+  Note: One of the most trusted voices in battle rap media
+
+URL (Organization)
+  Full Name: Ultimate Rap League
+  Type: Battle Rap League
+  is_primary_source: true
+  Note: Largest battle rap league, hosts Summer Madness
+
+CASSIDY (Person - Male)
+  Role: Battle Rapper (Former)
+  Affiliations: Philadelphia
+  Note: Male battler, hip-hop legend - DO NOT confuse gender
+
+DEBO (Person - Female) [GENDER VERIFIED]
+  Role: League Owner/Executive
+  Affiliations: Queen of the Ring (Founder)
+  league_gender_focus: female (participants)
+  person_role: owner
+  Note: Female owner of female battle league</div>
+      <p class="small">This glossary is injected into the story generation prompt at Step 5. The LLM uses it as ground truth for all entity references.</p>
+    `,
+    dataTab: () => `
+      <h4>Database Schema &mdash; entities.metadata (JSONB)</h4>
+      <div class="data-box">{
+  role: "battler" | "blogger" | "league owner" | "promoter",
+  sub_roles: ["interviewer", "podcaster"],
+  gender: "male" | "female" | "unknown",
+  affiliations: [
+    { name: "URL", type: "league", status: "current" },
+    { name: "East Coast", type: "region", status: "current" }
+  ],
+  content_types: ["battles", "reactions", "interviews"],
+  platforms: {
+    youtube_channel_id: "UC...",
+    twitter_handle: "@badnewz"
+  },
+  is_primary_source: false,
+  is_commentator: false,
+  bias_indicators: [],
+  enrichment_status: "enriched",   // pending | enriched | locked
+  enrichment_last_run: "2026-03-09",
+  gender_needs_review: false
+}</div>
+    `,
+  },
+  {
+    num: '4', title: 'Twitter Intelligence', sub: 'Analyze 72 hours of tweets for sentiment & trending topics',
+    file: 'twitter-intelligence.ts', color: 'var(--cyan)',
+    whyTab: () => `
+      <p>Fetches recent tweets from 16 configured sources and uses an LLM to extract <strong>discussion topics</strong>, <strong>entity mentions</strong>, <strong>community claims</strong>, and <strong>sentiment</strong>.</p>
+      <p>In <span class="tag tag-cyan">twitter_first</span> mode, this drives story selection. In normal mode, it adds community context to the story prompt.</p>
+      <h4>What It Finds</h4>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--blue)"></div><div class="flow-text">Trending discussions &mdash; what topics have the most engagement</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--green)"></div><div class="flow-text">Key quotes &mdash; the most liked/retweeted takes</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--orange)"></div><div class="flow-text">Entity frequency &mdash; who's being talked about most</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--red)"></div><div class="flow-text">Community claims &mdash; what people believe happened</div></div>
+    `,
+    promptTab: () => `
+      <p>The analysis output gets injected into the story prompt like this:</p>
+      <div class="prompt-box">=== TWITTER ACTIVITY ===
+
+TRENDING DISCUSSIONS (last 72 hours):
+
+1. "Bad Newz paperwork allegations" (47 tweets, sentiment: NEGATIVE)
+   Key quotes:
+   - @jayblac: "This paperwork is looking real, I hate to say it..."
+   - @verbgang: "Bad Newz gotta come out and address this ASAP"
+   - @AngryFan007: "If this is real, his career is OVER"
+
+2. "URL Summer Madness lineup" (32 tweets, sentiment: POSITIVE)
+   ...
+
+TOP ENTITIES MENTIONED:
+- Bad Newz: 42 mentions, high engagement, negative sentiment
+- JayBlac: 18 mentions (mostly as source/commentator)
+- URL: 12 mentions (neutral context)
+
+COMMUNITY CLAIMS:
+- "The paperwork is confirmed real" (18 supporting tweets)
+- "Bad Newz was a confidential informant" (7 tweets)
+- "Documents were fabricated by his opps" (4 tweets)</div>
+    `,
+    dataTab: () => `
+      <h4>Output &rarr; TwitterActivity</h4>
+      <div class="data-box">{
+  tweets_analyzed: 127,
+  niche: "battle rap",
+  discussion_topics: [
+    { topic: "Bad Newz paperwork allegations",
+      tweet_count: 47,
+      engagement_total: 12400,
+      sentiment: "negative",
+      key_quotes: ["@jayblac: This paperwork is looking real..."] }
+  ],
+  entities: [
+    { name: "Bad Newz", mention_count: 42, engagement: 8900 }
+  ],
+  claims: [
+    { claim_text: "The paperwork is confirmed real",
+      type: "allegation",
+      supporting_tweets: 18 }
+  ]
+}</div>
+    `,
+  },
+  {
+    num: '5', title: 'Prompt Assembly', sub: 'All context layers merged into one massive prompt',
+    file: 'story-pipeline.ts (1,557 lines) + prompt-registry.ts (798 lines)', color: 'var(--accent)',
+    whyTab: () => `
+      <p>This is where everything comes together. The <code>buildStoryPrompt()</code> function takes all the research, entity context, Twitter data, and verified claims and assembles them into a single massive prompt.</p>
+      <h4>The 10 Injection Layers</h4>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--accent)"></div><div class="flow-text"><strong>Host Personality</strong> &mdash; style guide, catchphrases, tone (e.g. "Algorithm Institute" documentary narrator)</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--orange)"></div><div class="flow-text"><strong>Entity Glossary</strong> &mdash; from Step 3, prevents hallucinations about people</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--cyan)"></div><div class="flow-text"><strong>Twitter Activity</strong> &mdash; from Step 4, what the community is saying NOW</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--blue)"></div><div class="flow-text"><strong>Three Pillars</strong> &mdash; ACCURACY + ENTERTAINMENT + DEPTH rules</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--green)"></div><div class="flow-text"><strong>Story Structure</strong> &mdash; chapter layout based on length tier</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--blue)"></div><div class="flow-text"><strong>YouTube Transcripts</strong> &mdash; up to 8 videos, length-capped</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--pink)"></div><div class="flow-text"><strong>Interviews</strong> &mdash; full transcripts of long-form sit-downs</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--red)"></div><div class="flow-text"><strong>Documents</strong> &mdash; court records, official docs</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--green)"></div><div class="flow-text"><strong>Verified Claims</strong> &mdash; Perplexity fact-check results</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--muted)"></div><div class="flow-text"><strong>Critical Requirements</strong> &mdash; 18 rules (6 accuracy + 6 entertainment + 6 depth)</div></div>
+      <h4>Story Length Tiers</h4>
+      <div class="data-box">short:  600 words  → Hook, Main Story, Conclusion
+medium: 1500 words → Hook, Background, Main, Reactions, Conclusion
+long:   3000 words → Hook, Background, Build-up, The Event,
+                     Reactions, Aftermath, Legacy, Conclusion</div>
+      <p class="small">Total prompt size: 2,000 &ndash; 15,000 tokens depending on how much research was gathered.</p>
+    `,
+    promptTab: () => `
+      <p>The actual prompt sent to Claude Sonnet 4 (medium tier, ~1500 words):</p>
+      <div class="prompt-box">You are a professional scriptwriter for "<span class="v">Algorithm Institute</span>",
+a documentary channel known for in-depth, compelling storytelling
+that balances ACCURACY, ENTERTAINMENT, and DEPTH.
+
+Write a <span class="v">documentary</span> script about: "<span class="v">${Q()}</span>"
+
+<span class="c">// === HOST STYLE GUIDE ===</span>
+<span class="v">{channel_style}</span>
+
+<span class="c">// === ENTITY GLOSSARY (prevents hallucinations) ===</span>
+<span class="v">{entity_glossary}</span>  <span class="c">// from Step 3</span>
+
+=== THREE PILLARS (EQUAL PRIORITY) ===
+
+1. ACCURACY (Fact-Based Journalism)
+   - ONLY use facts from provided sources
+   - Cite specific sources when making claims
+   - Distinguish verified from disputed claims
+   - Note when information is conflicting
+
+2. ENTERTAINMENT (Compelling Storytelling)
+   - Begin with a POWERFUL HOOK that grabs attention
+   - Build narrative tension and dramatic arc
+   - Use vivid, specific details
+   - Create momentum with pacing and revelations
+
+3. DEPTH (Contextual Understanding)
+   - Provide historical background
+   - Present MULTIPLE perspectives, not just two sides
+   - Connect to broader patterns
+   - Give audience deeper understanding
+
+=== STORY STRUCTURE ===
+- HOOK: Powerful opening (2-3 sentences)
+- BACKGROUND: Context and history
+- MAIN STORY: Core narrative with evidence
+- REACTIONS: Community and expert responses
+- CONCLUSION: Impact and implications
+
+=== SOURCE MATERIALS ===
+
+PRIMARY SOURCES:
+<span class="v">{transcript_content}</span>  <span class="c">// up to 8 YouTube video transcripts</span>
+
+INTERVIEWS:
+<span class="v">{interview_content}</span>  <span class="c">// full long-form interviews</span>
+
+OFFICIAL DOCUMENTS:
+<span class="v">{document_content}</span>  <span class="c">// court records, paperwork</span>
+
+=== COMMUNITY PERSPECTIVE ===
+<span class="v">{twitter_content}</span>  <span class="c">// from Step 4</span>
+
+=== FACT-CHECKED CLAIMS ===
+<span class="v">{verified_claims_content}</span>  <span class="c">// Perplexity verification</span>
+
+=== CRITICAL REQUIREMENTS ===
+1. DO NOT invent ANY facts
+2. Use SPECIFIC details from sources
+3. When sources conflict, present BOTH with attribution
+4. Label verified vs. disputed claims clearly
+5. Cite sources: "According to [source]..."
+6. ENTITY ACCURACY: Verify from glossary above
+7. START STRONG: First 15 seconds must hook
+8. PACING: Vary sentence length for energy
+9. HUMAN ELEMENT: Focus on people and stakes
+10. CONTEXT: Provide historical background
+11. MULTIPLE PERSPECTIVES: 3+ viewpoints
+12. NUANCE: Acknowledge complexity
+
+Target: <span class="v">1500</span> words (~<span class="v">10</span> minutes when narrated)
+
+Begin with a powerful hook:</div>
+    `,
+    dataTab: () => `
+      <h4>LLM Fallback Chain</h4>
+      <div class="data-box">1. Requesty API  →  Claude Sonnet 4  (primary)
+2. OpenRouter API  →  Claude Sonnet 4  (fallback)
+3. Local Ollama  →  DeepSeek V3  (last resort)</div>
+      <h4>Output &rarr; GeneratedStory</h4>
+      <div class="data-box">{
+  title: "Bad Newz: The Paperwork That Shook Battle Rap",
+  script: "In the world of battle rap, your reputation is...",
+  word_count: 1487,
+  duration_minutes: 9.9,
+  sources_used: 6,
+  model_used: "claude-sonnet-4"
+}</div>
+    `,
+  },
+  {
+    num: '6', title: 'Host & Producer System', sub: 'AI personalities drive the show format and conversation',
+    file: 'host-generator.ts + producer-orchestrator.ts', color: 'var(--pink)',
+    whyTab: () => `
+      <p>For debate/panel shows, the <strong>Producer Orchestrator</strong> decides the format, selects hosts with opposing viewpoints, and generates a multi-turn conversation.</p>
+      <h4>7 Built-in Host Personalities</h4>
+      <div class="data-box">Maya Sterling    →  Investigative anchor (Rachel Maddow style)
+Marcus Blaze     →  Hot take king (Stephen A Smith style)
+Devon Sharp      →  Witty satirist (Jon Stewart style)
+Tasha Raw        →  Unfiltered real talk
+James Noble      →  Smooth documentary narrator
+DJ Momentum      →  High energy hype
+King Knowledge   →  Street analyst</div>
+      <h4>Producer Archetypes</h4>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--blue)"></div><div class="flow-text"><strong>news_curator</strong> &mdash; factual, balanced coverage</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--red)"></div><div class="flow-text"><strong>drama_hunter</strong> &mdash; conflict-focused entertainment</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--accent)"></div><div class="flow-text"><strong>deep_analyst</strong> &mdash; thorough, nuanced deep dives</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--orange)"></div><div class="flow-text"><strong>trend_spotter</strong> &mdash; speed-focused, timely coverage</div></div>
+      <h4>Quality Gates</h4>
+      <p>Before generating audio, the producer checks:</p>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--green)"></div><div class="flow-text">hasEnoughSources &mdash; minimum research gathered?</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--green)"></div><div class="flow-text">hasConflict &mdash; is there a debate-worthy disagreement?</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--green)"></div><div class="flow-text">has5Ws &mdash; who/what/when/where/why covered?</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--green)"></div><div class="flow-text">isVerified &mdash; are key claims fact-checked?</div></div>
+    `,
+    promptTab: () => `
+      <h4>Host Personality Generation</h4>
+      <div class="prompt-box">Analyze <span class="v">{templateName}</span> as a talk show host.
+
+Return ONLY valid JSON:
+{
+  "opinion_strength": &lt;0-100&gt;,   <span class="c">// how strongly they express views</span>
+  "aggression": &lt;0-100&gt;,         <span class="c">// how confrontational</span>
+  "humor": &lt;0-100&gt;,              <span class="c">// jokes and wit</span>
+  "analytical_depth": &lt;0-100&gt;,   <span class="c">// detail vs brevity</span>
+  "empathy": &lt;0-100&gt;,            <span class="c">// emotional vs logical</span>
+  "speed": &lt;0-100&gt;,              <span class="c">// pace of delivery</span>
+  "formality": &lt;0-100&gt;,          <span class="c">// casual to academic</span>
+  "behaviors": {
+    "interrupts": boolean,
+    "uses_catchphrases": boolean,
+    "cites_sources": boolean,
+    "plays_devils_advocate": boolean,
+    ...
+  },
+  "catchphrases": ["Let me walk you through this...", ...],
+  "speaking_style": "...",
+  "recommended_model": "anthropic/claude-sonnet-4"
+}
+
+Model recommendations:
+- High analytical + opinion  →  claude-opus
+- High speed + humor         →  gpt-4o
+- High aggression            →  deepseek-chat
+- Balanced                   →  gemini-flash</div>
+
+      <h4>Multi-Host Debate Generation</h4>
+      <div class="prompt-box">Generate <span class="v">{num_hosts}</span> distinct debate hosts for: "<span class="v">${Q()}</span>"
+
+TWITTER CONTEXT:
+- Sentiment: <span class="v">{twitter_sentiment}</span>
+- Key quotes: <span class="v">{key_quotes}</span>
+
+Create hosts with OPPOSING perspectives:
+1. Distinct personalities (different aggression, empathy levels)
+2. Clear opposing viewpoints
+3. Real archetypes ("The Skeptic", "The Optimist", "The Analyst")
+
+Return JSON array with full personality profiles...</div>
+    `,
+    dataTab: () => `
+      <h4>Output &rarr; ProducerShowResult</h4>
+      <div class="data-box">{
+  show_run_id: "abc-123",
+  producer_name: "drama_hunter",
+  production_brief: "Explosive allegations story with community divide",
+  format: "debate",
+  hosts: [
+    { name: "Maya Sterling", archetype: "investigator",
+      opinion_strength: 75, aggression: 30,
+      bio: "Wants to see the actual evidence" },
+    { name: "Marcus Blaze", archetype: "provocateur",
+      opinion_strength: 95, aggression: 80,
+      bio: "Already made up his mind - career is over" }
+  ],
+  conversation: [
+    { speaker: "Maya", text: "Let's look at what we actually know..." },
+    { speaker: "Marcus", text: "Come on Maya! The paperwork is RIGHT THERE!" },
+    // ... 20-40 turns
+  ],
+  readiness_score: 82,
+  quality_gates: {
+    hasEnoughSources: true,
+    hasConflict: true,
+    has5Ws: true,
+    isVerified: false   // some claims still unverified
+  }
+}</div>
+    `,
+  },
+  {
+    num: '7', title: 'Audio Generation', sub: 'Script → multi-voice MP3 via Dia TTS (FREE, local)',
+    file: 'dia.ts + debate/audio.ts', color: 'var(--pink)',
+    whyTab: () => `
+      <p><strong>Dia TTS</strong> is a free, local multi-voice text-to-speech service that completely replaces ElevenLabs. No API keys, no costs, no rate limits.</p>
+      <h4>How It Works</h4>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--accent)"></div><div class="flow-text">Script gets split into speaker turns with <strong>[S1]</strong> and <strong>[S2]</strong> tags</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--pink)"></div><div class="flow-text">Emotional markers added: <strong>(laughs)</strong>, <strong>(whispers)</strong>, <strong>(gasps)</strong></div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--green)"></div><div class="flow-text">Dia generates audio at <strong>~2x realtime</strong> on GPU</div></div>
+      <div class="flow-row"><div class="flow-dot" style="background:var(--blue)"></div><div class="flow-text">Same <strong>seed</strong> number = same voice every time</div></div>
+      <h4>3-Speaker Trick</h4>
+      <p>Dia supports 2 voices per call. For 3 speakers, use different seeds:</p>
+      <div class="data-box">Seed 100:  S1 = Maya's voice,   S2 = Marcus's voice
+Seed 200:  S1 = Maya's voice,   S2 = Sarah's voice
+
+→  3 distinct voices across the show!</div>
+      <h4>Available Emotions</h4>
+      <div class="data-box">(laughs)   (chuckle)   (whispers)   (sighs)   (gasps)
+(coughs)   (groans)    (claps)      (applause) (screams)
+(inhales)  (exhales)   (humming)    (whistles) (sneezes)</div>
+      <h4>Cost</h4>
+      <p><span class="tag tag-green">$0.00</span> &mdash; completely free. Runs locally at localhost:8765.</p>
+    `,
+    promptTab: () => `
+      <p>No LLM prompt &mdash; this is a TTS API call:</p>
+      <div class="prompt-box">POST http://localhost:8765/generate
+Content-Type: application/json
+
+{
+  "text": "[S1] In the world of battle rap, your name is everything. (sighs) And when paperwork surfaces... [S2] That's exactly what happened to Bad Newz. (whispers) The allegations hit like a freight train.",
+  "seed": 42
+}
+
+→ Returns: MP3 audio buffer (binary)</div>
+      <h4>TypeScript Usage</h4>
+      <div class="prompt-box"><span class="c">// src/lib/dia.ts</span>
+import { generateDialogue, Emotion } from './src/lib/dia'
+
+const audio = await generateDialogue({
+  segments: [
+    { speaker: 1, text: \`Welcome to the Algorithm Institute. \${Emotion.sighs} Today's story...\` },
+    { speaker: 2, text: \`Thanks for having me. \${Emotion.chuckle}\` },
+    { speaker: 1, text: \`Let's get into it. \${Emotion.inhales}\` }
+  ],
+  seed: 42  <span class="c">// same seed = same voices every time</span>
+})</div>
+    `,
+    dataTab: () => `
+      <h4>Audio Pipeline Flow</h4>
+      <div class="data-box">ConversationTurn[]
+  ↓ parse into speaker groups
+  ↓ assign seed per speaker pair
+  ↓ add emotional markers
+  ↓ call Dia API for each chunk
+  ↓ concatenate with crossfade
+  ↓
+Final MP3</div>
+      <h4>Output</h4>
+      <div class="data-box">{
+  audio_url: "/outputs/show-abc123.mp3",
+  duration_seconds: 594,          // ~10 minutes
+  cost_usd: 0.00,                 // FREE!
+  segments_generated: 24
+}</div>
+      <h4>Performance</h4>
+      <div class="data-box">Speed:    ~2x realtime on GPU
+Cost:     $0.00 per generation
+Latency:  ~2-5 seconds per segment
+Quality:  Natural multi-voice dialogue</div>
+    `,
+  },
+];
+
+// ─── RENDER ───
+function renderPipStrip() {
+  document.getElementById('pipStrip').innerHTML = stages.map((s, i) => `
+    <div class="pip-step" data-idx="${i}" onclick="scrollToStage(${i})">
+      <span class="pip-num">${s.num}</span>
+      <span class="pip-label">${s.title.split(' ').slice(0,2).join(' ')}</span>
+    </div>
+  `).join('');
+}
+
+function renderStages() {
+  document.getElementById('stages').innerHTML = stages.map((s, i) => `
+    <div class="stage" id="stage-${i}">
+      <div class="stage-header" onclick="toggleStage(${i})">
+        <div class="stage-num" style="background:${s.color};color:#000">${s.num}</div>
+        <div class="stage-info">
+          <div class="stage-title">${s.title}</div>
+          <div class="stage-sub">${s.sub}</div>
+        </div>
+        <span class="stage-file">${s.file}</span>
+        <span class="stage-arrow">&#9654;</span>
+      </div>
+      <div class="stage-body">
+        <div class="stage-tabs">
+          <div class="stage-tab active" onclick="switchTab(${i},'why')">What &amp; Why</div>
+          <div class="stage-tab" onclick="switchTab(${i},'prompt')">Actual Prompt</div>
+          <div class="stage-tab" onclick="switchTab(${i},'data')">Data Shape</div>
+        </div>
+        <div class="stage-panel active" data-panel="why">${s.whyTab()}</div>
+        <div class="stage-panel" data-panel="prompt">${s.promptTab()}</div>
+        <div class="stage-panel" data-panel="data">${s.dataTab()}</div>
+      </div>
+    </div>
+    ${i < stages.length - 1 ? '<div class="sep">data flows down</div>' : ''}
+  `).join('');
+}
+
+function toggleStage(i) {
+  const el = document.getElementById(`stage-${i}`);
+  const wasOpen = el.classList.contains('open');
+  el.classList.toggle('open');
+  // Update pip strip
+  document.querySelectorAll('.pip-step').forEach((p, j) => {
+    p.classList.toggle('active', j === i && !wasOpen);
+  });
+}
+
+function switchTab(stageIdx, tab) {
+  const stage = document.getElementById(`stage-${stageIdx}`);
+  stage.querySelectorAll('.stage-tab').forEach(t => t.classList.toggle('active', t.textContent.toLowerCase().includes(
+    tab === 'why' ? 'what' : tab === 'prompt' ? 'prompt' : 'data'
+  )));
+  stage.querySelectorAll('.stage-panel').forEach(p => p.classList.toggle('active', p.dataset.panel === tab));
+}
+
+function scrollToStage(i) {
+  const el = document.getElementById(`stage-${i}`);
+  if (!el.classList.contains('open')) toggleStage(i);
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function traceQuery() {
+  // Re-render all stages with new query value
+  renderStages();
+  // Open first stage and animate through
+  let i = 0;
+  function openNext() {
+    if (i >= stages.length) return;
+    const el = document.getElementById(`stage-${i}`);
+    if (!el.classList.contains('open')) toggleStage(i);
+    el.classList.add('highlighted');
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelectorAll('.pip-step').forEach((p, j) => {
+      p.classList.remove('active');
+      if (j <= i) p.classList.add('done');
+      if (j === i) p.classList.add('active');
+    });
+    setTimeout(() => { el.classList.remove('highlighted'); }, 1500);
+    i++;
+    if (i < stages.length) setTimeout(openNext, 2000);
+  }
+  // Close all first
+  document.querySelectorAll('.stage').forEach(s => s.classList.remove('open', 'highlighted'));
+  document.querySelectorAll('.pip-step').forEach(p => p.classList.remove('active', 'done'));
+  setTimeout(openNext, 300);
+}
+
+// Init
+renderPipStrip();
+renderStages();
+// Open first stage by default
+toggleStage(0);
+</script>
+</body>
+</html>

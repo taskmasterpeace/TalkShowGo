@@ -4,7 +4,7 @@
  * Manages niche-specific pronunciations for TTS.
  * For example: "DAYLYT" -> "Day-lit", "QOTR" -> "Q-O-T-R"
  *
- * Works with ElevenLabs models that don't support phoneme tags
+ * Works with TTS models that don't support phoneme tags
  * by replacing words with phonetic spellings before TTS.
  */
 
@@ -163,7 +163,7 @@ export async function importPronunciations(
  * Apply pronunciation replacements to text
  *
  * This is used before sending text to TTS when the TTS model
- * doesn't support phoneme/SSML tags (like ElevenLabs Turbo v2.5).
+ * doesn't support phoneme/SSML tags.
  *
  * The dictionary is applied in order of word length (longest first)
  * to handle overlapping matches correctly.

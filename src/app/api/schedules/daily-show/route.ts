@@ -2,10 +2,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { getDailyShowScheduler } from '@/lib/scheduler/daily-show-scheduler'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_KEY!
-)
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_KEY!
+  )
+}
 
 /**
  * GET /api/schedules/daily-show
@@ -17,6 +19,7 @@ export async function GET(request: NextRequest) {
     const topicId = searchParams.get('topic_id')
     const activeOnly = searchParams.get('active') === 'true'
 
+    const supabase = getSupabase()
     let query = supabase
       .from('daily_show_schedules')
       .select('*')
@@ -57,6 +60,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Insert schedule
+    const supabase = getSupabase()
     const { data: schedule, error } = await supabase
       .from('daily_show_schedules')
       .insert(body)

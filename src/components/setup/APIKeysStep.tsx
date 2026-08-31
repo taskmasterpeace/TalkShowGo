@@ -9,7 +9,6 @@ import {
   XCircle,
   Loader2,
   RefreshCw,
-  Mic,
   Twitter,
   Newspaper,
   ArrowRight,
@@ -23,13 +22,11 @@ interface APIKeysStepProps {
   onNext: () => void
   onBack: () => void
   onVerified: (verified: {
-    elevenlabs: boolean
     twitter: boolean
     thenewsapi: boolean
     newsdata: boolean
   }) => void
   initialVerified: {
-    elevenlabs: boolean
     twitter: boolean
     thenewsapi: boolean
     newsdata: boolean
@@ -37,7 +34,7 @@ interface APIKeysStepProps {
 }
 
 interface APIKeyStatus {
-  id: 'elevenlabs' | 'twitter' | 'thenewsapi' | 'newsdata'
+  id: 'twitter' | 'thenewsapi' | 'newsdata'
   name: string
   description: string
   status: 'checking' | 'connected' | 'missing' | 'error'
@@ -55,16 +52,6 @@ export function APIKeysStep({
   initialVerified,
 }: APIKeysStepProps) {
   const [apiKeys, setApiKeys] = useState<APIKeyStatus[]>([
-    {
-      id: 'elevenlabs',
-      name: 'ElevenLabs',
-      description: 'Text-to-speech and voice cloning',
-      status: 'checking',
-      icon: <Mic className="h-5 w-5" />,
-      required: true,
-      docsLink: '/docs/api-keys/ELEVENLABS.md',
-      signupLink: 'https://elevenlabs.io',
-    },
     {
       id: 'twitter',
       name: 'Twitter API',
@@ -114,19 +101,7 @@ export function APIKeysStep({
           let status: 'connected' | 'missing' | 'error' = 'missing'
           let message = ''
 
-          if (key.id === 'elevenlabs') {
-            const voiceStatus = data.services?.voice?.elevenlabs
-            if (voiceStatus?.status === 'connected') {
-              status = 'connected'
-              message = voiceStatus.message || ''
-            } else if (voiceStatus?.status === 'missing') {
-              status = 'missing'
-              message = 'API key not configured'
-            } else {
-              status = 'error'
-              message = voiceStatus?.message || 'Connection error'
-            }
-          } else if (key.id === 'twitter') {
+          if (key.id === 'twitter') {
             const twitterStatus = data.services?.content?.twitter
             if (twitterStatus?.status === 'connected') {
               status = 'connected'
@@ -183,16 +158,11 @@ export function APIKeysStep({
 
   useEffect(() => {
     onVerified({
-      elevenlabs: apiKeys.find(k => k.id === 'elevenlabs')?.status === 'connected',
       twitter: apiKeys.find(k => k.id === 'twitter')?.status === 'connected',
       thenewsapi: apiKeys.find(k => k.id === 'thenewsapi')?.status === 'connected',
       newsdata: apiKeys.find(k => k.id === 'newsdata')?.status === 'connected',
     })
   }, [apiKeys, onVerified])
-
-  const requiredConnected = apiKeys
-    .filter(k => k.required)
-    .every(k => k.status === 'connected')
 
   const connectedCount = apiKeys.filter(k => k.status === 'connected').length
 
@@ -201,7 +171,7 @@ export function APIKeysStep({
       <div className="text-center space-y-2">
         <h2 className="text-2xl font-bold">API Keys</h2>
         <p className="text-muted-foreground">
-          Connect to external services for voice, social media, and news
+          Connect to external services for social media and news (all optional)
         </p>
       </div>
 
@@ -230,6 +200,10 @@ export function APIKeysStep({
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
+          <div className="p-3 bg-muted rounded-lg text-sm text-muted-foreground">
+            Voice generation uses Dia TTS (local, no API key needed). These API keys are for data sources only.
+          </div>
+
           {apiKeys.map(key => (
             <div
               key={key.id}
@@ -250,11 +224,9 @@ export function APIKeysStep({
                 <div>
                   <div className="flex items-center gap-2">
                     <p className="font-medium">{key.name}</p>
-                    {key.required && (
-                      <Badge variant="outline" className="text-xs">
-                        Required
-                      </Badge>
-                    )}
+                    <Badge variant="outline" className="text-xs">
+                      Optional
+                    </Badge>
                   </div>
                   <p className="text-sm text-muted-foreground">
                     {key.description}
@@ -294,44 +266,6 @@ export function APIKeysStep({
         </CardContent>
       </Card>
 
-      {!requiredConnected && (
-        <Card className="max-w-2xl mx-auto border-amber-500/50 bg-amber-500/5">
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <AlertCircle className="h-5 w-5 text-amber-500" />
-              Required: ElevenLabs API Key
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <p className="text-sm text-muted-foreground">
-              ElevenLabs is required for voice generation. Add your key to{' '}
-              <code>.env.local</code>:
-            </p>
-            <pre className="bg-muted p-3 rounded-lg text-sm overflow-x-auto">
-              ELEVENLABS_API_KEY=your_key_here
-            </pre>
-            <div className="flex gap-2">
-              <a
-                href="https://elevenlabs.io"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button variant="default" size="sm" className="gap-1">
-                  <ExternalLink className="h-3 w-3" />
-                  Get API Key
-                </Button>
-              </a>
-              <Link href="/docs/api-keys/ELEVENLABS.md">
-                <Button variant="outline" size="sm" className="gap-1">
-                  <ExternalLink className="h-3 w-3" />
-                  Setup Guide
-                </Button>
-              </Link>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
       <div className="flex justify-between max-w-2xl mx-auto pt-4">
         <Button variant="outline" onClick={onBack} className="gap-2">
           <ArrowLeft className="h-4 w-4" />
@@ -339,19 +273,12 @@ export function APIKeysStep({
         </Button>
         <Button
           onClick={onNext}
-          disabled={!requiredConnected}
           className="gap-2"
         >
           Continue
           <ArrowRight className="h-4 w-4" />
         </Button>
       </div>
-
-      {!requiredConnected && (
-        <p className="text-center text-sm text-muted-foreground">
-          ElevenLabs API key is required to continue
-        </p>
-      )}
     </div>
   )
 }

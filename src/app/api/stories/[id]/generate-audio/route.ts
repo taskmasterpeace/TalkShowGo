@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/db'
-import { generateSpeech } from '@/lib/elevenlabs'
+import { generateDialogue, isDiaAvailable } from '@/lib/dia'
 
 export async function POST(
   request: NextRequest,
@@ -28,9 +28,18 @@ export async function POST(
       )
     }
 
-    // Generate audio
-    const audioBuffer = await generateSpeech(story.script, {
-      voice_id: story.voice_id || process.env.ELEVENLABS_VOICE_ID || 'ZJ7BlVZrxZKBDMTIK5c9'
+    // Check Dia availability
+    if (!await isDiaAvailable()) {
+      return NextResponse.json(
+        { error: 'Dia TTS service is not available' },
+        { status: 503 }
+      )
+    }
+
+    // Generate audio with Dia
+    const audioBuffer = await generateDialogue({
+      segments: [{ speaker: 1, text: story.script }],
+      seed: 42
     })
 
     // Save to storage

@@ -313,7 +313,7 @@ export async function verifyClaimsFromText(
 
   // Extract and verify battles
   for (const pattern of battlePatterns) {
-    const matches = text.matchAll(pattern)
+    const matches = Array.from(text.matchAll(pattern))
     for (const match of matches) {
       const [_, battler1, battler2] = match
       if (battler1 && battler2) {

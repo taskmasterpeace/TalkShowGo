@@ -16,10 +16,12 @@ import { getTwitterClient } from '@/lib/twitter-api'
 import { getFreeYouTubeClient } from '@/lib/youtube-api'
 import { trackTwitterCall, trackYouTubeCall } from '@/lib/api-usage'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+}
 
 export async function POST(request: NextRequest) {
   const startTime = Date.now()
@@ -27,6 +29,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const { type, topicId, target, options = {} } = body
+    const supabase = getSupabase()
 
     if (!type) {
       return NextResponse.json({ error: 'type is required' }, { status: 400 })
@@ -136,6 +139,7 @@ export async function POST(request: NextRequest) {
 async function pullTwitterTimeline(username: string, topicId?: string, options: any = {}) {
   if (!username) throw new Error('username is required for twitter_timeline')
 
+  const supabase = getSupabase()
   const twitter = getTwitterClient()
   const result = await twitter.getUserTimeline(username)
 
@@ -181,6 +185,7 @@ async function pullTwitterTimeline(username: string, topicId?: string, options: 
 async function pullTwitterSearch(query: string, topicId?: string, options: any = {}) {
   if (!query) throw new Error('query is required for twitter_search')
 
+  const supabase = getSupabase()
   const twitter = getTwitterClient()
   const result = await twitter.searchTweets(query, {
     queryType: options.queryType || 'Latest',
@@ -233,6 +238,7 @@ async function pullTwitterSearch(query: string, topicId?: string, options: any =
 async function pullYouTubeChannel(handle: string, topicId?: string, options: any = {}) {
   if (!handle) throw new Error('handle is required for youtube_channel')
 
+  const supabase = getSupabase()
   const youtube = getFreeYouTubeClient()
 
   // Get channel info
@@ -275,6 +281,7 @@ async function pullYouTubeChannel(handle: string, topicId?: string, options: any
 async function pullYouTubeSearch(query: string, topicId?: string, options: any = {}) {
   if (!query) throw new Error('query is required for youtube_search')
 
+  const supabase = getSupabase()
   const youtube = getFreeYouTubeClient()
   const videos = await youtube.search(query, options.limit || 20)
 
@@ -314,6 +321,7 @@ async function pullYouTubeSearch(query: string, topicId?: string, options: any =
 async function pullAllSources(topicId?: string) {
   if (!topicId) throw new Error('topicId is required for all_sources pull')
 
+  const supabase = getSupabase()
   // Get all source accounts for this topic
   const { data: sources } = await supabase
     .from('source_accounts')
@@ -368,6 +376,7 @@ export async function GET(request: NextRequest) {
   const topicId = searchParams.get('topicId')
   const limit = parseInt(searchParams.get('limit') || '20')
 
+  const supabase = getSupabase()
   let query = supabase
     .from('pull_history')
     .select('*')

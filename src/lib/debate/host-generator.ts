@@ -7,11 +7,7 @@
 
 import { callOpenRouter } from '../openrouter'
 import type { DebateHost, HostGenerationTemplate, CreateHostRequest } from './types'
-import { createClient } from '@supabase/supabase-js'
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-const supabase = createClient(supabaseUrl, supabaseKey)
+import { supabase } from '@/lib/db'
 
 /**
  * Generate a host profile from a celebrity/figure name using Claude
@@ -174,7 +170,7 @@ export async function createHost(hostData: CreateHostRequest): Promise<DebateHos
       preferred_model: hostData.preferred_model || 'google/gemini-2.0-flash-exp:free',
       fallback_model: 'google/gemini-2.0-flash-exp:free',
       model_selection: 'auto',
-      elevenlabs_voice_id: hostData.elevenlabs_voice_id || '',
+      dia_voice_seed: hostData.dia_voice_seed || '',
       voice_settings: {},
       system_prompt: systemPrompt,
       catchphrases: hostData.catchphrases || [],
@@ -185,9 +181,9 @@ export async function createHost(hostData: CreateHostRequest): Promise<DebateHos
     .select()
     .single()
 
-  if (error) {
+  if (error || !data) {
     console.error('[HostGenerator] Error creating host:', error)
-    throw new Error(`Failed to create host: ${error.message}`)
+    throw new Error(`Failed to create host: ${error?.message || 'No data returned'}`)
   }
 
   return data as DebateHost
@@ -303,8 +299,8 @@ export async function updateHost(id: string, updates: Partial<CreateHostRequest>
     .select()
     .single()
 
-  if (error) {
-    throw new Error(`Failed to update host: ${error.message}`)
+  if (error || !data) {
+    throw new Error(`Failed to update host: ${error?.message || 'No data returned'}`)
   }
 
   return data as DebateHost
@@ -338,4 +334,129 @@ export async function getAllTemplates(): Promise<HostGenerationTemplate[]> {
   }
 
   return data as HostGenerationTemplate[]
+}
+
+/**
+ * Generate multiple hosts with opposing perspectives for a topic
+ * Uses Twitter context to inform host personalities and stances
+ */
+export async function generateHostsForTopic(config: {
+  topic: string
+  num_hosts?: number
+  topic_context?: {
+    twitter_sentiment?: string
+    key_quotes?: string[]
+    engagement?: number
+  }
+}): Promise<DebateHost[]> {
+  const { topic, num_hosts = 2, topic_context } = config
+
+  console.log(`[HostGenerator] Generating ${num_hosts} hosts for topic: ${topic}`)
+
+  // Generate host personas using Claude
+  const prompt = `Generate ${num_hosts} distinct debate show host personas for a discussion about: "${topic}"
+
+CONTEXT FROM TWITTER:
+${topic_context?.twitter_sentiment ? `- Sentiment: ${topic_context.twitter_sentiment}` : ''}
+${topic_context?.key_quotes ? `- Sample quotes from the community:\n${topic_context.key_quotes.slice(0, 3).map(q => `  * "${q}"`).join('\n')}` : ''}
+${topic_context?.engagement ? `- Engagement level: ${topic_context.engagement}` : ''}
+
+Create ${num_hosts} hosts with OPPOSING perspectives on this topic. Make them:
+1. Distinct personalities (different aggression, empathy, analytical levels)
+2. Clear opposing viewpoints (if 2 hosts: pro/con, if 3+ hosts: spectrum of views)
+3. Based on real archetypes (e.g., "The Skeptic", "The Optimist", "The Analyst", "The Provocateur")
+
+Return ONLY valid JSON array with this structure:
+[
+  {
+    "name": "<creative host name>",
+    "archetype": "<their role/type>",
+    "bio": "<one sentence about their stance on this topic>",
+    "opinion_strength": <0-100>,
+    "aggression": <0-100>,
+    "humor": <0-100>,
+    "analytical_depth": <0-100>,
+    "empathy": <0-100>,
+    "speed": <0-100>,
+    "formality": <0-100>,
+    "behaviors": {
+      "interrupts": <boolean>,
+      "uses_catchphrases": <boolean>,
+      "references_pop_culture": <boolean>,
+      "cites_sources": <boolean>,
+      "asks_rhetorical_questions": <boolean>,
+      "uses_profanity": <boolean>,
+      "tells_personal_anecdotes": <boolean>,
+      "fact_checks_others": <boolean>,
+      "plays_devils_advocate": <boolean>,
+      "uses_analogies": <boolean>
+    },
+    "catchphrases": [<1-3 signature phrases>],
+    "speaking_style": "<description>",
+    "preferred_model": "<openrouter model>"
+  }
+]
+
+Make sure hosts have CONTRASTING personalities and viewpoints to create interesting debate dynamics.`
+
+  const response = await callOpenRouter({
+    model: 'meta-llama/llama-3.3-70b-instruct', // Using Llama instead
+    messages: [{ role: 'user', content: prompt }],
+    temperature: 0.8, // Higher temp for more creative personas
+    max_tokens: 2000
+  })
+
+  // Parse JSON response
+  let hostsData: any[]
+  try {
+    const jsonMatch = response.content.match(/\[[\s\S]*\]/)
+    if (!jsonMatch) {
+      throw new Error('No JSON array found in response')
+    }
+    hostsData = JSON.parse(jsonMatch[0])
+  } catch (error) {
+    console.error('[HostGenerator] Failed to parse response:', response.content)
+    throw new Error(`Failed to generate hosts: ${error instanceof Error ? error.message : 'Invalid JSON'}`)
+  }
+
+  if (!Array.isArray(hostsData) || hostsData.length === 0) {
+    throw new Error('No hosts generated')
+  }
+
+  console.log(`[HostGenerator] Generated ${hostsData.length} host personas`)
+
+  // Create hosts in database
+  const createdHosts: DebateHost[] = []
+
+  for (const hostData of hostsData) {
+    try {
+      const host = await createHost({
+        name: hostData.name,
+        archetype: hostData.archetype,
+        bio: hostData.bio,
+        opinion_strength: hostData.opinion_strength,
+        aggression: hostData.aggression,
+        humor: hostData.humor,
+        analytical_depth: hostData.analytical_depth,
+        empathy: hostData.empathy,
+        speed: hostData.speed,
+        formality: hostData.formality,
+        behaviors: hostData.behaviors,
+        catchphrases: hostData.catchphrases,
+        preferred_model: hostData.preferred_model || 'google/gemini-2.0-flash-exp:free',
+        tags: ['auto-generated', topic.split(' ')[0].toLowerCase()]
+      })
+
+      createdHosts.push(host)
+      console.log(`[HostGenerator] Created host: ${host.name} (${host.archetype})`)
+    } catch (error) {
+      console.error(`[HostGenerator] Failed to create host ${hostData.name}:`, error)
+    }
+  }
+
+  if (createdHosts.length === 0) {
+    throw new Error('Failed to create any hosts')
+  }
+
+  return createdHosts
 }

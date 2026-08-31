@@ -49,7 +49,7 @@ export function VerifyStep({ onBack, onComplete }: VerifyStepProps) {
     { name: 'OpenAI', category: 'AI', status: 'checking', icon: <Brain className="h-4 w-4" />, required: false },
     { name: 'Anthropic', category: 'AI', status: 'checking', icon: <Brain className="h-4 w-4" />, required: false },
     // Voice
-    { name: 'ElevenLabs', category: 'Voice', status: 'checking', icon: <Mic className="h-4 w-4" />, required: true },
+    { name: 'Dia TTS', category: 'Voice', status: 'checking', icon: <Mic className="h-4 w-4" />, required: true },
     // Content
     { name: 'Twitter', category: 'Content', status: 'checking', icon: <Twitter className="h-4 w-4" />, required: false },
     { name: 'TheNewsAPI', category: 'News', status: 'checking', icon: <Newspaper className="h-4 w-4" />, required: false },
@@ -95,9 +95,14 @@ export function VerifyStep({ onBack, onComplete }: VerifyStepProps) {
               status = data.services?.ai?.anthropic?.status === 'connected' ? 'connected' :
                        data.services?.ai?.anthropic?.status === 'missing' ? 'missing' : 'error'
               break
-            case 'ElevenLabs':
-              status = data.services?.voice?.elevenlabs?.status === 'connected' ? 'connected' :
-                       data.services?.voice?.elevenlabs?.status === 'missing' ? 'missing' : 'error'
+            case 'Dia TTS':
+              // Check if any voice service in the array is connected
+              const voiceServices = data.services?.voice || []
+              const diaService = Array.isArray(voiceServices)
+                ? voiceServices.find((s: any) => s.name === 'Dia TTS')
+                : voiceServices
+              status = diaService?.status === 'connected' ? 'connected' :
+                       diaService?.status === 'missing' ? 'missing' : 'error'
               break
             case 'Twitter':
               status = data.services?.content?.twitter?.status === 'connected' ? 'connected' :
@@ -140,7 +145,7 @@ export function VerifyStep({ onBack, onComplete }: VerifyStepProps) {
 
   const isReady = requiredConnected && hasAnyAI
 
-  const categories = [...new Set(services.map(s => s.category))]
+  const categories = Array.from(new Set(services.map(s => s.category)))
 
   return (
     <div className="space-y-6">

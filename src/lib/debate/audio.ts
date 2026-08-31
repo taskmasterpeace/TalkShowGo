@@ -1,17 +1,13 @@
 /**
  * Multi-Host Audio Generation
  *
- * Generates audio for multi-host conversations using ElevenLabs.
- * Each host gets their own voice, turns are generated separately and combined.
+ * Generates audio for multi-host conversations using DIA (Dia-1.6B-0626).
+ * DIA supports multi-voice dialogue with [S1]/[S2] tags and emotional markers.
  */
 
-import { textToSpeech, combineAudioSegments } from '../elevenlabs'
-import { createClient } from '@supabase/supabase-js'
+import { generateDialogue, isDiaAvailable, type DialogueSegment } from '@/lib/dia'
+import { supabase } from '@/lib/db'
 import type { ConversationTurn, DebateHost } from './types'
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-const supabase = createClient(supabaseUrl, supabaseKey)
 
 interface AudioSegment {
   audio_url: string
@@ -21,7 +17,7 @@ interface AudioSegment {
 }
 
 /**
- * Generate audio for complete show
+ * Generate audio for complete show using DIA multi-voice TTS
  */
 export async function generateMultiHostAudio(
   showRunId: string,
@@ -32,7 +28,13 @@ export async function generateMultiHostAudio(
   duration_seconds: number
   cost_usd: number
 }> {
-  console.log(`[Audio] Generating audio for ${conversations.length} turns`)
+  console.log(`[Audio] Generating audio for ${conversations.length} turns with DIA`)
+  console.log(`[Audio] ${hosts.length} hosts detected`)
+
+  // Check DIA availability
+  if (!await isDiaAvailable()) {
+    throw new Error('DIA voice service not available. Is it running on localhost:8765?')
+  }
 
   // Update status
   await supabase
@@ -40,80 +42,136 @@ export async function generateMultiHostAudio(
     .update({ status: 'audio_generating' })
     .eq('id', showRunId)
 
-  const segments: AudioSegment[] = []
-  let totalCharacters = 0
+  // Map hosts to speaker numbers (S1, S2, etc.)
+  const hostToSpeaker = new Map<string, number>()
+  hosts.forEach((host, index) => {
+    hostToSpeaker.set(host.id, index + 1)
+  })
 
-  // Generate audio for each turn
-  for (const turn of conversations) {
-    const host = hosts.find(h => h.id === turn.speaker_id)
-    if (!host) {
-      console.warn(`[Audio] Host not found for turn ${turn.turn_number}`)
-      continue
+  // Convert ConversationTurn[] to DIA DialogueSegment[]
+  const dialogueSegments: DialogueSegment[] = conversations.map(turn => {
+    const speakerNum = hostToSpeaker.get(turn.speaker_id) || 1
+    const host = hosts.find(h => h.id === turn.speaker_id)!
+
+    // Add emotional markers based on host personality
+    let text = turn.text
+
+    // High aggression → add emphasis
+    if (host.aggression > 70) {
+      text = addEmotionalMarker(text, 'emphasis')
     }
 
-    console.log(`[Audio] Turn ${turn.turn_number}: ${host.name}`)
+    // High humor → add laughs occasionally
+    if (host.humor > 70 && Math.random() > 0.7) {
+      text = addEmotionalMarker(text, 'laugh')
+    }
 
-    // Generate audio with host's voice
-    const audioResult = await textToSpeech({
-      text: turn.text,
-      voice_id: host.elevenlabs_voice_id || 'default',
-      model_id: 'eleven_multilingual_v2',
-      voice_settings: {
-        stability: host.voice_settings?.stability || 0.5,
-        similarity_boost: host.voice_settings?.similarity_boost || 0.75,
-        style: host.voice_settings?.style || 'conversational' as any
-      }
+    // Analytical depth → thoughtful pauses
+    if (host.analytical_depth > 70) {
+      text = addEmotionalMarker(text, 'pause')
+    }
+
+    return {
+      speaker: speakerNum as 1 | 2,
+      text: text.trim()
+    }
+  })
+
+  console.log(`[Audio] Generated ${dialogueSegments.length} dialogue segments`)
+
+  // DIA supports 2 speakers natively, for 3+ hosts we need to split
+  let audioBuffer: Buffer
+
+  if (hosts.length <= 2) {
+    // Perfect! Generate entire conversation in one go
+    console.log(`[Audio] Generating 2-speaker dialogue with DIA (single generation)`)
+    audioBuffer = await generateDialogue({
+      segments: dialogueSegments,
+      seed: 42, // Consistent voices
+      temperature: 0.8,
+      guidance_scale: 3.0
     })
+  } else {
+    // 3+ hosts: Need to generate with different seeds to create distinct voices
+    console.log(`[Audio] ${hosts.length} speakers detected - generating with multiple seeds`)
 
-    segments.push({
-      audio_url: audioResult.audio_url,
-      duration_ms: audioResult.duration_ms,
-      speaker_name: host.name,
-      turn_number: turn.turn_number
-    })
+    // Group segments by pairs (S1 vs S2, S1 vs S3, etc.)
+    // This is a simplified approach - for production, might want smarter grouping
+    const chunks: Buffer[] = []
 
-    totalCharacters += turn.text.length
+    for (let i = 0; i < dialogueSegments.length; i += 10) {
+      const chunk = dialogueSegments.slice(i, i + 10)
 
-    // Update turn with audio metadata
-    await supabase
-      .from('conversation_turns')
-      .update({
-        audio_start_ms: segments.reduce((sum, s) => sum + s.duration_ms, 0) - audioResult.duration_ms,
-        audio_end_ms: segments.reduce((sum, s) => sum + s.duration_ms, 0)
+      // Remap speakers to S1/S2 for this chunk
+      const remappedChunk = chunk.map(seg => {
+        // Use modulo to map any speaker to S1 or S2
+        const remappedSpeaker = (((seg.speaker - 1) % 2) + 1) as 1 | 2
+        return {
+          speaker: remappedSpeaker,
+          text: seg.text
+        }
       })
-      .eq('show_run_id', showRunId)
-      .eq('turn_number', turn.turn_number)
+
+      const chunkAudio = await generateDialogue({
+        segments: remappedChunk,
+        seed: 42 + (i / 10), // Different seed per chunk for variety
+        temperature: 0.8,
+        guidance_scale: 3.0
+      })
+
+      chunks.push(chunkAudio)
+    }
+
+    // Combine chunks (simple concatenation for now)
+    audioBuffer = Buffer.concat(chunks)
   }
 
-  console.log(`[Audio] Generated ${segments.length} segments`)
+  // Estimate duration (DIA is ~2x realtime, so chars/200 words per min)
+  const totalChars = conversations.reduce((sum, t) => sum + t.text.length, 0)
+  const estimatedDurationSeconds = Math.ceil(totalChars / 15) // ~15 chars per second of speech
 
-  // Combine all segments into one audio file
-  const combinedAudio = await combineAudioSegments(segments.map(s => s.audio_url))
+  console.log(`[Audio] Generated audio: ${audioBuffer.length} bytes, ~${estimatedDurationSeconds}s`)
 
-  const totalDuration = segments.reduce((sum, s) => sum + s.duration_ms, 0) / 1000
+  // Save audio to Supabase storage
+  const audioFileName = `debate-${showRunId}.mp3`
+  const { data: uploadData, error: uploadError } = await supabase.storage
+    .from('audio')
+    .upload(audioFileName, audioBuffer, {
+      contentType: 'audio/mpeg',
+      upsert: true
+    })
 
-  // Calculate cost (ElevenLabs pricing: ~$0.30 per 1000 characters)
-  const costUsd = (totalCharacters / 1000) * 0.30
+  if (uploadError) {
+    console.error('[Audio] Upload failed:', uploadError)
+    throw new Error(`Failed to upload audio: ${uploadError.message}`)
+  }
 
-  // Update show run with audio
+  // Get public URL
+  const { data: urlData } = supabase.storage
+    .from('audio')
+    .getPublicUrl(audioFileName)
+
+  const audioUrl = urlData.publicUrl
+
+  // Update show run with audio (DIA is FREE!)
   await supabase
     .from('debate_show_runs')
     .update({
-      audio_url: combinedAudio.audio_url,
-      audio_duration_seconds: Math.round(totalDuration),
+      audio_url: audioUrl,
+      audio_duration_seconds: estimatedDurationSeconds,
       status: 'completed',
       cost_breakdown: {
-        audio: costUsd
+        audio: 0.0 // DIA is free!
       }
     })
     .eq('id', showRunId)
 
-  console.log(`[Audio] Complete! Duration: ${totalDuration}s, Cost: $${costUsd.toFixed(2)}`)
+  console.log(`[Audio] Complete! Duration: ~${estimatedDurationSeconds}s, Cost: $0.00 (DIA)`)
 
   return {
-    audio_url: combinedAudio.audio_url,
-    duration_seconds: Math.round(totalDuration),
-    cost_usd: costUsd
+    audio_url: audioUrl,
+    duration_seconds: estimatedDurationSeconds,
+    cost_usd: 0.0 // Free!
   }
 }
 
@@ -127,21 +185,60 @@ export async function generateTurnAudio(
   audio_url: string
   duration_ms: number
 }> {
-  console.log(`[Audio] Generating preview for turn: ${turn.text.substring(0, 50)}...`)
+  console.log(`[Audio] Generating preview for turn with DIA: ${turn.text.substring(0, 50)}...`)
 
-  const result = await textToSpeech({
-    text: turn.text,
-    voice_id: host.elevenlabs_voice_id || 'default',
-    model_id: 'eleven_multilingual_v2',
-    voice_settings: {
-      stability: host.voice_settings?.stability || 0.5,
-      similarity_boost: host.voice_settings?.similarity_boost || 0.75,
-      style: host.voice_settings?.style || 'conversational' as any
-    }
+  // Check DIA availability
+  if (!await isDiaAvailable()) {
+    throw new Error('DIA voice service not available')
+  }
+
+  // Add emotional markers based on host personality
+  let text = turn.text
+  if (host.aggression > 70) {
+    text = addEmotionalMarker(text, 'emphasis')
+  }
+  if (host.humor > 70 && Math.random() > 0.7) {
+    text = addEmotionalMarker(text, 'laugh')
+  }
+
+  // Generate audio with DIA (single speaker)
+  const audioBuffer = await generateDialogue({
+    segments: [{ speaker: 1, text }],
+    seed: 42,
+    temperature: 0.8,
+    guidance_scale: 3.0
   })
 
+  // Estimate duration
+  const durationMs = Math.ceil((text.length / 15) * 1000)
+
+  // For preview, we'd need to return a temp URL or base64
+  // Simplified: return buffer info
   return {
-    audio_url: result.audio_url,
-    duration_ms: result.duration_ms
+    audio_url: `data:audio/mpeg;base64,${audioBuffer.toString('base64')}`,
+    duration_ms: durationMs
+  }
+}
+
+/**
+ * Add emotional markers to text based on DIA's supported markers
+ * DIA markers: [laughs], [sighs], [gasps], [clears throat], [breath], [music], etc.
+ */
+function addEmotionalMarker(text: string, emotion: 'emphasis' | 'laugh' | 'pause'): string {
+  switch (emotion) {
+    case 'emphasis':
+      // Add emphasis at strong punctuation
+      return text.replace(/([.!?])/g, '$1 [breath]')
+
+    case 'laugh':
+      // Add laugh at end of sentence occasionally
+      return text.replace(/\./g, '. [laughs]')
+
+    case 'pause':
+      // Add thoughtful pauses
+      return text.replace(/,/g, ', ...')
+
+    default:
+      return text
   }
 }

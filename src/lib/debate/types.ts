@@ -40,7 +40,7 @@ export interface DebateHost {
   model_selection: 'auto' | 'manual'
 
   // Voice Configuration
-  elevenlabs_voice_id: string
+  dia_voice_seed: string
   voice_settings: {
     stability?: number
     similarity_boost?: number
@@ -311,7 +311,7 @@ export interface CreateHostRequest {
   formality?: number
   behaviors?: DebateHost['behaviors']
   preferred_model?: string
-  elevenlabs_voice_id?: string
+  dia_voice_seed?: string
   system_prompt?: string
   catchphrases?: string[]
   tags?: string[]

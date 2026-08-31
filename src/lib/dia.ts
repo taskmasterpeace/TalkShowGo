@@ -214,3 +214,16 @@ export const Emotion = {
 export function isDiaConfigured(): boolean {
   return !!DIA_URL
 }
+
+/**
+ * Check if Dia service is available (configured + healthy)
+ */
+export async function isDiaAvailable(): Promise<boolean> {
+  if (!isDiaConfigured()) return false
+  try {
+    await checkHealth()
+    return true
+  } catch {
+    return false
+  }
+}

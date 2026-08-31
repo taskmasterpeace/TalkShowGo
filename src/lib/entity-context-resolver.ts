@@ -52,7 +52,7 @@ interface ResearchQueryPlan {
   entities?: Array<{ name: string; type?: string }>
 }
 
-interface ResearchResult {
+export interface ResearchResultForEntityExtraction {
   query: string
   query_plan?: ResearchQueryPlan
   sources: ResearchSource[]
@@ -70,7 +70,11 @@ interface ResearchResult {
  * 3. Names in video titles
  */
 export async function extractEntityNames(
-  research: ResearchResult,
+  research: {
+    query: string
+    query_plan?: { entities?: Array<{ name: string; type?: string }> }
+    sources: Array<{ title: string; channel?: string; transcript?: string }>
+  },
   topicId: string
 ): Promise<string[]> {
   const entityNames = new Set<string>()

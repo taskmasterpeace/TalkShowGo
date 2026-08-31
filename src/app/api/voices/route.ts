@@ -1,37 +1,37 @@
 import { NextRequest, NextResponse } from 'next/server'
-import * as elevenlabs from '@/lib/elevenlabs'
+import { generateDialogue, isDiaAvailable, checkHealth } from '@/lib/dia'
 
 /**
  * GET /api/voices
  *
- * List all available voices from ElevenLabs
+ * Check Dia TTS status and available voices
  */
 export async function GET() {
   try {
-    // Check if ElevenLabs is configured
-    if (!elevenlabs.isElevenLabsConfigured()) {
+    const available = await isDiaAvailable()
+
+    if (!available) {
       return NextResponse.json({
         configured: false,
-        message: 'ELEVENLABS_API_KEY not set',
+        message: 'Dia TTS service is not running. Start with: npm run dia:up',
         voices: [],
       })
     }
 
-    const voices = await elevenlabs.listVoices()
+    const health = await checkHealth()
 
     return NextResponse.json({
       configured: true,
-      voices: voices.map((v) => ({
-        voice_id: v.voice_id,
-        name: v.name,
-        category: v.category,
-        description: v.description,
-        preview_url: v.preview_url,
-        labels: v.labels,
-      })),
+      service: 'Dia TTS',
+      supports_multi_voice: health.supports_multi_voice,
+      supported_emotions: health.supported_emotions,
+      voices: [
+        { voice_id: 'S1', name: 'Speaker 1', category: 'Dia' },
+        { voice_id: 'S2', name: 'Speaker 2', category: 'Dia' },
+      ],
     })
   } catch (error) {
-    console.error('Error fetching voices:', error)
+    console.error('Error checking voice service:', error)
     return NextResponse.json(
       { error: String(error), configured: false, voices: [] },
       { status: 500 }
@@ -40,42 +40,36 @@ export async function GET() {
 }
 
 /**
- * POST /api/voices/generate
+ * POST /api/voices
  *
- * Generate speech from text
+ * Generate speech from text using Dia TTS
  */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { text, voice_id, model_id, stability, similarity_boost, style } = body
+    const { text, seed } = body
 
-    if (!text || !voice_id) {
+    if (!text) {
       return NextResponse.json(
-        { error: 'text and voice_id are required' },
+        { error: 'text is required' },
         { status: 400 }
       )
     }
 
-    if (!elevenlabs.isElevenLabsConfigured()) {
+    if (!await isDiaAvailable()) {
       return NextResponse.json(
-        { error: 'ElevenLabs not configured' },
-        { status: 500 }
+        { error: 'Dia TTS service is not available' },
+        { status: 503 }
       )
     }
 
-    const audioBuffer = await elevenlabs.generateSpeech(text, {
-      voice_id,
-      model_id,
-      voice_settings: {
-        stability: stability ?? 0.5,
-        similarity_boost: similarity_boost ?? 0.75,
-        style: style ?? 0.0,
-        use_speaker_boost: true,
-      },
+    const audioBuffer = await generateDialogue({
+      segments: [{ speaker: 1, text }],
+      seed: seed ?? 42,
     })
 
-    // Return as audio/mpeg
-    return new NextResponse(audioBuffer, {
+    // Return as audio/mpeg (convert Buffer to Uint8Array for NextResponse compatibility)
+    return new NextResponse(new Uint8Array(audioBuffer), {
       headers: {
         'Content-Type': 'audio/mpeg',
         'Content-Length': String(audioBuffer.byteLength),

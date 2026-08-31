@@ -18,7 +18,6 @@ export interface SetupWizardState {
     llmType: 'ollama' | 'openai' | 'anthropic' | null
     llmVerified: boolean
     apiKeysVerified: {
-      elevenlabs: boolean
       twitter: boolean
       thenewsapi: boolean
       newsdata: boolean
@@ -40,7 +39,6 @@ const DEFAULT_STATE: SetupWizardState = {
     llmType: null,
     llmVerified: false,
     apiKeysVerified: {
-      elevenlabs: false,
       twitter: false,
       thenewsapi: false,
       newsdata: false,
@@ -235,7 +233,6 @@ export function getWizardProgress(state: SetupWizardState): number {
 export function isMinimalSetupComplete(state: SetupWizardState): boolean {
   return (
     state.config.dockerVerified &&
-    state.config.llmVerified &&
-    state.config.apiKeysVerified.elevenlabs
+    state.config.llmVerified
   )
 }

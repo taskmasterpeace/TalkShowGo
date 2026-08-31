@@ -304,7 +304,7 @@ async function extractEnrichmentFromResults(
   existingContext: EntityContext,
   results: WebSearchResult[],
   nicheKeywords: string[]
-): Promise<{ context: Partial<EntityContext>; summary: string }> {
+): Promise<{ context: Partial<EntityContext>; summary: string; was_enriched?: boolean; reason?: string }> {
   if (results.length === 0) {
     return {
       context: {},
@@ -415,10 +415,14 @@ Only include fields where you found actual information. Do not make up data.`
       summary: parsed.summary || 'Enrichment completed'
     }
   } catch (error) {
-    console.error('LLM enrichment extraction failed:', error)
+    console.warn(`[Enrichment] LLM returned invalid JSON for entity "${entityName}":`, error)
     return {
-      context: {},
-      summary: 'Failed to extract enrichment from search results'
+      context: {
+        enrichment_status: 'pending' as const,
+      },
+      summary: 'Failed to extract enrichment from search results',
+      was_enriched: false,
+      reason: 'LLM returned invalid JSON'
     }
   }
 }

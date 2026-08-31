@@ -5,13 +5,14 @@
  * Run the full story pipeline: Research → Story → Audio
  *
  * Body:
- * - query: string (required) - Topic to research
- * - topic_id: string (optional) - Link to a topic
+ * - query: string (required for youtube_first) - Topic to research
+ * - topic_id: string (required for twitter_first, optional for youtube_first) - Link to a topic
+ * - research_mode: 'youtube_first' | 'twitter_first' (default: 'youtube_first') - Research strategy
  * - style: 'documentary' | 'news' | 'analysis' | 'narrative'
  * - tone: 'serious' | 'engaging' | 'dramatic' | 'neutral'
  * - length: 'short' | 'medium' | 'long' (default: 'medium') - Story length tier
  * - generate_audio: boolean (default true)
- * - voice_id: string (optional) - ElevenLabs voice
+ * - voice_id: string (optional) - Voice configuration
  * - max_videos: number (default 10)
  * - include_web_search: boolean (default true)
  * - use_enhanced_workflow: boolean (default false) - Use query expansion + AssemblyAI transcription
@@ -54,22 +55,33 @@ export async function POST(request: NextRequest) {
       // Document search (auto-enabled for legal stories)
       enable_document_search,  // Auto if not specified - based on query
       document_types = ['paperwork', 'court records', 'arrest'],
-      document_location
+      document_location,
+      // Research mode
+      research_mode = 'youtube_first'  // 'youtube_first' | 'twitter_first'
     } = body
 
-    if (!query) {
+    // Validation
+    if (research_mode === 'twitter_first' && !topic_id) {
       return NextResponse.json(
-        { error: 'query is required' },
+        { error: 'topic_id is required for twitter_first mode' },
         { status: 400 }
       )
     }
 
-    console.log(`[API] Starting story pipeline for: ${query} (length: ${length}, interviews: ${enable_interview_lookup}, twitter: ${enable_twitter_sentiment})`)
+    if (!query && research_mode === 'youtube_first') {
+      return NextResponse.json(
+        { error: 'query is required for youtube_first mode' },
+        { status: 400 }
+      )
+    }
+
+    console.log(`[API] Starting story pipeline: ${research_mode} mode for "${query}" (length: ${length}, interviews: ${enable_interview_lookup}, twitter: ${enable_twitter_sentiment})`)
 
     const result = await runStoryPipeline({
       query,
       topic_id,
       research_options: {
+        research_mode,
         max_videos,
         include_web_search,
         min_views: 1000,
@@ -95,8 +107,6 @@ export async function POST(request: NextRequest) {
         include_outro: true,
         host_name
       },
-      generate_audio,
-      voice_id
     })
 
     // Count transcripts
@@ -107,6 +117,7 @@ export async function POST(request: NextRequest) {
       success: true,
       pipeline_id: result.pipeline_id,
       created_at: result.created_at,
+      research_mode,
       enhanced_workflow: use_enhanced_workflow,
       settings: {
         length,
@@ -189,9 +200,11 @@ export async function GET() {
     capabilities: {
       research: true,
       story_generation: !!process.env.REQUESTY_API_KEY || !!process.env.OPENROUTER_API_KEY,
-      audio_generation: !!process.env.ELEVENLABS_API_KEY,
-      local_llm_fallback: true
+      audio_generation: true,  // Dia TTS (local, no API key needed)
+      local_llm_fallback: true,
+      twitter_first_mode: true
     },
+    research_modes: ['youtube_first', 'twitter_first'],
     endpoints: {
       pipeline: 'POST /api/stories/pipeline',
       daily_show: 'POST /api/stories/daily-show'

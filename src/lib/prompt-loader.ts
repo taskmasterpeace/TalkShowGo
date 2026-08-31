@@ -9,7 +9,7 @@
  * - Returns filled prompts ready for LLM use
  */
 
-import { createClient } from '@supabase/supabase-js'
+import { supabase } from '@/lib/db'
 import {
   getPromptById,
   fillPromptTemplate,
@@ -17,12 +17,6 @@ import {
   PromptVariable,
   PROMPT_REGISTRY,
 } from './prompt-registry'
-
-// Initialize Supabase client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'http://localhost:8000'
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-
-const supabase = createClient(supabaseUrl, supabaseKey)
 
 // ============================================
 // TYPES
@@ -358,7 +352,7 @@ export function extractVariables(template: string): string[] {
   const matches = template.match(/\{(\w+)\}/g)
   if (!matches) return []
 
-  return [...new Set(matches.map(m => m.replace(/[{}]/g, '')))]
+  return Array.from(new Set(matches.map(m => m.replace(/[{}]/g, ''))))
 }
 
 /**

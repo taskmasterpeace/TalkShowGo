@@ -257,7 +257,8 @@ export async function searchTwitterSentiment(
     }
 
   } catch (error) {
-    console.error('[TwitterSentiment] Search error:', error)
+    const errMsg = error instanceof Error ? error.message : String(error)
+    console.warn(`[TwitterSentiment] Search failed for query "${query}": ${errMsg}`)
     return null
   }
 }

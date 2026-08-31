@@ -46,7 +46,16 @@ import { SHOW_TYPES, SHOW_TYPE_COLORS, type ShowType } from '@/lib/show-types'
 import { loadWizardState, resetWizardState, type SetupWizardState } from '@/lib/setup-wizard'
 import { PROMPT_ROLES, getPromptStats } from '@/lib/prompt-registry'
 import { HOSTS } from '@/lib/hosts/types'
-import { HOST_VOICE_MAP } from '@/lib/elevenlabs'
+// Dia TTS seed map for host voices
+const HOST_VOICE_MAP: Record<string, { name: string; settings: { stability: number; style: number } }> = {
+  james_noble: { name: 'Dia S1 (Seed 500)', settings: { stability: 0.75, style: 0.15 } },
+  maya_sterling: { name: 'Dia S1 (Seed 100)', settings: { stability: 0.7, style: 0.2 } },
+  marcus_blaze: { name: 'Dia S1 (Seed 200)', settings: { stability: 0.3, style: 0.7 } },
+  devon_sharp: { name: 'Dia S1 (Seed 300)', settings: { stability: 0.5, style: 0.5 } },
+  tasha_raw: { name: 'Dia S1 (Seed 400)', settings: { stability: 0.25, style: 0.8 } },
+  dj_momentum: { name: 'Dia S1 (Seed 600)', settings: { stability: 0.2, style: 0.9 } },
+  king_knowledge: { name: 'Dia S1 (Seed 700)', settings: { stability: 0.65, style: 0.3 } },
+}
 
 interface VoiceSettings {
   voiceId: string
@@ -247,7 +256,7 @@ export default function StudioSettingsPage() {
             <CardHeader>
               <CardTitle>Default Voice Settings</CardTitle>
               <CardDescription>
-                Configure the default ElevenLabs voice for audio generation
+                Configure the default Dia TTS voice settings for audio generation
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -260,7 +269,7 @@ export default function StudioSettingsPage() {
                       setVoiceSettings({ ...voiceSettings, voiceId: e.target.value })
                       setHasChanges(true)
                     }}
-                    placeholder="ElevenLabs Voice ID"
+                    placeholder="Dia TTS Seed"
                   />
                   <p className="text-xs text-muted-foreground">
                     Current: Battlerap Algorithm (ZJ7BlVZrxZKBDMTIK5c9)
@@ -303,9 +312,9 @@ export default function StudioSettingsPage() {
                     </span>
                   </div>
                   <Slider
-                    value={[voiceSettings.stability]}
-                    onValueChange={v => {
-                      setVoiceSettings({ ...voiceSettings, stability: v[0] })
+                    value={voiceSettings.stability}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setVoiceSettings({ ...voiceSettings, stability: parseFloat(e.target.value) })
                       setHasChanges(true)
                     }}
                     min={0}
@@ -325,9 +334,9 @@ export default function StudioSettingsPage() {
                     </span>
                   </div>
                   <Slider
-                    value={[voiceSettings.similarityBoost]}
-                    onValueChange={v => {
-                      setVoiceSettings({ ...voiceSettings, similarityBoost: v[0] })
+                    value={voiceSettings.similarityBoost}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setVoiceSettings({ ...voiceSettings, similarityBoost: parseFloat(e.target.value) })
                       setHasChanges(true)
                     }}
                     min={0}
@@ -347,9 +356,9 @@ export default function StudioSettingsPage() {
                     </span>
                   </div>
                   <Slider
-                    value={[voiceSettings.style]}
-                    onValueChange={v => {
-                      setVoiceSettings({ ...voiceSettings, style: v[0] })
+                    value={voiceSettings.style}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      setVoiceSettings({ ...voiceSettings, style: parseFloat(e.target.value) })
                       setHasChanges(true)
                     }}
                     min={0}
@@ -556,7 +565,7 @@ export default function StudioSettingsPage() {
                     <p className="text-xs text-muted-foreground">Common issues and fixes</p>
                   </div>
                 </Link>
-                <Link href="/docs/api-keys/ELEVENLABS.md" className="block">
+                <Link href="/settings/api-keys" className="block">
                   <div className="p-3 border rounded-lg hover:bg-muted transition-colors">
                     <p className="font-medium text-sm">API Keys</p>
                     <p className="text-xs text-muted-foreground">Configure external services</p>

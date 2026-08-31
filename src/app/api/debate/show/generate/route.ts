@@ -11,9 +11,12 @@ import { getHostById } from '@/lib/debate/host-generator'
 import { createClient } from '@supabase/supabase-js'
 import type { EmotionalBeat } from '@/lib/debate/types'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-const supabase = createClient(supabaseUrl, supabaseKey)
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+}
 
 interface GenerateShowRequest {
   topic_id?: string
@@ -29,6 +32,7 @@ interface GenerateShowRequest {
 export async function POST(request: NextRequest) {
   try {
     const body: GenerateShowRequest = await request.json()
+    const supabase = getSupabase()
 
     // Validate required fields
     if (!body.topic || !body.host_ids || body.host_ids.length === 0 || !body.show_format_id) {

@@ -110,8 +110,8 @@ netstat -ano | findstr "5432 8000 3001 6379 6333"
 All configured in `.env.local`:
 
 ```bash
-# Twitter API
-TWITTER_API_KEY=new1_3df2805519674d4a921562bc4f014508
+# Twitter API (twitterapi.io)
+TWITTERAPI_IO_KEY=[lives in .env, never in docs]
 
 # Presidium AI
 OLLAMA_HOST=http://192.168.1.211:11434

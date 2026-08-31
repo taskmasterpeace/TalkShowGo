@@ -185,8 +185,8 @@ async function main() {
 ║               - Jayblac1615                                               ║
 ║               - Algorithm Institute of Battle Rap (YOUR CHANNEL)          ║
 ║                                                                           ║
-║   TTS:        ElevenLabs with YOUR cloned voice "Battlerap Algorithm"    ║
-║               Voice ID: ZJ7BlVZrxZKBDMTIK5c9                              ║
+║   TTS:        Dia TTS (local, multi-voice, free)                         ║
+║               No API key needed - runs locally via Docker                  ║
 ║                                                                           ║
 ║   Host:       Algorithm Institute (documentary narrator style)            ║
 ║               Catchphrase: "In the world of battle rap..."                ║

@@ -16,11 +16,7 @@ import type {
   ConversationTurn,
   EmotionalBeat
 } from './types'
-import { createClient } from '@supabase/supabase-js'
-
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-const supabase = createClient(supabaseUrl, supabaseKey)
+import { supabase } from '@/lib/db'
 
 interface DebateContext {
   format: ShowFormat
@@ -29,6 +25,13 @@ interface DebateContext {
   topic: string
   emotionalBeats?: EmotionalBeat[]
   targetDurationMinutes?: number
+  producerContext?: {
+    production_brief: string
+    angle: string
+    tone: string
+    twitter_intelligence: unknown
+    key_quotes: string[]
+  }
 }
 
 interface SelectionContext {

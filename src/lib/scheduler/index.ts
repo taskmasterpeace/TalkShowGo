@@ -10,12 +10,7 @@
  * 4. Results are logged and next run is calculated
  */
 
-import { createClient } from '@supabase/supabase-js'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-)
+import { supabaseService as supabase } from '@/lib/db'
 
 // ============================================
 // TYPES

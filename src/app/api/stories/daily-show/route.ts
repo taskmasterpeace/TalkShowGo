@@ -20,12 +20,10 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { generateDailyShow } from '@/lib/story-pipeline'
-import { generateSpeech, isElevenLabsConfigured } from '@/lib/elevenlabs'
+import { generateDialogue, isDiaAvailable } from '@/lib/dia'
 import { getHostBySlug, generateHostOpening, generateHostClosing } from '@/lib/hosts'
 import * as fs from 'fs/promises'
 import * as path from 'path'
-
-const DEFAULT_VOICE_ID = process.env.ELEVENLABS_VOICE_ID || 'ZJ7BlVZrxZKBDMTIK5c9'
 
 export async function POST(request: NextRequest) {
   try {
@@ -35,7 +33,7 @@ export async function POST(request: NextRequest) {
       show_name = 'Battle Rap Daily',
       host_name = 'Algorithm Institute',
       host_slug,
-      voice_id = DEFAULT_VOICE_ID,
+      voice_id,
       stories_count = 3,
       hours_back = 24,
       generate_audio = false,
@@ -81,7 +79,6 @@ export async function POST(request: NextRequest) {
         topic_id,
         show_name,
         host_name: effectiveHostName,
-        voice_id,
         stories_count,
         hours_back,
         production_format,
@@ -99,20 +96,14 @@ export async function POST(request: NextRequest) {
     // Optionally generate audio for the full show
     let audioUrl: string | undefined
 
-    if (generate_audio && isElevenLabsConfigured()) {
-      console.log('[API] Generating audio for daily show')
+    if (generate_audio && await isDiaAvailable()) {
+      console.log('[API] Generating audio for daily show via Dia TTS')
       console.log(`[API] Script length: ${scriptForAudio.split(/\s+/).length} words`)
 
       try {
-        const audioBuffer = await generateSpeech(scriptForAudio, {
-          voice_id,
-          model_id: 'eleven_turbo_v2_5',
-          voice_settings: {
-            stability: 0.75,
-            similarity_boost: 0.8,
-            style: 0.15,
-            use_speaker_boost: true
-          }
+        const audioBuffer = await generateDialogue({
+          segments: [{ speaker: 1, text: scriptForAudio }],
+          seed: 42
         })
 
         // Save audio
@@ -120,7 +111,7 @@ export async function POST(request: NextRequest) {
         await fs.mkdir(outputDir, { recursive: true })
         const filename = `daily_show_${show.show_date}.mp3`
         const audioPath = path.join(outputDir, filename)
-        await fs.writeFile(audioPath, Buffer.from(audioBuffer))
+        await fs.writeFile(audioPath, audioBuffer)
 
         audioUrl = `/audio/${filename}`
       } catch (error) {

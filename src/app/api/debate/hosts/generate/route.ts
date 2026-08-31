@@ -35,8 +35,16 @@ export async function POST(request: NextRequest) {
       })
     }
 
+    // Validate required fields before creating
+    if (!profile.name || !profile.archetype) {
+      return NextResponse.json({
+        success: false,
+        error: 'Generated profile is missing required fields (name, archetype)'
+      }, { status: 400 })
+    }
+
     // Otherwise create the host immediately
-    const host = await createHost(profile)
+    const host = await createHost(profile as import('@/lib/debate/types').CreateHostRequest)
 
     return NextResponse.json({
       success: true,

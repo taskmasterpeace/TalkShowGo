@@ -53,7 +53,7 @@ export default function ManualPage() {
     setIsSearching(false)
     // Ensure chapter is expanded
     if (!expandedChapters.has(chapterId)) {
-      setExpandedChapters(new Set([...expandedChapters, chapterId]))
+      setExpandedChapters(new Set([...Array.from(expandedChapters), chapterId]))
     }
   }
 

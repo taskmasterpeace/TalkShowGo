@@ -423,8 +423,8 @@ Use templates for consistent formatting:
 ## Audio Generation
 
 After script approval:
-1. **Generate Audio** - ElevenLabs converts text to speech
-2. **Multi-Voice** - Different hosts for different segments
+1. **Generate Audio** - Dia TTS converts text to speech
+2. **Multi-Voice** - [S1]/[S2] speaker tags for different hosts
 3. **Review** - Listen to the final product
 4. **Export** - Download or publish
 
@@ -586,35 +586,34 @@ To use multiple voices:
       },
       {
         id: 'voices',
-        title: 'Voice Settings (ElevenLabs)',
+        title: 'Voice Settings (Dia TTS)',
         content: `
 # Voice Settings
 
-Audio is generated using ElevenLabs text-to-speech.
+Audio is generated using Dia TTS - a local multi-voice text-to-speech service.
 
-## Default Voice
+## Key Features
 
-The default voice is "Battlerap Algorithm" - a cloned documentary narrator style.
-
-**Voice ID:** ZJ7BlVZrxZKBDMTIK5c9
+- **Multi-Voice** - [S1]/[S2] speaker tags for natural dialogue
+- **Emotional Markers** - (laughs), (whispers), (sighs), (gasps), etc.
+- **Consistent Voices** - Same seed = same voices every time
+- **Free** - Fully local, no API keys or costs
 
 ## Voice Parameters
 
 | Parameter | Description | Default |
 |-----------|-------------|---------|
-| Stability | Consistency (higher = more consistent) | 0.5 |
-| Similarity Boost | Closeness to original voice | 0.75 |
-| Style | Expression intensity | 0.15 |
+| Seed | Voice consistency (same seed = same voice) | 42 |
+| Temperature | Expressiveness | 1.8 |
+| Guidance Scale | Adherence to prompt | 3.0 |
 
 ## Host Voice Mapping
 
-Each host can have a different voice configured. Currently all hosts use the same voice with different stability/style settings.
+Each host uses a different seed value to produce distinct voice characteristics.
 
-## Cost Tracking
+## Cost
 
-ElevenLabs charges per character. Track usage at **/settings/usage**.
-
-**Estimated cost:** ~$0.30 per 1,000 characters
+Dia TTS is self-hosted and free. No per-character charges.
         `,
       },
     ],

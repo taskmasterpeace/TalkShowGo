@@ -1,5 +1,5 @@
 # Talk Show Go - Docker Services
-# Includes: PostgreSQL, Supabase, Redis, and local AI services
+# Core services: PostgreSQL, Redis, SearXNG, Dia TTS, Worker
 
 services:
   # ============================================
@@ -28,10 +28,9 @@ services:
       - tsg-network
 
   # ============================================
-  # SUPABASE SERVICES
+  # REST API (Supabase-compatible)
   # ============================================
 
-  # PostgREST - RESTful API for PostgreSQL
   postgrest:
     image: postgrest/postgrest:v12.0.2
     container_name: tsg-postgrest
@@ -46,69 +45,7 @@ services:
       PGRST_JWT_SECRET: ${JWT_SECRET:-super-secret-jwt-token-with-at-least-32-characters-long}
       PGRST_DB_USE_LEGACY_GUCS: "false"
     ports:
-      - "3333:3000"
-    networks:
-      - tsg-network
-
-  # Kong API Gateway (Supabase API)
-  kong:
-    image: kong:2.8
-    container_name: tsg-kong
-    restart: unless-stopped
-    depends_on:
-      - postgrest
-    environment:
-      KONG_DATABASE: "off"
-      KONG_DECLARATIVE_CONFIG: /var/lib/kong/kong.yml
-      KONG_DNS_ORDER: LAST,A,CNAME
-      KONG_PLUGINS: request-transformer,cors,key-auth,acl
-      KONG_NGINX_PROXY_PROXY_BUFFER_SIZE: 160k
-      KONG_NGINX_PROXY_PROXY_BUFFERS: 64 160k
-    ports:
-      - "8000:8000"
-      - "8443:8443"
-    volumes:
-      - ./docker/kong.yml:/var/lib/kong/kong.yml:ro
-    networks:
-      - tsg-network
-
-  # Supabase Studio - Database Admin UI
-  studio:
-    image: supabase/studio:20231123-64a766a
-    container_name: tsg-studio
-    restart: unless-stopped
-    depends_on:
-      - postgres
-      - postgrest
-    environment:
-      STUDIO_PG_META_URL: http://postgres-meta:8080
-      POSTGRES_PASSWORD: postgres
-      DEFAULT_ORGANIZATION_NAME: Talk Show Go
-      DEFAULT_PROJECT_NAME: talkshowgo
-      SUPABASE_URL: http://kong:8000
-      SUPABASE_PUBLIC_URL: http://localhost:8000
-      SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0
-      SUPABASE_SERVICE_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU
-    ports:
-      - "3001:3000"
-    networks:
-      - tsg-network
-
-  # PostgreSQL Meta - for Studio
-  postgres-meta:
-    image: supabase/postgres-meta:v0.75.0
-    container_name: tsg-postgres-meta
-    restart: unless-stopped
-    depends_on:
-      postgres:
-        condition: service_healthy
-    environment:
-      PG_META_PORT: 8080
-      PG_META_DB_HOST: postgres
-      PG_META_DB_PORT: 5432
-      PG_META_DB_NAME: talkshowgo
-      PG_META_DB_USER: postgres
-      PG_META_DB_PASSWORD: postgres
+      - "8000:3000"
     networks:
       - tsg-network
 
@@ -150,7 +87,7 @@ services:
     environment:
       DATABASE_URL: postgresql://postgres:postgres@postgres:5432/talkshowgo
       REDIS_URL: redis://redis:6379
-      NEXT_PUBLIC_SUPABASE_URL: http://kong:8000
+      NEXT_PUBLIC_SUPABASE_URL: http://postgrest:3000
       NEXT_PUBLIC_SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0
       # AI Services (local Presidium)
       PRESIDIUM_URL: ${PRESIDIUM_URL:-http://localhost:11434}
@@ -158,29 +95,8 @@ services:
       YOUTUBE_API_KEY: ${YOUTUBE_API_KEY:-}
       # Twitter API (twitterapi.io)
       TWITTER_API_KEY: ${TWITTER_API_KEY:-}
-      # ElevenLabs
-      ELEVENLABS_API_KEY: ${ELEVENLABS_API_KEY:-}
       # Perplexity
       PERPLEXITY_API_KEY: ${PERPLEXITY_API_KEY:-}
-    networks:
-      - tsg-network
-
-  # ============================================
-  # VECTOR DATABASE (for RAG)
-  # ============================================
-
-  # Qdrant - Vector Database
-  qdrant:
-    image: qdrant/qdrant:latest
-    container_name: tsg-qdrant
-    restart: unless-stopped
-    ports:
-      - "6333:6333"
-      - "6334:6334"
-    volumes:
-      - qdrant_data:/qdrant/storage
-    environment:
-      QDRANT__SERVICE__GRPC_PORT: 6334
     networks:
       - tsg-network
 
@@ -243,5 +159,4 @@ networks:
 volumes:
   postgres_data:
   redis_data:
-  qdrant_data:
   dia_cache:
