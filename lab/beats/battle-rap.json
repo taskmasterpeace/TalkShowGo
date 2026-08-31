@@ -61,7 +61,7 @@
         "label": "HHIR",
         "type": "media",
         "priority": 2,
-        "status": "VERIFIED 2026-08-31",
+        "status": "SUSPECT 2026-08-31 - handle resolves but has 4 followers (squatter, not the real HHIR); needs the current handle from Robert",
         "userId": "165942201",
         "followers": 4,
         "display_name": "HipHop IsReal"
