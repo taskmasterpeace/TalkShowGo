@@ -16,11 +16,13 @@ const KEY = (fs.readFileSync(path.join(ROOT, '.env'), 'utf8').match(/^CUPCAKE_GA
 if (!KEY) { console.error('no CUPCAKE_GATEWAY_KEY in .env'); process.exit(1) }
 const GW = process.env.CUPCAKE_GATEWAY_URL || 'http://192.168.1.249:8700'
 
+// v2 casting: maximally distinct registers + per-host pitch locks so Kokoro's take-to-take wobble can't blur speakers
 const CAST = {
-  tasha: { voice: 'af_bella', speed: 1.08 },
-  blaze: { voice: 'am_fenrir', speed: 1.12 },
-  knowledge: { voice: 'am_michael', speed: 0.92 },
+  tasha: { voice: 'af_bella', speed: 1.08, pitch: 1.03 },
+  blaze: { voice: 'am_fenrir', speed: 1.12, pitch: 1.0 },
+  knowledge: { voice: 'bm_george', speed: 0.92, pitch: 0.94 }, // British house-narrator elder - unmistakable vs Fenrir
 }
+const BACKCHANNEL = /^(mm+h?m?|whew|hm+|huh|right(,? right)*|nah|cap|wow|okay(,? okay)*)[.!?]*$/i
 const whoOf = name => { const n = name.toLowerCase(); if (n.includes('tasha')) return 'tasha'; if (n.includes('blaze') || n.includes('marcus')) return 'blaze'; if (n.includes('knowledge') || n.includes('king')) return 'knowledge'; return null }
 
 const lines = []
@@ -30,6 +32,7 @@ for (const raw of fs.readFileSync(seg, 'utf8').split('\n')) {
   const who = whoOf(m[1]); if (!who) continue
   let text = m[3].replace(/\[E\d+\]/g, '').replace(/\[[a-z -]+\]/gi, '').replace(/[*_]/g, '').replace(/\s{2,}/g, ' ').trim()
   if (!text || text === '(unusable turn)') continue
+  if (BACKCHANNEL.test(text.trim()) && text.trim().split(/\s+/).length <= 3) continue // flat mix turns backchannels into phantom voices - cut until real overlap mixing
   lines.push({ who, text })
 }
 if (!lines.length) { console.error('no dialogue lines parsed'); process.exit(1) }
@@ -58,7 +61,9 @@ const main = async () => {
     const l = lines[i], c = CAST[l.who]
     const rawF = path.join(tmp, `r${i}.wav`), normF = path.join(tmp, `n${i}.wav`)
     await tts(l.text, c.voice, c.speed, rawF)
-    ff(`-i "${rawF}" -ar 24000 -ac 1 "${normF}"`)
+    const p = c.pitch || 1
+    const af = p === 1 ? '' : ` -af "asetrate=24000*${p},aresample=24000,atempo=${(1 / p).toFixed(4)}"`
+    ff(`-i "${rawF}" -ar 24000 -ac 1${af} "${normF}"`)
     parts.push(normF, sil)
     console.error(`${i + 1}/${lines.length} ${l.who}: ${l.text.slice(0, 50)}`)
   }
