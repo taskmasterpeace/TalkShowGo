@@ -1,0 +1,14 @@
+{
+  "beat": "flareup-grace-or-bounty",
+  "provider": "ollama",
+  "models": {
+    "tasha-raw": "qwen3:30b",
+    "marcus-blaze": "qwen3:30b",
+    "king-knowledge": "qwen3:30b",
+    "_mix": "qwen3:30b"
+  },
+  "seed": 42,
+  "turns": 28,
+  "spoken_words": 359,
+  "finished": "2026-08-31T15:16:02.548Z"
+}

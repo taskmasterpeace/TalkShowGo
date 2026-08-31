@@ -22,6 +22,14 @@
       "instruction": "NOW detonate the receipt you have been holding: the copycat comment under Shade Room's post [E14]. Deliver it flat and even. Let it sit. Do not explain it twice."
     }
   ],
+  "waypoints": [
+    { "after_words": 25, "host": "marcus-blaze", "note": "Give the full-hearted defense: paint the actual scene of what he did for that child, make it human and specific. Do not use the word bounty." },
+    { "after_words": 70, "host": "tasha-raw", "note": "Concede the act itself was decent. Then flip it: what did two million views turn that decency INTO? A completely new angle, new words." },
+    { "after_words": 110, "host": "marcus-blaze", "note": "Challenge her directly with the alternative: what was he supposed to do instead? Demand she answer it." },
+    { "after_words": 145, "host": "tasha-raw", "note": "Answer him honestly: you'd have done the same thing he did. Beat of honesty. Then the knife: and that is exactly the problem." },
+    { "after_words": 230, "host": "tasha-raw", "note": "Escalate to the consequence: who shows up NEXT at that gate because this went viral, and what do they bring? Paint that person." },
+    { "after_words": 270, "host": "marcus-blaze", "note": "Concede the fear is real, but refuse the conclusion: the world watching does not make kindness the crime. Find a fresh way to say it." }
+  ],
   "detonation_react": {
     "host": "marcus-blaze",
     "instruction": "You did NOT see that receipt coming. React first: a genuine beat of disbelief (short), then defend your stance WITHOUT dismissing what she revealed. Do not pretend you knew."

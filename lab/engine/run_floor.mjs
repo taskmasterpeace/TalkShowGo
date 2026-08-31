@@ -23,7 +23,7 @@ const PROVIDER = ARG.provider || 'ollama'
 const J = p => JSON.parse(fs.readFileSync(p, 'utf8'))
 function rng(seed) { let t = seed >>> 0; return () => { t += 0x6D2B79F5; let r = Math.imul(t ^ t >>> 15, 1 | t); r ^= r + Math.imul(r ^ r >>> 7, 61 | r); return ((r ^ r >>> 14) >>> 0) / 4294967296 } }
 const words = s => (s.trim().match(/\S+/g) || []).length
-const stripThink = s => s.replace(/<think>[\s\S]*?<\/think>/g, '').trim()
+const stripThink = s => s.replace(/<think>[\s\S]*?<\/think>/g, '').replace(/^[\s\S]*?<\/think>\s*/, '').trim() // also handles a missing opening tag
 function readEnvKey(name) { try { const m = fs.readFileSync(path.join(ROOT, '.env'), 'utf8').match(new RegExp('^' + name + '=(.+)$', 'm')); return m ? m[1].trim() : null } catch { return null } }
 
 // ---------- providers ----------
@@ -102,8 +102,14 @@ async function main() {
   const transcript = () => turns.filter(t => !t.bc).map(t => `${t.name}${t.tag ? ' [' + t.tag + ']' : ''} (${t.delivery}): ${t.line}`).join('\n')
 
   const jaccard = (a, b) => { const A = new Set(a.toLowerCase().match(/[a-z']+/g) || []), B = new Set(b.toLowerCase().match(/[a-z']+/g) || []); if (!A.size || !B.size) return 0; let i = 0; for (const w of A) if (B.has(w)) i++; return i / (A.size + B.size - i) }
+  const SPELLED = { one: '1', two: '2', three: '3', four: '4', five: '5', six: '6', seven: '7', eight: '8', nine: '9', ten: '10' }
   function badTurn(hostId, line) {
     if (/\bE\d+\b/.test(line)) return 'you said an evidence id out loud; humans say the FACT, never the label'
+    // numeric hallucination guard: any number not present in this host's receipts is invented
+    const allowedText = ((beat.allowed_evidence[hostId] || []).map(id => evTexts[id] || '').join(' ') + ' ' + beat.question)
+    const allowedNums = new Set(allowedText.toLowerCase().replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b/g, m => SPELLED[m]).match(/\d+/g) || [])
+    const lineNums = (line.toLowerCase().replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b/g, m => SPELLED[m]).match(/\d+/g) || [])
+    for (const n of lineNums) if (!allowedNums.has(n)) return `the number ${n} is not in your receipts; you invented it - drop the number or use a fact you actually hold`
     const recent = turns.slice(-3).map(t => t.line)
     const exemplars = hosts[hostId].exemplars.signature_lines
     const ownPast = turns.filter(t => t.id === hostId).map(t => t.line)
@@ -124,7 +130,7 @@ async function main() {
     for (let attempt = 1; attempt <= 3; attempt++) {
       // attempt 3: physically remove the exemplars so recital is impossible
       const sysA = attempt < 3 ? sys : sys.replace(/LINES THAT SOUND LIKE YOU[\s\S]*?(?=YOUR STANCE THIS BEAT)/, '')
-      const raw = await call(hostId, sysA, buildUser(problem), Math.min(1.2, host.model.temperature + (attempt - 1) * 0.1), instruction ? 240 : 160)
+      const raw = await call(hostId, sysA, buildUser(problem), Math.min(1.2, host.model.temperature + (attempt - 1) * 0.1), instruction ? 280 : 160)
       t = parseTurn(raw)
       problem = badTurn(hostId, t.line)
       if (!problem) break
@@ -148,7 +154,7 @@ async function main() {
     turns.push({ id: hostId, name: host.name.toUpperCase(), line: pool[Math.floor(rand() * pool.length)], delivery: 'under them', addressed_to: null, evidence: [], tag: null, ms: 0, bc: true })
     console.error(`      ${hostId} backchannel`)
   }
-  let pendingReact = null
+  let pendingReact = null, wpIdx = 0
   function pickNext() {
     const last = [...turns].reverse().find(t => !t.bc) || null // backchannels never own the floor
     if (pendingReact) { const p = pendingReact; pendingReact = null; return p }
@@ -159,9 +165,12 @@ async function main() {
       return { id: forced.host, instruction: forced.instruction + ' The receipt, verbatim from the ledger: "' + (evTexts[forced.evidence] || '') + '"', tag: 'interrupting' }
     }
     if (!kkDropped && (turnNo >= beat.kk_drop.after_turn || spoken >= beat.target_spoken_words * 0.85)) { kkDropped = true; return { id: beat.kk_drop.host, instruction: beat.kk_drop.instruction, tag: null } }
-    if (last && last.addressed_to && hosts[last.addressed_to] && last.addressed_to !== last.id && rand() < 0.75) return { id: last.addressed_to }
-    const cands = cast.hosts.filter(h => h.id !== (last && last.id) && !(h.id === beat.kk_drop.host && !kkDropped))
     const shareOf = id => { const w = turns.filter(t => t.id === id).reduce((a, t) => a + (t.line.match(/\S+/g) || []).length, 0); return spoken ? w / spoken : 0 }
+    // waypoints: the director's progression notes - momentum comes from the beat sheet, not model willpower
+    const wp = (beat.waypoints || [])[wpIdx]
+    if (wp && spoken >= wp.after_words) { wpIdx++; if (wp.host !== (last && last.id)) return { id: wp.host, instruction: wp.note, tag: null } }
+    if (last && last.addressed_to && hosts[last.addressed_to] && last.addressed_to !== last.id && shareOf(last.addressed_to) <= 0.45 && rand() < 0.75) return { id: last.addressed_to }
+    const cands = cast.hosts.filter(h => h.id !== (last && last.id) && !(h.id === beat.kk_drop.host && !kkDropped))
     const weights = cands.map(h => (0.25 + h.behavior.interruption_rate) * (shareOf(h.id) > 0.4 ? 0.2 : 1)) // damp floor-hogs
     let r = rand() * weights.reduce((a, b) => a + b, 0)
     for (let i = 0; i < cands.length; i++) { r -= weights[i]; if (r <= 0) return { id: cands[i].id, tag: rand() < cands[i].behavior.interruption_rate * 0.5 ? 'interrupting' : null } }
@@ -180,7 +189,9 @@ async function main() {
     if (rand() < 0.3) { const others = cast.hosts.filter(h => h.id !== turns[turns.length - 1].id); const b = others[Math.floor(rand() * others.length)]; if (rand() < b.behavior.backchannel_rate) backchannel(b.id) }
   }
   if (!kkDropped) await speak(beat.kk_drop.host, beat.kk_drop.instruction)
-  await speak(beat.exit.host, beat.exit.instruction)
+  const lastRealEnd = [...turns].reverse().find(t => !t.bc)
+  const exitHost = lastRealEnd && lastRealEnd.id === beat.exit.host ? (beat.exit.alt_host || 'tasha-raw') : beat.exit.host
+  await speak(exitHost, beat.exit.instruction)
 
   // render for output: merge consecutive same-speaker turns, append evidence tags after the spoken line
   function renderMd() {

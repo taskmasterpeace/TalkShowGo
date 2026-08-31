@@ -1,0 +1,358 @@
+[
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Snacks, water, Uber. Real talk, that's a bounty post. Periodt.",
+    "delivery": "scoffing|shaking head",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1714,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "I SEEN the clip. She was 3 years old. What you call 'bounty' is basic human decency, Tasha. Not a post. Periodt.",
+    "delivery": "scoffing|shaking head",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1108,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "A 3-year-old ain't a reward, Marcus. It's a signpost. This is a bounty.",
+    "delivery": "flat, quiet, level",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": "interrupting",
+    "ms": 1079,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "A 3-year-old's not a signpost, Tasha. It's a human. You see 'bounty' because you don't see her.",
+    "delivery": "pointing at her",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1158,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "She's a human, Marcus. That's why the bounty's already up.",
+    "delivery": "calm, low, deadly",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": "interrupting",
+    "ms": 1033,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You're saying he's a bounty because he gave a kid water? That's how you get a 'bounty' on your head?",
+    "delivery": "shocked|scoffing",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1068,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "You're seeing the reward, not the target. That's real. That's up RIGHT NOW.",
+    "delivery": "quiet|deadly|level",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1025,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Copycat comments already live. This ain't grace, Marcus.",
+    "delivery": "deadly|flat|even",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E14"
+    ],
+    "tag": "interrupting",
+    "ms": 839,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Copycat comments? Tasha, that's not a bounty...that's a THREAT. He gave her water, not a target. That's the difference.",
+    "delivery": "disbelief|defiant",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 2525,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "You see the water. I see the reward.",
+    "delivery": "cold|sharp|flat",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 835,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You're seeing a threat, Tasha. But that's the 'reward' you're hunting. This is grace.",
+    "delivery": "shocked|defiant",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1007,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Copycat comments are the bounty's proof. You're the target now, Marcus.",
+    "delivery": "cold|sharp|flat",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": "interrupting",
+    "ms": 1006,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Hm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "She's 3, Tasha. And he gave her snacks. That's not a bounty, that's a BIRTHDAY. You're hunting for a signpost in a birthday.",
+    "delivery": "defiant|sharp|deadly",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1293,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "(unusable turn)",
+    "delivery": "level",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 4353,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "She's a 3-year-old, Marcus. Not a birthday. And the reward's live.",
+    "delivery": "cold|sharp|flat",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": "interrupting",
+    "ms": 1038,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "That's a baby, not a bounty. He gave water to a kid, Tasha. The reward's for the copycats, not him.",
+    "delivery": "defiant|sharp|deadly",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1058,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "He gave water. Now they're copycats. You're the reward, Marcus.",
+    "delivery": "cold|sharp|flat",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 891,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "I said what I said? Nah. She's 3. He gave water. That's a human not a bounty. You're calling grace a threat.",
+    "delivery": "defiant|sharp|deadly",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1127,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "The reward's not for the child, Marcus. It's for the next target.",
+    "delivery": "cold|sharp|flat",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E12"
+    ],
+    "tag": null,
+    "ms": 1063,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You think 'reward' for copycats? Tasha, that's the THREAT you're creating. He gave water, not a target. That's grace.",
+    "delivery": "defiant|shocked|sharp",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1153,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Copycats are the bounty, Marcus. You're the target now.",
+    "delivery": "cold|sharp|flat",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1338,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You're not hunting for a bounty, Tasha. You're hunting for a reason to say he's a threat.",
+    "delivery": "disbelief|defiant",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 2137,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "That's real. That's up RIGHT NOW.",
+    "delivery": "deadly|flat|even",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1999,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "She's 3, Tasha. He gave water. That's grace, not a bounty. You're hunting a ghost.",
+    "delivery": "defiant|sharp|deadly",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1081,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You're hunting a ghost, Tasha. This ain't a bounty...it's a mother's story. And that Uber? It's the first step in a real conversation. You're scared to see it.",
+    "delivery": "disbelief|defiant|sharp",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1602,
+    "noMerge": true
+  }
+]
