@@ -63,6 +63,7 @@ function hostSystem(host, beat, evTexts, sharedLaws) {
     `LINES THAT SOUND LIKE YOU — rhythm and attitude reference ONLY. NEVER repeat or lightly reword ANY of them; invent NEW lines in this voice:\n- ` + host.exemplars.signature_lines.join('\n- '),
     `YOUR STANCE THIS BEAT: ${beat.stances[host.id]}`,
     `RECEIPTS YOU ARE ALLOWED TO USE. Put their ids ONLY in the JSON "evidence" array. NEVER speak an id (like E6) out loud in your line - a human would say the FACT, not the label:\n${allowed || '(none - argue from what others say)'}`,
+    (beat.protected_facts && beat.protected_facts.length ? `FACT PRECISION (absolute):\n- ` + beat.protected_facts.map(p => p.note).join('\n- ') : ''),
     `HARD RULES:\n- 1 to 3 sentences, at most ~${Math.round(28 * host.behavior.verbosity + 12)} words. Shorter is stronger.\n- Spoken register: contractions, informal grammar fine. This is talk, not writing.\n- NEVER use facts outside your receipts. Opinion is free but must SOUND like opinion because of who you are, never hedged.\n- No em-dashes. Max ONE catchphrase per episode: ${JSON.stringify(host.catchphrase_rare)} (you have probably already used it, so avoid).\n- Respond to what was ACTUALLY just said. Push back. Do not summarize. Do not validate by default.\n- STAY ON THE ARGUMENT. Never argue about clips, VODs, footage formats, or who watched what. Never react to another host's small sounds. Attack their ARGUMENT, not the furniture.`,
     `OUTPUT STRICT JSON, nothing else: {"line":"what you say - pure human speech, no ids, no brackets","delivery":"3-6 word emotional direction","addressed_to":"marcus-blaze|tasha-raw|king-knowledge|null","evidence":["E6"]}`,
   ].join('\n\n')
@@ -103,8 +104,15 @@ async function main() {
 
   const jaccard = (a, b) => { const A = new Set(a.toLowerCase().match(/[a-z']+/g) || []), B = new Set(b.toLowerCase().match(/[a-z']+/g) || []); if (!A.size || !B.size) return 0; let i = 0; for (const w of A) if (B.has(w)) i++; return i / (A.size + B.size - i) }
   const SPELLED = { one: '1', two: '2', three: '3', four: '4', five: '5', six: '6', seven: '7', eight: '8', nine: '9', ten: '10' }
+  const ngrams = (s, n) => { const w = s.toLowerCase().match(/[a-z']+/g) || []; const out = []; for (let i = 0; i + n <= w.length; i++) out.push(w.slice(i, i + n).join(' ')); return out }
   function badTurn(hostId, line) {
     if (/\bE\d+\b/.test(line)) return 'you said an evidence id out loud; humans say the FACT, never the label'
+    // protected facts: phrasings the beat card explicitly bans (fact-precision on real people)
+    for (const pf of (beat.protected_facts || [])) for (const b of pf.banned_phrasings) if (line.toLowerCase().includes(b.toLowerCase())) return 'FACT PRECISION: ' + pf.note
+    // anaphora guard: any 3-word phrase already said twice in the room is DEAD
+    const counts = {}
+    for (const t of turns) for (const g of new Set(ngrams(t.line, 3))) counts[g] = (counts[g] || 0) + 1
+    for (const g of new Set(ngrams(line, 3))) if (counts[g] >= 2) return `the phrase "${g}" has been said twice already - that phrasing is DEAD in this room, find completely new words`
     // numeric hallucination guard: any number not present in this host's receipts is invented
     const allowedText = ((beat.allowed_evidence[hostId] || []).map(id => evTexts[id] || '').join(' ') + ' ' + beat.question)
     const allowedNums = new Set(allowedText.toLowerCase().replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b/g, m => SPELLED[m]).match(/\d+/g) || [])
@@ -137,7 +145,8 @@ async function main() {
     for (let attempt = 1; attempt <= 3; attempt++) {
       // attempt 3: physically remove the exemplars so recital is impossible
       const sysA = attempt < 3 ? sys : sys.replace(/LINES THAT SOUND LIKE YOU[\s\S]*?(?=YOUR STANCE THIS BEAT)/, '')
-      const raw = await call(hostId, sysA, buildUser(problem), Math.min(1.2, host.model.temperature + (attempt - 1) * 0.1), instruction ? 280 : 160)
+      const note = attempt === 3 && problem ? problem + ' | For this attempt: PLAIN SPEECH ONLY. No aphorisms, no metaphors, no punchlines. Just say the true thing simply, like a tired person who means it.' : problem
+      const raw = await call(hostId, sysA, buildUser(note), Math.min(1.2, host.model.temperature + (attempt - 1) * 0.1), instruction ? 280 : 160)
       t = parseTurn(raw)
       problem = badTurn(hostId, t.line)
       if (!problem) break

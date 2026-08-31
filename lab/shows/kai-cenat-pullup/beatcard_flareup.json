@@ -22,6 +22,10 @@
       "instruction": "NOW detonate the receipt you have been holding: the copycat comment under Shade Room's post [E14]. Deliver it flat and even. Let it sit. Do not explain it twice."
     }
   ],
+  "protected_facts": [
+    { "note": "The child said the single word 'You' when Kai asked who her dad was. She NEVER said the word 'dad'. Do not phrase it as the kid calling him dad.", "banned_phrasings": ["called him dad", "calls him dad", "called him 'dad'", "said dad", "said 'dad'", "call him dad"] },
+    { "note": "The child is about TWO years old (never three, never any other age).", "banned_phrasings": ["she's 3", "she was 3", "3 years old", "3-year-old", "three years old", "three-year-old"] }
+  ],
   "waypoints": [
     { "after_words": 25, "host": "marcus-blaze", "note": "Give the full-hearted defense: paint the actual scene of what he did for that child, make it human and specific. Do not use the word bounty." },
     { "after_words": 70, "host": "tasha-raw", "note": "Concede the act itself was decent. Then flip it: what did two million views turn that decency INTO? A completely new angle, new words." },

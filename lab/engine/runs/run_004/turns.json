@@ -1,0 +1,339 @@
+[
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Snacks, water, Uber. That's a receipt, Marcus.",
+    "delivery": "cool, quiet, deadpan",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1063,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Snacks? Water? Uber? That's the RECIPE for grace, Tasha. Not a receipt.",
+    "delivery": "confident smirk",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 926,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Grace went viral, so now the bounty's posted. Periodt.",
+    "delivery": "deadpan, quiet",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E12"
+    ],
+    "tag": "interrupting",
+    "ms": 954,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You see the kid? She's a baby. He didn't just *give* water...HE SPOKE TO HER LIKE A HUMAN. That's grace, not a bounty.",
+    "delivery": "warm but fierce",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E4",
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1123,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "That's real. That's up RIGHT NOW.",
+    "delivery": "level, quiet",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E12"
+    ],
+    "tag": null,
+    "ms": 925,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "A baby asked 'You' and he didn't ghost her. That's the humanity, not a bounty. Periodt.",
+    "delivery": "defiant joy",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E4"
+    ],
+    "tag": "interrupting",
+    "ms": 944,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Two million views turned kindness into a bounty, and the gate's on the cover.",
+    "delivery": "deadpan, quiet",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E12"
+    ],
+    "tag": null,
+    "ms": 978,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Somebody sent me that copycat comment. It's the gate on the cover.",
+    "delivery": "deadpan, quiet",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E14"
+    ],
+    "tag": "interrupting",
+    "ms": 835,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You're saying the gate's on the cover... but the kid's in his arms, not a bounty. Periodt.",
+    "delivery": "genuine shock",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1333,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "The kid's a bait. The bounty's on the menu, Marcus.",
+    "delivery": "surgical, quiet",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1013,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "The baby said 'You'...he didn't treat her like a menu item. That's grace, not a bounty. Periodt.",
+    "delivery": "genuine shock",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E4",
+      "E6"
+    ],
+    "tag": "interrupting",
+    "ms": 1089,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "The baby's not bait. The bounty's the *viewers* on the menu.",
+    "delivery": "surgical, quiet",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E12"
+    ],
+    "tag": null,
+    "ms": 906,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "The baby's not a menu item. She was a human. He gave her water AND asked her name. That's grace, not a bounty.",
+    "delivery": "smug, proud",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E4",
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1123,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Grace was never the problem. The audience made it one.",
+    "delivery": "calm, firm, unwavering",
+    "addressed_to": "marcus-blaze|tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 7278,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "King's right about the audience... but the baby's not a menu item. It's a human BEING. Periodt.",
+    "delivery": "genuine shock",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E6"
+    ],
+    "tag": "interrupting",
+    "ms": 1012,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The baby's a story. The audience's the cash register.",
+    "delivery": "low, firm, certain",
+    "addressed_to": "marcus-blaze|tasha-raw|king-knowledge|null",
+    "evidence": [
+      "E12",
+      "E29"
+    ],
+    "tag": null,
+    "ms": 3019,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Kindness was the meal, but the menu's still there. Periodt.",
+    "delivery": "surgical, quiet",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E12"
+    ],
+    "tag": null,
+    "ms": 1081,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "The baby asked 'You'...he didn't see a menu. He saw a kid. THAT'S grace, not a bounty.",
+    "delivery": "defiant joy",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": "interrupting",
+    "ms": 1015,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Next guy's bringing a knife. Viewers pay for the gate.",
+    "delivery": "surgical, quiet",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E12"
+    ],
+    "tag": null,
+    "ms": 878,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The gate's not on the menu...it's the audience paying to see the meal.",
+    "delivery": "low, firm, certain",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E12",
+      "E29"
+    ],
+    "tag": null,
+    "ms": 3774,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "The baby's a human, King. Not a meal. Not a menu. He saw her. He gave her water. That's grace.",
+    "delivery": "genuine shock",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E6"
+    ],
+    "tag": "interrupting",
+    "ms": 1063,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "(unusable turn)",
+    "delivery": "level",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 2327,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "The baby said 'You' and he didn't just *give* water...he looked at her soul. That's grace. Not a bounty.",
+    "delivery": "genuine shock",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 5518,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The audience paid to watch grace get served. Now they want the recipe.",
+    "delivery": "calm, firm, certain",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E12"
+    ],
+    "tag": null,
+    "ms": 4348,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "The gate's on the cover? No. The kid's in his arms, not a menu item. Grace stays human, not a recipe.",
+    "delivery": "genuine shock",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1150,
+    "noMerge": true
+  }
+]

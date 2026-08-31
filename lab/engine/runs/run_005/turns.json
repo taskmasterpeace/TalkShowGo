@@ -1,0 +1,355 @@
+[
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Kai gave snacks, water, Uber. Now it's a bounty.",
+    "delivery": "cold, surgical",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 174359,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Bounty? Nah. He gave water to a kid who called him dad. That's a human, not a bounty.",
+    "delivery": "disgusted|defiant",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E4",
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1804,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "He called him dad. So the bounty's already active, Marcus.",
+    "delivery": "deadpan|cold|calm",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E12"
+    ],
+    "tag": "interrupting",
+    "ms": 890,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Oh, so he's a bounty because a kid said 'dad'? That's a human being, not a bounty. You hearing this?",
+    "delivery": "disgusted|defiant",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1039,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Kid called him dad, bounty's up. That's the reward.",
+    "delivery": "deadpan|cold|calm",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1247,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "The child called him dad because she was a kid, not a bounty. Grace is a choice, not a loophole. You agree with the kid and prosecute her?",
+    "delivery": "scoffing|defiant",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": "interrupting",
+    "ms": 1110,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Decent act, but two million views? Now it's a bounty hunt. That's real.",
+    "delivery": "deadpan|cold|calm",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E12"
+    ],
+    "tag": null,
+    "ms": 1142,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Copycat comment: 'Baby not safe with her.' That's the bounty.",
+    "delivery": "deadpan|cold|calm",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E14"
+    ],
+    "tag": "interrupting",
+    "ms": 886,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Copycat comment? That's the 'bounty' now? She's a mom, not a target. You hearing this??",
+    "delivery": "disbelief|defiant",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 2344,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Mom's a target now. That's the bounty.",
+    "delivery": "cold|deadpan|level",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 831,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "She's a mom, not a bounty. You're treating a human like a prize. That's not grace...it's a crime.",
+    "delivery": "scoffing|defiant",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": "interrupting",
+    "ms": 1200,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "You'd do it too. And that's the problem.",
+    "delivery": "cold|deadpan|level",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6",
+      "E12"
+    ],
+    "tag": null,
+    "ms": 1520,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You're saying I'd stalk a mom for a clip? That's the problem? Wow. She's a human, not a headline.",
+    "delivery": "scoffing|defiant",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": "interrupting",
+    "ms": 1130,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The culture don't forget the audience that's always watching the stream. Grace was never the problem, the audience is.",
+    "delivery": "calm|unhurried|certain",
+    "addressed_to": "marcus-blaze|tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 4357,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "The culture forgot to pay for the view. That's the bounty.",
+    "delivery": "cold|deadpan|level",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E12"
+    ],
+    "tag": "interrupting",
+    "ms": 1657,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Whew. The audience's hunger for the next clip is the real bounty. Grace was never the problem, the audience is.",
+    "delivery": "calm|unhurried|certain",
+    "addressed_to": "null",
+    "evidence": [],
+    "tag": null,
+    "ms": 2667,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Next gate crasher's got a drone. You'll see them on the street.",
+    "delivery": "cold|deadpan|level",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 936,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "(unusable turn)",
+    "delivery": "level",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 3340,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Copycat comment's a bounty. That's the view.",
+    "delivery": "cold|deadpan|level",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E12"
+    ],
+    "tag": "interrupting",
+    "ms": 885,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Nah.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The tape don't lie - the real bounty's the views. Grace was never the problem, the audience is.",
+    "delivery": "calm|unhurried|certain",
+    "addressed_to": "null",
+    "evidence": [
+      "E12",
+      "E29"
+    ],
+    "tag": null,
+    "ms": 5048,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You're scared of the views, so you call grace a crime. She's a mom, not a bounty. That's the human part you're missing.",
+    "delivery": "scornful|defiant",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1165,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Hm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "She's a mom. Bounty's a mom. That's the view.",
+    "delivery": "deadpan|cold|level",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 883,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "(unusable turn)",
+    "delivery": "level",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 5790,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "She's a human, not a bounty. And you're calling grace a crime? That's not how it works. You hearing this?",
+    "delivery": "scoffing|defiant",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1087,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Human? Nah. The view's a bounty. Periodt.",
+    "delivery": "cold|deadpan|level",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 4053,
+    "noMerge": true
+  }
+]
