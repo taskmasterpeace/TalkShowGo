@@ -22,6 +22,26 @@
       ]
     },
     {
+      "id": "head-to-head",
+      "name": "HEAD TO HEAD",
+      "inspiration": "First Take: a moderator runs topic cards, two debaters make their case and collide",
+      "cast_shape": "1 moderator + 2 debaters (hosts or generated guests)",
+      "laws": [
+        "The moderator frames, times, and NEVER takes a side on air",
+        "Each debater gets a clean MAKE-YOUR-CASE lane before crossfire opens",
+        "Crossfire is earned: interruptions allowed only after both cases are on the table",
+        "Debaters address each other by name; the moderator addresses the audience",
+        "Every topic card ends with the moderator's scorecard line - who won the card, one sentence why"
+      ],
+      "segments": [
+        { "id": "card-intro", "name": "THE CARD", "role": "moderator reads the topic card like a tale of the tape", "target_words": 60, "transition": "bell - one hit" },
+        { "id": "case-a", "name": "MAKE YOUR CASE - A", "role": "debater A's uninterrupted case, receipts in hand", "target_words": 160, "transition": "moderator: 'your response'" },
+        { "id": "case-b", "name": "MAKE YOUR CASE - B", "role": "debater B's counter-case, direct rebuttals allowed", "target_words": 160, "transition": "moderator opens the floor" },
+        { "id": "crossfire", "name": "CROSSFIRE", "role": "open collision - interruptions live, moderator referees", "target_words": 250, "transition": "moderator calls time" },
+        { "id": "scorecard", "name": "THE SCORECARD", "role": "moderator's one-line ruling on the card + next card or out", "target_words": 60, "transition": "bell - two hits, next card or credits" }
+      ]
+    },
+    {
       "id": "the-desk",
       "name": "THE DESK",
       "inspiration": "Maddow-style: one anchor builds the case piece by piece, segmented",

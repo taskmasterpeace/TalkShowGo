@@ -15,6 +15,8 @@ export async function GET() {
     : []
 
   const cast = j(path.join(ROOT, 'lab', 'cast', 'cast.json'))
+  const guestsDir = path.join(ROOT, 'lab', 'cast', 'guests')
+  const guests = fs.existsSync(guestsDir) ? fs.readdirSync(guestsDir).filter(f => f.endsWith('.json')).map(f => j(path.join(guestsDir, f))).filter(Boolean) : []
   const voicesDir = path.join(ROOT, 'lab', 'cast', 'voices')
   const voices = fs.existsSync(voicesDir) ? fs.readdirSync(voicesDir).filter(f => f.endsWith('.wav')) : []
   const imagesDir = path.join(ROOT, 'lab', 'cast', 'images')
@@ -56,5 +58,5 @@ export async function GET() {
     health.gateway = r.ok
   } catch { health.gateway = false }
 
-  return NextResponse.json({ beats, cast, voices, images, audio, manifest, runs, pulls, topics, show_types, health })
+  return NextResponse.json({ beats, cast, guests, voices, images, audio, manifest, runs, pulls, topics, show_types, health })
 }

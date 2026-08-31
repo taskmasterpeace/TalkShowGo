@@ -59,8 +59,21 @@ function hostSystem(host, beat, evTexts, sharedLaws) {
   const allowed = (beat.allowed_evidence[host.id] || []).map(id => `[${id}] ${evTexts[id] || ''}`).join('\n')
   return [
     `You are ${host.name}, a host on an AI talk show. You are IN a live argument. Output ONLY your next turn.`,
-    `WHO YOU ARE:\n${host.behavioral_core}`,
-    `LINES THAT SOUND LIKE YOU — rhythm and attitude reference ONLY. NEVER repeat or lightly reword ANY of them; invent NEW lines in this voice:\n- ` + host.exemplars.signature_lines.join('\n- '),
+    ...(function renderPrint() {
+      const p = host.print || {}
+      const t = p.things_they_say || host.exemplars || {}
+      const banned = p.lexicon ? (p.lexicon.banned_for_him || p.lexicon.banned_for_her || p.lexicon.banned || []) : []
+      return [
+        `WHO YOU ARE:\n${p.essence || host.behavioral_core || ''}`,
+        p.speech ? `HOW YOU SOUND: tone - ${p.speech.tone}. Pace - ${p.speech.pace}. Register - ${p.speech.register}. Sentence shape - ${p.speech.sentence_shape}. Habits - ${p.speech.delivery_habits}.` : '',
+        p.processing ? `HOW YOU PROCESS INFORMATION (this drives every turn):\n- You notice FIRST: ${p.processing.notices_first}\n- You reason by: ${p.processing.reasons_by}\n- You are convinced by: ${p.processing.convinced_by}\n- You dismiss: ${p.processing.dismisses}\n- Your blind spot (you don't know you have it; it shapes your takes): ${p.processing.blind_spot}\n- Your mind changes: ${p.processing.mind_change}` : '',
+        p.argument ? `HOW YOU ARGUE: attack - ${p.argument.attack}. Questions - ${p.argument.questions}. Concessions - ${p.argument.concession}. Verdicts - ${p.argument.verdict}.` : '',
+        p.emotion ? `YOUR EMOTIONAL SHAPE: default - ${p.emotion.default}. Heat - ${p.emotion.heat_curve}. Humor - ${p.emotion.humor}. Signature move - ${p.emotion.signature_flip}.` : '',
+        p.lexicon ? `YOUR LANGUAGE: registers - ${(p.lexicon.registers || []).join(', ')}. Metaphors only from - ${(p.lexicon.metaphor_pools || []).join('; ')}. NEVER use: ${banned.join(', ') || 'n/a'}.` : '',
+        `LINES THAT SOUND LIKE YOU — rhythm and attitude reference ONLY. NEVER repeat or lightly reword ANY of them; invent NEW lines in this voice:\n- ` + ((t.signature_lines) || []).join('\n- '),
+        p.contrast ? `YOU ARE NOT THE OTHER HOSTS: ${Object.values(p.contrast).join(' | ')}` : '',
+      ].filter(Boolean)
+    })(),
     `YOUR STANCE THIS BEAT: ${beat.stances[host.id]}`,
     `RECEIPTS YOU ARE ALLOWED TO USE. Put their ids ONLY in the JSON "evidence" array. NEVER speak an id (like E6) out loud in your line - a human would say the FACT, not the label:\n${allowed || '(none - argue from what others say)'}`,
     (beat.protected_facts && beat.protected_facts.length ? `FACT PRECISION (absolute):\n- ` + beat.protected_facts.map(p => p.note).join('\n- ') : ''),
@@ -138,7 +151,7 @@ async function main() {
       }
     }
     const recent = turns.slice(-3).map(t => t.line)
-    const exemplars = hosts[hostId].exemplars.signature_lines
+    const exemplars = hosts[hostId].print?.things_they_say?.signature_lines || hosts[hostId].exemplars?.signature_lines || []
     const ownPast = turns.filter(t => t.id === hostId).map(t => t.line)
     for (const prev of [...recent, ...exemplars, ...ownPast]) if (jaccard(line, prev) > 0.55) return 'your draft repeated the room or your own known lines; say something NEW that advances the argument'
     return null

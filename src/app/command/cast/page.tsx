@@ -14,6 +14,18 @@ export default function CastPage() {
   const [flash, setFlash] = useState<string | null>(null)
   const [vbusy, setVbusy] = useState<string | null>(null)
   const [vmsg, setVmsg] = useState<Record<string, string>>({})
+  const [gName, setGName] = useState(''); const [gDesc, setGDesc] = useState('')
+  const [gBusy, setGBusy] = useState(false); const [gMsg, setGMsg] = useState('')
+  const genGuest = async () => {
+    setGBusy(true); setGMsg('')
+    try {
+      const r = await fetch('/api/command/personality', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: gName, description: gDesc }) })
+      const j = await r.json()
+      setGMsg(j.ok ? `OK — ${j.guest.name} printed (distinct-by-construction)` : 'ERR: ' + j.error)
+      if (j.ok) { setGName(''); setGDesc('') }
+    } finally { setGBusy(false); reload() }
+  }
+  const delGuest = async (id: string) => { await fetch('/api/command/personality', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) }); reload() }
   const designVoice = async (hostId: string) => {
     setVbusy(hostId); setVmsg(m => ({ ...m, [hostId]: '' }))
     try {
@@ -57,6 +69,36 @@ export default function CastPage() {
         <Flash msg={flash} />
         <span className="cmd-kbd">MODEL + TEMP + PERSONA + REF VOICE + PORTRAIT = ONE HOST</span>
       </div>
+
+      {/* GUESTS — generated personalities for show types that seat them */}
+      <section className="cmd-panel">
+        <div className="cmd-h justify-between">
+          <div className="flex items-center gap-3"><div className="vu"><i /><i /><i /><i /></div><h2>GUESTS — GENERATE A PERSONALITY</h2></div>
+        </div>
+        <div className="p-4">
+          <div className="flex gap-2 items-end flex-wrap">
+            <div style={{ minWidth: 180 }}><label className="cmd-label">NAME</label><input className="cmd-input" value={gName} onChange={e => setGName(e.target.value)} placeholder="e.g. Pastor Cee" /></div>
+            <div className="flex-1" style={{ minWidth: 320 }}><label className="cmd-label">WHO ARE THEY (one or two sentences)</label><input className="cmd-input" value={gDesc} onChange={e => setGDesc(e.target.value)} placeholder="e.g. a retired battle rap league security chief who saw everything backstage for 15 years and trusts nobody's public story" /></div>
+            <button className="cmd-btn" disabled={gBusy || !gName || !gDesc} onClick={genGuest}>{gBusy ? 'GENERATING…' : '✦ GENERATE PRINT'}</button>
+          </div>
+          {gMsg && <div className="cmd-kbd mt-2" style={{ color: gMsg.startsWith('OK') ? 'var(--cmd-green)' : 'var(--cmd-amber)' }}>{gMsg}</div>}
+          {(state.guests || []).length > 0 && (
+            <div className="grid grid-cols-3 gap-3 mt-4">
+              {(state.guests || []).map((g: any) => (
+                <div key={g.id} className="border p-3" style={{ borderColor: 'var(--cmd-line)' }}>
+                  <div className="flex items-center justify-between">
+                    <span className="cmd-display">{g.name?.toUpperCase()}</span>
+                    <button className="chip err" style={{ cursor: 'pointer' }} onClick={() => delGuest(g.id)}>✕</button>
+                  </div>
+                  <div className="text-xs mt-1" style={{ color: 'var(--cmd-dim)' }}>{g.print?.essence}</div>
+                  {g.print?.processing?.blind_spot && <div className="cmd-kbd mt-1"><span style={{ color: 'var(--cmd-red)' }}>BLIND SPOT:</span> {g.print.processing.blind_spot}</div>}
+                  {g.voice?.aesthetic && <div className="cmd-kbd mt-1 truncate" title={g.voice.aesthetic}>🎙 {g.voice.aesthetic.slice(0, 60)}…</div>}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
 
       <div className="grid grid-cols-3 gap-4">
         {(cast.hosts || []).map((h: any) => {
@@ -122,10 +164,17 @@ export default function CastPage() {
                 ))}
               </div>
 
-              {/* PERSONA CORE */}
+              {/* PERSONALITY PRINT */}
               <div className="p-3 flex-1">
-                <div className="cmd-label">BEHAVIORAL CORE (EDIT = NEW PERSONA VERSION)</div>
-                <textarea className="cmd-textarea text-xs" rows={7} defaultValue={h.behavioral_core} onBlur={e => e.target.value !== h.behavioral_core && patchHost(h.id, { behavioral_core: e.target.value })} />
+                <div className="cmd-label">PRINT v{h.persona_version} — ESSENCE (full print in cast.json; edit = new version)</div>
+                <textarea className="cmd-textarea text-xs" rows={3} defaultValue={h.print?.essence || ''} onBlur={e => e.target.value !== h.print?.essence && patchHost(h.id, { print: { ...h.print, essence: e.target.value } })} />
+                {h.print?.processing && (
+                  <div className="mt-2 text-xs space-y-1" style={{ color: 'var(--cmd-dim)' }}>
+                    <div><span style={{ color: 'var(--cmd-amber)' }}>NOTICES FIRST:</span> {h.print.processing.notices_first}</div>
+                    <div><span style={{ color: 'var(--cmd-amber)' }}>REASONS BY:</span> {h.print.processing.reasons_by}</div>
+                    <div><span style={{ color: 'var(--cmd-red)' }}>BLIND SPOT:</span> {h.print.processing.blind_spot}</div>
+                  </div>
+                )}
               </div>
             </section>
           )

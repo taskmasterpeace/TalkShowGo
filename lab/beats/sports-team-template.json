@@ -1,0 +1,36 @@
+{
+  "id": "sports-team-template",
+  "name": "Your Team (template)",
+  "status": "template",
+  "description": "TEMPLATE BEAT - Robert's sports vision (2026-08-31): follow ANY sports team and get custom AI shows about them. Copy this file per team (e.g. lakers.json), fill the slots, verify, pull, mine, show. Same machine, different plugs - proof the show-maker generalizes to sports.",
+  "show": {
+    "name": "THE HUDDLE",
+    "tagline": "Your team, every day, like you were in the building",
+    "timespan_hours": 24,
+    "format_bias": "auto",
+    "show_type": "head-to-head",
+    "intro": { "enabled": true, "template": "Score/record check in one breath, then the day's biggest storyline as a topic card." },
+    "outro": { "enabled": true, "template": "Next game countdown + one bold prediction the comments can hold us to." }
+  },
+  "cases": [
+    { "id": "season-arc", "title": "The Season", "context": "Standing case: playoff math, trade rumors, locker-room storylines. Fill per team.", "status": "template" }
+  ],
+  "_fill_guide": "TWITTER: the team's official account, 2-3 beat writers (the local paper's team reporter), 1-2 credible fan/insider accounts. YOUTUBE: the team's channel, the local sports-radio station's channel, 1-2 team-focused creators. RSS: local paper's team feed + Google News RSS query for the team name.",
+  "sources": {
+    "twitter": [
+      { "handle": null, "label": "SLOT: official team account", "type": "media", "priority": 1, "status": "template" },
+      { "handle": null, "label": "SLOT: beat writer #1 (local paper)", "type": "blogger", "priority": 1, "status": "template" },
+      { "handle": null, "label": "SLOT: beat writer #2 / insider", "type": "blogger", "priority": 1, "status": "template" },
+      { "handle": null, "label": "SLOT: credible fan account", "type": "fan", "priority": 2, "status": "template" }
+    ],
+    "youtube": [
+      { "channel_name": null, "label": "SLOT: official team channel", "type": "media", "priority": 1, "status": "template" },
+      { "channel_name": null, "label": "SLOT: local sports radio/TV", "type": "media", "priority": 1, "status": "template" },
+      { "channel_name": null, "label": "SLOT: team-focused creator", "type": "blogger", "priority": 2, "status": "template" }
+    ],
+    "rss": [
+      { "label": "SLOT: Google News RSS for the team", "url": "https://news.google.com/rss/search?q=%22TEAM+NAME%22&hl=en-US&gl=US&ceid=US:en", "note": "replace TEAM NAME; published feeds only, never hostile-crawl" }
+    ],
+    "web": []
+  }
+}
