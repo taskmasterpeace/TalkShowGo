@@ -27,13 +27,20 @@ const stripThink = s => s.replace(/<think>[\s\S]*?<\/think>/g, '').trim()
 function readEnvKey(name) { try { const m = fs.readFileSync(path.join(ROOT, '.env'), 'utf8').match(new RegExp('^' + name + '=(.+)$', 'm')); return m ? m[1].trim() : null } catch { return null } }
 
 // ---------- providers ----------
-async function callOllama(model, system, user, temperature, num_predict = 160) {
-  const res = await fetch(OLLAMA + '/api/chat', {
-    method: 'POST', headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model, stream: false, think: false, messages: [{ role: 'system', content: system }, { role: 'user', content: user }], options: { temperature, num_predict } }),
-  })
-  if (!res.ok) throw new Error('ollama ' + res.status + ' ' + (await res.text()).slice(0, 200))
-  return stripThink((await res.json()).message.content)
+async function callOllama(model, system, user, temperature, num_predict = 160, jsonFormat = false) {
+  // qwen3 on this Ollama build leaks reasoning into content despite think:false; /no_think is the reliable switch
+  const sys = /^qwen3/.test(model) ? system + '\n/no_think' : system
+  const body = { model, stream: false, think: false, messages: [{ role: 'system', content: sys }, { role: 'user', content: user }], options: { temperature, num_predict } }
+  if (jsonFormat) body.format = 'json'
+  let lastErr
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      const res = await fetch(OLLAMA + '/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      if (!res.ok) throw new Error('ollama ' + res.status + ' ' + (await res.text()).slice(0, 200))
+      return stripThink((await res.json()).message.content)
+    } catch (e) { lastErr = e; console.error(`  retry ${attempt}/3 after: ${e.message}`); await new Promise(r => setTimeout(r, attempt * 4000)) }
+  }
+  throw lastErr
 }
 async function callRequesty(system, user, temperature, max_tokens = 200) {
   const key = readEnvKey('REQUESTY_API_KEY'); if (!key) throw new Error('no REQUESTY_API_KEY in .env')
@@ -45,7 +52,7 @@ async function callRequesty(system, user, temperature, max_tokens = 200) {
   if (!res.ok) throw new Error('requesty ' + res.status + ' ' + (await res.text()).slice(0, 200))
   return (await res.json()).choices[0].message.content.trim()
 }
-const call = (hostId, system, user, temperature, n) => PROVIDER === 'requesty' ? callRequesty(system, user, temperature, n) : callOllama(MODELS[hostId] || MODELS['_mix'], system, user, temperature, n)
+const call = (hostId, system, user, temperature, n, jsonFormat = true) => PROVIDER === 'requesty' ? callRequesty(system, user, temperature, n) : callOllama(MODELS[hostId] || MODELS['_mix'], system, user, temperature, n, jsonFormat)
 
 // ---------- prompt assembly ----------
 function hostSystem(host, beat, evTexts, sharedLaws) {
@@ -135,7 +142,7 @@ async function main() {
   const mixSys = `You are a dialogue editor making an AI talk-show transcript sound like REAL recorded conversation. Rules:\n- Keep every speaker name line format: NAME [tag] (delivery): line\n- Inject sparingly (not every line): fillers, false starts, self-corrections, repeated words when heated\n- Truncate 2-3 lines mid-clause where the next speaker cuts in; tag that next line [interrupting] or [overlapping]\n- Vary turn lengths harder: make short lines SHORTER\n- Keep ALL [E##] evidence tags exactly where they are. Do NOT add facts, receipts, or new claims. Do NOT add or remove speakers.\n- No em-dashes anywhere. Keep it the same length or slightly shorter.\nOutput ONLY the transcript.`
   let finalMd = rawMd
   try {
-    const mixed = PROVIDER === 'requesty' ? await callRequesty(mixSys, rawMd, 0.7, 1600) : await callOllama(MODELS['_mix'], mixSys, rawMd, 0.7, 1600)
+    const mixed = PROVIDER === 'requesty' ? await callRequesty(mixSys, rawMd, 0.7, 1600) : await callOllama(MODELS['_mix'], mixSys, rawMd, 0.7, 1600, false)
     const evCountRaw = (rawMd.match(/\[E\d+\]/g) || []).length, evCountMix = (mixed.match(/\[E\d+\]/g) || []).length
     if (evCountMix >= Math.floor(evCountRaw * 0.7) && mixed.split('\n').filter(l => /^[A-Z]{2,}/.test(l)).length >= turns.length * 0.7) {
       finalMd = `# FLOOR MIXED — ${beat.id}\n\n` + mixed.trim() + '\n'
