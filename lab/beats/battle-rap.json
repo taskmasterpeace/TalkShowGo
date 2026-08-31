@@ -6,24 +6,135 @@
   "_law": "Handles rot, userIds don't. Source-verify resolves each handle via user/info BEFORE first ingest and monthly after, and STORES the userId - all polling runs on userId, never userName. Never assume a seed handle is current.",
   "sources": {
     "twitter": [
-      { "handle": "uraboratv", "label": "URL / Ultimate Rap League", "type": "league", "priority": 1, "status": "STALE - user/info returned not-found 2026-08-31; try candidates", "candidates": ["urltv"] },
-      { "handle": "KingOfTheDot", "label": "King of the Dot", "type": "league", "priority": 1, "status": "unverified" },
-      { "handle": "RBE_studios", "label": "Rare Breed Entertainment", "type": "league", "priority": 1, "status": "unverified" },
-      { "handle": "JayBlac1615", "label": "Jay Blac (Champion)", "type": "blogger", "priority": 1, "status": "unverified" },
-      { "handle": "15MOFE", "label": "15 Minutes of Fame", "type": "league", "priority": 2, "status": "unverified" },
-      { "handle": "HipHopIsReal", "label": "HHIR", "type": "media", "priority": 2, "status": "unverified" },
-      { "handle": "champduane", "label": "Duane (Champion)", "type": "blogger", "priority": 2, "status": "unverified" },
-      { "handle": "AngryFan007", "label": "Angry Fan", "type": "blogger", "priority": 2, "status": "unverified" },
-      { "handle": "islandgodverb", "label": "Aye Verb", "type": "battler", "priority": 2, "status": "verified-from-our-records 2026" }
+      {
+        "handle": "urltv",
+        "label": "URL / Ultimate Rap League",
+        "type": "league",
+        "priority": 1,
+        "status": "VERIFIED 2026-08-31",
+        "candidates": [
+          "urltv"
+        ],
+        "userId": "82923436",
+        "followers": 163225,
+        "display_name": "Ultimate Rap League"
+      },
+      {
+        "handle": "KingOfTheDot",
+        "label": "King of the Dot",
+        "type": "league",
+        "priority": 1,
+        "status": "VERIFIED 2026-08-31",
+        "userId": "33541317",
+        "followers": 60337,
+        "display_name": "KOTDTV.com"
+      },
+      {
+        "handle": "RBE_studios",
+        "label": "Rare Breed Entertainment",
+        "type": "league",
+        "priority": 1,
+        "status": "NOT FOUND 2026-08-31 - needs a human to find the current handle"
+      },
+      {
+        "handle": "JayBlac1615",
+        "label": "Jay Blac (Champion)",
+        "type": "blogger",
+        "priority": 1,
+        "status": "VERIFIED 2026-08-31",
+        "userId": "295173548",
+        "followers": 53539,
+        "display_name": "Blac Kellerman"
+      },
+      {
+        "handle": "15MOFE",
+        "label": "15 Minutes of Fame",
+        "type": "league",
+        "priority": 2,
+        "status": "VERIFIED 2026-08-31",
+        "userId": "282291050",
+        "followers": 1721,
+        "display_name": "15 MinutesOfFame Ent"
+      },
+      {
+        "handle": "HipHopIsReal",
+        "label": "HHIR",
+        "type": "media",
+        "priority": 2,
+        "status": "VERIFIED 2026-08-31",
+        "userId": "165942201",
+        "followers": 4,
+        "display_name": "HipHop IsReal"
+      },
+      {
+        "handle": "champduane",
+        "label": "Duane (Champion)",
+        "type": "blogger",
+        "priority": 2,
+        "status": "NOT FOUND 2026-08-31 - needs a human to find the current handle"
+      },
+      {
+        "handle": "AngryFan007",
+        "label": "Angry Fan",
+        "type": "blogger",
+        "priority": 2,
+        "status": "NOT FOUND 2026-08-31 - needs a human to find the current handle"
+      },
+      {
+        "handle": "islandgodverb",
+        "label": "Aye Verb",
+        "type": "battler",
+        "priority": 2,
+        "status": "VERIFIED 2026-08-31",
+        "userId": "1465697795558440978",
+        "followers": 31936,
+        "display_name": "VEEZY"
+      }
     ],
     "youtube": [
-      { "channel_name": "URLTV", "type": "league", "priority": 1, "status": "unverified" },
-      { "channel_name": "King Of The Dot Entertainment", "type": "league", "priority": 1, "status": "unverified" },
-      { "channel_name": "Rare Breed Entertainment", "type": "league", "priority": 1, "status": "unverified" },
-      { "channel_name": "Jayblac1615", "type": "blogger", "priority": 1, "status": "unverified" },
-      { "channel_name": "No Studio'N Network", "type": "blogger", "priority": 2, "status": "unverified" },
-      { "channel_name": "HipHopIsReal", "type": "interviews", "priority": 2, "status": "unverified" },
-      { "channel_name": "VladTV", "type": "interviews", "priority": 3, "status": "unverified", "note": "battle-rap content only" }
+      {
+        "channel_name": "URLTV",
+        "type": "league",
+        "priority": 1,
+        "status": "unverified"
+      },
+      {
+        "channel_name": "King Of The Dot Entertainment",
+        "type": "league",
+        "priority": 1,
+        "status": "unverified"
+      },
+      {
+        "channel_name": "Rare Breed Entertainment",
+        "type": "league",
+        "priority": 1,
+        "status": "unverified"
+      },
+      {
+        "channel_name": "Jayblac1615",
+        "type": "blogger",
+        "priority": 1,
+        "status": "unverified"
+      },
+      {
+        "channel_name": "No Studio'N Network",
+        "type": "blogger",
+        "priority": 2,
+        "status": "unverified"
+      },
+      {
+        "channel_name": "HipHopIsReal",
+        "type": "interviews",
+        "priority": 2,
+        "status": "unverified"
+      },
+      {
+        "channel_name": "VladTV",
+        "type": "interviews",
+        "priority": 3,
+        "status": "unverified",
+        "note": "battle-rap content only"
+      }
     ],
     "rss": [],
     "web": []
