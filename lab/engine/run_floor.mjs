@@ -60,17 +60,25 @@ function hostSystem(host, beat, evTexts, sharedLaws) {
   return [
     `You are ${host.name}, a host on an AI talk show. You are IN a live argument. Output ONLY your next turn.`,
     `WHO YOU ARE:\n${host.behavioral_core}`,
-    `LINES THAT SOUND LIKE YOU (imitate the VOICE, do not repeat them):\n- ` + host.exemplars.signature_lines.join('\n- '),
+    `LINES THAT SOUND LIKE YOU — rhythm and attitude reference ONLY. NEVER repeat or lightly reword ANY of them; invent NEW lines in this voice:\n- ` + host.exemplars.signature_lines.join('\n- '),
     `YOUR STANCE THIS BEAT: ${beat.stances[host.id]}`,
     `RECEIPTS YOU ARE ALLOWED TO USE (cite id in brackets when you use one):\n${allowed || '(none - argue from what others say)'}`,
-    `HARD RULES:\n- 1 to 3 sentences, at most ~40 words. Shorter is stronger.\n- Spoken register: contractions, informal grammar fine. This is talk, not writing.\n- NEVER use facts outside your receipts. Opinion is free but must SOUND like opinion because of who you are, never hedged.\n- No em-dashes. Max ONE catchphrase per episode: ${JSON.stringify(host.catchphrase_rare)} (you have probably already used it, so avoid).\n- Respond to what was ACTUALLY just said. Push back. Do not summarize. Do not validate by default.`,
+    `HARD RULES:\n- 1 to 3 sentences, at most ~${Math.round(28 * host.behavior.verbosity + 12)} words. Shorter is stronger.\n- Spoken register: contractions, informal grammar fine. This is talk, not writing.\n- NEVER use facts outside your receipts. Opinion is free but must SOUND like opinion because of who you are, never hedged.\n- No em-dashes. Max ONE catchphrase per episode: ${JSON.stringify(host.catchphrase_rare)} (you have probably already used it, so avoid).\n- Respond to what was ACTUALLY just said. Push back. Do not summarize. Do not validate by default.`,
     `OUTPUT STRICT JSON, nothing else: {"line":"what you say","delivery":"3-6 word emotional direction","addressed_to":"marcus-blaze|tasha-raw|king-knowledge|null","evidence":["E6"]}`,
   ].join('\n\n')
 }
 function parseTurn(raw) {
-  try { const m = raw.match(/\{[\s\S]*\}/); if (m) { const j = JSON.parse(m[0]); if (j.line) return { line: String(j.line), delivery: String(j.delivery || 'level'), addressed_to: j.addressed_to || null, evidence: Array.isArray(j.evidence) ? j.evidence : [] } } } catch {}
+  try {
+    const m = raw.match(/\{[\s\S]*\}/)
+    if (m) {
+      let j = JSON.parse(m[0])
+      // models sometimes double-wrap: {"line":"{\"line\":\"...\"}"}
+      for (let i = 0; i < 3 && typeof j.line === 'string' && j.line.trim().startsWith('{') && j.line.includes('"line"'); i++) { try { j = JSON.parse(j.line) } catch { break } }
+      if (j.line && !String(j.line).trim().startsWith('{')) return { line: String(j.line), delivery: String(j.delivery || 'level'), addressed_to: j.addressed_to || null, evidence: Array.isArray(j.evidence) ? j.evidence : [] }
+    }
+  } catch {}
   const line = raw.replace(/^["'\s]+|["'\s]+$/g, '').split('\n')[0].slice(0, 300)
-  return { line, delivery: 'level', addressed_to: null, evidence: [] }
+  return { line: line.startsWith('{') ? '(unusable turn)' : line, delivery: 'level', addressed_to: null, evidence: [] }
 }
 
 // ---------- main ----------
@@ -95,7 +103,9 @@ async function main() {
   async function speak(hostId, instruction, tag) {
     const host = hosts[hostId]
     const sys = hostSystem(host, beat, evTexts, laws)
-    const user = `TRANSCRIPT SO FAR:\n${transcript() || '(you open the beat)'}\n\n${instruction ? 'DIRECTOR NOTE (obey it): ' + instruction + '\n\n' : ''}Your next turn ONLY. JSON only.`
+    const mine = turns.filter(t => t.id === hostId).map(t => '"' + t.line + '"')
+    const antiRepeat = `ANTI-REPEAT (absolute): do not repeat any phrase already in the transcript, yours or theirs. ADVANCE the argument with something NEW: a new angle, a new consequence, a concession-then-counter.` + (mine.length ? `\nLines you already said (never reuse their phrasing): ${mine.slice(-4).join(' ')}` : '')
+    const user = `TRANSCRIPT SO FAR:\n${transcript() || '(you open the beat)'}\n\n${antiRepeat}\n\n${instruction ? 'DIRECTOR NOTE (obey it): ' + instruction + '\n\n' : ''}Your next turn ONLY. JSON only.`
     const t0 = Date.now()
     const raw = await call(hostId, sys, user, host.model.temperature)
     const t = parseTurn(raw)
@@ -108,10 +118,16 @@ async function main() {
     turns.push({ id: hostId, name: host.name.toUpperCase(), line: pool[Math.floor(rand() * pool.length)], delivery: 'under them', addressed_to: null, evidence: [], tag: null, ms: 0 })
     console.error(`      ${hostId} backchannel`)
   }
+  let pendingReact = null
   function pickNext() {
     const last = turns[turns.length - 1]
+    if (pendingReact) { const p = pendingReact; pendingReact = null; return p }
     const forced = beat.withheld.find(w => !detonated.has(w.evidence) && turnNo >= w.turn)
-    if (forced) { detonated.add(forced.evidence); return { id: forced.host, instruction: forced.instruction, tag: 'interrupting' } }
+    if (forced) {
+      detonated.add(forced.evidence)
+      if (beat.detonation_react) pendingReact = { id: beat.detonation_react.host, instruction: beat.detonation_react.instruction, tag: null }
+      return { id: forced.host, instruction: forced.instruction + ' The receipt, verbatim from the ledger: "' + (evTexts[forced.evidence] || '') + '"', tag: 'interrupting' }
+    }
     if (!kkDropped && (turnNo >= beat.kk_drop.after_turn || spoken >= beat.target_spoken_words * 0.85)) { kkDropped = true; return { id: beat.kk_drop.host, instruction: beat.kk_drop.instruction, tag: null } }
     if (last && last.addressed_to && hosts[last.addressed_to] && last.addressed_to !== last.id && rand() < 0.75) return { id: last.addressed_to }
     const cands = cast.hosts.filter(h => h.id !== (last && last.id) && !(h.id === beat.kk_drop.host && !kkDropped))
@@ -139,7 +155,7 @@ async function main() {
   fs.writeFileSync(path.join(outDir, 'segment_raw.md'), rawMd)
 
   // MIX — messiness pass
-  const mixSys = `You are a dialogue editor making an AI talk-show transcript sound like REAL recorded conversation. Rules:\n- Keep every speaker name line format: NAME [tag] (delivery): line\n- Inject sparingly (not every line): fillers, false starts, self-corrections, repeated words when heated\n- Truncate 2-3 lines mid-clause where the next speaker cuts in; tag that next line [interrupting] or [overlapping]\n- Vary turn lengths harder: make short lines SHORTER\n- Keep ALL [E##] evidence tags exactly where they are. Do NOT add facts, receipts, or new claims. Do NOT add or remove speakers.\n- No em-dashes anywhere. Keep it the same length or slightly shorter.\nOutput ONLY the transcript.`
+  const mixSys = `You are a dialogue editor making an AI talk-show transcript sound like REAL recorded conversation. Rules:\n- Keep every speaker name line format: NAME [tag] (delivery): line\n- Inject sparingly (not every line): fillers, false starts, self-corrections, repeated words when heated\n- Truncate 2-3 lines mid-clause where the next speaker cuts in; tag that next line [interrupting] or [overlapping]\n- Vary turn lengths harder: make short lines SHORTER\n- Keep ALL [E##] evidence tags exactly where they are. Do NOT add facts, receipts, or new claims. Do NOT add or remove speakers.\n- KEEP EVERY TURN. Total length must stay within 10% of the input. You may split a line with an interruption but never delete content.\n- No em-dashes anywhere (replace any you see with a period or '...').\nOutput ONLY the transcript.`
   let finalMd = rawMd
   try {
     const mixed = PROVIDER === 'requesty' ? await callRequesty(mixSys, rawMd, 0.7, 1600) : await callOllama(MODELS['_mix'], mixSys, rawMd, 0.7, 1600, false)

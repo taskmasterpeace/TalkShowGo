@@ -1,0 +1,242 @@
+[
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "That's a receipt. And the Uber was free. Both true, Marcus.",
+    "delivery": "surgical, flat",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1334
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Free Uber? No. He gave them snacks AND water AND paid the ride. That's grace, not generosity. [E6]",
+    "delivery": "smirking fiercely",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1251
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Grace? You paid for the gate.",
+    "delivery": "smirking fierce",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": "interrupting",
+    "ms": 831
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Grace? Honey, he gave them snacks, water, and Uber. That's humanity, not gatekeeping. [E6]",
+    "delivery": "smirking fierce",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 875
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "That's a BROCHURE, and the gate is on the cover.",
+    "delivery": "surgical, flat",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": "interrupting",
+    "ms": 865
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "BROCHURE? He gave them snacks AND water AND Uber! [E6] You're the one making it a pamphlet of hate!",
+    "delivery": "defiantly sarcastic",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 994
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "That's real. That's up RIGHT NOW.",
+    "delivery": "surgical, flat",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 684
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "somebody sent me that copycat comment",
+    "delivery": "flat, even",
+    "addressed_to": "null",
+    "evidence": [
+      "E14"
+    ],
+    "tag": "interrupting",
+    "ms": 599
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "{\"line\":\"That's a BROCHURE? You're calling a HUMAN BEING a pamphlet? [E6]\",\"delivery\":\"disgusted, sharp\",\"addressed_to\":\"tasha-raw\",\"evidence\":[\"E6\"],\"evidence_id\":[\"E6\"],\"tone\":\"furious\",\"word_count\":18,\"response_to\":\"TASHA RAW [interrupting] (flat, even): somebody sent me that copycat comment\",\"co",
+    "delivery": "level",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": "interrupting",
+    "ms": 2254
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "That's a receipt. And the gate is on the cover.",
+    "delivery": "surgical, flat",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": "interrupting",
+    "ms": 768
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "{\"line\":\"A RECE... NO. THAT'S A HUMAN BEING. [E6]\",\"delivery\":\"disgusted, sharp\",\"addressed_to\":\"tasha-raw\",\"evidence\":[\"E6\"],\"evidence_id\":[\"E6\"],\"tone\":\"furious\",\"word_count\":8,\"response_to\":\"TASHA RAW [interrupting] (surgical, flat): That's a receipt. And the gate is on the cover.\",\"co\":null,\"has",
+    "delivery": "level",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 2262
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Mmhm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "{\"line\":\"Mm. And hold that detail, because I'm coming back to it.\",\"delivery\":\"calm, measured\",\"addressed_to\":\"null\",\"evidence\":[],\"evidence_id\":[],\"tone\":\"neutral\",\"word_count\":7,\"response_to\":\"TASHA RAW (under them): Mmhm.\",\"co\":null,\"has\":\"true\",\"is_silent\":true,\"is_backchannel\":true,\"is_verbally",
+    "delivery": "level",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 2663
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "A RECE... NO. NO NO NO. That's a HUMAN BEING. [E6]",
+    "delivery": "disgusted, sharp",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": "interrupting",
+    "ms": 932
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "He gave them water, Marcus.",
+    "delivery": "surgical, flat",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 776
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "{\"line\":\"You hearing this?? She agrees with the man and prosecutes him in the same breath! [E6]\",\"delivery\":\"mocking, incredulous\",\"addressed_to\":\"tasha-raw\",\"evidence\":[\"E6\"],\"evidence_id\":[\"E6\"],\"tone\":\"annoyed\",\"word_count\":12,\"response_to\":\"TASHA RAW (surgical, flat): He gave them water, Marcus.",
+    "delivery": "level",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 2270
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "That's real. That's up RIGHT NOW.",
+    "delivery": "surgical, flat",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": "interrupting",
+    "ms": 772
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "THANK you! Court adjourned... [E6]",
+    "delivery": "triumphant, sarcastic",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1008
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "E6's a BROCHURE. Gate's on the cover.",
+    "delivery": "surgical, flat",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 800
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You hearing this?? She agrees with the man and prosecutes him in the same breath! [E6]",
+    "delivery": "mocking, incredulous",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E6"
+    ],
+    "tag": null,
+    "ms": 1500
+  }
+]
