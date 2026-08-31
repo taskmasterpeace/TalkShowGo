@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { useCmdState, saveBeat, Flash } from '../lib'
+import { useCmdState, saveBeat, Flash, useBeat, BeatPicker } from '../lib'
 
 export default function Sources() {
   const { state, reload } = useCmdState()
@@ -8,8 +8,9 @@ export default function Sources() {
   const [flash, setFlash] = useState<string | null>(null)
   const [log, setLog] = useState<string[]>([])
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { beat, beats, pick } = useBeat(state)
   if (!state) return <div className="p-8 cmd-kbd">LOADING SOURCES...</div>
-  const beat = state.beats[0]
   if (!beat) return <div className="p-8 cmd-kbd">NO BEAT LOADED</div>
   const tw = beat.sources.twitter || []
   const yt = beat.sources.youtube || []
@@ -64,6 +65,7 @@ export default function Sources() {
     <div className="p-6 space-y-5">
       <div className="flex items-center gap-4">
         <span className="cmd-display text-lg" style={{ letterSpacing: '0.1em' }}>SOURCES — {beat.name?.toUpperCase()}</span>
+        <BeatPicker beats={beats} beat={beat} pick={pick} />
         <Flash msg={flash} />
       </div>
 
@@ -80,7 +82,7 @@ export default function Sources() {
             <thead><tr><th>HANDLE</th><th /><th>LABEL</th><th>TYPE</th><th>PRI</th><th>FOLLOWERS</th><th>LAST 24H</th><th>USER ID</th><th>STATUS</th><th /></tr></thead>
             <tbody>
               {tw.map((s: any, i: number) => (
-                <tr key={i}>
+                <tr key={`${beat.file}:tw:${i}:${s.handle}`}>
                   <td style={{ minWidth: 150 }}><div className="flex items-center gap-1"><span style={{ color: 'var(--cmd-faint)' }}>@</span>
                     <input className="cmd-input" style={{ border: 'none', padding: '2px 4px', background: 'transparent' }} defaultValue={s.handle} onBlur={e => e.target.value !== s.handle && patchTw(i, { handle: e.target.value })} /></div></td>
                   <td>{s.handle && <a href={`https://x.com/${s.handle}`} target="_blank" rel="noreferrer" className="chip info" style={{ textDecoration: 'none' }} title={`open x.com/${s.handle} - eyeball it's the right account`}>↗</a>}</td>
@@ -120,7 +122,7 @@ export default function Sources() {
             <thead><tr><th>CHANNEL</th><th /><th>TYPE</th><th>PRI</th><th>RESOLVED</th><th>HANDLE</th><th>LAST 24H</th><th>STATUS</th><th /></tr></thead>
             <tbody>
               {yt.map((c: any, i: number) => (
-                <tr key={i}>
+                <tr key={`${beat.file}:yt:${i}:${c.channel_name}`}>
                   <td style={{ minWidth: 190 }}><input className="cmd-input" style={{ border: 'none', padding: '2px 4px', background: 'transparent' }} defaultValue={c.channel_name} onBlur={e => e.target.value !== c.channel_name && patchYt(i, { channel_name: e.target.value })} /></td>
                   <td>{c.channel_id && <a href={`https://www.youtube.com/channel/${c.channel_id}`} target="_blank" rel="noreferrer" className="chip info" style={{ textDecoration: 'none' }} title="open the channel - eyeball it's the right one">↗</a>}</td>
                   <td>

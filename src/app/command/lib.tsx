@@ -27,6 +27,28 @@ export function useCmdState() {
   return { state, err, reload }
 }
 
+export function useBeat(state: CmdState | null) {
+  const [beatFile, setBeatFile] = useState<string | null>(null)
+  useEffect(() => { try { const s = localStorage.getItem('tsg_beat'); if (s) setBeatFile(s) } catch {} }, [])
+  const beats = state?.beats || []
+  const beat = beats.find(b => b.file === beatFile) || beats[0] || null
+  const pick = (f: string) => { setBeatFile(f); try { localStorage.setItem('tsg_beat', f) } catch {} }
+  return { beat, beats, pick }
+}
+
+export function BeatPicker({ beats, beat, pick }: { beats: any[]; beat: any; pick: (f: string) => void }) {
+  if (beats.length < 2) return null
+  return (
+    <div className="flex gap-1">
+      {beats.map(b => (
+        <button key={b.file} className={`chip ${beat?.file === b.file ? 'err' : ''}`} style={{ cursor: 'pointer' }} onClick={() => pick(b.file)}>
+          {(b.show?.name || b.name || b.id).toUpperCase()}
+        </button>
+      ))}
+    </div>
+  )
+}
+
 export async function saveBeat(file: string, beat: any) {
   const r = await fetch('/api/command/beat', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ file, beat }) })
   if (!r.ok) throw new Error('save failed')

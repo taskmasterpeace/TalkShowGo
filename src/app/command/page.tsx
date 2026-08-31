@@ -1,7 +1,7 @@
 'use client'
 import { useState } from 'react'
 import Link from 'next/link'
-import { useCmdState, saveBeat, Flash } from './lib'
+import { useCmdState, saveBeat, Flash, useBeat, BeatPicker } from './lib'
 
 function TopicsPanel({ topics, onMine, busy }: { topics: any; onMine: () => void; busy: boolean }) {
   return (
@@ -54,8 +54,9 @@ export default function Desk() {
     } finally { setBusy2(false) }
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { beat, beats, pick } = useBeat(state)
   if (!state) return <div className="p-8 cmd-kbd">BOOTING DESK...</div>
-  const beat = state.beats[0] || null
   const show = beat?.show || {}
   const tw = beat?.sources?.twitter || []
   const yt = beat?.sources?.youtube || []
@@ -91,7 +92,10 @@ export default function Desk() {
           <span className={`lamp ${lamp(state.health.gateway)}`}><i />CUPCAKE GATEWAY</span>
           <span className={`lamp ${state.health.breeze_refs ? 'on' : 'warn'}`}><i />BREEZE CAST</span>
         </div>
-        <div className="onair"><i />BATTLE RAP · MANUAL</div>
+        <div className="flex items-center gap-3">
+          <BeatPicker beats={beats} beat={beat} pick={pick} />
+          <div className="onair"><i />{(beat?.name || '').toUpperCase()} · MANUAL</div>
+        </div>
       </div>
 
       <div className="p-6 grid grid-cols-12 gap-4">

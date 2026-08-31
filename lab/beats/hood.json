@@ -1,0 +1,106 @@
+{
+  "id": "hood",
+  "name": "Hood News",
+  "status": "active",
+  "description": "Hood stuff in general - street news, cases, culture (Robert 2026-08-31: 'the hood people'). Specific cases (Lil Durk) fall UNDER this beat as tracked cases. Sister-channel alignment: Hood History Club.",
+  "show": {
+    "name": "THE BLOCK REPORT",
+    "tagline": "Street news, receipts first",
+    "timespan_hours": 24,
+    "format_bias": "auto",
+    "show_type": "the-desk",
+    "intro": {
+      "enabled": true,
+      "template": "Open on the case file: what moved TODAY on the lead case, one line. Then the block rundown."
+    },
+    "outro": {
+      "enabled": true,
+      "template": "What to watch tomorrow on each open case. Out clean."
+    }
+  },
+  "cases": [
+    {
+      "id": "lil-durk-case",
+      "title": "The Lil Durk Case",
+      "context": "Federal case against Durk Banks (Lil Durk): charges, hearings, filings, and trial developments, plus the discourse around them. Track: court dates, motions, witness/cooperator news, statements from Durk's camp, and how the hood-news sphere reads each move. CARE: active serious charges - light touch, charged-vs-convicted explicit, no guilt asserted.",
+      "status": "tracking"
+    }
+  ],
+  "_law": "Handles rot, userIds don't. Source-verify before first ingest. Cases carry their own care lines (active litigation = bright line 4).",
+  "sources": {
+    "twitter": [
+      {
+        "handle": "Akademiks",
+        "label": "DJ Akademiks",
+        "type": "media",
+        "priority": 1,
+        "status": "VERIFIED 2026-08-31",
+        "candidates": [
+          "IamAkademiks",
+          "Akademiks"
+        ],
+        "userId": "32501175",
+        "followers": 1640967,
+        "display_name": "DJ Akademiks"
+      },
+      {
+        "handle": "CeddyNash",
+        "label": "Ceddy Nash (Robert said 'City Nash' - YouTube resolved to Ceddy Nash, the hood-news channel; @CityNash on X was a 108-follower 'cash' account = wrong person)",
+        "type": "blogger",
+        "priority": 1,
+        "status": "NOT FOUND 2026-08-31 - needs a human to find the current handle",
+        "candidates": [
+          "ceddynash",
+          "CeddyNash_",
+          "TheCeddyNash"
+        ]
+      },
+      {
+        "handle": "TrapLoreRoss",
+        "label": "Trap Lore Ross (Robert said 'traveler Ross' - CONFIRM this is the right person via the open link)",
+        "type": "blogger",
+        "priority": 1,
+        "status": "VERIFIED 2026-08-31",
+        "candidates": [
+          "TravRoss",
+          "traplore_ross"
+        ],
+        "userId": "1118170950967676930",
+        "followers": 27319,
+        "display_name": "Trap Lore Ross"
+      }
+    ],
+    "youtube": [
+      {
+        "channel_name": "DJ Akademiks",
+        "type": "media",
+        "priority": 1,
+        "status": "RESOLVED 2026-08-31",
+        "channel_id": "UCg5iO7Pbg7f4gmufzOLD_zA",
+        "resolved_title": "King Akademiks",
+        "subscribers": "@KingAkademiks",
+        "note": "Ak has multiple channels - EYEBALL via the open link whether you want this one or his main uploads channel"
+      },
+      {
+        "channel_name": "City Nash",
+        "type": "blogger",
+        "priority": 1,
+        "status": "RESOLVED 2026-08-31",
+        "channel_id": "UCXlZcnqhfO7RCwMLql91caw",
+        "resolved_title": "Ceddy Nash",
+        "subscribers": "@CeddyNash"
+      },
+      {
+        "channel_name": "Trap Lore Ross",
+        "type": "blogger",
+        "priority": 1,
+        "status": "RESOLVED 2026-08-31",
+        "channel_id": "UCnH8al10BzxCg-N-69Syqjg",
+        "resolved_title": "Trap Lore Ross",
+        "subscribers": "@TrapLoreRoss"
+      }
+    ],
+    "rss": [],
+    "web": []
+  }
+}
