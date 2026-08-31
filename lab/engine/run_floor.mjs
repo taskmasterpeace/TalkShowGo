@@ -110,6 +110,13 @@ async function main() {
     const allowedNums = new Set(allowedText.toLowerCase().replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b/g, m => SPELLED[m]).match(/\d+/g) || [])
     const lineNums = (line.toLowerCase().replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b/g, m => SPELLED[m]).match(/\d+/g) || [])
     for (const n of lineNums) if (!allowedNums.has(n)) return `the number ${n} is not in your receipts; you invented it - drop the number or use a fact you actually hold`
+    // catchphrase law: yours max once per episode, another host's NEVER
+    for (const h of cast.hosts) for (const c of (h.catchphrase_rare || [])) {
+      if (line.toLowerCase().includes(c.toLowerCase())) {
+        if (h.id !== hostId) return `"${c}" is ${h.name}'s signature, not yours - never use another host's words`
+        if (turns.some(t => t.id === hostId && t.line.toLowerCase().includes(c.toLowerCase()))) return `you already used your catchphrase "${c}" this episode - once is the cap`
+      }
+    }
     const recent = turns.slice(-3).map(t => t.line)
     const exemplars = hosts[hostId].exemplars.signature_lines
     const ownPast = turns.filter(t => t.id === hostId).map(t => t.line)
@@ -207,7 +214,7 @@ async function main() {
   fs.writeFileSync(path.join(outDir, 'segment_raw.md'), rawMd)
 
   // MIX — messiness pass
-  const mixSys = `You are a dialogue editor making an AI talk-show transcript sound like REAL recorded conversation. Rules:\n- Keep every speaker name line format: NAME [tag] (delivery): line\n- Inject sparingly (not every line): fillers, false starts, self-corrections, repeated words when heated\n- Truncate 2-3 lines mid-clause where the next speaker cuts in; tag that next line [interrupting] or [overlapping]\n- Vary turn lengths harder: make short lines SHORTER\n- Keep ALL [E##] evidence tags exactly where they are. Do NOT add facts, receipts, or new claims. Do NOT add or remove speakers.\n- KEEP EVERY TURN. Total length must stay within 10% of the input. You may split a line with an interruption but never delete content.\n- No em-dashes anywhere (replace any you see with a period or '...').\nOutput ONLY the transcript.`
+  const mixSys = `You are a dialogue editor making an AI talk-show transcript sound like REAL recorded conversation. Rules:\n- Keep every speaker name line format: NAME [tag] (delivery): line\n- Inject sparingly (not every line): fillers, false starts, self-corrections, repeated words when heated\n- Truncate 2-3 lines mid-clause where the next speaker cuts in; tag that next line [interrupting] or [overlapping]\n- Vary turn lengths harder: make SHORT lines shorter, but NEVER shorten a turn longer than 20 words - long turns are load-bearing\n- Keep every backchannel line (the tiny 'Right.' / 'Mm.' lines) exactly as they are\n- Keep ALL [E##] evidence tags exactly where they are. Do NOT add facts, receipts, or new claims. Do NOT add or remove speakers.\n- KEEP EVERY TURN. Total length must stay within 10% of the input. You may split a line with an interruption but never delete content.\n- No em-dashes anywhere (replace any you see with a period or '...').\nOutput ONLY the transcript.`
   let finalMd = rawMd
   try {
     const mixed = PROVIDER === 'requesty' ? await callRequesty(mixSys, rawMd, 0.7, 1600) : await callOllama(MODELS['_mix'], mixSys, rawMd, 0.7, 1600, false)
