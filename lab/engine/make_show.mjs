@@ -62,10 +62,14 @@ async function main() {
     if (ARG.voice) {
       setStatus('audio', 65, 'rendering voices on Breeze (cupcake) — this is the slow part')
       const mp3 = path.join(showDir, slug + '.mp3')
-      run('render_breeze.mjs', ['segment', segment, mp3], 'audio.log')
-      if (!fs.existsSync(mp3)) throw new Error('render produced no mp3')
+      // Breeze is the approved final voice, but it 409s when the box's video engines hold the GPU.
+      // Fall back to Kokoro (separate service) so a show ALWAYS produces audio.
+      let engine = 'breeze'
+      try { run('render_breeze.mjs', ['segment', segment, mp3], 'audio.log') } catch { engine = '' }
+      if (!fs.existsSync(mp3)) { engine = 'kokoro'; setStatus('audio', 75, 'Breeze unavailable (VRAM) — rendering Kokoro draft'); try { run('render_kokoro.mjs', [segment, mp3], 'audio_kokoro.log') } catch { engine = '' } }
+      if (!fs.existsSync(mp3)) throw new Error('both voice engines failed (Breeze VRAM + Kokoro)')
       let dur = null; try { dur = Math.round(Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', mp3], { encoding: 'utf8' }).trim())) } catch {}
-      setStatus('done', 100, `show ready${dur ? ' — ' + Math.floor(dur / 60) + ':' + String(dur % 60).padStart(2, '0') : ''}`, { question: beat.question, segment, audio: mp3, duration_s: dur, lines: lineCount })
+      setStatus('done', 100, `show ready${dur ? ' — ' + Math.floor(dur / 60) + ':' + String(dur % 60).padStart(2, '0') : ''}${engine === 'kokoro' ? ' (Kokoro draft — Breeze VRAM-blocked)' : ''}`, { question: beat.question, segment, audio: mp3, duration_s: dur, lines: lineCount, voice_engine: engine })
       console.log(mp3)
     } else {
       setStatus('done', 100, 'script ready (no audio requested)', { question: beat.question, segment, lines: lineCount })
