@@ -7,13 +7,22 @@ export const maxDuration = 300
 const ROOT = process.cwd()
 const OLLAMA = process.env.ENGINE_OLLAMA_URL || 'http://192.168.1.249:11434'
 
-/** POST {} — THE TOPIC MINER (stage 2 of PROCESS).
- *  Reads the latest pull report, finds the topics: cross-source OVERLAP (the story),
- *  plus non-overlap follow-ups (birthdays, tags, someone going quiet-loud). Free, on cupcake qwen3:30b. */
-export async function POST() {
+/** POST {file?} — THE TOPIC MINER (stage 2 of PROCESS), PER SHOW.
+ *  Mines the latest pull report FOR THE GIVEN BEAT ONLY (no cross-show bleed):
+ *  cross-source OVERLAP = the story; non-overlap = follow-ups/smalltalk. Free, cupcake qwen3:30b. */
+export async function POST(req: Request) {
+  const { file } = await req.json().catch(() => ({} as any))
+  let beatId: string | null = null
+  if (file && /^[a-z0-9-]+\.json$/.test(file)) {
+    try { beatId = JSON.parse(fs.readFileSync(path.join(ROOT, 'lab', 'beats', file), 'utf8')).id } catch {}
+  }
   const pullsDir = path.join(ROOT, 'lab', 'runs')
-  const pulls = fs.existsSync(pullsDir) ? fs.readdirSync(pullsDir).filter(f => f.startsWith('pull_')).sort().reverse() : []
-  if (!pulls.length) return NextResponse.json({ error: 'no pull report - run PULL first' }, { status: 400 })
+  const allPulls = fs.existsSync(pullsDir) ? fs.readdirSync(pullsDir).filter(f => f.startsWith('pull_')).sort().reverse() : []
+  const pulls = allPulls.filter(f => {
+    if (!beatId) return true
+    try { return JSON.parse(fs.readFileSync(path.join(pullsDir, f), 'utf8')).beat === beatId } catch { return false }
+  })
+  if (!pulls.length) return NextResponse.json({ error: beatId ? `no pull yet for this show (${beatId}) - run PULL first` : 'no pull report - run PULL first' }, { status: 400 })
   const report = JSON.parse(fs.readFileSync(path.join(pullsDir, pulls[0]), 'utf8'))
 
   const material: string[] = []
@@ -39,7 +48,7 @@ Output STRICT JSON only: {"topics":[{"title":"...","overlap_sources":n,"kind":"s
     const mined = JSON.parse(content.match(/\{[\s\S]*\}/)?.[0] || '{}')
     // join item texts back in for the UI
     for (const t of mined.topics || []) t.evidence = (t.items || []).map((i: number) => material[i]).filter(Boolean)
-    const out = { pulled_from: pulls[0], mined_at: new Date().toISOString(), feed_count: material.length, ...mined }
+    const out = { pulled_from: pulls[0], beat: report.beat, mined_at: new Date().toISOString(), feed_count: material.length, ...mined }
     fs.writeFileSync(path.join(pullsDir, pulls[0].replace('pull_', 'topics_')), JSON.stringify(out, null, 2) + '\n')
     return NextResponse.json({ ok: true, ...out })
   } catch (e: any) {

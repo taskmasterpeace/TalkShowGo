@@ -42,7 +42,8 @@ export async function GET() {
     ? fs.readdirSync(pullsDir).filter(f => f.startsWith('pull_')).sort().reverse().slice(0, 5).map(f => j(path.join(pullsDir, f)))
     : []
   const topicsFiles = fs.existsSync(pullsDir) ? fs.readdirSync(pullsDir).filter(f => f.startsWith('topics_')).sort().reverse() : []
-  const topics = topicsFiles.length ? j(path.join(pullsDir, topicsFiles[0])) : null
+  const topicsAll = topicsFiles.slice(0, 5).map(f => j(path.join(pullsDir, f))).filter(Boolean)
+  const topics = topicsAll[0] || null
   const show_types = j(path.join(ROOT, 'lab', 'show_types.json'))
 
   // health lamps
@@ -58,5 +59,5 @@ export async function GET() {
     health.gateway = r.ok
   } catch { health.gateway = false }
 
-  return NextResponse.json({ beats, cast, guests, voices, images, audio, manifest, runs, pulls, topics, show_types, health })
+  return NextResponse.json({ beats, cast, guests, voices, images, audio, manifest, runs, pulls, topics, topicsAll, show_types, health })
 }

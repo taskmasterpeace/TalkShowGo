@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { useCmdState, saveBeat, Flash, useBeat, BeatPicker } from '../lib'
+import { useCmdState, saveBeat, Flash, useBeat, BeatPicker, ago, statusDate } from '../lib'
 
 export default function Sources() {
   const { state, reload } = useCmdState()
@@ -46,12 +46,27 @@ export default function Sources() {
     finally { setBusy(null); reload() }
   }
 
-  // enrich: activity from the latest pull
-  const pull = state.pulls?.[0]
+  // enrich: activity from THIS SHOW's latest pull only (no cross-show bleed)
+  const pull = (state.pulls || []).find((p: any) => p?.beat === beat?.id)
+  const pullAge = ago(pull?.pulled_at)
   const twWin: Record<string, number> = {}
-  for (const s of pull?.twitter || []) if (s.handle) twWin[s.handle.toLowerCase()] = s.in_window ?? 0
+  const twLast: Record<string, string | null> = {}
+  for (const s of pull?.twitter || []) if (s.handle) {
+    twWin[s.handle.toLowerCase()] = s.in_window ?? 0
+    const newest = (s.top || []).reduce((a: number, t: any) => Math.max(a, new Date(t.created).getTime() || 0), 0)
+    twLast[s.handle.toLowerCase()] = newest ? new Date(newest).toISOString() : null
+  }
   const ytWin: Record<string, number> = {}
-  for (const c of pull?.youtube || []) if (c.channel_id) ytWin[c.channel_id] = c.in_window ?? 0
+  const ytLast: Record<string, string | null> = {}
+  for (const c of pull?.youtube || []) if (c.channel_id) {
+    ytWin[c.channel_id] = c.in_window ?? 0
+    ytLast[c.channel_id] = c.videos?.[0]?.published || null
+  }
+  const ageChip = (status?: string) => {
+    const d = statusDate(status); if (!d) return null
+    const a = ago(d + 'T12:00:00Z')
+    return <span className={`chip ${a.cls}`} title={`last checked ${d}`}>{a.text}</span>
+  }
 
   const chip = (status: string) => {
     const s = String(status || '')
@@ -66,6 +81,7 @@ export default function Sources() {
       <div className="flex items-center gap-4">
         <span className="cmd-display text-lg" style={{ letterSpacing: '0.1em' }}>SOURCES — {beat.name?.toUpperCase()}</span>
         <BeatPicker beats={beats} beat={beat} pick={pick} />
+        <span className={`chip ${pullAge.cls}`}>LAST PULL: {pullAge.text.toUpperCase()}</span>
         <Flash msg={flash} />
       </div>
 
@@ -79,7 +95,7 @@ export default function Sources() {
         </div>
         <div className="overflow-x-auto">
           <table className="cmd-table">
-            <thead><tr><th>HANDLE</th><th /><th>LABEL</th><th>TYPE</th><th>PRI</th><th>FOLLOWERS</th><th>LAST 24H</th><th>USER ID</th><th>STATUS</th><th /></tr></thead>
+            <thead><tr><th>HANDLE</th><th /><th>LABEL</th><th>TYPE</th><th>PRI</th><th>FOLLOWERS</th><th>LAST 24H</th><th>LAST POST SEEN</th><th>USER ID</th><th>STATUS · CHECKED</th><th /></tr></thead>
             <tbody>
               {tw.map((s: any, i: number) => (
                 <tr key={`${beat.file}:tw:${i}:${s.handle}`}>
@@ -99,8 +115,9 @@ export default function Sources() {
                   </td>
                   <td style={{ color: 'var(--cmd-amber)' }}>{s.followers?.toLocaleString?.() || '—'}</td>
                   <td>{twWin[s.handle?.toLowerCase?.()] !== undefined ? <span className={`chip ${twWin[s.handle.toLowerCase()] > 0 ? 'ok' : ''}`}>{twWin[s.handle.toLowerCase()]}</span> : <span className="cmd-kbd">—</span>}</td>
+                  <td>{(() => { const l = twLast[s.handle?.toLowerCase?.()]; if (!l) return <span className="cmd-kbd">—</span>; const a = ago(l); return <span className={`chip ${a.cls}`}>{a.text}</span> })()}</td>
                   <td className="cmd-kbd">{s.userId || '—'}</td>
-                  <td>{chip(s.status)}</td>
+                  <td><span className="flex gap-1 items-center">{chip(s.status)}{ageChip(s.status)}</span></td>
                   <td><button className="chip err" style={{ cursor: 'pointer' }} onClick={() => removeTw(i)}>✕</button></td>
                 </tr>
               ))}
@@ -119,7 +136,7 @@ export default function Sources() {
         </div>
         <div className="overflow-x-auto">
           <table className="cmd-table">
-            <thead><tr><th>CHANNEL</th><th /><th>TYPE</th><th>PRI</th><th>RESOLVED</th><th>HANDLE</th><th>LAST 24H</th><th>STATUS</th><th /></tr></thead>
+            <thead><tr><th>CHANNEL</th><th /><th>TYPE</th><th>PRI</th><th>RESOLVED</th><th>HANDLE</th><th>LAST 24H</th><th>LAST UPLOAD SEEN</th><th>STATUS · CHECKED</th><th /></tr></thead>
             <tbody>
               {yt.map((c: any, i: number) => (
                 <tr key={`${beat.file}:yt:${i}:${c.channel_name}`}>
@@ -134,7 +151,8 @@ export default function Sources() {
                   <td className="cmd-kbd">{c.resolved_title || '—'}</td>
                   <td style={{ color: 'var(--cmd-cyan)' }}>{c.subscribers || '—'}</td>
                   <td>{ytWin[c.channel_id] !== undefined ? <span className={`chip ${ytWin[c.channel_id] > 0 ? 'ok' : ''}`}>{ytWin[c.channel_id]}</span> : <span className="cmd-kbd">—</span>}</td>
-                  <td>{chip(c.status)}</td>
+                  <td>{(() => { const l = ytLast[c.channel_id]; if (!l) return <span className="cmd-kbd">—</span>; const a = ago(l); return <span className={`chip ${a.cls}`}>{a.text}</span> })()}</td>
+                  <td><span className="flex gap-1 items-center">{chip(c.status)}{ageChip(c.status)}</span></td>
                   <td><button className="chip err" style={{ cursor: 'pointer' }} onClick={() => removeYt(i)}>✕</button></td>
                 </tr>
               ))}

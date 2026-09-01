@@ -60,3 +60,19 @@ export function Flash({ msg }: { msg: string | null }) {
 }
 
 export function fmtBytes(n: number) { return n > 1e6 ? (n / 1e6).toFixed(1) + 'MB' : Math.round(n / 1024) + 'KB' }
+
+/** Freshness: relative time + age class for "when was this last touched" indicators. */
+export function ago(iso?: string | null): { text: string; cls: string } {
+  if (!iso) return { text: 'never', cls: 'err' }
+  const t = new Date(iso).getTime()
+  if (isNaN(t)) return { text: String(iso), cls: '' }
+  const m = Math.max(0, Math.round((Date.now() - t) / 60000))
+  const text = m < 60 ? `${m}m ago` : m < 2880 ? `${Math.round(m / 60)}h ago` : `${Math.round(m / 1440)}d ago`
+  const cls = m < 1440 ? 'ok' : m < 10080 ? '' : m < 43200 ? 'warn' : 'err'
+  return { text, cls }
+}
+/** Parse the date out of status strings like "VERIFIED 2026-08-31". */
+export function statusDate(status?: string): string | null {
+  const m = String(status || '').match(/(\d{4}-\d{2}-\d{2})/)
+  return m ? m[1] : null
+}

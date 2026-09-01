@@ -1,13 +1,14 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useCmdState, saveBeat, Flash, useBeat, BeatPicker } from './lib'
+import { useCmdState, saveBeat, Flash, useBeat, BeatPicker, ago } from './lib'
 
 function TopicsPanel({ topics, onMine, busy }: { topics: any; onMine: () => void; busy: boolean }) {
+  const mined = topics?.mined_at ? ago(topics.mined_at) : null
   return (
     <div className="cmd-panel">
       <div className="cmd-h justify-between">
-        <div className="flex items-center gap-3"><div className="vu"><i /><i /><i /><i /></div><h2>THE TOPIC MINER — WHAT&apos;S THE STORY TODAY</h2></div>
+        <div className="flex items-center gap-3"><div className="vu"><i /><i /><i /><i /></div><h2>THE TOPIC MINER — WHAT&apos;S THE STORY TODAY</h2>{mined && <span className={`chip ${mined.cls}`}>MINED {mined.text.toUpperCase()}</span>}</div>
         <button className="cmd-btn" disabled={busy} onClick={onMine}>{busy ? 'MINING…' : '⛏ MINE TOPICS'}</button>
       </div>
       {topics?.error && <div className="p-4"><span className="chip err">{topics.error}</span></div>}
@@ -45,10 +46,10 @@ export default function Desk() {
   const [flash, setFlash] = useState<string | null>(null)
   const [report, setReport] = useState<any>(null)
   const [topics2, setTopics2] = useState<any>(null)
-  const runMine = async () => {
+  const runMine = async (beatFile: string) => {
     setBusy2(true)
     try {
-      const r = await fetch('/api/command/topics', { method: 'POST' })
+      const r = await fetch('/api/command/topics', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ file: beatFile }) })
       const j = await r.json()
       if (j.error) setTopics2({ error: j.error }); else setTopics2(j)
     } finally { setBusy2(false) }
@@ -56,6 +57,8 @@ export default function Desk() {
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { beat, beats, pick } = useBeat(state)
+  // NO BLEED: local pull/topics results are per-show; clear them when the show switches
+  useEffect(() => { setReport(null); setTopics2(null) }, [beat?.id])
   if (!state) return <div className="p-8 cmd-kbd">BOOTING DESK...</div>
   const show = beat?.show || {}
   const tw = beat?.sources?.twitter || []
@@ -63,7 +66,10 @@ export default function Desk() {
   const twOk = tw.filter((s: any) => String(s.status || '').startsWith('VERIFIED')).length
   const ytOk = yt.filter((c: any) => String(c.status || '').startsWith('RESOLVED')).length
   const hosts = state.cast?.hosts || []
-  const latestPull = report || state.pulls[0] || null
+  // per-SHOW data only - a pull/topics file carries its beat id; never show another show's data
+  const latestPull = report || (state.pulls || []).find((p: any) => p?.beat === beat?.id) || null
+  const showTopics = topics2 || (state.topicsAll || [state.topics]).find((t: any) => t?.beat === beat?.id) || null
+  const pullAge = ago(latestPull?.pulled_at)
 
   const setShow = async (patch: any) => {
     const next = { ...beat, show: { ...show, ...patch } }
@@ -191,6 +197,7 @@ export default function Desk() {
               <div>
                 <div className="cmd-display text-xl" style={{ letterSpacing: '0.1em' }}>PROCESS — {show.name || beat?.name}</div>
                 <div className="cmd-kbd mt-1">STAGE 1: PULL THE LAST {show.timespan_hours || 24}H FROM EVERY VERIFIED SOURCE</div>
+                <div className="mt-1"><span className={`chip ${pullAge.cls}`}>LAST PULL FOR THIS SHOW: {pullAge.text.toUpperCase()}</span></div>
               </div>
               <button className="cmd-btn primary" disabled={busy} onClick={runPull}>{busy ? 'SWEEPING…' : '▶ RUN PULL'}</button>
             </div>
@@ -227,7 +234,7 @@ export default function Desk() {
           </div>
 
           {/* TOPIC MINER — stage 2 */}
-          <TopicsPanel topics={topics2 || state.topics} onMine={runMine} busy={busy2} />
+          <TopicsPanel topics={showTopics} onMine={() => runMine(beat.file)} busy={busy2} />
 
           {/* ROADMAP */}
           <div className="cmd-panel">
