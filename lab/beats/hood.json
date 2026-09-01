@@ -8,7 +8,7 @@
     "tagline": "Street news, receipts first",
     "timespan_hours": 24,
     "format_bias": "auto",
-    "show_type": "the-desk",
+    "show_type": "news-desk",
     "intro": {
       "enabled": true,
       "template": "Open on the case file: what moved TODAY on the lead case, one line. Then the block rundown."

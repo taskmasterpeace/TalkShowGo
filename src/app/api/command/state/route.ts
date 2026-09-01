@@ -44,7 +44,8 @@ export async function GET() {
   const topicsFiles = fs.existsSync(pullsDir) ? fs.readdirSync(pullsDir).filter(f => f.startsWith('topics_')).sort().reverse() : []
   const topicsAll = topicsFiles.slice(0, 5).map(f => j(path.join(pullsDir, f))).filter(Boolean)
   const topics = topicsAll[0] || null
-  const show_types = j(path.join(ROOT, 'lab', 'show_types.json'))
+  const formats = j(path.join(ROOT, 'lab', 'formats.json'))
+  const production_skins = j(path.join(ROOT, 'lab', 'production_skins.json'))
 
   // health lamps
   const env = (() => { try { return fs.readFileSync(path.join(ROOT, '.env'), 'utf8') } catch { return '' } })()
@@ -59,5 +60,5 @@ export async function GET() {
     health.gateway = r.ok
   } catch { health.gateway = false }
 
-  return NextResponse.json({ beats, cast, guests, voices, images, audio, manifest, runs, pulls, topics, topicsAll, show_types, health })
+  return NextResponse.json({ beats, cast, guests, voices, images, audio, manifest, runs, pulls, topics, topicsAll, formats, production_skins, health })
 }

@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useCmdState, saveBeat, Flash, useBeat, BeatPicker, ago } from './lib'
 
+// old show_types ids -> new format ids (so beats saved before the migration still resolve)
+const FORMAT_MIGRATE: Record<string, string> = { 'the-panel': 'open-panel', 'head-to-head': 'moderated-collision', 'the-desk': 'news-desk', 'the-take': 'opinion-single', 'hot-wire': 'rapid-wire' }
+
 function TopicsPanel({ topics, onMine, busy }: { topics: any; onMine: () => void; busy: boolean }) {
   const mined = topics?.mined_at ? ago(topics.mined_at) : null
   return (
@@ -135,17 +138,18 @@ export default function Desk() {
               </div>
             </div>
             <div>
-              <label className="cmd-label">SHOW TYPE — THE ROOM&apos;S LAWS &amp; SEGMENTS</label>
-              <select className="cmd-select" value={show.show_type || 'the-panel'} onChange={e => setShow({ show_type: e.target.value })}>
-                {(state.show_types?.types || []).map((t: any) => <option key={t.id} value={t.id}>{t.name} — {t.inspiration.split(' - ')[0].split(':')[0]}</option>)}
+              <label className="cmd-label">FORMAT — THE ROOM&apos;S SHAPE &amp; RUN OF SHOW</label>
+              <select className="cmd-select" value={FORMAT_MIGRATE[show.show_type] || show.show_type || 'open-panel'} onChange={e => setShow({ show_type: e.target.value })}>
+                {(state.formats?.formats || []).map((f: any) => <option key={f.id} value={f.id}>{f.name} — {String(f.reference || '').split(' (')[0]}</option>)}
               </select>
               {(() => {
-                const t = (state.show_types?.types || []).find((x: any) => x.id === (show.show_type || 'the-panel'))
-                if (!t) return null
+                const fid = FORMAT_MIGRATE[show.show_type] || show.show_type || 'open-panel'
+                const f = (state.formats?.formats || []).find((x: any) => x.id === fid)
+                if (!f) return null
                 return (
                   <div className="mt-2 text-xs" style={{ color: 'var(--cmd-dim)' }}>
-                    <div className="flex flex-wrap gap-1 mb-1">{t.segments.map((s: any) => <span key={s.id} className="chip">{s.name}</span>)}</div>
-                    <div className="cmd-kbd">{t.cast_shape} · {t.laws.length} room laws · transitions per segment</div>
+                    <div className="flex flex-wrap gap-1 mb-1">{(f.episode_grammar?.base_sequence || []).map((b: any, i: number) => <span key={i} className="chip">{typeof b === 'string' ? b : b.block}</span>)}</div>
+                    <div className="cmd-kbd">{f.cast_logic?.topology} · {f.cast_logic?.human_dependency} · {f.series_dna?.spine}</div>
                   </div>
                 )
               })()}
@@ -227,7 +231,7 @@ export default function Desk() {
             <div className="mt-4 flex gap-2">
               <span className="chip ok">PULL · LIVE</span>
               <span className="chip ok">TOPIC MINER · LIVE</span>
-              <span className="chip warn">SHOWPLAN · WIRE-UP NEXT</span>
+              <span className="chip ok">SHOWPLAN · LIVE</span>
               <span className="chip warn">FLOOR → BREEZE · ENGINE READY</span>
               <span className="chip info">AVATAR STAGE · SEE ROADMAP</span>
             </div>

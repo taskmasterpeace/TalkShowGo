@@ -8,7 +8,7 @@
     "tagline": "Your team, every day, like you were in the building",
     "timespan_hours": 24,
     "format_bias": "auto",
-    "show_type": "head-to-head",
+    "show_type": "moderated-collision",
     "intro": { "enabled": true, "template": "Score/record check in one breath, then the day's biggest storyline as a topic card." },
     "outro": { "enabled": true, "template": "Next game countdown + one bold prediction the comments can hold us to." }
   },

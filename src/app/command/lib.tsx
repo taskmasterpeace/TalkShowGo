@@ -4,12 +4,17 @@ import { useEffect, useState, useCallback } from 'react'
 export type CmdState = {
   beats: any[]
   cast: any
+  guests: any[]
   voices: string[]
   images: string[]
   audio: { file: string; bytes: number; mtime: number }[]
   manifest: string
   runs: any[]
   pulls: any[]
+  topics: any
+  topicsAll: any[]
+  formats: any
+  production_skins: any
   health: Record<string, boolean | null>
 }
 

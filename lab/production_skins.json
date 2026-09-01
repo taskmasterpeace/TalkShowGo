@@ -1,0 +1,77 @@
+{
+  "_law": "A production skin is RENDERING capability only. It carries ZERO editorial meaning: no roles, no claim labels, no fallbacks, no format names, no substitution logic. It knows only how many tracks/seats it can render and how they look and sound. The SHOWPLAN compiles a format + input into a run of show and a per-track render manifest (N speech tracks, their order, any designated special treatments); a skin is then applied to that manifest. Changing the skin never changes the script. This separation is what makes the system a compiler: the same skeleton renders as a desk, remote windows, avatars, or audio-only. Never put a role letter, a claim label, or a format id in this file; never put a seat/camera/engine count in formats.json. capacity = max concurrent on-screen tracks the skin can place; the binding layer rejects or overflows a manifest that needs more (see binding_rule).",
+  "skin_schema": ["id", "name", "surface", "capacity", "seats_rendered", "camera", "set", "graphics", "voice_treatment", "engine", "cost", "notes"],
+  "skins": [
+    {
+      "id": "audio-only",
+      "name": "AUDIO ONLY (proven floor)",
+      "surface": "audio",
+      "capacity": 8,
+      "seats_rendered": "1-N distinct voice tracks",
+      "camera": "none",
+      "set": "none",
+      "graphics": "none",
+      "voice_treatment": "per-track voice locks; optional telephone-bandwidth EQ applied to any track the manifest flags for it",
+      "engine": "Breeze TTS 2 (cupcake mk-breeze)",
+      "cost": "cheap / fast",
+      "notes": "The default. Every episode renders here first; video is an upgrade skin, never a prerequisite."
+    },
+    {
+      "id": "single-seat-plus-inserts",
+      "name": "SINGLE SEAT + INSERTS",
+      "surface": "video",
+      "capacity": 1,
+      "seats_rendered": "1 live on-camera track; all other tracks played as clip/still inserts",
+      "camera": "single lock + inserts",
+      "set": "one seat",
+      "graphics": "lower-thirds on the insert tracks",
+      "voice_treatment": "one live voice; inserts carry their own prior audio",
+      "engine": "1 avatar clip (batched) + prerecorded inserts",
+      "cost": "cheap - only one avatar to render",
+      "notes": "Renders any manifest by putting one track live and the rest as inserts; the cheapest way to put a multi-track plan on screen."
+    },
+    {
+      "id": "desk-multi",
+      "name": "DESK MULTI",
+      "surface": "video",
+      "capacity": 3,
+      "seats_rendered": "up to 3 tracks at a shared surface",
+      "camera": "multi-cam, cut to the active-speaker track",
+      "set": "talk/news desk",
+      "graphics": "nameplates, topic card, poll bug",
+      "voice_treatment": "per-track voice locks",
+      "engine": "per-seat avatar clips cut on the dialogue timeline (batched)",
+      "cost": "expensive - one avatar render per track per segment; batch overnight",
+      "notes": "Camera follows whichever track holds the floor, like a control room."
+    },
+    {
+      "id": "remote-windows",
+      "name": "REMOTE WINDOWS",
+      "surface": "video",
+      "capacity": 6,
+      "seats_rendered": "each track in its own box (grid)",
+      "camera": "static grid, active track highlighted",
+      "set": "per-window backdrop featuring each speaker's origin flag",
+      "graphics": "per-window nameplate + flag plate",
+      "voice_treatment": "per-track voice locks",
+      "engine": "one avatar clip per window, composited",
+      "cost": "expensive but parallelizable - windows render independently",
+      "notes": "Honors the flags-and-origin house rule per window."
+    },
+    {
+      "id": "animated-fast",
+      "name": "ANIMATED (fast lane)",
+      "surface": "video",
+      "capacity": 4,
+      "seats_rendered": "stylized/animated tracks",
+      "camera": "cut to the active-speaker track",
+      "set": "authored animated set",
+      "graphics": "stylized lower-thirds",
+      "voice_treatment": "per-track voice locks",
+      "engine": "LTX-2.5 audio lipsync (fast) for volume; InfiniteTalk reserved for hero close-ups",
+      "cost": "moderate - the fast lane for show-liveness",
+      "notes": "Use when speed beats photoreal identity. Two-tier engine: fast for most tracks, hero renders for close-ups."
+    }
+  ],
+  "binding_rule": "render_request = { format_id, episode_input, skin_id }. SHOWPLAN compiles the format+input into a run of show plus a per-track render manifest; the skin is applied to that manifest. A skin renders blind - it knows only how many tracks to place and how they look and sound, never who speaks or why. If the manifest's peak concurrent tracks exceed the skin's capacity, the binding layer either overflows the extra tracks to inserts (video skins) or rejects the pairing and asks for a higher-capacity skin."
+}

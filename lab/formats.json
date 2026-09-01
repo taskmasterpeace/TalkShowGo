@@ -1,0 +1,406 @@
+{
+  "_law": "Formats model FUNCTIONS, not people. A format owns ROLE SLOTS (see cast_logic.slots); the cast fills them. Never booking logic ('guest: true') - branch on whether a SLOT is filled. BRIGHT LINES are global (cast.json shared_rules) and override every format. Rendering (avatars/cameras/graphics/voice-EQ) is NOT here - it lives in production_skins.json and binds at render time. See FORMAT_SYSTEM.md.",
+  "enums": {
+    "role_vocabulary": { "H": "host/narrator", "M": "moderator", "A": "advocate", "B": "challenger", "E": "expert", "W": "witness", "S": "subject", "C": "correspondent/comic foil", "P": "panelist" },
+    "human_dependency_scale": ["NONE", "OPTIONAL_PROOF", "OPTIONAL_MODULE", "REQUIRED_COUNTERPART", "SUBJECT_REQUIRED", "MULTI_MODULE"],
+    "truth_labels": ["FACT", "ATTRIBUTED_CLAIM", "ANALYSIS", "OPINION", "PREDICTION", "SATIRE"],
+    "uncertainty_note": "UNCERTAINTY is NOT a truth label - it is an orthogonal qualifier (uncertainty:true) on an ANALYSIS or PREDICTION claim.",
+    "segment_atom": ["debate_proposition", "contradiction", "claim_evidence", "question_answer", "ranked_item", "round", "document", "clip_reaction", "clue_link", "mechanism", "issue", "story_build"],
+    "episode_container": ["person", "major_story", "daily_bundle", "debate_slate", "system", "ranking", "case", "weekly_bundle"],
+    "editorial_mode": ["reporting", "explanation", "analysis", "opinion", "debate", "review", "satire", "prediction", "hybrid"],
+    "host_job": ["narrator", "investigator", "advocate", "moderator", "interviewer", "referee", "comic", "teacher", "judge", "audience_surrogate", "provocateur"],
+    "signature_payoff": ["reveal", "verdict", "winner", "concession", "disclosure", "ranking", "system_explanation", "solution", "prediction", "editorial"],
+    "branch_op": ["insert", "replace", "remove", "merge", "abort", "note"]
+  },
+  "slot_note": "Each slot: {id, role (letter) or one_of (letters), required, substitution}. Multiplicity = multiple slots (panel_1, panel_2). one_of = a single seat that either role type can fill. substitution is MANDATORY for every slot (what replaces this human FUNCTION when the seat is empty); an abort substitution is a valid answer for SUBJECT_REQUIRED.",
+  "formats": [
+    {
+      "id": "moderated-collision",
+      "name": "MODERATED COLLISION",
+      "reference": "First Take (mechanics only, not the brand)",
+      "series_dna": {
+        "spine": "Turns the strongest live controversy into a direct collision between opposing positions.",
+        "episode_container": "debate_slate",
+        "segment_atom": "debate_proposition",
+        "audience_value": "verdict",
+        "editorial_mode": "debate",
+        "truth_contract": ["FACT", "ATTRIBUTED_CLAIM", "ANALYSIS", "OPINION"],
+        "host_job": "moderator",
+        "signature_payoff": ["verdict"]
+      },
+      "cast_logic": {
+        "topology": "M + A + B",
+        "slots": [
+          { "id": "mod", "role": "M", "required": true, "substitution": "a host from the cast takes the moderator chair; if no neutral voice exists, downgrade to opinion-single" },
+          { "id": "side_a", "role": "A", "required": true, "substitution": "recurring co-host, rotating analyst, an AI advocate character, or a party's recorded stance" },
+          { "id": "side_b", "role": "B", "required": true, "substitution": "same pool as side_a; if truly no second voice exists, branch replaces opening-argument#2 with strongest-counterargument read by the moderator - never fake a debate" }
+        ],
+        "relationship_physics": "adversarial (A vs B); moderator referees and never takes a side on air; debaters address each other by name, moderator addresses the audience",
+        "human_dependency": "REQUIRED_COUNTERPART"
+      },
+      "episode_grammar": {
+        "entry_ritual": "forced_choice - moderator plays the defining clip and asks a binary question",
+        "base_sequence": ["fact-setup", { "block": "opening-argument", "bind": "side_a" }, { "block": "opening-argument", "bind": "side_b" }, "rebuttal", "cross-examination", "evidence-test", "harder-hypothetical", "final-response", "scorecard"],
+        "branches": [
+          { "when": "slot side_b unfilled", "op": "replace", "target": "opening-argument@side_b", "block": "strongest-counterargument", "note": "moderator reads the strongest opposing case" },
+          { "when": "slot side_b unfilled", "op": "remove", "block": "cross-examination", "note": "no live B to cross-examine" },
+          { "when": "slot side_b unfilled", "op": "remove", "block": "final-response", "note": "side_a's rebuttal to the counterargument stands as the close" },
+          { "when": "runtime<8m", "op": "remove", "block": "harder-hypothetical" },
+          { "when": "breaking-news-changes-premise", "op": "replace", "target": "scorecard", "block": "updated-assessment" }
+        ],
+        "evidence_devices": ["documents", "video_clips", "statistics", "opposing_statements", "gameplay_footage"],
+        "escalation_curve": "moderator shifts the question from abstract judgment to personal consequence ('would you tell them to walk away?')",
+        "payoff": "the moderator names who won the card, or the single dominant argument - always a verdict, never 'it depends whose card'",
+        "close": "one-line scorecard, then bell into the next card or out",
+        "afterlife": ["poll", "comments_question", "shorts"]
+      }
+    },
+    {
+      "id": "evidence-mystery",
+      "name": "EVIDENCE MYSTERY",
+      "reference": "The Rachel Maddow Show - the investigative long-build mode (mechanics only)",
+      "series_dna": {
+        "spine": "Reconstructs the hidden chain of facts until a confusing event becomes understandable.",
+        "episode_container": "major_story",
+        "segment_atom": "clue_link",
+        "audience_value": "understanding",
+        "editorial_mode": "hybrid",
+        "truth_contract": ["FACT", "ATTRIBUTED_CLAIM", "ANALYSIS", "PREDICTION"],
+        "host_job": "investigator",
+        "signature_payoff": ["reveal", "system_explanation"]
+      },
+      "cast_logic": {
+        "topology": "H + [E/W]",
+        "slots": [
+          { "id": "anchor", "role": "H", "required": true, "substitution": "recast the anchor from the cast pool; the show does not run without its anchor seat" },
+          { "id": "proof", "one_of": ["E", "W"], "required": false, "substitution": "OPTIONAL_PROOF: replace with a document walkthrough + timeline, a taped statement, or an extra reporting-block" }
+        ],
+        "relationship_physics": "expert-surrogate - the proof seat confirms, supplies firsthand knowledge, or explains consequences; it never organizes the episode",
+        "human_dependency": "OPTIONAL_PROOF"
+      },
+      "episode_grammar": {
+        "entry_ritual": "mystery - open on something that looks unrelated (a forgotten announcement, an old promise, a contract clause)",
+        "base_sequence": ["opening-clue", "timeline", "document-reveal", "contradiction", "thesis-connect", "consequences"],
+        "branches": [
+          { "when": "slot proof filled", "op": "insert", "block": "expert-interview", "after": "thesis-connect" },
+          { "when": "slot proof unfilled", "op": "insert", "block": "reporting-block", "after": "thesis-connect", "note": "extra receipt instead of an interview" },
+          { "when": "runtime<12m", "op": "merge", "blocks": ["timeline", "document-reveal"], "into": "document-reveal" }
+        ],
+        "evidence_devices": ["documents", "video_clips", "timelines", "screenshots", "before_after", "opposing_statements", "expert_explanation", "eyewitness", "statistics"],
+        "escalation_curve": "each added piece of evidence makes the original innocent explanation less plausible",
+        "payoff": "the opening clue becomes the key that unlocks the current story; every block ends one step short so the audience closes the loop",
+        "close": "the anchor's verdict + the single unresolved question to watch; out clean, no music tease",
+        "afterlife": ["source_list", "comments_question", "next_tease"],
+        "notes": "measured, never shouty - authority comes from the BUILD; direct address to the audience; rhetorical questions the anchor answers. Runs as a daily_bundle by chaining one build per story when the night has several."
+      }
+    },
+    {
+      "id": "satirical-news-desk",
+      "name": "SATIRICAL NEWS DESK",
+      "reference": "The Daily Show (mechanics only)",
+      "series_dna": {
+        "spine": "Exposes the hypocrisy inside a public narrative, then lands a substantive point.",
+        "episode_container": "daily_bundle",
+        "segment_atom": "contradiction",
+        "audience_value": "laughter",
+        "editorial_mode": "satire",
+        "truth_contract": ["FACT", "ATTRIBUTED_CLAIM", "ANALYSIS", "OPINION", "SATIRE"],
+        "host_job": "comic",
+        "signature_payoff": ["editorial", "reveal"]
+      },
+      "cast_logic": {
+        "topology": "H + [C] + [E/S]",
+        "slots": [
+          { "id": "host", "role": "H", "required": true, "substitution": "recast the desk host from the cast pool" },
+          { "id": "foil", "role": "C", "required": false, "substitution": "OPTIONAL: clip-montage + host commentary carries the same escalation" },
+          { "id": "interview", "one_of": ["E", "S"], "required": false, "substitution": "OPTIONAL_MODULE: drop the interview; run a desk-story instead" }
+        ],
+        "relationship_physics": "straight-comic (host vs foil) and, when the interview seat is filled, interviewer-subject",
+        "human_dependency": "OPTIONAL_MODULE"
+      },
+      "episode_grammar": {
+        "entry_ritual": "joke - open on the funniest or most revealing clip",
+        "base_sequence": ["headline", "clip-reaction", "contradiction", "clip-montage", "callback-close"],
+        "branches": [
+          { "when": "slot foil filled", "op": "replace", "target": "clip-montage", "block": "correspondent-exchange" },
+          { "when": "slot foil filled", "op": "insert", "block": "comedy-bit", "after": "correspondent-exchange" },
+          { "when": "slot interview filled as S", "op": "insert", "block": "subject-interview", "before": "callback-close" },
+          { "when": "slot interview filled as E", "op": "insert", "block": "expert-interview", "before": "callback-close" },
+          { "when": "slot interview unfilled", "op": "insert", "block": "desk-story", "before": "callback-close" }
+        ],
+        "evidence_devices": ["video_clips", "opposing_statements", "before_after", "screenshots", "eyewitness", "documents", "expert_explanation"],
+        "escalation_curve": "the foil takes the target's logic to an absurd extreme, or a montage proves reality is already more ridiculous than the joke",
+        "payoff": "the comedy gives way to a clear thesis (the host must land one real ANALYSIS/OPINION beat), or the interview exposes a more complicated reality",
+        "close": "callback joke to the cold open",
+        "afterlife": ["shorts", "comments_question", "guest_plug"],
+        "notes": "the underlying facts must be supportable (FACT/ATTRIBUTED); only the FRAMING is SATIRE."
+      }
+    },
+    {
+      "id": "system-expose",
+      "name": "SYSTEM EXPOSE",
+      "reference": "Last Week Tonight (mechanics only)",
+      "series_dna": {
+        "spine": "Explains an overlooked system, proves why it matters, names who benefits, and moves toward action.",
+        "episode_container": "system",
+        "segment_atom": "mechanism",
+        "audience_value": "understanding",
+        "editorial_mode": "explanation",
+        "truth_contract": ["FACT", "ATTRIBUTED_CLAIM", "ANALYSIS", "OPINION", "SATIRE"],
+        "host_job": "teacher",
+        "signature_payoff": ["system_explanation", "solution", "editorial"]
+      },
+      "cast_logic": {
+        "topology": "H + [E/C]",
+        "slots": [
+          { "id": "host", "role": "H", "required": true, "substitution": "recast the host from the cast pool" },
+          { "id": "cameo", "one_of": ["E", "C"], "required": false, "substitution": "NONE-critical: a prerecorded expert voice or an on-screen quotation; or cut the cameo entirely" }
+        ],
+        "relationship_physics": "teacher-student (host to audience); cameos are flourishes, never load-bearing",
+        "human_dependency": "NONE"
+      },
+      "episode_grammar": {
+        "entry_ritual": "strongest_clip then pivot - brief current hook, then into the real story",
+        "base_sequence": ["current-hook", "define-problem", "mechanics", "who-is-affected", "who-benefits", "failed-solutions", "reforms", "spectacle"],
+        "branches": [
+          { "when": "runtime<14m", "op": "merge", "blocks": ["who-is-affected", "who-benefits"], "into": "who-benefits" },
+          { "when": "slot cameo filled as E", "op": "insert", "block": "expert-interview", "after": "mechanics" },
+          { "when": "slot cameo filled as C", "op": "insert", "block": "correspondent-exchange", "after": "mechanics" }
+        ],
+        "evidence_devices": ["documents", "statistics", "video_clips", "timelines", "before_after", "demonstrations", "eyewitness", "expert_explanation"],
+        "escalation_curve": "each example reveals the problem is the predictable OUTPUT of an incentive structure, not an isolated bad decision",
+        "payoff": "the audience sees the system, not just the headline - 'they are selling an escape from a problem they designed'",
+        "close": "the reform ask or audience action, punctuated by the spectacle",
+        "afterlife": ["cta", "source_list", "shorts", "community_debate"],
+        "assets_required": ["prerecorded_field_assets"]
+      }
+    },
+    {
+      "id": "pressure-interview",
+      "name": "PRESSURE INTERVIEW",
+      "reference": "Hot Ones (mechanics only)",
+      "series_dna": {
+        "spine": "Strips a media-trained subject's persona through questions and an external challenge that escalate together.",
+        "episode_container": "person",
+        "segment_atom": "round",
+        "audience_value": "disclosure",
+        "editorial_mode": "reporting",
+        "truth_contract": ["FACT", "ATTRIBUTED_CLAIM", "OPINION"],
+        "host_job": "interviewer",
+        "signature_payoff": ["disclosure", "concession"]
+      },
+      "cast_logic": {
+        "topology": "H + S",
+        "slots": [
+          { "id": "host", "role": "H", "required": true, "substitution": "recast the host from the cast pool" },
+          { "id": "subject", "role": "S", "required": true, "substitution": "ABORT: the subject IS the episode. No subject means no episode - select a different format, never fake it" }
+        ],
+        "relationship_physics": "subject-interviewer under a shared, escalating external challenge",
+        "human_dependency": "SUBJECT_REQUIRED"
+      },
+      "episode_grammar": {
+        "entry_ritual": "guest_ritual - introduce the subject, the rules, the progression, and the final challenge",
+        "base_sequence": ["rules-intro", "round", "round", "round", "round", "round", "final-challenge"],
+        "branches": [
+          { "when": "runtime long", "op": "insert", "block": "round", "before": "final-challenge", "note": "add rounds but keep the arc: origins -> career -> overlooked detail -> first controversy -> personal consequence -> public criticism -> regret -> hardest unresolved issue" },
+          { "when": "slot subject unfilled", "op": "abort", "note": "SUBJECT_REQUIRED - pick a different episode or format" }
+        ],
+        "evidence_devices": ["eyewitness", "video_clips", "gameplay_footage", "opposing_statements", "before_after"],
+        "escalation_curve": "the external challenge (spicy food, gameplay difficulty, timed decisions, lie-detection, or archival clips) hardens as the questions get more consequential, in lockstep",
+        "payoff": "the subject drops the talking points and gives a raw, revealing, funny, or emotionally honest answer",
+        "close": "the final challenge and the direct answer to the hardest question",
+        "afterlife": ["shorts", "guest_plug", "comments_question"]
+      }
+    },
+    {
+      "id": "hybrid-forum",
+      "name": "HYBRID FORUM",
+      "reference": "Real Time with Bill Maher (mechanics only)",
+      "series_dna": {
+        "spine": "Frames the week, interrogates one major voice, stress-tests it through panel collision, and delivers a final editorial judgment.",
+        "episode_container": "weekly_bundle",
+        "segment_atom": "issue",
+        "audience_value": "verdict",
+        "editorial_mode": "hybrid",
+        "truth_contract": ["FACT", "ATTRIBUTED_CLAIM", "ANALYSIS", "OPINION", "SATIRE"],
+        "host_job": "provocateur",
+        "signature_payoff": ["editorial", "concession"]
+      },
+      "cast_logic": {
+        "topology": "H + (S/E) + P + P + [P]",
+        "slots": [
+          { "id": "host", "role": "H", "required": true, "substitution": "recast the host from the cast pool - this show is host-led" },
+          { "id": "principal", "one_of": ["S", "E"], "required": true, "substitution": "a senior panelist takes the one-on-one chair, or the host opens with a solo framing the panel then stress-tests - the interview module is core to this format" },
+          { "id": "panel_1", "role": "P", "required": true, "substitution": "a generated panelist filling the competing-interpreter function" },
+          { "id": "panel_2", "role": "P", "required": true, "substitution": "a generated panelist; if truly unavailable, run one strong voice vs the host and switch toward opinion-single" },
+          { "id": "panel_3", "role": "P", "required": false, "substitution": "run the panel as a pair" }
+        ],
+        "relationship_physics": "MULTI - interviewer-subject in the one-on-one, adversarial panel collision, host as final editorial authority; each module's people do DIFFERENT jobs",
+        "human_dependency": "MULTI_MODULE"
+      },
+      "episode_grammar": {
+        "entry_ritual": "joke - opening monologue reacting to the week",
+        "base_sequence": ["monologue", "one-on-one", "panel-collision", "final-panel-conflict", "closing-editorial"],
+        "branches": [
+          { "when": "slot panel_3 filled", "op": "note", "note": "three-panelist collision" },
+          { "when": "comedy beat wanted", "op": "insert", "block": "comedy-bit", "after": "panel-collision" },
+          { "when": "fewer than 2 panel slots filled", "op": "abort", "note": "wrong format - switch to opinion-single or moderated-collision" }
+        ],
+        "evidence_devices": ["opposing_statements", "statistics", "video_clips", "expert_explanation"],
+        "escalation_curve": "private one-on-one claims get stress-tested live by the panel",
+        "payoff": "the host synthesizes or rejects the discussion in a polished final editorial",
+        "close": "signature closing editorial",
+        "afterlife": ["comments_question", "shorts", "next_tease"]
+      }
+    },
+    {
+      "id": "open-panel",
+      "name": "OPEN PANEL",
+      "reference": "House format - our proven multi-host floor engine (was 'the-panel')",
+      "series_dna": {
+        "spine": "Puts the room's strongest voices on one controversy and argues it to a verdict.",
+        "episode_container": "major_story",
+        "segment_atom": "contradiction",
+        "audience_value": "verdict",
+        "editorial_mode": "debate",
+        "truth_contract": ["FACT", "ATTRIBUTED_CLAIM", "ANALYSIS", "OPINION", "PREDICTION"],
+        "host_job": "advocate",
+        "signature_payoff": ["verdict", "reveal"]
+      },
+      "cast_logic": {
+        "topology": "H + P + [P]",
+        "slots": [
+          { "id": "host", "role": "H", "required": true, "substitution": "recast a lead voice from the cast pool" },
+          { "id": "panel_1", "role": "P", "required": true, "substitution": "a generated peer host, or a party's recorded stance - a floor needs at least two voices" },
+          { "id": "panel_2", "role": "P", "required": false, "substitution": "run as a two-hander; the allocator tightens turn-taking" }
+        ],
+        "relationship_physics": "adversarial-cooperative peers (no formal moderator); disagreement engineered by the beat sheet, agreement earned",
+        "human_dependency": "REQUIRED_COUNTERPART"
+      },
+      "episode_grammar": {
+        "entry_ritual": "strongest_clip - hottest take commits in two sentences, show ID in one breath",
+        "base_sequence": ["cold-open", "floor", "receipt-detonation", "verdict", "button"],
+        "branches": [
+          { "when": "slot panel_2 unfilled", "op": "note", "note": "two-hander; uneven turn lengths, allocator tightens" }
+        ],
+        "evidence_devices": ["video_clips", "opposing_statements", "documents", "screenshots"],
+        "escalation_curve": "turn lengths uneven (jabs beat paragraphs); interruptions land mid-clause; the withheld receipt detonates ON the floor and reframes the argument",
+        "payoff": "somebody lands a verdict + a weight-drop reframe; the exit is a tease, never a fade",
+        "close": "the button - prediction + comment challenge + tomorrow tease",
+        "afterlife": ["comments_question", "poll", "next_tease"]
+      }
+    },
+    {
+      "id": "opinion-single",
+      "name": "OPINION SINGLE",
+      "reference": "House format - one loud driver defends a single thesis (was 'the-take')",
+      "series_dna": {
+        "spine": "Defends one committed thesis to the death and dares the audience to disagree.",
+        "episode_container": "major_story",
+        "segment_atom": "claim_evidence",
+        "audience_value": "verdict",
+        "editorial_mode": "opinion",
+        "truth_contract": ["OPINION", "FACT", "ATTRIBUTED_CLAIM", "ANALYSIS"],
+        "host_job": "advocate",
+        "signature_payoff": ["editorial"]
+      },
+      "cast_logic": {
+        "topology": "H",
+        "slots": [
+          { "id": "host", "role": "H", "required": true, "substitution": "recast the driver from the cast pool - this is a solo format by design" }
+        ],
+        "relationship_physics": "host vs the audience's anticipated objection",
+        "human_dependency": "NONE"
+      },
+      "episode_grammar": {
+        "entry_ritual": "accusation - the thesis stated in the first ten seconds, no wind-up",
+        "base_sequence": ["thesis-plant", "evidence-run", "counterpunch", "flag-plant"],
+        "branches": [
+          { "when": "runtime<8m", "op": "note", "note": "evidence-run uses the three strongest receipts only" }
+        ],
+        "evidence_devices": ["statistics", "video_clips", "documents", "before_after", "opposing_statements"],
+        "escalation_curve": "the dare sharpens - the host names the objection the viewer is typing and answers it; concessions exist only to set up counterpunches",
+        "payoff": "the thesis restated harder + a direct dare",
+        "close": "out on the dare",
+        "afterlife": ["comments_question", "shorts"]
+      }
+    },
+    {
+      "id": "rapid-wire",
+      "name": "RAPID WIRE",
+      "reference": "House format - fast roundup + call-in drop-ins (was 'hot-wire')",
+      "series_dna": {
+        "spine": "Rips through the day's items fast and never apologizes for cutting one off.",
+        "episode_container": "daily_bundle",
+        "segment_atom": "clip_reaction",
+        "audience_value": "laughter",
+        "editorial_mode": "hybrid",
+        "truth_contract": ["FACT", "ATTRIBUTED_CLAIM", "OPINION", "SATIRE", "PREDICTION"],
+        "host_job": "provocateur",
+        "signature_payoff": ["reveal", "editorial"]
+      },
+      "cast_logic": {
+        "topology": "H + [H] + [C]",
+        "slots": [
+          { "id": "host", "role": "H", "required": true, "substitution": "recast the wire host from the cast pool" },
+          { "id": "cohost", "role": "H", "required": false, "substitution": "solo host carries the wire" },
+          { "id": "caller", "role": "C", "required": false, "substitution": "OPTIONAL_MODULE: drop the call-in; add one more wire item" }
+        ],
+        "relationship_physics": "straight-comic; the call-in is a distinct outsider character interrupted freely",
+        "human_dependency": "OPTIONAL_MODULE"
+      },
+      "episode_grammar": {
+        "entry_ritual": "stakes_announce - what the wire is carrying today, rapid-fire list",
+        "base_sequence": ["wire-open", "rapid-fire", "wire-close"],
+        "branches": [
+          { "when": "slot caller filled", "op": "insert", "block": "caller-drop", "before": "wire-close" },
+          { "when": "slot cohost unfilled", "op": "note", "note": "solo host, tighter pacing" }
+        ],
+        "evidence_devices": ["video_clips", "screenshots", "opposing_statements"],
+        "escalation_curve": "the pace itself is the pressure; no item over 60s, hardest first; the call-in is the spike",
+        "payoff": "the one thing worth watching, named",
+        "close": "out on the dial tone",
+        "afterlife": ["comments_question", "shorts", "next_tease"],
+        "notes": "the call-in character is an editorial choice (an outsider voice). Its phone-bandwidth SOUND is a rendering property and lives in the production skin / that voice's design, not here."
+      }
+    },
+    {
+      "id": "news-desk",
+      "name": "NEWS DESK",
+      "reference": "House format - the nightly multi-story anchor desk (was 'the-desk')",
+      "series_dna": {
+        "spine": "Builds the night's lead as a case, then works down the desk to the last word.",
+        "episode_container": "daily_bundle",
+        "segment_atom": "story_build",
+        "audience_value": "understanding",
+        "editorial_mode": "hybrid",
+        "truth_contract": ["FACT", "ATTRIBUTED_CLAIM", "ANALYSIS", "OPINION"],
+        "host_job": "narrator",
+        "signature_payoff": ["editorial", "reveal"]
+      },
+      "cast_logic": {
+        "topology": "H + [E/W]",
+        "slots": [
+          { "id": "anchor", "role": "H", "required": true, "substitution": "recast the anchor from the cast pool; the show does not run without its anchor seat" },
+          { "id": "drop_in", "one_of": ["E", "W"], "required": false, "substitution": "OPTIONAL_PROOF: read the drop-in's prior on-record statement as an ATTRIBUTED_CLAIM, or cut the interview" }
+        ],
+        "relationship_physics": "anchor-led, with an optional per-block drop-in that confirms or extends a story",
+        "human_dependency": "OPTIONAL_PROOF"
+      },
+      "episode_grammar": {
+        "entry_ritual": "artifact - open on the lead story's defining receipt",
+        "base_sequence": ["a-block", "b-block", "c-block", "last-word"],
+        "branches": [
+          { "when": "slot drop_in filled", "op": "insert", "block": "expert-interview", "after": "a-block" },
+          { "when": "runtime<12m", "op": "remove", "block": "c-block" }
+        ],
+        "evidence_devices": ["documents", "video_clips", "timelines", "expert_explanation", "eyewitness"],
+        "escalation_curve": "the lead builds context -> receipts -> the turn; each block ends one step short so the audience closes the loop",
+        "payoff": "the anchor's last word: a committed verdict + what to watch tomorrow",
+        "close": "out clean, no music tease",
+        "afterlife": ["comments_question", "next_tease", "source_list"],
+        "notes": "measured, never shouty; direct address to the audience; rhetorical questions the anchor answers; the c-block is the lighter culture / birthday / follow-up item."
+      }
+    }
+  ]
+}
