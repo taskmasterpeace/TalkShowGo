@@ -17,12 +17,13 @@ export async function GET() {
  *  via YouTube (the beat's trusted channels first), transcripts, then an impartial parse into
  *  cited evidence + answers. */
 export async function POST(req: Request) {
-  const body = await req.json().catch(() => ({} as any))
+  const body = (await req.json().catch(() => ({} as any))) || {}
   const inp = body.input || {}
   if (!inp.text || !['subject', 'question'].includes(inp.kind)) {
     return NextResponse.json({ ok: false, error: 'input.kind (subject|question) + input.text required', stage: 'validate', retryable: false }, { status: 400 })
   }
-  const assignment: Assignment = { kind: inp.kind, text: String(inp.text).slice(0, 400), questions: (inp.questions || []).filter(Boolean).map((q: string) => String(q).slice(0, 300)).slice(0, 6) }
+  const qs = Array.isArray(inp.questions) ? inp.questions : []
+  const assignment: Assignment = { kind: inp.kind, text: String(inp.text).slice(0, 400), questions: qs.filter(Boolean).map((q: any) => String(q).slice(0, 300)).slice(0, 6) }
 
   // snapshot the beat's resolved YouTube channels (trusted, in priority order)
   let trusted: { channel_id: string; name: string }[] = []
@@ -34,7 +35,7 @@ export async function POST(req: Request) {
   }
 
   const MODES = ['current', 'context', 'legacy', 'original', 'reaction']
-  const opts = { mode: MODES.includes(inp.mode) ? inp.mode : undefined, dual: !!inp.dual }
+  const opts = { mode: MODES.includes(inp.mode) ? inp.mode : undefined, dual: inp.dual === true || inp.dual === 'true' }
 
   try {
     const result = await runStringer(assignment, trusted, opts)

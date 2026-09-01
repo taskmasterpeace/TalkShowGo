@@ -84,8 +84,8 @@ export async function extractLeads(material: string[], storyContext: string, cfg
 // Build the flat feed material from a pull report (same shape the topic miner uses)
 export function materialFromPull(report: any): string[] {
   const material: string[] = []
-  for (const s of report.twitter || []) for (const t of s.top || []) material.push(`[X @${s.handle}] ${t.text} (♥${t.likes || 0} rt${t.rts || 0}) ${t.created || ''}`)
-  for (const c of report.youtube || []) for (const v of c.videos || []) material.push(`[YT ${c.channel}] "${v.title}" ${v.published || ''}`)
+  for (const s of report?.twitter || []) for (const t of s?.top || []) material.push(`[X @${s.handle}] ${t.text} (♥${t.likes || 0} rt${t.rts || 0}) ${t.created || ''}`)
+  for (const c of report?.youtube || []) for (const v of c?.videos || []) material.push(`[YT ${c.channel}] "${v.title}" ${v.published || ''}`)
   return material
 }
 

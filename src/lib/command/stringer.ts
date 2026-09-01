@@ -65,7 +65,9 @@ async function ytSearch(query: string, trusted: { channel_id: string; name: stri
     } catch { /* channel unreachable */ }
   }
   // global search(es): apply the mode filter; `dual` runs a freshness pass + a relevance pass, merged
-  const runs = opts.dual ? [{ ...mf, sort_by: 'upload_date' }, { ...mf, sort_by: 'relevance' }] : [mf]
+  // dual: a freshness pass (mode's recency filter) + an all-time relevance pass (drop the recency
+  // filter so highly-relevant older sources aren't excluded), merged by `add`
+  const runs = opts.dual ? [{ ...mf, sort_by: 'upload_date' }, { sort_by: 'relevance' }] : [mf]
   for (const filt of runs) {
     try {
       const res: any = await yt.search(query, { type: 'video', ...filt })
@@ -132,12 +134,20 @@ function recoverArray(text: string, key: string): any[] {
   return out
 }
 
-// Never throws: strict parse first, else element-wise salvage of the arrays we depend on.
+// Never throws AND always returns the right shape (arrays where arrays are expected): strict parse
+// first, else element-wise salvage. A model that returns "null" or {"evidence":{}} can't 502 us.
 function parseMined(content: string): any {
   const t = String(content || '').trim()
   const a = t.indexOf('{'), b = t.lastIndexOf('}')
-  try { return JSON.parse(a >= 0 && b > a ? t.slice(a, b + 1) : t) } catch { /* salvage below */ }
-  return { evidence: recoverArray(t, 'evidence'), answers: recoverArray(t, 'answers'), context: {}, candidate_questions: [] }
+  let o: any = null
+  try { o = JSON.parse(a >= 0 && b > a ? t.slice(a, b + 1) : t) } catch { /* salvage below */ }
+  if (!o || typeof o !== 'object' || Array.isArray(o)) o = { evidence: recoverArray(t, 'evidence'), answers: recoverArray(t, 'answers') }
+  return {
+    evidence: Array.isArray(o.evidence) ? o.evidence : [],
+    answers: Array.isArray(o.answers) ? o.answers : [],
+    context: o.context && typeof o.context === 'object' && !Array.isArray(o.context) ? o.context : {},
+    candidate_questions: Array.isArray(o.candidate_questions) ? o.candidate_questions : [],
+  }
 }
 
 export async function parseMaterial(assignment: Assignment, withText: { id: string }[], material: string, cfg: any) {
@@ -183,9 +193,12 @@ export async function runStringer(assignment: Assignment, trusted: { channel_id:
 
   // 4) server derives citation URLs from the source map (anti-hallucination) + audit
   const srcById = Object.fromEntries(sources.map(s => [s.id, s]))
+  // only sources whose transcript was actually SHOWN to the model can be cited — a source that was
+  // searched-but-not-transcribed must never validate a (hallucinated) claim attributed to it
+  const shown = new Set(withText.map(s => s.id))
   const evidence = (mined.evidence || []).map((e: any, i: number) => {
     const src = srcById[e.source_id]
-    return { id: 'E' + String(i + 1).padStart(3, '0'), claim: e.claim, truth_label: e.truth_label, source_id: e.source_id || null, source_name: src?.publisher || null, url: src?.url || null, quote: e.quote || null, valid_source: !!src }
+    return { id: 'E' + String(i + 1).padStart(3, '0'), claim: e.claim, truth_label: e.truth_label, source_id: e.source_id || null, source_name: src?.publisher || null, url: src?.url || null, quote: e.quote || null, valid_source: !!src && shown.has(e.source_id) }
   })
   const publishers = new Set(withText.map(s => s.publisher))
   const uncited = evidence.filter((e: any) => (e.truth_label === 'FACT' || e.truth_label === 'ATTRIBUTED_CLAIM') && !e.valid_source).map((e: any) => e.claim)

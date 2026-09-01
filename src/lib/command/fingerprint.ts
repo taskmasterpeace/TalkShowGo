@@ -98,6 +98,8 @@ export async function clusterStories(material: string[], cfg: any = {}) {
         evidence: item_indices.map((i: number) => material[i]).filter(Boolean),
       }
     })
+    // a titled cluster whose only item indices were out-of-range has no evidence — drop it, don't ship an empty "story"
+    .filter((c: Cluster) => c.evidence.length > 0)
     // strongest first: stories, then substories, then weak topics; within each, more evidence first
     .sort((a: Cluster, b: Cluster) => {
       const rank = (k: string) => (k === 'story' ? 0 : k === 'substory' ? 1 : 2)

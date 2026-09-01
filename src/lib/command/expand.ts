@@ -2,7 +2,8 @@
 // search mode, producing a cited dossier (Evidence Packet) that the Briefing/Cast/Floor already
 // consume. Closes the loop: lead -> evidence -> show. The lead's destination picks the YouTube mode
 // so a LEGACY lead actually digs the historical layer (the dead-2yr-old-channel case).
-import { runStringer, saveStringer, type Assignment, type YtMode } from './stringer'
+import { runStringer, saveStringer, loadConfig, type Assignment, type YtMode } from './stringer'
+import { supplementDossierWithWeb } from './web-supplement'
 
 const DEST_MODE: Record<string, YtMode> = {
   YOUTUBE_CURRENT: 'current', YOUTUBE_CONTEXT: 'context', YOUTUBE_LEGACY: 'legacy',
@@ -24,6 +25,12 @@ export async function expandLead(lead: any, trusted: any[] = []) {
   // important/current leads get the dual freshness+relevance sweep; legacy/original stay single-pass
   const dual = String(lead.destination) === 'YOUTUBE_CURRENT' || lead.dual === true
   const dossier: any = await runStringer(assignment, trusted, { mode, dual })
+  // WEB/X-routed leads (and any thin-YouTube result) get the web supplement so they actually reach
+  // reporting/records, not a YouTube-only partial. Web is best-effort — never fail the expansion.
+  const dest = String(lead.destination || '')
+  if (dest === 'WEB' || dest === 'X' || dossier.audit?.needs_web) {
+    try { await supplementDossierWithWeb(dossier, [String(lead.query || lead.value || '')], loadConfig()) } catch { /* web optional */ }
+  }
   dossier.expanded_from = { lead_id: lead.id || null, lead_type: lead.type || null, lead_value: lead.value || null, destination: lead.destination || null, mode }
   saveStringer(dossier)
   return dossier

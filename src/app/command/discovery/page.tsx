@@ -50,7 +50,7 @@ export default function Discovery() {
         <div className="cmd-kbd">runs over the latest X pull (run PULL on the DESK first). free, cheap models.</div>
         <div className="flex gap-3 flex-wrap">
           <Btn k="cluster" url="/api/command/cluster" label="① CLUSTER STORIES" busyLabel="FINGERPRINTING…" apply={(j: any) => setClusters(j.clusters || [])} />
-          <Btn k="leads" url="/api/command/leads" label="② MINE LEADS" busyLabel="MINING…" apply={(j: any) => setLeads(j.leads || [])} />
+          <Btn k="leads" url="/api/command/leads" label="② MINE LEADS" busyLabel="MINING…" apply={(j: any) => { setLeads(j.leads || []); setExpanded({}) }} />
           <Btn k="rank" url="/api/command/producer-rank" label="③ RANK FOR SHOW" busyLabel="RANKING…" apply={(j: any) => setRanked(j.ranked || [])} />
           {err && <span className="chip err">{err}</span>}
         </div>
@@ -119,8 +119,10 @@ export default function Discovery() {
                       <span style={{ color: 'var(--cmd-ink)', fontSize: 13 }}>{l.value}</span>
                       {ex?.dossier_id
                         ? <span className="chip ok ml-auto" title={`${ex.evidence} evidence · mode ${ex.mode}`}>→ {ex.dossier_id} ({ex.evidence})</span>
-                        : ex?.error ? <span className="chip err ml-auto">{String(ex.error).slice(0, 40)}</span>
-                          : <button className="cmd-btn ghost ml-auto" disabled={ex?.busy} onClick={() => expand(l)} style={{ whiteSpace: 'nowrap' }} title={`search: ${l.query}`}>{ex?.busy ? 'EXPANDING…' : 'EXPAND →'}</button>}
+                        : <span className="ml-auto flex items-center gap-2">
+                            {ex?.error && <span className="chip err" title={String(ex.error)}>{String(ex.error).slice(0, 28)}</span>}
+                            <button className="cmd-btn ghost" disabled={ex?.busy} onClick={() => expand(l)} style={{ whiteSpace: 'nowrap' }} title={`search: ${l.query}`}>{ex?.busy ? 'EXPANDING…' : ex?.error ? 'RETRY →' : 'EXPAND →'}</button>
+                          </span>}
                     </div>
                   )
                 })}
