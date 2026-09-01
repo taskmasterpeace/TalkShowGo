@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import fs from 'node:fs'
 import path from 'node:path'
 import { listStringers } from '@/lib/command/stringer'
+import { listBriefings } from '@/lib/command/briefing'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -61,10 +62,11 @@ export async function GET() {
     ytdlp: fs.existsSync(process.env.YTDLP_PATH || 'C:/Users/taskm/AppData/Local/Programs/Python/Python313/Scripts/yt-dlp.exe'),
   }
   const stringers = listStringers()
+  const briefings = listBriefings()
   try {
     const r = await fetch('http://192.168.1.249:8700/v1/health', { signal: AbortSignal.timeout(4000) })
     health.gateway = r.ok
   } catch { health.gateway = false }
 
-  return NextResponse.json({ beats, cast, guests, voices, images, audio, manifest, runs, pulls, topics, topicsAll, formats, production_skins, models, stringers, health })
+  return NextResponse.json({ beats, cast, guests, voices, images, audio, manifest, runs, pulls, topics, topicsAll, formats, production_skins, models, stringers, briefings, health })
 }
