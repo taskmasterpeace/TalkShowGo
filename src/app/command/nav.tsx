@@ -1,10 +1,11 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutGrid, Radio, Users, Clapperboard, PlayCircle, Shapes, Search } from 'lucide-react'
+import { LayoutGrid, Radio, Users, Clapperboard, PlayCircle, Shapes, Search, Radar } from 'lucide-react'
 
 const ITEMS = [
   { href: '/command', label: 'DESK', icon: LayoutGrid },
+  { href: '/command/discovery', label: 'DISCOVERY', icon: Radar },
   { href: '/command/stringer', label: 'STRINGER', icon: Search },
   { href: '/command/formats', label: 'FORMATS', icon: Shapes },
   { href: '/command/sources', label: 'SOURCES', icon: Radio },

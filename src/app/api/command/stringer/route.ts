@@ -33,8 +33,11 @@ export async function POST(req: Request) {
     } catch { /* no beat / unresolved channels -> global search only */ }
   }
 
+  const MODES = ['current', 'context', 'legacy', 'original', 'reaction']
+  const opts = { mode: MODES.includes(inp.mode) ? inp.mode : undefined, dual: !!inp.dual }
+
   try {
-    const result = await runStringer(assignment, trusted)
+    const result = await runStringer(assignment, trusted, opts)
     saveStringer(result)
     return NextResponse.json({ ok: true, ...result })
   } catch (e: any) {

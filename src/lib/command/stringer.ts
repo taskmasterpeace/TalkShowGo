@@ -20,7 +20,22 @@ export type Src = { id: string; medium: 'youtube'; source_class: string; trust: 
 
 const ytUrl = (id: string) => `https://www.youtube.com/watch?v=${id}`
 
-async function ytSearch(query: string, trusted: { channel_id: string; name: string }[], cfg: any): Promise<Src[]> {
+// Dual-mode YouTube (Story Resolution Loop). Innertube can't do publishedBefore ranges (that needs
+// the Data API), so LEGACY leans on relevance + the era living in the query; CURRENT filters to
+// recent uploads. `dual` runs a freshness pass AND a relevance pass and merges (the spec's two-search
+// rule) so "latest OR relevant" is never an either/or.
+export type YtMode = 'current' | 'context' | 'legacy' | 'original' | 'reaction'
+const YT_MODES: Record<YtMode, any> = {
+  current: { sort_by: 'upload_date', upload_date: 'month' },
+  context: { sort_by: 'relevance' },
+  legacy: { sort_by: 'relevance', upload_date: 'all' },
+  original: { sort_by: 'relevance' },
+  reaction: { sort_by: 'relevance' },
+}
+
+async function ytSearch(query: string, trusted: { channel_id: string; name: string }[], cfg: any, opts: { mode?: YtMode; dual?: boolean } = {}): Promise<Src[]> {
+  const mode: YtMode = (opts.mode && YT_MODES[opts.mode]) ? opts.mode : 'context'
+  const mf = YT_MODES[mode]
   const { Innertube } = await import('youtubei.js')
   const yt = await Innertube.create({ retrieve_player: false })
   const out: Record<string, Src> = {}
@@ -49,11 +64,14 @@ async function ytSearch(query: string, trusted: { channel_id: string; name: stri
       for (const v of list.slice(0, cfg.youtube?.results_per_trusted_channel || 2)) add(v, 'reporting', 'configured', ch.name)
     } catch { /* channel unreachable */ }
   }
-  // global search
-  try {
-    const res: any = await yt.search(query, { type: 'video' })
-    for (const v of (res?.videos || res?.results || []).slice(0, cfg.youtube?.global_results || 6)) add(v, 'commentary', 'discovered')
-  } catch { /* global search failed */ }
+  // global search(es): apply the mode filter; `dual` runs a freshness pass + a relevance pass, merged
+  const runs = opts.dual ? [{ ...mf, sort_by: 'upload_date' }, { ...mf, sort_by: 'relevance' }] : [mf]
+  for (const filt of runs) {
+    try {
+      const res: any = await yt.search(query, { type: 'video', ...filt })
+      for (const v of (res?.videos || res?.results || []).slice(0, cfg.youtube?.global_results || 6)) add(v, 'commentary', 'discovered')
+    } catch { /* global search failed for this filter */ }
+  }
   const arr = Object.values(out)
   arr.forEach((s, i) => { s.id = 'S' + String(i + 1).padStart(3, '0') })
   return arr
@@ -138,12 +156,12 @@ export async function parseMaterial(assignment: Assignment, withText: { id: stri
   return { mined, ms: Date.now() - t0, usage: j.usage }
 }
 
-export async function runStringer(assignment: Assignment, trusted: { channel_id: string; name: string }[]) {
+export async function runStringer(assignment: Assignment, trusted: { channel_id: string; name: string }[], opts: { mode?: YtMode; dual?: boolean } = {}) {
   const cfg = loadConfig()
   const id = 'str_' + Math.random().toString(36).slice(2, 10)
   const now = new Date().toISOString()
-  // 1) search YouTube
-  const sources = await ytSearch(assignment.text + (assignment.questions[0] ? ' ' + assignment.questions[0] : ''), trusted, cfg)
+  // 1) search YouTube (mode-aware: current/context/legacy/original/reaction; dual = freshness+relevance)
+  const sources = await ytSearch(assignment.text + (assignment.questions[0] ? ' ' + assignment.questions[0] : ''), trusted, cfg, opts)
   // 2) transcripts for the top N
   const capWords = cfg.youtube?.transcript_words_per_video || 12000
   let totalWords = 0
@@ -178,7 +196,7 @@ export async function runStringer(assignment: Assignment, trusted: { channel_id:
   }
   return {
     schema_version: 1, id, created_at: now, updated_at: now, status: withText.length ? 'complete' : 'partial',
-    assignment: { ...assignment, as_of: now },
+    assignment: { ...assignment, mode: opts.mode || 'context', dual: !!opts.dual, as_of: now },
     sources, evidence,
     answers: mined.answers || [], context: mined.context || {}, candidate_questions: mined.candidate_questions || [],
     audit, usage: { youtube_results: sources.length, transcripts: withText.length, transcript_words: totalWords, parse_ms: ms },
