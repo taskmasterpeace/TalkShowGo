@@ -88,14 +88,28 @@ Output STRICT JSON only: {"answer":"...","thesis":"...","reasons":[{"text":"..."
 
 const strOk = (s: any) => typeof s === 'string' && s.trim().length > 0
 
-async function briefOne(host: any, dna: any, briefing: any, evidenceById: Record<string, any>) {
+// A DELEGATE is a real person a viewer names to represent a point of view (Robert's "name my
+// person" vision). They are fed the SAME impartial briefing and asked for THEIR honest opinion.
+// persona_note is the viewer's own characterization; we never invent facts about the person.
+function renderDelegatePrint(d: any): string {
+  const L: string[] = []
+  L.push(`You are ${d.name}, appearing as a DELEGATE on a talk show — a real voice brought in to represent a point of view, not a house host.`)
+  if (d.persona_note) L.push(`Who you are / where you stand: ${d.persona_note}`)
+  if (d.stance_hint) L.push(`Your leaning going in: ${d.stance_hint}. Let the briefing sharpen it honestly; change your mind if the evidence earns it.`)
+  L.push(`You were handed an impartial briefing and asked for YOUR real take. Speak plainly in your own voice, like a sharp person who actually cares — no broadcaster polish, no fence-sitting.`)
+  L.push('House law: never invent facts; a rumor is "word on the street"; no em-dashes; you land a verdict.')
+  return L.join('\n')
+}
+
+// participant: { id, name, kind:'host'|'delegate', printText, temperature }
+async function briefOne(participant: any, dna: any, briefing: any, evidenceById: Record<string, any>) {
   const pack = packBriefing(briefing, dna, evidenceById)
-  const base = { cast_id: host.id, name: host.name, dna_id: dna.id, dna_attribute: dna.attribute, budget: pack.budget, moves_included: pack.moves.map((m: any) => m.id) }
+  const base = { cast_id: participant.id, name: participant.name, kind: participant.kind, dna_id: dna.id, dna_attribute: dna.attribute, budget: pack.budget, moves_included: pack.moves.map((m: any) => m.id) }
   if (!pack.fits || !pack.allowed_evidence_ids.length) return { ...base, ok: false, error: 'briefing_too_large_or_uncited' }
-  const sys = renderPrint(host) + '\n\n' + RULES + '\nALLOWED_EVIDENCE_IDS: ' + pack.allowed_evidence_ids.join(', ')
+  const sys = participant.printText + '\n\n' + RULES + '\nALLOWED_EVIDENCE_IDS: ' + pack.allowed_evidence_ids.join(', ')
   const user = `THE BRIEFING (your entire factual world):\n${pack.contextText}\n\nTHE QUESTION: ${briefing.question?.text}\n\nForm your stance now, in character, as JSON.`
   let out
-  try { out = await callModel(dna, sys, user, { temperature: host.model?.temperature ?? 0.8, maxTokens: 900 }) }
+  try { out = await callModel(dna, sys, user, { temperature: participant.temperature ?? 0.8, maxTokens: 900 }) }
   catch (e: any) { return { ...base, ok: false, error: 'provider: ' + String(e?.message || e).slice(0, 100) } }
   try {
     const stance = parseJsonLoose(out.text)
@@ -116,24 +130,34 @@ async function briefOne(host: any, dna: any, briefing: any, evidenceById: Record
   }
 }
 
-export async function briefAgents(briefing: any, castIds: string[]) {
+const DEFAULT_DELEGATE_DNA = 'google/gemini-2.5-flash-lite'
+
+// Brief the whole room concurrently: house hosts (by cast id) AND viewer-named delegates. Wall-time
+// is bounded to the slowest participant, and each is guarded so one failure never rejects the batch.
+export async function briefAgents(briefing: any, castIds: string[], delegates: any[] = []) {
   const cast = JSON.parse(fs.readFileSync(path.join(ROOT, 'lab', 'cast', 'cast.json'), 'utf8'))
   const models = JSON.parse(fs.readFileSync(path.join(ROOT, 'lab', 'models.json'), 'utf8'))
   const dnaById = Object.fromEntries((models.models || []).map((m: any) => [m.id, m]))
   const stringer = JSON.parse(fs.readFileSync(path.join(ROOT, 'lab', 'research', 'stringer', briefing.stringer_id + '.json'), 'utf8'))
   const evidenceById = Object.fromEntries((stringer.evidence || []).map((e: any) => [e.id, e]))
   const hosts = cast.hosts || []
-  // hosts run CONCURRENTLY (bounds wall-time to the slowest host, not the sum) and each is guarded
-  // so one host's failure never rejects the batch.
-  const one = async (cid: string) => {
+  const oneHost = async (cid: string) => {
     const host = hosts.find((h: any) => h.id === cid)
     if (!host) return { cast_id: cid, ok: false, error: 'host not found' }
     const dna = dnaById[host.model?.dna_id]
-    if (!dna) return { cast_id: cid, name: host.name, ok: false, error: 'no dna_id / dna not found: ' + host.model?.dna_id }
-    try { return await briefOne(host, dna, briefing, evidenceById) }
-    catch (e: any) { return { cast_id: cid, name: host.name, ok: false, error: 'brief error: ' + String(e?.message || e).slice(0, 100) } }
+    if (!dna) return { cast_id: cid, name: host.name, kind: 'host', ok: false, error: 'no dna_id / dna not found: ' + host.model?.dna_id }
+    try { return await briefOne({ id: host.id, name: host.name, kind: 'host', printText: renderPrint(host), temperature: host.model?.temperature }, dna, briefing, evidenceById) }
+    catch (e: any) { return { cast_id: cid, name: host.name, kind: 'host', ok: false, error: 'brief error: ' + String(e?.message || e).slice(0, 100) } }
   }
-  const deliveries = await Promise.all(castIds.map(one))
+  const oneDelegate = async (d: any, i: number) => {
+    const slug = String(d.name || `guest-${i + 1}`).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || `guest-${i + 1}`
+    const id = 'delegate:' + slug
+    const dna = dnaById[d.dna_id] || dnaById[DEFAULT_DELEGATE_DNA]
+    if (!dna) return { cast_id: id, name: d.name, kind: 'delegate', ok: false, error: 'no delegate dna available' }
+    try { return await briefOne({ id, name: d.name || `Guest ${i + 1}`, kind: 'delegate', printText: renderDelegatePrint(d), temperature: d.temperature ?? 0.85 }, dna, briefing, evidenceById) }
+    catch (e: any) { return { cast_id: id, name: d.name, kind: 'delegate', ok: false, error: 'brief error: ' + String(e?.message || e).slice(0, 100) } }
+  }
+  const deliveries = await Promise.all([...castIds.map(oneHost), ...delegates.map(oneDelegate)])
   return { briefing_id: briefing.id, question: briefing.question?.text, deliveries }
 }
 

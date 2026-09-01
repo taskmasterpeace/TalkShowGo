@@ -1,0 +1,423 @@
+{
+  "topic": "Tay Roc battle rapper",
+  "compiled": "2026-09-01T19:29:54.765Z",
+  "question": "Which of Tay Roc's battles is the greatest of his career?",
+  "entries": [
+    {
+      "id": "E001",
+      "claim": "Tay Roc considers his battle against \"Daylight\" to be one of his top five battles.",
+      "source_name": "ItsJustBattleRap podcast",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=qJb7362JXwU",
+      "tier": "FACT"
+    },
+    {
+      "id": "E002",
+      "claim": "Tay Roc considers his battle against \"Pat Stay\" to be one of his top five battles.",
+      "source_name": "ItsJustBattleRap podcast",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=qJb7362JXwU",
+      "tier": "FACT"
+    },
+    {
+      "id": "E003",
+      "claim": "Tay Roc considers his battle against \"Disaster\" to be one of his top five battles.",
+      "source_name": "ItsJustBattleRap podcast",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=qJb7362JXwU",
+      "tier": "FACT"
+    },
+    {
+      "id": "E004",
+      "claim": "Tay Roc considers his battle against \"Hollow Da Don\" to be one of his top five battles and a special one for him due to the viral \"seat belt\" moment.",
+      "source_name": "ItsJustBattleRap podcast",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=qJb7362JXwU",
+      "tier": "FACT"
+    },
+    {
+      "id": "E005",
+      "claim": "Tay Roc considers his battle against \"Charlie\" (Part 2) or \"Gucci\" to be one of his top five battles, but ultimately chooses \"Surf\".",
+      "source_name": "ItsJustBattleRap podcast",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=qJb7362JXwU",
+      "tier": "FACT"
+    },
+    {
+      "id": "E006",
+      "claim": "Tay Roc's battle against Surf was his first Summer Madness and he felt the \"machine was against me\" and it was set up for him to lose.",
+      "source_name": "ItsJustBattleRap podcast",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=qJb7362JXwU",
+      "tier": "FACT"
+    },
+    {
+      "id": "E007",
+      "claim": "Tay Roc feels his battle against DNA was one of his greatest moments and a \"movie\".",
+      "source_name": "Iamthefanatic",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_QIoMwz11V0",
+      "tier": "FACT"
+    },
+    {
+      "id": "E008",
+      "claim": "Tay Roc considers the ending of his first round versus \"B-Raze\" (implied by \"braze\") in Summer Madness as one of his greatest moments.",
+      "source_name": "Iamthefanatic",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_QIoMwz11V0",
+      "tier": "FACT"
+    },
+    {
+      "id": "E009",
+      "claim": "Tay Roc considers the \"seat belt\" moment in his battle against Hollow Da Don as one of his greatest moments.",
+      "source_name": "Iamthefanatic",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_QIoMwz11V0",
+      "tier": "FACT"
+    },
+    {
+      "id": "E010",
+      "claim": "Tay Roc considers \"The Showcase\" with Chess as one of his greatest moments.",
+      "source_name": "Iamthefanatic",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_QIoMwz11V0",
+      "tier": "FACT"
+    },
+    {
+      "id": "E011",
+      "claim": "Tay Roc's battle against Clips was a learning experience that put him where he is today, and he does not want to go through that first time with Clips again.",
+      "source_name": "hiphopisreal.com",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=kTBxSI8fy4Q",
+      "tier": "FACT"
+    },
+    {
+      "id": "E012",
+      "claim": "Tay Roc considers his battle with Clips to be one of the last dope classics, with arguments still existing about who won.",
+      "source_name": "hiphopisreal.com",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=kTBxSI8fy4Q",
+      "tier": "FACT"
+    },
+    {
+      "id": "E013",
+      "claim": "Tay Roc believes his battle against C3 was brutal, and if he had lost, the footage would have been released immediately.",
+      "source_name": "hiphopisreal.com",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=kTBxSI8fy4Q",
+      "tier": "FACT"
+    },
+    {
+      "id": "E014",
+      "claim": "Tay Roc feels that his battle against Surf was his first Summer Madness and that the situation was set up for him to lose.",
+      "source_name": "ItsJustBattleRap podcast",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=qJb7362JXwU",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E015",
+      "claim": "Tay Roc feels that his battle against DNA was a movie and one of his greatest moments.",
+      "source_name": "Iamthefanatic",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_QIoMwz11V0",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E016",
+      "claim": "Tay Roc considers the \"seat belt\" moment in his battle against Hollow Da Don to be a top 10 moment in battle rap history.",
+      "source_name": "Iamthefanatic",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_QIoMwz11V0",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E017",
+      "claim": "Tay Roc believes his battle against Clips was a significant learning experience that shaped his career.",
+      "source_name": "hiphopisreal.com",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=kTBxSI8fy4Q",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E018",
+      "claim": "Tay Roc believes his battle with Clips was a classic and still argues about who won.",
+      "source_name": "hiphopisreal.com",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=kTBxSI8fy4Q",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E019",
+      "claim": "Tay Roc considers his battle against C3 to be brutal, and the delayed release of footage indicates he likely won.",
+      "source_name": "hiphopisreal.com",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=kTBxSI8fy4Q",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E020",
+      "claim": "Tay Roc's career changed after his battle against Surf, and his relationship with Smack has been consistent since then.",
+      "source_name": "ItsJustBattleRap podcast",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=qJb7362JXwU",
+      "tier": "ANALYSIS"
+    },
+    {
+      "id": "E021",
+      "claim": "Tay Roc feels that his battle against DNA was a movie and one of his greatest moments.",
+      "source_name": "Iamthefanatic",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_QIoMwz11V0",
+      "tier": "ANALYSIS"
+    },
+    {
+      "id": "E022",
+      "claim": "Tay Roc considers the \"seat belt\" moment in his battle against Hollow Da Don to be a top 10 moment in battle rap history.",
+      "source_name": "Iamthefanatic",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_QIoMwz11V0",
+      "tier": "ANALYSIS"
+    },
+    {
+      "id": "E023",
+      "claim": "Tay Roc believes his battle against Clips was a significant learning experience that shaped his career.",
+      "source_name": "hiphopisreal.com",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=kTBxSI8fy4Q",
+      "tier": "ANALYSIS"
+    },
+    {
+      "id": "E024",
+      "claim": "Tay Roc believes his battle with Clips was a classic and still argues about who won.",
+      "source_name": "hiphopisreal.com",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=kTBxSI8fy4Q",
+      "tier": "ANALYSIS"
+    },
+    {
+      "id": "E025",
+      "claim": "Tay Roc considers his battle against C3 to be brutal, and the delayed release of footage indicates he likely won.",
+      "source_name": "hiphopisreal.com",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=kTBxSI8fy4Q",
+      "tier": "ANALYSIS"
+    },
+    {
+      "id": "E026",
+      "claim": "Tay Roc, whose real name is Donte Richardson, is an American battle rapper from Baltimore, Maryland.",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/rapper/29QU70EpMbzrbM3ohmPj/tay-roc",
+      "tier": "FACT"
+    },
+    {
+      "id": "E027",
+      "claim": "He has been competing for nearly 20 years, with footage of him battling as a teenager available.",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/rapper/29QU70EpMbzrbM3ohmPj/tay-roc",
+      "tier": "FACT"
+    },
+    {
+      "id": "E028",
+      "claim": "His career began with appearances in leagues like Fight Klub and Lionz Den, and he gained significant traction around 2014.",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/rapper/29QU70EpMbzrbM3ohmPj/tay-roc",
+      "tier": "FACT"
+    },
+    {
+      "id": "E029",
+      "claim": "As of September 1, 2026, Tay Roc has 61 cataloged battles with over 98 million views, averaging over 1.6 million views per battle.",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/rapper/29QU70EpMbzrbM3ohmPj/tay-roc",
+      "tier": "FACT"
+    },
+    {
+      "id": "E030",
+      "claim": "He has battled in numerous leagues, including KOTD (King of the Dot), URL (Ultimate Rap League), and others.",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/rapper/29QU70EpMbzrbM3ohmPj/tay-roc",
+      "tier": "FACT"
+    },
+    {
+      "id": "E031",
+      "claim": "Some of his notable opponents include A Ward, K-Shine, Nu Jerzey Twork, Pat Stay, and Hollow Da Don.",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/rapper/29QU70EpMbzrbM3ohmPj/tay-roc",
+      "tier": "FACT"
+    },
+    {
+      "id": "E032",
+      "claim": "Tay Roc was ranked #2 for Champion of the Year in 2017 and again in 2022.",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/rapper/29QU70EpMbzrbM3ohmPj/tay-roc",
+      "tier": "FACT"
+    },
+    {
+      "id": "E033",
+      "claim": "In 2024, he was named Champion of the Year (COTY).",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/rapper/29QU70EpMbzrbM3ohmPj/tay-roc",
+      "tier": "FACT"
+    },
+    {
+      "id": "E034",
+      "claim": "His activity and performance have been noted for their consistency and impact over the years, with a significant increase in battles and rankings from 2021 to 2024.",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/rapper/29QU70EpMbzrbM3ohmPj/tay-roc",
+      "tier": "FACT"
+    },
+    {
+      "id": "E035",
+      "claim": "There is no single consensus on which of Tay Roc's battles is the greatest of his career.",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/battle/s71Y7sNb3cg/tay-roc-vs-chess",
+      "tier": "ANALYSIS"
+    },
+    {
+      "id": "E036",
+      "claim": "The battle Tay Roc vs. Chess is described as a 'certified classic' and a 'modern classic that felt like a passing of the torch moment.'",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/battle/s71Y7sNb3cg/tay-roc-vs-chess",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E037",
+      "claim": "Chess's first round in the battle against Tay Roc is considered 'one of the greatest rounds in URL history.'",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/battle/s71Y7sNb3cg/tay-roc-vs-chess",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E038",
+      "claim": "The fan consensus leans towards Chess winning the battle against Tay Roc due to his 'iconic bars and groundbreaking creativity.'",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/battle/s71Y7sNb3cg/tay-roc-vs-chess",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E039",
+      "claim": "Tay Roc's second round in his battle against Ill Will is 'widely considered one of the greatest single rounds in the history of the Ultimate Rap League.'",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/battle/s71Y7sNb3cg/tay-roc-vs-chess",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E040",
+      "claim": "Tay Roc's second round against Ill Will featured the 'iconic 'Emmett Till' scheme.'",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/battle/s71Y7sNb3cg/tay-roc-vs-chess",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E041",
+      "claim": "Tay Roc secured a 'clear 2-1 victory' against Ill Will.",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/battle/s71Y7sNb3cg/tay-roc-vs-chess",
+      "tier": "FACT"
+    },
+    {
+      "id": "E042",
+      "claim": "The battle Tay Roc vs. DNA is cited as a 'definitive example of energy versus the pen,' where Roc's 'aggression and haymakers dominated the narrative.'",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/battle/s71Y7sNb3cg/tay-roc-vs-chess",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E043",
+      "claim": "Tay Roc's 'other half' rebuttal at the end of the first round in his battle against DNA is one of the most iconic moments in battle rap history.",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/battle/s71Y7sNb3cg/tay-roc-vs-chess",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E044",
+      "claim": "This battle against DNA cemented Tay Roc as 'Smack's Gunner.'",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/battle/s71Y7sNb3cg/tay-roc-vs-chess",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E045",
+      "claim": "The second round of Tay Roc vs. Hollow da Don, anchored by the 'legendary 'Seatbelt' bar,' is 'widely considered one of the greatest rounds in battle rap history.'",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/battle/s71Y7sNb3cg/tay-roc-vs-chess",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E046",
+      "claim": "Tay Roc's performance against Hollow da Don, defined by 'iconic haymakers,' secured him a '2-1 edge in most scorecards.'",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/battle/s71Y7sNb3cg/tay-roc-vs-chess",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E047",
+      "claim": "This battle against Hollow da Don solidified Tay Roc as 'the face of the URL.'",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/battle/s71Y7sNb3cg/tay-roc-vs-chess",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E048",
+      "claim": "Tay Roc gave a 'career-defining performance that solidified his status as a URL legend' in his battle against Charlie Clips.",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/battle/s71Y7sNb3cg/tay-roc-vs-chess",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E049",
+      "claim": "Charlie Clips ultimately won the battle against Tay Roc 2-1.",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/battle/s71Y7sNb3cg/tay-roc-vs-chess",
+      "tier": "FACT"
+    },
+    {
+      "id": "E050",
+      "claim": "Tay Roc's second round against Charlie Clips was described as 'God-mode' with an 'all-time URL classic' bar.",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/battle/s71Y7sNb3cg/tay-roc-vs-chess",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E051",
+      "claim": "In the battle Tay Roc vs. Lu Castro, Tay Roc delivered a 'dominant, near-flawless performance.'",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/battle/s71Y7sNb3cg/tay-roc-vs-chess",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E052",
+      "claim": "Tay Roc's first round against Lu Castro is considered an 'all-time classic.'",
+      "source_name": "rapverdict.com",
+      "source_type": "research",
+      "url": "https://www.rapverdict.com/battle/s71Y7sNb3cg/tay-roc-vs-chess",
+      "tier": "ATTRIBUTED_CLAIM"
+    }
+  ]
+}

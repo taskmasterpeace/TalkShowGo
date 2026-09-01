@@ -1,0 +1,117 @@
+{
+  "id": "tay-roc-battle-rapper",
+  "show": "tayroc-hood",
+  "question": "Which of Tay Roc's battles is the greatest of his career?",
+  "target_spoken_words": 368,
+  "max_turns": 27,
+  "stances": {
+    "marcus-blaze": "The battle against Hollow Da Don is Tay Roc's undisputed greatest because his second round, featuring the legendary 'Seatbelt' bar, is widely considered one of the greatest rounds in battle rap history.",
+    "tasha-raw": "While Hollow is a strong contender, Tay Roc's battle against Ill Will is his greatest because his second round, featuring the 'Emmett Till' scheme, is widely considered one of the greatest single rounds in URL history.",
+    "king-knowledge": "Tay Roc's greatest battle isn't about a single round, but the overall impact; his fight against DNA cemented his 'Smack's Gunner' persona and showcased his aggressive, haymaker-driven style that defined the URL."
+  },
+  "allowed_evidence": {
+    "marcus-blaze": [
+      "E045",
+      "E046",
+      "E047",
+      "E032"
+    ],
+    "tasha-raw": [
+      "E039",
+      "E040",
+      "E041",
+      "E027"
+    ],
+    "king-knowledge": [
+      "E042",
+      "E043",
+      "E044",
+      "E034",
+      "E035"
+    ]
+  },
+  "withheld": [
+    {
+      "host": "king-knowledge",
+      "evidence": "E035",
+      "turn": 7,
+      "instruction": "There is no single consensus on which of Tay Roc's battles is the greatest of his career."
+    }
+  ],
+  "anaphora_exempt": [
+    "tay roc",
+    "hollow da don",
+    "ill will",
+    "dna",
+    "greatest",
+    "battle",
+    "round",
+    "url",
+    "face of the",
+    "seatbelt",
+    "2-1"
+  ],
+  "protected_facts": [
+    {
+      "note": "Tay Roc's real name is Donte Richardson.",
+      "banned_phrasings": [
+        "Donte Richardson's real name is Tay Roc"
+      ]
+    }
+  ],
+  "waypoints": [
+    {
+      "after_words": 30,
+      "host": "tasha-raw",
+      "note": "Marcus, you're calling Hollow the greatest, but isn't the Ill Will battle's second round, with the 'Emmett Till' scheme, arguably more impactful in the URL's history?"
+    },
+    {
+      "after_words": 70,
+      "host": "king-knowledge",
+      "note": "Tasha, you're focused on a single round. But doesn't the DNA battle showcase Tay Roc's consistent energy and 'Smack's Gunner' persona, which is more defining than one scheme?"
+    },
+    {
+      "after_words": 120,
+      "host": "marcus-blaze",
+      "note": "King, you say DNA cemented his persona, but the Hollow battle solidified him as 'the face of the URL' with iconic haymakers."
+    },
+    {
+      "after_words": 170,
+      "host": "tasha-raw",
+      "note": "Marcus, you say Hollow is the greatest, but E035 states there's no consensus. How can it be the undisputed greatest if there's no agreement?"
+    },
+    {
+      "after_words": 220,
+      "host": "king-knowledge",
+      "note": "Tasha, you're bringing up consensus, but your own evidence E039 calls the Ill Will round 'widely considered' great. That's still not a consensus."
+    },
+    {
+      "after_words": 270,
+      "host": "marcus-blaze",
+      "note": "King, you're focusing on DNA's aggression, but the Hollow battle featured 'iconic haymakers' that secured him a '2-1 edge in most scorecards'."
+    }
+  ],
+  "detonation_react": {
+    "host": "tasha-raw",
+    "instruction": "Wait, no consensus? That changes everything. So we can't definitively say any single battle is THE greatest."
+  },
+  "kk_drop": {
+    "host": "king-knowledge",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "marcus-blaze",
+    "instruction": "Tay Roc vs. Hollow Da Don is the greatest battle of his career, and it's not even close."
+  },
+  "exit": {
+    "host": "king-knowledge",
+    "alt_host": "marcus-blaze",
+    "instruction": "We've debated the rounds, the personas, and the impact, but the fact remains, Tay Roc's legacy is built on consistent greatness, not just one moment."
+  },
+  "_compiled_from": {
+    "stringer": "str_2i21aaz1",
+    "briefing": "brf_6ct7fwv0",
+    "delegates_surfaced": []
+  }
+}

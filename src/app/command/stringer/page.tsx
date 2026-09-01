@@ -28,6 +28,11 @@ export default function Stringer() {
   const [agents, setAgents] = useState<any>(null)
   const [aBusy, setABusy] = useState(false)
   const [deselected, setDeselected] = useState<Set<string>>(new Set())
+  const [delegates, setDelegates] = useState<{ name: string; persona_note?: string }[]>([])
+  const [dName, setDName] = useState('')
+  const [dNote, setDNote] = useState('')
+  const [show, setShow] = useState<any>(null)
+  const [showBusy, setShowBusy] = useState(false)
   if (!state) return <div className="p-8 cmd-kbd">LOADING STRINGER…</div>
 
   const d = res
@@ -62,12 +67,33 @@ export default function Stringer() {
   const briefCast = async () => {
     if (!brief?.id) return
     const cast_ids = hosts.filter((h: any) => !deselected.has(h.id)).map((h: any) => h.id)
-    if (!cast_ids.length) return
+    if (!cast_ids.length && !delegates.length) return
     setABusy(true); setAgents(null); setErr(null)
     try {
-      const r = await fetch('/api/command/briefing/agent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ briefing_id: brief.id, cast_ids }) })
+      const r = await fetch('/api/command/briefing/agent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ briefing_id: brief.id, cast_ids, delegates }) })
       const j = await r.json(); if (j.ok) setAgents(j); else setErr(j.error || 'cast brief failed')
     } catch (e: any) { setErr(String(e?.message || e)) } finally { setABusy(false) }
+  }
+  const addDelegate = () => { if (!dName.trim()) return; setDelegates(d => [...d, { name: dName.trim(), persona_note: dNote.trim() || undefined }]); setDName(''); setDNote('') }
+  const pollShow = async (slug: string) => {
+    try {
+      const r = await fetch(`/api/command/showbuild?show=${slug}`); const j = await r.json()
+      if (j.ok) {
+        setShow({ slug, status: j.status })
+        if (j.status.stage !== 'done' && j.status.stage !== 'error') setTimeout(() => pollShow(slug), 3000)
+        else setShowBusy(false)
+      } else setShowBusy(false)
+    } catch { setTimeout(() => pollShow(slug), 4000) }
+  }
+  const produceShow = async () => {
+    if (!brief?.id || !d?.id) return
+    setShowBusy(true); setShow(null); setErr(null)
+    try {
+      const r = await fetch('/api/command/showbuild', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ stringer_id: d.id, briefing_id: brief.id, voice: true }) })
+      const j = await r.json()
+      if (j.ok) { setShow({ slug: j.show, status: { stage: 'queued', pct: 1, message: 'starting the build…' } }); pollShow(j.show) }
+      else { setErr(j.error || 'show build failed'); setShowBusy(false) }
+    } catch (e: any) { setErr(String(e?.message || e)); setShowBusy(false) }
   }
 
   return (
@@ -202,17 +228,42 @@ export default function Stringer() {
                   )
                 })}
               </div>
+              {/* THE DELEGATE — a viewer names a real person to represent a point of view */}
+              <div className="cmd-panel p-3 space-y-2" style={{ borderStyle: 'dashed' }}>
+                <div className="cmd-kbd" style={{ color: 'var(--cmd-red)' }}>THE DELEGATE — add a real person to represent a view. fed the SAME briefing, forms their OWN take.</div>
+                {delegates.length > 0 && (
+                  <div className="flex gap-2 flex-wrap">
+                    {delegates.map((d, i) => (
+                      <span key={i} className="chip" style={{ borderColor: 'var(--cmd-red)' }}>
+                        {d.name}{d.persona_note ? ` · ${d.persona_note.slice(0, 30)}` : ''}
+                        <button onClick={() => setDelegates(x => x.filter((_, k) => k !== i))} style={{ background: 'none', border: 'none', color: 'var(--cmd-dim)', cursor: 'pointer', marginLeft: 5 }}>✕</button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+                <div className="flex gap-2 flex-wrap">
+                  <input className="cmd-input" style={{ maxWidth: 210 }} placeholder="name (a fan, a fighter, you…)" value={dName} onChange={e => setDName(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') addDelegate() }} />
+                  <input className="cmd-input" style={{ flex: 1, minWidth: 220 }} placeholder="who they are / where they stand (optional)" value={dNote} onChange={e => setDNote(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') addDelegate() }} />
+                  <button className="cmd-btn ghost" disabled={!dName.trim()} onClick={addDelegate}>+ ADD</button>
+                </div>
+              </div>
               <div className="flex items-center gap-3 flex-wrap">
-                <button className="cmd-btn primary" disabled={aBusy || hosts.every((h: any) => deselected.has(h.id))} onClick={briefCast}>
-                  {aBusy ? 'THE ROOM IS READING…' : `BRIEF ${hosts.filter((h: any) => !deselected.has(h.id)).length} HOST${hosts.filter((h: any) => !deselected.has(h.id)).length === 1 ? '' : 'S'}`}
-                </button>
-                {aBusy && <span className="cmd-kbd">each host forms a take on its own engine (R1 is slow on purpose — that is the gravitas)…</span>}
+                {(() => {
+                  const nH = hosts.filter((h: any) => !deselected.has(h.id)).length, n = nH + delegates.length
+                  return (
+                    <button className="cmd-btn primary" disabled={aBusy || n === 0} onClick={briefCast}>
+                      {aBusy ? 'THE ROOM IS READING…' : `BRIEF ${n} ${n === 1 ? 'VOICE' : 'VOICES'}${delegates.length ? ` (${nH} host${nH === 1 ? '' : 's'} + ${delegates.length} delegate${delegates.length === 1 ? '' : 's'})` : ''}`}
+                    </button>
+                  )
+                })()}
+                {aBusy && <span className="cmd-kbd">each voice forms a take on its own engine (R1 is slow on purpose — that is the gravitas)…</span>}
               </div>
 
               {agents && (agents.deliveries || []).map((dv: any, i: number) => (
                 <div key={i} className="cmd-panel p-4" style={{ borderColor: dv.ok ? 'var(--cmd-line-hot)' : 'var(--cmd-line)' }}>
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="cmd-display" style={{ fontSize: 15, color: 'var(--cmd-ink)' }}>{dv.name}</span>
+                    {dv.kind === 'delegate' && <span className="chip" style={{ borderColor: 'var(--cmd-red)', color: 'var(--cmd-red)' }}>DELEGATE</span>}
                     <span className="chip info">{dv.dna_attribute}</span>
                     <span className="cmd-kbd">{(dv.dna_id || '').split('/').pop()}</span>
                     {dv.ok
@@ -239,6 +290,34 @@ export default function Stringer() {
                   )}
                 </div>
               ))}
+
+              {/* PRODUCE THE SHOW — the whole lineage becomes one rendered audio talk show */}
+              {agents && (agents.deliveries || []).filter((x: any) => x.ok && x.kind !== 'delegate').length >= 2 && (
+                <div className="space-y-3" style={{ borderTop: '1px solid var(--cmd-line)', paddingTop: 14 }}>
+                  <div className="flex items-baseline gap-3 flex-wrap">
+                    <span className="cmd-label" style={{ color: 'var(--cmd-red)' }}>PRODUCE THE SHOW</span>
+                    <span className="cmd-kbd">the showrunner splits the room into a real argument · the floor writes it live · Breeze voices it → one audio talk show</span>
+                  </div>
+                  <div className="flex items-center gap-3 flex-wrap">
+                    <button className="cmd-btn primary" disabled={showBusy} onClick={produceShow}>{showBusy ? 'BUILDING…' : '▶ BUILD SHOW + AUDIO'}</button>
+                    {show?.status && show.status.stage !== 'done' && show.status.stage !== 'error' && <span className="cmd-kbd">[{show.status.pct}%] {show.status.stage} — {show.status.message}</span>}
+                    {show?.status?.stage === 'error' && <span className="chip err">{show.status.message}</span>}
+                  </div>
+                  {showBusy && show?.status?.stage !== 'done' && <div className="cmd-kbd" style={{ color: 'var(--cmd-faint)' }}>compile → floor (each host argues on its own engine, R1 is slow) → voices. a full build runs a few minutes.</div>}
+                  {show?.status?.audio_url && (
+                    <div className="cmd-panel p-4 space-y-2" style={{ borderColor: 'var(--cmd-line-hot)' }}>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="chip ok">SHOW READY</span>
+                        <span className="cmd-display" style={{ color: 'var(--cmd-ink)', fontSize: 14 }}>{show.status.question}</span>
+                        {show.status.duration_s ? <span className="cmd-kbd ml-auto">{Math.floor(show.status.duration_s / 60)}:{String(show.status.duration_s % 60).padStart(2, '0')}</span> : null}
+                      </div>
+                      {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+                      <audio controls src={show.status.audio_url} style={{ width: '100%' }} />
+                      {show.status.script && <details><summary className="cmd-kbd" style={{ cursor: 'pointer' }}>read the transcript</summary><pre style={{ whiteSpace: 'pre-wrap', color: 'var(--cmd-dim)', fontSize: 12.5, lineHeight: 1.6, marginTop: 8 }}>{show.status.script}</pre></details>}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </>}
         </section>

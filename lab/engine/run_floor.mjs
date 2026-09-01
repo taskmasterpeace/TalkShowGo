@@ -26,6 +26,21 @@ const words = s => (s.trim().match(/\S+/g) || []).length
 const stripThink = s => s.replace(/<think>[\s\S]*?<\/think>/g, '').replace(/^[\s\S]*?<\/think>\s*/, '').trim() // also handles a missing opening tag
 function readEnvKey(name) { try { const m = fs.readFileSync(path.join(ROOT, '.env'), 'utf8').match(new RegExp('^' + name + '=(.+)$', 'm')); return m ? m[1].trim() : null } catch { return null } }
 
+// --provider=openrouter routes each host's turn to its Model-DNA engine (the proven cheap models).
+// This is the fix DELIVERY.md named for the writer ceiling: a stronger conversationalist per seat.
+const OR_KEY = readEnvKey('OPENROUTER_API_KEY')
+// reasoning models emit long chain-of-thought and stall on fast improv JSON turns (R1 gave only
+// "Mm." and 14s "..."). For the FLOOR, swap a reasoner to its fast sibling — the PRINT still drives
+// the persona (King stays the Deliberate Mind by his prompt, just on an engine that can keep up).
+const FLOOR_SUB = { 'deepseek/deepseek-r1': 'deepseek/deepseek-v3.2-exp' }
+const DNA = (() => {
+  let cast = { hosts: [] }; try { cast = JSON.parse(fs.readFileSync(path.join(ROOT, 'lab', 'cast', 'cast.json'), 'utf8')) } catch {}
+  const m = {}
+  for (const h of cast.hosts || []) { const ov = process.env['ENGINE_DNA_' + h.id.toUpperCase().replace(/[^A-Z0-9]/g, '_')]; let id = ov || h.model?.dna_id; if (id) m[h.id] = FLOOR_SUB[id] || id }
+  m._mix = process.env.ENGINE_DNA_MIX || 'google/gemini-2.5-flash-lite'
+  return m
+})()
+
 // ---------- providers ----------
 async function callOllama(model, system, user, temperature, num_predict = 160, jsonFormat = false) {
   // qwen3 on this Ollama build leaks reasoning into content despite think:false; /no_think is the reliable switch
@@ -52,7 +67,24 @@ async function callRequesty(system, user, temperature, max_tokens = 200) {
   if (!res.ok) throw new Error('requesty ' + res.status + ' ' + (await res.text()).slice(0, 200))
   return (await res.json()).choices[0].message.content.trim()
 }
-const call = (hostId, system, user, temperature, n, jsonFormat = true) => PROVIDER === 'requesty' ? callRequesty(system, user, temperature, n) : callOllama(MODELS[hostId] || MODELS['_mix'], system, user, temperature, n, jsonFormat)
+async function callOpenRouter(model, system, user, temperature, max_tokens = 200, jsonFormat = false) {
+  if (!OR_KEY) throw new Error('no OPENROUTER_API_KEY in .env')
+  const body = { model, temperature, max_tokens, messages: [{ role: 'system', content: system }, { role: 'user', content: user }] }
+  if (jsonFormat) body.response_format = { type: 'json_object' }
+  let lastErr
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      const res = await fetch('https://openrouter.ai/api/v1/chat/completions', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + OR_KEY }, body: JSON.stringify(body), signal: AbortSignal.timeout(120000) })
+      if (!res.ok) throw new Error('openrouter ' + res.status + ' ' + (await res.text()).slice(0, 160))
+      return stripThink((await res.json()).choices?.[0]?.message?.content || '')
+    } catch (e) { lastErr = e; console.error(`  retry ${attempt}/3 after: ${e.message}`); await new Promise(r => setTimeout(r, attempt * 3000)) }
+  }
+  throw lastErr
+}
+const call = (hostId, system, user, temperature, n, jsonFormat = true) =>
+  PROVIDER === 'requesty' ? callRequesty(system, user, temperature, n)
+    : PROVIDER === 'openrouter' ? callOpenRouter(DNA[hostId] || DNA._mix, system, user, temperature, n, jsonFormat)
+      : callOllama(MODELS[hostId] || MODELS['_mix'], system, user, temperature, n, jsonFormat)
 
 // ---------- prompt assembly ----------
 function hostSystem(host, beat, evTexts, sharedLaws) {
@@ -262,7 +294,9 @@ async function main() {
   const mixSys = `You are a dialogue editor making an AI talk-show transcript sound like REAL recorded conversation. Rules:\n- Keep every speaker name line format: NAME [tag] (delivery): line\n- Inject sparingly (not every line): fillers, false starts, self-corrections, repeated words when heated\n- Truncate 2-3 lines mid-clause where the next speaker cuts in; tag that next line [interrupting] or [overlapping]\n- Vary turn lengths harder: make SHORT lines shorter, but NEVER shorten a turn longer than 20 words - long turns are load-bearing\n- Keep every backchannel line (the tiny 'Right.' / 'Mm.' lines) exactly as they are\n- Keep ALL [E##] evidence tags exactly where they are. Do NOT add facts, receipts, or new claims. Do NOT add or remove speakers.\n- KEEP EVERY TURN. Total length must stay within 10% of the input. You may split a line with an interruption but never delete content.\n- No em-dashes anywhere (replace any you see with a period or '...').\nOutput ONLY the transcript.`
   let finalMd = rawMd
   try {
-    const mixed = PROVIDER === 'requesty' ? await callRequesty(mixSys, rawMd, 0.7, 1600) : await callOllama(MODELS['_mix'], mixSys, rawMd, 0.7, 1600, false)
+    const mixed = PROVIDER === 'requesty' ? await callRequesty(mixSys, rawMd, 0.7, 1600)
+      : PROVIDER === 'openrouter' ? await callOpenRouter(DNA._mix, mixSys, rawMd, 0.7, 1600, false)
+        : await callOllama(MODELS['_mix'], mixSys, rawMd, 0.7, 1600, false)
     const evCountRaw = (rawMd.match(/\[E\d+\]/g) || []).length, evCountMix = (mixed.match(/\[E\d+\]/g) || []).length
     const mixWords = (mixed.match(/\S+/g) || []).length, rawWords = (rawMd.match(/\S+/g) || []).length
     if (evCountMix >= Math.floor(evCountRaw * 0.7) && mixWords >= rawWords * 0.75) {
