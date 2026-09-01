@@ -5,6 +5,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import os from 'node:os'
 import { execFileSync } from 'node:child_process'
+import { excludedTerms, isExcluded } from './openrouter-web'
 
 const ROOT = process.cwd()
 const YTDLP = process.env.YTDLP_PATH || 'C:/Users/taskm/AppData/Local/Programs/Python/Python313/Scripts/yt-dlp.exe'
@@ -23,13 +24,18 @@ async function ytSearch(query: string, trusted: { channel_id: string; name: stri
   const { Innertube } = await import('youtubei.js')
   const yt = await Innertube.create({ retrieve_player: false })
   const out: Record<string, Src> = {}
+  // Robert's standing rule: never source from / surface a flagged outlet (e.g. LTBR).
+  // Normalized match catches spacing/casing/curly-apostrophe variants ("LET’S TALK BATTLE RAP").
+  const exTerms = excludedTerms(cfg)
   const add = (v: any, cls: string, trust: string, ch?: string) => {
     const vid = v?.id || v?.video_id
     if (!vid || out[vid]) return
+    const title = v?.title?.text || v?.title || '(untitled)'
+    const publisher = v?.author?.name || ch || 'YouTube'
+    if (isExcluded(`${title} ${publisher}`, exTerms)) return
     out[vid] = {
       id: '', medium: 'youtube', source_class: cls, trust,
-      title: v?.title?.text || v?.title || '(untitled)',
-      publisher: v?.author?.name || ch || 'YouTube', url: ytUrl(vid), video_id: vid,
+      title, publisher, url: ytUrl(vid), video_id: vid,
       published_at: v?.published?.text || null, transcript_status: 'pending', words: 0,
     }
   }
@@ -84,7 +90,39 @@ Output STRICT JSON only:
 "context":{"summary":"neutral 2-3 sentence overview","disputes":["where sources disagree"],"unknowns":["what the material does not answer"]},
 "candidate_questions":["only if the assignment is a SUBJECT not a question: 3-5 debatable questions the show could ask"]}`
 
-async function parse(assignment: Assignment, withText: Src[], material: string, cfg: any) {
+// Recover brace-balanced objects under an array key, parsing each independently so ONE malformed
+// element (a bad escape in a model-emitted quote) costs that element, not the whole response.
+function recoverArray(text: string, key: string): any[] {
+  const m = new RegExp(`"${key}"\\s*:\\s*\\[`).exec(text)
+  if (!m) return []
+  let i = m.index + m[0].length
+  const out: any[] = []
+  while (i < text.length) {
+    while (i < text.length && /[\s,]/.test(text[i])) i++
+    if (i >= text.length || text[i] === ']' || text[i] !== '{') break
+    let depth = 0, inStr = false, esc = false
+    const start = i
+    for (; i < text.length; i++) {
+      const ch = text[i]
+      if (inStr) { if (esc) esc = false; else if (ch === '\\') esc = true; else if (ch === '"') inStr = false; continue }
+      if (ch === '"') inStr = true
+      else if (ch === '{') depth++
+      else if (ch === '}') { depth--; if (depth === 0) { i++; break } }
+    }
+    try { out.push(JSON.parse(text.slice(start, i))) } catch { /* skip malformed element */ }
+  }
+  return out
+}
+
+// Never throws: strict parse first, else element-wise salvage of the arrays we depend on.
+function parseMined(content: string): any {
+  const t = String(content || '').trim()
+  const a = t.indexOf('{'), b = t.lastIndexOf('}')
+  try { return JSON.parse(a >= 0 && b > a ? t.slice(a, b + 1) : t) } catch { /* salvage below */ }
+  return { evidence: recoverArray(t, 'evidence'), answers: recoverArray(t, 'answers'), context: {}, candidate_questions: [] }
+}
+
+export async function parseMaterial(assignment: Assignment, withText: { id: string }[], material: string, cfg: any) {
   if (!OR_KEY) throw new Error('OPENROUTER_API_KEY missing')
   const t0 = Date.now()
   const user = `ASSIGNMENT (${assignment.kind}): ${assignment.text}\nQUESTIONS TO ANSWER:\n${(assignment.questions.length ? assignment.questions : ['(none posed - propose candidate questions)']).map((q, i) => (i + 1) + '. ' + q).join('\n')}\n\nMATERIAL (${withText.length} sources):\n${material}`
@@ -96,7 +134,7 @@ async function parse(assignment: Assignment, withText: Src[], material: string, 
   const j = await r.json()
   if (!r.ok || j.error) throw new Error(j.error?.message || ('parser http ' + r.status))
   const content = j.choices?.[0]?.message?.content || '{}'
-  const mined = JSON.parse(content.match(/\{[\s\S]*\}/)?.[0] || '{}')
+  const mined = parseMined(content)
   return { mined, ms: Date.now() - t0, usage: j.usage }
 }
 
@@ -121,7 +159,7 @@ export async function runStringer(assignment: Assignment, trusted: { channel_id:
   const warnings: string[] = []
   let mined: any = { evidence: [], answers: [], context: {}, candidate_questions: [] }, ms = 0, cost = 0
   if (withText.length) {
-    try { const p = await parse(assignment, withText, blocks.join('\n\n'), cfg); mined = p.mined; ms = p.ms }
+    try { const p = await parseMaterial(assignment, withText, blocks.join('\n\n'), cfg); mined = p.mined; ms = p.ms }
     catch (e: any) { warnings.push('parse failed: ' + String(e?.message || e).slice(0, 120)) }
   } else warnings.push('no usable transcripts found on YouTube for this query')
 

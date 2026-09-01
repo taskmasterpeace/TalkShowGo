@@ -23,11 +23,21 @@ export default function Stringer() {
   const [bBusy, setBBusy] = useState(false)
   const [brief, setBrief] = useState<any>(null)
   const [step, setStep] = useState(0)
+  // web supplement + cast briefs
+  const [webBusy, setWebBusy] = useState(false)
+  const [agents, setAgents] = useState<any>(null)
+  const [aBusy, setABusy] = useState(false)
+  const [deselected, setDeselected] = useState<Set<string>>(new Set())
   if (!state) return <div className="p-8 cmd-kbd">LOADING STRINGER…</div>
+
+  const d = res
+  const hosts: any[] = state.cast?.hosts || []
+  const dnaById: Record<string, any> = Object.fromEntries(((state.models?.models) || []).map((m: any) => [m.id, m]))
+  const recent: any[] = state.stringers || []
 
   const run = async () => {
     if (!text.trim()) return
-    setBusy(true); setErr(null); setRes(null); setBrief(null)
+    setBusy(true); setErr(null); setRes(null); setBrief(null); setAgents(null)
     try {
       const r = await fetch('/api/command/stringer', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ input: { kind, text, questions: qs.split('\n').map(s => s.trim()).filter(Boolean) }, beat_file: beat?.file }) })
       const j = await r.json(); if (!j.ok) setErr(j.error || 'stringer failed'); else setRes(j)
@@ -35,15 +45,30 @@ export default function Stringer() {
   }
   const buildBrief = async () => {
     if (!briefQ.trim() || !d) return
-    setBBusy(true); setBrief(null); setStep(0)
+    setBBusy(true); setBrief(null); setStep(0); setAgents(null)
     try {
       const r = await fetch('/api/command/briefing', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ stringer_id: d.id, final_question: briefQ }) })
       const j = await r.json(); if (j.ok) setBrief(j); else setErr(j.error || 'briefing failed')
     } catch (e: any) { setErr(String(e?.message || e)) } finally { setBBusy(false) }
   }
-
-  const d = res
-  const recent: any[] = state.stringers || []
+  const supplementWeb = async () => {
+    if (!d?.id) return
+    setWebBusy(true); setErr(null)
+    try {
+      const r = await fetch('/api/command/stringer/web', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id: d.id }) })
+      const j = await r.json(); if (j.ok) { setRes(j); setBrief(null); setAgents(null) } else setErr(j.error || 'web supplement failed')
+    } catch (e: any) { setErr(String(e?.message || e)) } finally { setWebBusy(false) }
+  }
+  const briefCast = async () => {
+    if (!brief?.id) return
+    const cast_ids = hosts.filter((h: any) => !deselected.has(h.id)).map((h: any) => h.id)
+    if (!cast_ids.length) return
+    setABusy(true); setAgents(null); setErr(null)
+    try {
+      const r = await fetch('/api/command/briefing/agent', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ briefing_id: brief.id, cast_ids }) })
+      const j = await r.json(); if (j.ok) setAgents(j); else setErr(j.error || 'cast brief failed')
+    } catch (e: any) { setErr(String(e?.message || e)) } finally { setABusy(false) }
+  }
 
   return (
     <div className="p-6 space-y-6" style={{ maxWidth: 1000 }}>
@@ -79,6 +104,7 @@ export default function Stringer() {
           <span className={`chip ${d.audit?.status === 'pass' ? 'ok' : 'warn'}`}>IMPARTIALITY: {String(d.audit?.status || '').toUpperCase()}</span>
           <span className="cmd-kbd">{d.audit?.distinct_publishers} publishers · {d.usage?.transcripts} transcripts · {(d.usage?.transcript_words || 0).toLocaleString()} words</span>
           {d.audit?.needs_web && <span className="chip warn" title="thin coverage - a web supplement would strengthen this">NEEDS WEB</span>}
+          <button className="cmd-btn ghost" disabled={webBusy} onClick={supplementWeb} style={{ marginLeft: 'auto', borderColor: d.audit?.needs_web ? 'var(--cmd-cyan)' : undefined }} title="pull impartial web reporting (OpenRouter web → Perplexity) and merge cited evidence">{webBusy ? 'SEARCHING WEB…' : '+ SUPPLEMENT WITH WEB'}</button>
         </div>
 
         {/* ANSWER BOARD */}
@@ -155,6 +181,65 @@ export default function Stringer() {
                 </div>
               )
             })()}
+
+            {/* BRIEF THE CAST — each host earns a take on its own Model-DNA engine */}
+            <div className="space-y-3" style={{ borderTop: '1px solid var(--cmd-line)', paddingTop: 14 }}>
+              <div className="flex items-baseline gap-3 flex-wrap">
+                <span className="cmd-label" style={{ color: 'var(--cmd-cyan)' }}>BRIEF THE CAST</span>
+                <span className="cmd-kbd">each host reads the SAME briefing on its own engine, in character, citing only this evidence</span>
+              </div>
+              <div className="grid gap-2" style={{ gridTemplateColumns: 'repeat(auto-fill,minmax(190px,1fr))' }}>
+                {hosts.map((h: any) => {
+                  const on = !deselected.has(h.id)
+                  const dna = dnaById[h.model?.dna_id]
+                  return (
+                    <button key={h.id} onClick={() => setDeselected(s => { const n = new Set(s); n.has(h.id) ? n.delete(h.id) : n.add(h.id); return n })}
+                      className="cmd-panel p-2 text-left" style={{ cursor: 'pointer', borderColor: on ? 'var(--cmd-cyan)' : 'var(--cmd-line)', opacity: on ? 1 : 0.45 }}>
+                      <div style={{ color: 'var(--cmd-ink)', fontSize: 13, fontWeight: 600 }}>{h.name}</div>
+                      <div className="cmd-kbd" style={{ color: on ? 'var(--cmd-cyan)' : 'var(--cmd-faint)' }}>{dna?.attribute || 'no DNA'}</div>
+                      <div className="cmd-kbd" style={{ fontSize: 10 }}>{(h.model?.dna_id || '').split('/').pop()}{dna ? ` · ${Math.round((dna.context_tokens || 0) / 1000)}K ctx` : ''}</div>
+                    </button>
+                  )
+                })}
+              </div>
+              <div className="flex items-center gap-3 flex-wrap">
+                <button className="cmd-btn primary" disabled={aBusy || hosts.every((h: any) => deselected.has(h.id))} onClick={briefCast}>
+                  {aBusy ? 'THE ROOM IS READING…' : `BRIEF ${hosts.filter((h: any) => !deselected.has(h.id)).length} HOST${hosts.filter((h: any) => !deselected.has(h.id)).length === 1 ? '' : 'S'}`}
+                </button>
+                {aBusy && <span className="cmd-kbd">each host forms a take on its own engine (R1 is slow on purpose — that is the gravitas)…</span>}
+              </div>
+
+              {agents && (agents.deliveries || []).map((dv: any, i: number) => (
+                <div key={i} className="cmd-panel p-4" style={{ borderColor: dv.ok ? 'var(--cmd-line-hot)' : 'var(--cmd-line)' }}>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="cmd-display" style={{ fontSize: 15, color: 'var(--cmd-ink)' }}>{dv.name}</span>
+                    <span className="chip info">{dv.dna_attribute}</span>
+                    <span className="cmd-kbd">{(dv.dna_id || '').split('/').pop()}</span>
+                    {dv.ok
+                      ? <span className="chip ok ml-auto">BRIEFED · {dv.budget?.toLocaleString()} tok · {(dv.ms / 1000).toFixed(1)}s</span>
+                      : <span className="chip err ml-auto">FAILED</span>}
+                  </div>
+                  {dv.ok ? (
+                    <div className="space-y-2" style={{ marginTop: 8 }}>
+                      <div style={{ color: 'var(--cmd-ink)', fontSize: 15, lineHeight: 1.5 }}>{dv.stance?.answer}</div>
+                      {dv.stance?.thesis && <div style={{ color: 'var(--cmd-dim)', fontSize: 13, lineHeight: 1.55 }}><b style={{ color: 'var(--cmd-cyan)' }}>THESIS </b>{dv.stance.thesis}</div>}
+                      <div className="space-y-1">
+                        {(dv.stance?.reasons || []).map((r: any, k: number) => (
+                          <div key={k} className="flex gap-2" style={{ fontSize: 13, color: 'var(--cmd-dim)', lineHeight: 1.5 }}>
+                            <span style={{ color: 'var(--cmd-red)' }}>▸</span>
+                            <span>{r.text} {(r.evidence_ids || []).map((e: string) => <span key={e} className="chip info" style={{ marginLeft: 3 }}>{e}</span>)}</span>
+                          </div>
+                        ))}
+                      </div>
+                      {dv.stance?.concession && <div style={{ color: 'var(--cmd-faint)', fontStyle: 'italic', fontSize: 12.5, lineHeight: 1.5 }}>concession — {dv.stance.concession}</div>}
+                      <div className="cmd-kbd">briefed on: {(dv.moves_included || []).join(' · ')}</div>
+                    </div>
+                  ) : (
+                    <div style={{ marginTop: 6 }}><span className="chip err">{dv.error}</span>{dv.raw && <div className="cmd-kbd" style={{ marginTop: 4 }}>{dv.raw}</div>}</div>
+                  )}
+                </div>
+              ))}
+            </div>
           </>}
         </section>
 

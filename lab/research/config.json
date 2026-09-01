@@ -24,6 +24,8 @@
   "impartiality": {
     "min_distinct_publishers": 2,
     "require_evidence_on_factual_moves": true,
-    "reject_invented_urls": true
+    "reject_invented_urls": true,
+    "excluded_publishers": ["letstalkbattlerap", "let's talk battle rap", "lets talk battle rap", "ltbr"],
+    "excluded_note": "Robert's standing rule: never name/surface these outlets. In a cite-everything architecture there is no mine-silently path (a claim either shows the source name or is uncited), so we simply do not source from them. Matched case-insensitively against a source's url + publisher + title. Add any outlet Robert flags as disrespectful."
   }
 }
