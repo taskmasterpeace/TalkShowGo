@@ -15,6 +15,8 @@ export type CmdState = {
   topicsAll: any[]
   formats: any
   production_skins: any
+  models: any
+  stringers: any[]
   health: Record<string, boolean | null>
 }
 

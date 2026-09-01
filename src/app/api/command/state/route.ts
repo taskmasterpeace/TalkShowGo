@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import fs from 'node:fs'
 import path from 'node:path'
+import { listStringers } from '@/lib/command/stringer'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -46,6 +47,7 @@ export async function GET() {
   const topics = topicsAll[0] || null
   const formats = j(path.join(ROOT, 'lab', 'formats.json'))
   const production_skins = j(path.join(ROOT, 'lab', 'production_skins.json'))
+  const models = j(path.join(ROOT, 'lab', 'models.json'))
 
   // health lamps
   const env = (() => { try { return fs.readFileSync(path.join(ROOT, '.env'), 'utf8') } catch { return '' } })()
@@ -54,11 +56,15 @@ export async function GET() {
     gateway_key: /CUPCAKE_GATEWAY_KEY=.+/.test(env),
     gateway: null,
     breeze_refs: voices.length >= 3,
+    openrouter_key: /OPENROUTER_API_KEY=.+/.test(env),
+    perplexity_key: /PERPLEXITY_API_KEY=.+/.test(env),
+    ytdlp: fs.existsSync(process.env.YTDLP_PATH || 'C:/Users/taskm/AppData/Local/Programs/Python/Python313/Scripts/yt-dlp.exe'),
   }
+  const stringers = listStringers()
   try {
     const r = await fetch('http://192.168.1.249:8700/v1/health', { signal: AbortSignal.timeout(4000) })
     health.gateway = r.ok
   } catch { health.gateway = false }
 
-  return NextResponse.json({ beats, cast, guests, voices, images, audio, manifest, runs, pulls, topics, topicsAll, formats, production_skins, health })
+  return NextResponse.json({ beats, cast, guests, voices, images, audio, manifest, runs, pulls, topics, topicsAll, formats, production_skins, models, stringers, health })
 }
