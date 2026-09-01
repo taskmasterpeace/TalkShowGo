@@ -14,6 +14,7 @@ export default function Discovery() {
   const [err, setErr] = useState<string | null>(null)
   const [expanded, setExpanded] = useState<Record<string, any>>({})
   const [build, setBuild] = useState<Record<number, any>>({})
+  const [autoBusy, setAutoBusy] = useState(false)
 
   useEffect(() => {
     fetch('/api/command/cluster').then(r => r.json()).then(j => setClusters(j?.clusters?.clusters || [])).catch(() => {})
@@ -33,6 +34,12 @@ export default function Discovery() {
       const j = await r.json()
       setExpanded(x => ({ ...x, [lead.id]: j.ok ? { dossier_id: j.expanded.dossier_id, mode: j.expanded.mode, evidence: j.dossier?.evidence?.length } : { error: j.error || 'expand failed' } }))
     } catch (e: any) { setExpanded(x => ({ ...x, [lead.id]: { error: String(e?.message || e) } })) }
+  }
+  // self-drive: chase every AUTO (80+) lead into evidence, one at a time
+  const expandAllAuto = async () => {
+    setAutoBusy(true)
+    for (const l of leads.filter((x: any) => x.band === 'auto' && !expanded[x.id]?.dossier_id)) { await expand(l) }
+    setAutoBusy(false)
   }
 
   // one-click STORY -> SHOW: research -> briefing -> cast -> build+voice (the whole pipeline)
@@ -144,7 +151,10 @@ export default function Discovery() {
       {/* LEAD QUEUE */}
       {leads.length > 0 && (
         <section className="space-y-2">
-          <div className="cmd-label" style={{ color: 'var(--cmd-red)' }}>RESEARCH LEAD QUEUE — chase the 80+, expand any lead into evidence</div>
+          <div className="flex items-center gap-3 flex-wrap">
+            <span className="cmd-label" style={{ color: 'var(--cmd-red)' }}>RESEARCH LEAD QUEUE — chase the 80+, expand any lead into evidence</span>
+            {leads.filter((l: any) => l.band === 'auto').length > 0 && <button className="cmd-btn ghost" disabled={autoBusy} onClick={expandAllAuto}>{autoBusy ? 'CHASING AUTO…' : `⚡ EXPAND ALL AUTO (${leads.filter((l: any) => l.band === 'auto').length})`}</button>}
+          </div>
           {['auto', 'expand', 'store'].map(bnd => {
             const group = leads.filter((l: any) => l.band === bnd)
             if (!group.length) return null
