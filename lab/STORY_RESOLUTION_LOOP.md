@@ -109,28 +109,25 @@ Browser control: Playwright as a SECONDARY layer under a `SOURCE ADAPTER` (API a
 
 ---
 
-## Where this maps onto what's ALREADY built (we are NOT starting from zero)
-| Loop stage | Status in repo |
+## Where this maps onto what's built (status 2026-09-01)
+| Loop stage | Status |
 |---|---|
-| X Discovery | **partial** — `lab/runs/pull_*.json` (twitterapi.io) + `/api/command/process` |
-| Story Clustering | **partial** — `topics_*.json` already has `kind:"story"`, `overlap_sources`, `why_today`, `angle`; NO Event Fingerprint yet |
-| Research Lead Extraction + Queue + Lead Value Score | **MISSING** — the core new module (the Orangeburg lead-chain) |
-| Source Expansion (dual-mode YouTube, legacy) | **partial** — Stringer does YouTube-first + web supplement; NO current/legacy/original modes yet |
-| Story Resolution → Evidence Packet | **BUILT** — the Stringer dossier IS an Evidence Packet (cited evidence, truth labels FACT/ATTRIBUTED_CLAIM/ANALYSIS, distinct-publisher audit, server-derived URLs = provenance) |
-| Attribution provenance | **partial** — server derives every citation URL from a source map (can't be invented); modes A–F not yet a producer control |
-| Producer Story Ranking (Story Value) | **MISSING** — topics have `angle`/`why_today` but no Story-Value score / show-fit ranking |
-| Opinion + Show generation | **BUILT this session** — Briefing → Brief-the-Cast (Model DNA) → Delegate → beat compiler (Showrunner collision) → floor → Breeze audio |
+| X Discovery | `lab/runs/pull_*.json` (twitterapi.io by-user) + `/api/command/process`. **X SEARCH added**: `xsearch.ts` advanced-search for a lead. |
+| Story Clustering (Event Fingerprint) | **BUILT** — `fingerprint.ts` + `/api/command/cluster`: groups by SAME event/claim; story vs substory vs topic; drops empty clusters. |
+| Research Lead Extraction + Queue + Lead Value Score | **BUILT** — `leads.ts` + `/api/command/leads`: typed, routed (X/YOUTUBE_*/WEB), scored 0-100, banded auto/expand/store/ignore. |
+| Source Expansion (dual-mode YouTube incl. LEGACY) | **BUILT** — `expand.ts` + `/api/command/expand`: a lead → Stringer run with its routed mode (current/context/legacy/original/reaction + dual) → dossier; WEB/X leads also get web + X fold-in. |
+| Story Resolution → Evidence Packet | **BUILT** — the Stringer dossier IS the Evidence Packet (cited evidence, FACT/ATTRIBUTED_CLAIM/ANALYSIS, distinct-publisher audit, server-derived URLs; provenance gate = only shown sources validate a cite). |
+| Producer Story Ranking (Story Value) | **BUILT** — `producer.ts` + `/api/command/producer-rank`: SHOW-value scoring, contrasting-viewpoints first for debate, emits the two sides; prefers fresh clusters. |
+| Opinion + Show generation | **BUILT** — Briefing → Brief-the-Cast (Model DNA) → Delegate → beat compiler (Showrunner collision) → floor (DNA engines) → Breeze/Kokoro audio. |
+| DISCOVERY UI | **BUILT** — `/command/discovery`: CLUSTER / MINE LEADS / RANK, per-lead EXPAND, and one-click **BUILD THIS SHOW** on a ranked story (research→brief→cast→floor→audio). |
 
-So the discovery loop is the **front-end that produces the Evidence Packet** that the Briefing/Cast/Floor/Audio engine already consumes.
-
-## Build order (Robert's MVP first)
-`X ingestion → Event Fingerprint → Story Clusters → Research Lead Queue → dual-mode YouTube → Evidence Packet → human Producer selection`. Autonomous browser navigation + deep recursion come AFTER that loop works — don't build an impressive browser-driving agent on top of weak editorial reasoning.
-
-**Next concrete builds (in order):**
-1. **Event Fingerprint + Story Clustering** over an existing `pull_*.json` (replace/upgrade the topic miner's clustering with fingerprint similarity; emit real Story Clusters + Substories).
-2. **Research Lead Extraction + Lead Value Score + Lead Queue** (automate the Orangeburg chain; leads route to X or dual-mode YouTube).
-3. **Source Expansion** wired to the Stringer (a lead becomes a Stringer assignment; results fold back into the cluster's Evidence Packet).
-4. **Producer Story Ranking** (Story Value incl. contrasting-viewpoints/show-fit) → the producer picks → the show engine builds it.
+## Still open (follow-ups, not yet built)
+- **Attribution Modes A–F** as a producer control (research stores max provenance; producer picks min). X posts already carry `post_id`/author/permalink.
+- **Social Card Renderer** (real X metadata card, not fake screenshot) — a UI component; post_id retained so an embed is possible.
+- **Provenance Graph** view (STORY→CLAIM→sources tree) — the per-claim source_id is already stored; this is a visualization.
+- **Auto-expand recursion** — currently the producer expands leads manually; a bounded "expand all AUTO (80+)" self-drive is the next step.
+- **Dual-YouTube transcript interleave** — freshness hits can fill the transcript cap before the relevance pass; interleave both.
+- **X full-archive / legacy** — twitterapi.io advanced-search is recent by default; wire archival ranges + the `TranscriptProvider` abstraction for YouTube captions.
 
 ---
 
