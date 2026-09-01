@@ -115,8 +115,8 @@ export default function Stringer() {
           <BeatPicker beats={beats} beat={beat} pick={pick} />
           <span className="cmd-kbd">{beat ? `trusted: ${(beat.show?.name || beat.name || beat.id)}` : 'global YouTube'}</span>
         </div>
-        <input className="cmd-input" placeholder={kind === 'subject' ? 'a subject or person to dig on (e.g. Tay Roc, the Lil Durk case)' : 'a specific question to answer'} value={text} onChange={e => setText(e.target.value)} />
-        <textarea className="cmd-textarea" rows={2} placeholder="questions to answer, one per line (optional for a subject)" value={qs} onChange={e => setQs(e.target.value)} />
+        <input className="cmd-input" spellCheck={false} placeholder={kind === 'subject' ? 'a subject or person to dig on (e.g. Tay Roc, the Lil Durk case)' : 'a specific question to answer'} value={text} onChange={e => setText(e.target.value)} />
+        <textarea className="cmd-textarea" spellCheck={false} rows={2} placeholder="questions to answer, one per line (optional for a subject)" value={qs} onChange={e => setQs(e.target.value)} />
         <div className="flex items-center gap-3">
           <button className="cmd-btn primary" disabled={busy || !text.trim()} onClick={run}>{busy ? 'DIGGING…' : 'RESEARCH'}</button>
           {busy && <span className="cmd-kbd">searching YouTube → transcripts → impartial parse (30-90s)…</span>}
@@ -166,7 +166,7 @@ export default function Stringer() {
             </div>
           )}
           <div className="flex gap-3 items-center">
-            <input className="cmd-input" placeholder="…or write the question" value={briefQ} onChange={e => setBriefQ(e.target.value)} />
+            <input className="cmd-input" spellCheck={false} placeholder="…or write the question" value={briefQ} onChange={e => setBriefQ(e.target.value)} />
             <button className="cmd-btn" disabled={bBusy || !briefQ.trim()} onClick={buildBrief} style={{ whiteSpace: 'nowrap' }}>{bBusy ? 'BUILDING…' : 'BUILD BRIEFING'}</button>
           </div>
 
@@ -242,8 +242,8 @@ export default function Stringer() {
                   </div>
                 )}
                 <div className="flex gap-2 flex-wrap">
-                  <input className="cmd-input" style={{ maxWidth: 210 }} placeholder="name (a fan, a fighter, you…)" value={dName} onChange={e => setDName(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') addDelegate() }} />
-                  <input className="cmd-input" style={{ flex: 1, minWidth: 220 }} placeholder="who they are / where they stand (optional)" value={dNote} onChange={e => setDNote(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') addDelegate() }} />
+                  <input className="cmd-input" spellCheck={false} style={{ maxWidth: 210 }} placeholder="name (a fan, a fighter, you…)" value={dName} onChange={e => setDName(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') addDelegate() }} />
+                  <input className="cmd-input" spellCheck={false} style={{ flex: 1, minWidth: 220 }} placeholder="who they are / where they stand (optional)" value={dNote} onChange={e => setDNote(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') addDelegate() }} />
                   <button className="cmd-btn ghost" disabled={!dName.trim()} onClick={addDelegate}>+ ADD</button>
                 </div>
               </div>

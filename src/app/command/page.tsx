@@ -114,11 +114,11 @@ export default function Desk() {
           <div className="p-4 space-y-4">
             <div>
               <label className="cmd-label">SHOW NAME</label>
-              <input className="cmd-input cmd-display text-2xl" style={{ letterSpacing: '0.06em' }} defaultValue={show.name || ''} onBlur={e => e.target.value !== show.name && setShow({ name: e.target.value })} />
+              <input className="cmd-input cmd-display text-2xl" spellCheck={false} style={{ letterSpacing: '0.06em' }} defaultValue={show.name || ''} onBlur={e => e.target.value !== show.name && setShow({ name: e.target.value })} />
             </div>
             <div>
               <label className="cmd-label">TAGLINE</label>
-              <input className="cmd-input" defaultValue={show.tagline || ''} onBlur={e => e.target.value !== show.tagline && setShow({ tagline: e.target.value })} />
+              <input className="cmd-input" spellCheck={false} defaultValue={show.tagline || ''} onBlur={e => e.target.value !== show.tagline && setShow({ tagline: e.target.value })} />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
@@ -162,7 +162,7 @@ export default function Desk() {
                     {show[k]?.enabled ? 'ON' : 'OFF'}
                   </button>
                 </label>
-                <textarea className="cmd-textarea" rows={2} defaultValue={show[k]?.template || ''} onBlur={e => setShow({ [k]: { ...show[k], template: e.target.value } })} />
+                <textarea className="cmd-textarea" spellCheck={false} rows={2} defaultValue={show[k]?.template || ''} onBlur={e => setShow({ [k]: { ...show[k], template: e.target.value } })} />
               </div>
             ))}
           </div>
