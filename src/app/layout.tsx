@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Space_Grotesk, Archivo_Black } from 'next/font/google'
 import './globals.css'
-import { Providers } from '@/components/providers'
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -17,8 +16,8 @@ const archivoBlack = Archivo_Black({
 })
 
 export const metadata: Metadata = {
-  title: 'Talk Show Go',
-  description: 'AI-powered content generation for talk shows, narratives, and storytelling',
+  title: 'TalkShowGo',
+  description: 'AI show-maker control room',
 }
 
 export default function RootLayout({
@@ -28,11 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${archivoBlack.variable}`}>
-      <body className="font-sans antialiased">
-        <Providers>
-          {children}
-        </Providers>
-      </body>
+      <body className="font-sans antialiased">{children}</body>
     </html>
   )
 }
