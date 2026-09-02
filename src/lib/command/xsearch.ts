@@ -11,27 +11,41 @@ const ROOT = process.cwd()
 function xKey(): string | null { try { return (fs.readFileSync(path.join(ROOT, '.env'), 'utf8').match(/^TWITTERAPI_IO_KEY=(.+)$/m) || [])[1]?.trim() || null } catch { return null } }
 
 export type XPost = { id: string; text: string; url: string | null; author: string; created: string | null; likes: number; rts: number }
+export type XSearchOpts = { max?: number; since?: string | number; until?: string | number; pages?: number }
 
-export async function searchX(query: string, _cfg: any = {}, max = 12): Promise<XPost[]> {
+const toUnix = (v: any): number | null => v == null || v === '' ? null : (typeof v === 'number' ? Math.floor(v) : (Number.isFinite(+v) ? Math.floor(+v) : (isNaN(Date.parse(String(v))) ? null : Math.floor(Date.parse(String(v)) / 1000))))
+
+// twitterapi.io advanced_search IS a full-archive endpoint (verified: 2006→present via since_time/
+// until_time UNIX operators — the docs' supported form; the since:_UTC variant is NOT). A window +
+// cursor pagination lets an archival lead pull historical posts (the dead-2yr-channel / legacy case).
+export async function searchX(query: string, _cfg: any = {}, opts: XSearchOpts = {}): Promise<XPost[]> {
   const K = xKey(); if (!K) throw new Error('TWITTERAPI_IO_KEY missing')
-  const url = `https://api.twitterapi.io/twitter/tweet/advanced_search?query=${encodeURIComponent(query)}&queryType=Top`
-  const r = await fetch(url, { headers: { 'X-API-Key': K }, signal: AbortSignal.timeout(20000) })
-  const j: any = await r.json().catch(() => ({}))
-  if (!r.ok) throw new Error('twitterapi ' + r.status)
-  return (j?.tweets || j?.data?.tweets || [])
-    .map((t: any) => {
+  const s = toUnix(opts.since), u = toUnix(opts.until)
+  const archival = s != null || u != null
+  const q = query + (s != null ? ` since_time:${s}` : '') + (u != null ? ` until_time:${u}` : '')
+  const max = Math.max(1, Math.min(opts.max || 12, 100))
+  const pages = Math.max(1, Math.min(opts.pages || (archival ? 3 : 1), 5))   // archival pulls page deeper
+  const out: XPost[] = []
+  let cursor = ''
+  for (let p = 0; p < pages && out.length < max; p++) {
+    const url = `https://api.twitterapi.io/twitter/tweet/advanced_search?query=${encodeURIComponent(q)}&queryType=Latest${cursor ? `&cursor=${encodeURIComponent(cursor)}` : ''}`
+    const r = await fetch(url, { headers: { 'X-API-Key': K }, signal: AbortSignal.timeout(20000) })
+    const j: any = await r.json().catch(() => ({}))
+    if (!r.ok) { if (p === 0) throw new Error('twitterapi ' + r.status); break }
+    for (const t of (j?.tweets || j?.data?.tweets || [])) {
       const author = t.author?.userName || t.author?.screen_name || t.author?.name || 'x'
-      return { id: String(t.id || ''), text: String(t.text || '').slice(0, 280), url: t.url || (t.id ? `https://x.com/${author}/status/${t.id}` : null), author, created: t.createdAt || null, likes: t.likeCount || 0, rts: t.retweetCount || 0 }
-    })
-    .filter((t: XPost) => t.text)
-    .sort((a: XPost, b: XPost) => (b.likes + b.rts * 2) - (a.likes + a.rts * 2))
-    .slice(0, max)
+      out.push({ id: String(t.id || ''), text: String(t.text || '').slice(0, 280), url: t.url || (t.id ? `https://x.com/${author}/status/${t.id}` : null), author, created: t.createdAt || null, likes: t.likeCount || 0, rts: t.retweetCount || 0 })
+    }
+    if (!j?.has_next_page || !j?.next_cursor) break
+    cursor = j.next_cursor
+  }
+  return out.filter(t => t.text).sort((a, b) => (b.likes + b.rts * 2) - (a.likes + a.rts * 2)).slice(0, max)
 }
 
-export async function supplementDossierWithX(dossier: any, query: string, cfg: any): Promise<{ added: number; publishers?: number }> {
+export async function supplementDossierWithX(dossier: any, query: string, cfg: any, opts: XSearchOpts = {}): Promise<{ added: number; publishers?: number }> {
   const terms = excludedTerms(cfg)
   let tweets: XPost[]
-  try { tweets = await searchX(query, cfg) } catch { return { added: 0 } } // key dead/absent -> degrade
+  try { tweets = await searchX(query, cfg, opts) } catch { return { added: 0 } } // key dead/absent -> degrade
   tweets = tweets.filter(t => !isExcluded(`${t.author} ${t.text} ${t.url || ''}`, terms))
   if (!tweets.length) return { added: 0 }
 

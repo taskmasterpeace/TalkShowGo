@@ -178,6 +178,7 @@ export default function Discovery() {
                       <span className={`chip ${BANDCHIP[l.band] || ''}`}>{l.score}</span>
                       <span className="cmd-kbd">{l.type}</span>
                       <span className="cmd-kbd" style={{ color: 'var(--cmd-cyan)' }}>{l.destination}</span>
+                      {(l.since || l.until) && <span className="cmd-kbd" style={{ color: 'var(--cmd-amber)' }} title="X full-archive window">📅 {l.since || '…'}→{l.until || '…'}</span>}
                       <span style={{ color: 'var(--cmd-ink)', fontSize: 13 }}>{l.value}</span>
                       {ex?.dossier_id
                         ? <span className="chip ok ml-auto" title={`${ex.evidence} evidence · mode ${ex.mode}`}>→ {ex.dossier_id} ({ex.evidence})</span>

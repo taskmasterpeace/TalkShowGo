@@ -33,9 +33,10 @@ export async function expandLead(lead: any, trusted: any[] = []) {
   if (dest === 'WEB' || dest === 'X' || dossier.audit?.needs_web) {
     try { await supplementDossierWithWeb(dossier, [q], loadConfig()) } catch { /* web optional */ }
   }
-  // X-routed leads also pull real recent posts (statements/reactions/who-first) as attributed evidence
+  // X-routed leads pull real posts (statements/reactions/who-first) as attributed evidence. A lead
+  // carrying a since/until window pulls the FULL ARCHIVE for that window (the historical/legacy case).
   if (dest === 'X') {
-    try { await supplementDossierWithX(dossier, q, loadConfig()) } catch { /* x optional */ }
+    try { await supplementDossierWithX(dossier, q, loadConfig(), { since: lead.since, until: lead.until, max: (lead.since || lead.until) ? 24 : 12 }) } catch { /* x optional */ }
   }
   dossier.expanded_from = { lead_id: lead.id || null, lead_type: lead.type || null, lead_value: lead.value || null, destination: lead.destination || null, mode }
   saveStringer(dossier)

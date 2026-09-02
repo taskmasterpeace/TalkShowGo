@@ -24,10 +24,11 @@ const SYS = `You are the RESEARCH LEAD EXTRACTOR for a talk show. Given today's 
 HARD RULE: only extract things a NEW SEARCH could resolve into evidence / reaction / contradiction / a primary source. Do NOT extract contextual color ("this reminds me of the dot-com bubble" is NOT a lead). Prefer the ORIGINATOR of a claim over the loudest repost.
 For each lead: route it to the best source + search mode, write the exact search query to run, and score its VALUE 0-100 weighing: relevance, novelty (do we already know it?), specificity (can we actually search it?), evidence-potential, recurrence (do multiple sources mention it?), authority (credible/relevant source?), controversy, visual value, context value, producer value.
 Destinations: X (recent statements/reactions/who-first/how-widespread), YOUTUBE_CURRENT (last few days), YOUTUBE_CONTEXT (recent explainer), YOUTUBE_LEGACY (historical interview/speech/clip), YOUTUBE_ORIGINAL (a named speaker/channel/event), YOUTUBE_REACTION (commentary), WEB (article/record/site).
-Output STRICT JSON only: {"leads":[{"type":"PERSON|ACCOUNT|ORG|CLAIM|QUOTE|EVENT|URL|VIDEO|INTERVIEW|PODCAST|HASHTAG|PLACE|DATE|HISTORICAL|PRODUCT|LAW|COURT_CASE|REPORT|STATISTIC","value":"the exact searchable thing","why":"the evidence it could produce","destination":"...","query":"the search string","score":0-100}]}
+ARCHIVE WINDOW: for an X lead about a DATABLE PAST event (a specific past battle/incident/era with a knowable date), add since and until as YYYY-MM-DD bracketing a tight window (one to two weeks) around it — this pulls X's full archive for that window instead of only recent posts. Omit since/until for current or undated leads.
+Output STRICT JSON only: {"leads":[{"type":"PERSON|ACCOUNT|ORG|CLAIM|QUOTE|EVENT|URL|VIDEO|INTERVIEW|PODCAST|HASHTAG|PLACE|DATE|HISTORICAL|PRODUCT|LAW|COURT_CASE|REPORT|STATISTIC","value":"the exact searchable thing","why":"the evidence it could produce","destination":"...","query":"the search string","score":0-100,"since":"YYYY-MM-DD (optional, archival X leads only)","until":"YYYY-MM-DD (optional)"}]}
 Score honestly — most leads are 40-70; reserve 80+ for leads likely to yield PRIMARY evidence or a decisive reaction.`
 
-export type Lead = { id: string; type: string; value: string; why: string; destination: string; query: string; score: number; band: string }
+export type Lead = { id: string; type: string; value: string; why: string; destination: string; query: string; score: number; band: string; since?: string; until?: string }
 
 // robust parse: whole object, else first/last brace, else element-wise recover the leads array so
 // one malformed element (or trailing model junk) can't fail the whole mine
@@ -66,6 +67,7 @@ export async function extractLeads(material: string[], storyContext: string, cfg
     .filter((l: any) => l && l.value && l.query)
     .map((l: any, i: number) => {
       const score = Math.max(0, Math.min(100, Math.round(+l.score || 0)))
+      const dateOk = (v: any) => (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v)) ? v : undefined
       return {
         id: 'L' + String(i + 1).padStart(3, '0'),
         type: String(l.type || 'CLAIM').toUpperCase(),
@@ -74,6 +76,8 @@ export async function extractLeads(material: string[], storyContext: string, cfg
         destination: (DESTINATIONS as readonly string[]).includes(String(l.destination)) ? l.destination : 'WEB',
         query: String(l.query).slice(0, 200),
         score, band: band(score),
+        ...(dateOk(l.since) ? { since: dateOk(l.since) } : {}),
+        ...(dateOk(l.until) ? { until: dateOk(l.until) } : {}),
       }
     })
     .filter((l: Lead) => { const k = l.value.toLowerCase().trim(); if (seen.has(k)) return false; seen.add(k); return true })
