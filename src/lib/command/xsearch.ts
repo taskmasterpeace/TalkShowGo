@@ -41,7 +41,7 @@ export async function supplementDossierWithX(dossier: any, query: string, cfg: a
   const blocks: string[] = []
   for (const t of tweets) {
     const sid = 'S' + String(n++).padStart(3, '0')
-    sources.push({ id: sid, medium: 'x', source_class: 'reaction', trust: 'x_post', title: `@${t.author}`, publisher: `@${t.author}`, url: t.url, video_id: '', published_at: t.created, transcript_status: 'x', words: 0, post_id: t.id })
+    sources.push({ id: sid, medium: 'x', source_class: 'reaction', trust: 'x_post', title: `@${t.author}`, publisher: `@${t.author}`, url: t.url, video_id: '', published_at: t.created, transcript_status: 'x', words: 0, post_id: t.id, text: t.text, likes: t.likes, rts: t.rts })
     blocks.push(`[${sid} | @${t.author} | X post ${t.created || ''}] ${t.text}`)
   }
   const { mined } = await parseMaterial(dossier.assignment, sources, blocks.join('\n\n'), cfg)

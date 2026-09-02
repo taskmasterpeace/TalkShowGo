@@ -345,6 +345,26 @@ export default function Stringer() {
           </div>
         </section>
 
+        {/* 𝕏 POSTS — real recent posts folded in as attributed evidence (see the reactions) */}
+        {(d.sources || []).some((s: any) => s.medium === 'x' && s.text) && (
+          <section className="space-y-2">
+            <div className="cmd-label" style={{ color: 'var(--cmd-amber)' }}>𝕏 POSTS — recent reactions, folded in with @handle + permalink provenance</div>
+            <div className="grid gap-2" style={{ gridTemplateColumns: 'repeat(auto-fill,minmax(320px,1fr))' }}>
+              {(d.sources || []).filter((s: any) => s.medium === 'x' && s.text).map((s: any) => (
+                <div key={s.id} className="cmd-panel p-3" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  <div className="flex items-center gap-2">
+                    <span style={{ color: 'var(--cmd-amber)', fontWeight: 700 }}>𝕏</span>
+                    <span style={{ color: 'var(--cmd-ink)', fontSize: 13, fontWeight: 600 }}>{s.publisher}</span>
+                    {s.url && <a href={s.url} target="_blank" rel="noreferrer" className="cmd-kbd ml-auto" style={{ textDecoration: 'none' }}>view ↗</a>}
+                  </div>
+                  <div style={{ color: 'var(--cmd-dim)', fontSize: 13, lineHeight: 1.5 }}>{s.text}</div>
+                  <div className="cmd-kbd">♥ {(s.likes || 0).toLocaleString()} · ↻ {(s.rts || 0).toLocaleString()}{s.published_at ? ` · ${String(s.published_at).slice(0, 10)}` : ''}</div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
         {/* SOURCE LEDGER — grouped view of every medium the evidence stands on */}
         <section className="space-y-2">
           {(() => {
