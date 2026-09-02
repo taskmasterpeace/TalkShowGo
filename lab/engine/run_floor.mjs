@@ -87,8 +87,13 @@ const call = (hostId, system, user, temperature, n, jsonFormat = true) =>
       : callOllama(MODELS[hostId] || MODELS['_mix'], system, user, temperature, n, jsonFormat)
 
 // ---------- prompt assembly ----------
-function hostSystem(host, beat, evTexts, sharedLaws) {
-  const allowed = (beat.allowed_evidence[host.id] || []).map(id => `[${id}] ${evTexts[id] || ''}`).join('\n')
+function hostSystem(host, beat, evTexts, evMeta, sharedLaws) {
+  // receipts carry their tier + source so a host can attribute correctly per the beat's attribution mode
+  const allowed = (beat.allowed_evidence[host.id] || []).map(id => {
+    const e = evMeta?.[id]; const claim = (e && e.claim) || evTexts[id] || ''
+    const prov = e && e.tier && e.tier !== 'FACT' ? ` (${e.tier}${e.source_name ? ' · ' + e.source_name : ''})` : ''
+    return `[${id}]${prov} ${claim}`
+  }).join('\n')
   return [
     `You are ${host.name}, a host on an AI talk show. You are IN a live argument. Output ONLY your next turn.`,
     ...(function renderPrint() {
@@ -108,6 +113,7 @@ function hostSystem(host, beat, evTexts, sharedLaws) {
     })(),
     `YOUR STANCE THIS BEAT: ${beat.stances[host.id]}`,
     `RECEIPTS YOU ARE ALLOWED TO USE. Put their ids ONLY in the JSON "evidence" array. NEVER speak an id (like E6) out loud in your line - a human would say the FACT, not the label:\n${allowed || '(none - argue from what others say)'}`,
+    (beat.attribution?.law ? `HOW TO ATTRIBUTE (house style this beat): ${beat.attribution.law}` : ''),
     (beat.protected_facts && beat.protected_facts.length ? `FACT PRECISION (absolute):\n- ` + beat.protected_facts.map(p => p.note).join('\n- ') : ''),
     `HARD RULES:\n- 1 to 3 sentences, at most ~${Math.round(28 * host.behavior.verbosity + 12)} words. Shorter is stronger.\n- Spoken register: contractions, informal grammar fine. This is talk, not writing.\n- NEVER use facts outside your receipts. Opinion is free but must SOUND like opinion because of who you are, never hedged.\n- No em-dashes. Max ONE catchphrase per episode: ${JSON.stringify(host.catchphrase_rare)} (you have probably already used it, so avoid).\n- Respond to what was ACTUALLY just said. Push back. Do not summarize. Do not validate by default.\n- STAY ON THE ARGUMENT. Never argue about clips, VODs, footage formats, or who watched what. Never react to another host's small sounds. Attack their ARGUMENT, not the furniture.`,
     `OUTPUT STRICT JSON, nothing else: {"line":"what you say - pure human speech, no ids, no brackets","delivery":"3-6 word emotional direction","addressed_to":"marcus-blaze|tasha-raw|king-knowledge|null","evidence":["E6"]}`,
@@ -135,6 +141,7 @@ async function main() {
   const showDir = path.dirname(path.resolve(ARG.beat))
   const evidence = J(path.join(showDir, 'evidence.json'))
   const evTexts = Object.fromEntries(evidence.entries.map(e => [e.id, e.claim]))
+  const evMeta = Object.fromEntries(evidence.entries.map(e => [e.id, e]))   // id -> {claim, tier, source_name} for attribution
   const hosts = Object.fromEntries(cast.hosts.map(h => [h.id, h]))
   const outDir = path.resolve(ARG.out || path.join(ROOT, 'lab', 'engine', 'runs', 'run_' + Date.now()))
   fs.mkdirSync(outDir, { recursive: true })
@@ -190,7 +197,7 @@ async function main() {
   }
   async function speak(hostId, instruction, tag) {
     const host = hosts[hostId]
-    const sys = hostSystem(host, beat, evTexts, laws)
+    const sys = hostSystem(host, beat, evTexts, evMeta, laws)
     const lastLine = turns.length ? turns[turns.length - 1] : null
     const mine = turns.filter(t => t.id === hostId).map(t => '"' + t.line + '"')
     const antiRepeat = `ANTI-REPEAT (absolute): never repeat or echo any phrase already in the transcript, yours or theirs, and never reuse your signature lines. ADVANCE the argument: a new angle, a new consequence, a concession-then-counter.` + (mine.length ? `\nLines you already said (dead to you now): ${mine.slice(-4).join(' ')}` : '')

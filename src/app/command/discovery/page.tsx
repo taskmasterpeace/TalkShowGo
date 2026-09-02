@@ -5,6 +5,8 @@ import { useEffect, useState } from 'react'
 // dossier -> RANK stories for show value. Every stage reads its last saved run on mount.
 const BANDCHIP: Record<string, string> = { auto: 'err', expand: 'warn', store: 'info', ignore: '' }
 const KINDCHIP: Record<string, string> = { story: 'ok', substory: 'info', topic: '' }
+// attribution mode = how hard the hosts attribute claims (cite-or-cut doctrine; A = sourced & committed)
+const ATTR: Record<string, string> = { A: 'A · sourced & committed', B: 'B · named source', C: 'C · platform', D: 'D · reported', E: 'E · word on the street', F: 'F · bare facts' }
 
 export default function Discovery() {
   const [clusters, setClusters] = useState<any[]>([])
@@ -15,6 +17,7 @@ export default function Discovery() {
   const [expanded, setExpanded] = useState<Record<string, any>>({})
   const [build, setBuild] = useState<Record<number, any>>({})
   const [autoBusy, setAutoBusy] = useState(false)
+  const [attribution, setAttribution] = useState('A')
 
   useEffect(() => {
     fetch('/api/command/cluster').then(r => r.json()).then(j => setClusters(j?.clusters?.clusters || [])).catch(() => {})
@@ -60,7 +63,7 @@ export default function Discovery() {
       j = await post('/api/command/briefing/agent', { briefing_id: bid, cast_ids: ['marcus-blaze', 'tasha-raw', 'king-knowledge'] })
       if (!j.ok) throw new Error('casting: ' + (j.error || ''))
       setB({ stage: 'building', pct: 70 })
-      j = await post('/api/command/showbuild', { briefing_id: bid, voice: true })
+      j = await post('/api/command/showbuild', { briefing_id: bid, voice: true, attribution })
       if (!j.ok) throw new Error('build: ' + (j.error || ''))
       const slug = j.show
       const poll = async () => {
@@ -100,7 +103,14 @@ export default function Discovery() {
       {/* PRODUCER RANKING — what's worth a show */}
       {ranked.length > 0 && (
         <section className="space-y-2">
-          <div className="cmd-label" style={{ color: 'var(--cmd-red)' }}>WORTH A SHOW? — producer story value (contrasting viewpoints weighted first)</div>
+          <div className="flex items-center gap-3 flex-wrap">
+            <span className="cmd-label" style={{ color: 'var(--cmd-red)', margin: 0 }}>WORTH A SHOW? — producer story value (contrasting viewpoints weighted first)</span>
+            <label className="cmd-kbd" style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 6 }}>ATTRIBUTION
+              <select className="cmd-select" style={{ width: 'auto', padding: '3px 6px' }} value={attribution} onChange={e => setAttribution(e.target.value)} title="how the hosts attribute claims when they build the show">
+                {Object.entries(ATTR).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+              </select>
+            </label>
+          </div>
           {ranked.map((s: any, i: number) => (
             <div key={i} className="cmd-panel p-3" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               <div className="flex items-center gap-2 flex-wrap">

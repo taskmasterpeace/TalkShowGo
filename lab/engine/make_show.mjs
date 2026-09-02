@@ -43,7 +43,7 @@ async function main() {
   try {
     // 1) compile the beat card from the cited lineage
     setStatus('compile', 5, 'showrunner compiling beat card from the briefing + cast stances')
-    run('compile_beat.mjs', [`--stringer=${ARG.stringer}`, `--briefing=${ARG.briefing}`, `--runtime=${runtime}`, `--out=${showDir}`, `--show=${slug}`], 'compile.log')
+    run('compile_beat.mjs', [`--stringer=${ARG.stringer}`, `--briefing=${ARG.briefing}`, `--runtime=${runtime}`, `--out=${showDir}`, `--show=${slug}`, `--attribution=${ARG.attribution || 'A'}`], 'compile.log')
     const beatPath = path.join(showDir, 'beatcard.json')
     if (!fs.existsSync(beatPath)) throw new Error('compile produced no beatcard.json')
     const beat = JSON.parse(fs.readFileSync(beatPath, 'utf8'))

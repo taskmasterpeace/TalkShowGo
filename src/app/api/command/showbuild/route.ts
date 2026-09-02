@@ -44,7 +44,8 @@ export async function POST(req: Request) {
   fs.mkdirSync(jobdir, { recursive: true })
   fs.writeFileSync(path.join(jobdir, 'status.json'), JSON.stringify({ stage: 'queued', pct: 1, message: 'starting the build…', show: slug, started: new Date().toISOString() }, null, 2))
 
-  const args = [path.join(ROOT, 'lab', 'engine', 'make_show.mjs'), `--stringer=${sid}`, `--briefing=${b.briefing_id}`, `--runtime=${Math.min(20, Math.max(3, +b.runtime || 8))}`, `--jobdir=${jobdir}`, `--show=${slug}`, '--provider=openrouter']
+  const amode = ['A', 'B', 'C', 'D', 'E', 'F'].includes(String(b.attribution || '').toUpperCase()) ? String(b.attribution).toUpperCase() : 'A'
+  const args = [path.join(ROOT, 'lab', 'engine', 'make_show.mjs'), `--stringer=${sid}`, `--briefing=${b.briefing_id}`, `--runtime=${Math.min(20, Math.max(3, +b.runtime || 8))}`, `--jobdir=${jobdir}`, `--show=${slug}`, '--provider=openrouter', `--attribution=${amode}`]
   if (b.voice !== false) args.push('--voice')
   try {
     const child = spawn(process.execPath, args, { cwd: ROOT, detached: true, stdio: 'ignore' })

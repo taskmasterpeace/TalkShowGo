@@ -133,6 +133,19 @@ async function main() {
   // exemptions are matched against lowercased n-grams in the floor guard, so lowercase them here
   const anaphora_exempt = Array.isArray(dir.anaphora_exempt) ? dir.anaphora_exempt.filter(x => typeof x === 'string').map(x => x.toLowerCase()).slice(0, 10) : []
 
+  // ATTRIBUTION MODES (Robert's cite-or-cut / non-lawyery doctrine as a producer dial). Default A =
+  // sourced-and-committed: name who said it, then COMMIT to the read - never hedge a claim into mush,
+  // never state an unproven claim as settled fact. Higher letters loosen or tighten from there.
+  const ATTRIBUTION_MODES = {
+    A: { label: 'SOURCED & COMMITTED', law: 'When a receipt is an ATTRIBUTED_CLAIM, name who said it and where (person/outlet + platform), then COMMIT to your read of it - never hedge it into mush. A FACT you state plainly. Never present an unproven claim as settled fact; never bury a real fact under "allegedly".' },
+    B: { label: 'NAMED SOURCE', law: 'When a receipt is an ATTRIBUTED_CLAIM, name the source once, then argue it hard. A FACT you state plainly.' },
+    C: { label: 'PLATFORM', law: 'Frame an ATTRIBUTED_CLAIM by where it lives ("the word on X", "the tape shows") without over-naming, then commit. A FACT you state plainly.' },
+    D: { label: 'REPORTED', law: 'Frame an ATTRIBUTED_CLAIM as reported ("it is being said", "reporting has it") and commit to your take. A FACT you state plainly.' },
+    E: { label: 'WORD ON THE STREET', law: 'Treat ATTRIBUTED_CLAIM receipts as rumor - "word on the street", "supposedly" - never as fact. Only a FACT may be stated plainly.' },
+    F: { label: 'BARE FACTS', law: 'Lean on FACT receipts, stated plainly. If you touch an ATTRIBUTED_CLAIM, make it unmistakably a claim/opinion, never a fact.' },
+  }
+  const amode = (ARG.attribution && ATTRIBUTION_MODES[String(ARG.attribution).toUpperCase()]) ? String(ARG.attribution).toUpperCase() : 'A'
+
   const runtimeMin = ARG.runtime ? +ARG.runtime : 8
   const beat = {
     id: (ARG.id || (dossier.assignment?.text || 'show').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40)),
@@ -143,6 +156,7 @@ async function main() {
     stances: Object.fromEntries(participants.map(p => [p.id, p.stance])),
     allowed_evidence: Object.fromEntries(participants.map(p => [p.id, p.allowed])),
     withheld, anaphora_exempt, protected_facts, waypoints,
+    attribution: { mode: amode, label: ATTRIBUTION_MODES[amode].label, law: ATTRIBUTION_MODES[amode].law },
     ...(detonation_react ? { detonation_react } : {}),
     kk_drop, opener, exit,
     _compiled_from: { stringer: ARG.stringer, briefing: ARG.briefing, delegates_surfaced: delegateParts.map(d => d.name) },
