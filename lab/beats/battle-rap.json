@@ -91,13 +91,6 @@
         "display_name": "HipHop IsReal"
       },
       {
-        "handle": "champduane",
-        "label": "Duane (Champion)",
-        "type": "blogger",
-        "priority": 2,
-        "status": "NOT FOUND 2026-08-31 - needs a human to find the current handle"
-      },
-      {
         "handle": "AngryFan007",
         "label": "Angry Fan",
         "type": "blogger",
@@ -174,5 +167,8 @@
     ],
     "rss": [],
     "web": []
-  }
+  },
+  "people": [
+    { "slug": "robert", "name": "Robert", "relation": "owner", "channel": "link", "address": null, "token": "ccajdrlweki2ymlh", "prompts_mode": "auto", "custom_prompts": [], "added": "2026-09-02T18:36:38Z" }
+  ]
 }

@@ -1,0 +1,128 @@
+{
+  "id": "atlanta-falcons",
+  "name": "Atlanta Falcons",
+  "status": "active",
+  "description": "NFL - Atlanta Falcons: team account, beat writers (AJC + The Athletic), 92.9 The Game radio, and the insiders. Football is in season (Sept 2026) - live game-week, QB-room, and coaching-staff content, not offseason speculation. One of three plugs (with Orangeburg and the Indiana Pacers) proving the show-maker generalizes past battle rap.",
+  "show": {
+    "name": "THE HUDDLE",
+    "tagline": "Your team, every day, like you were in the building",
+    "timespan_hours": 24,
+    "format_bias": "auto",
+    "show_type": "moderated-collision",
+    "intro": {
+      "enabled": true,
+      "template": "Score/record check in one breath, then the day's biggest storyline as a topic card."
+    },
+    "outro": {
+      "enabled": true,
+      "template": "Next game countdown + one bold prediction the comments can hold us to."
+    }
+  },
+  "cases": [
+    {
+      "id": "season-arc",
+      "title": "The 2026 Season",
+      "context": "Standing case for the Stefanski-Penix era: new head coach Kevin Stefanski (hired after Atlanta fired Raheem Morris and GM Terry Fontenot following back-to-back 8-9, no-playoff seasons) runs his first training camp and season in Atlanta. QB1 is Michael Penix Jr., who missed the end of 2025 to a season-ending knee injury/surgery, with Tua Tagovailoa in the room as a name to watch if the reps split becomes a story - Stefanski has said the team will be 'very intentional' about how those snaps are managed. The NFC South remains the NFL's most turnover-prone division (Panthers, Buccaneers, Saints and Falcons have all traded places at the top in recent years), so every divisional game reads as a swing game, not just a line in the standings. Track: Stefanski's scheme and culture imprint, Penix's health and reps, the O-line and pass rush in front of a new staff, and where Atlanta sits in a crowded wild-card race.",
+      "status": "tracking"
+    }
+  ],
+  "_law": "Handles rot, userIds don't. Source-verify resolves each handle via user/info BEFORE first ingest and monthly after, and STORES the userId - all polling runs on userId, never userName. Never assume a seed handle is current.",
+  "sources": {
+    "twitter": [
+      {
+        "handle": "AtlantaFalcons",
+        "label": "Atlanta Falcons (official)",
+        "type": "media",
+        "priority": 1,
+        "status": "VERIFIED 2026-09-02",
+        "userId": "16347506",
+        "followers": 2239694,
+        "display_name": "Atlanta Falcons"
+      },
+      {
+        "handle": "ByDanielFlick",
+        "label": "Daniel Flick - Atlanta Journal-Constitution Falcons beat writer (took over the beat from D. Orlando Ledbetter)",
+        "type": "blogger",
+        "priority": 1,
+        "status": "VERIFIED 2026-09-02",
+        "userId": "1431387213623877638",
+        "followers": 12819,
+        "display_name": "Daniel Flick"
+      },
+      {
+        "handle": "JoshTheAthletic",
+        "label": "Josh Kendall - The Athletic's Falcons beat writer",
+        "type": "blogger",
+        "priority": 1,
+        "status": "VERIFIED 2026-09-02",
+        "userId": "157302904",
+        "followers": 22684,
+        "display_name": "Josh Kendall"
+      },
+      {
+        "handle": "929TheGame",
+        "label": "92.9 The Game - Atlanta sports radio (Falcons flagship talk)",
+        "type": "media",
+        "priority": 1,
+        "status": "VERIFIED 2026-09-02",
+        "userId": "846202338",
+        "followers": 46016,
+        "display_name": "92.9 The Game"
+      },
+      {
+        "handle": "lockedonfalcons",
+        "label": "Locked On Falcons (Aaron Freeman) - daily Falcons podcast/insider",
+        "type": "blogger",
+        "priority": 2,
+        "status": "VERIFIED 2026-09-02",
+        "userId": "780812222083706881",
+        "followers": 7786,
+        "display_name": "Locked On Falcons"
+      }
+    ],
+    "youtube": [
+      {
+        "channel_name": "Atlanta Falcons",
+        "label": "official team channel",
+        "type": "media",
+        "priority": 1,
+        "status": "RESOLVED 2026-09-02",
+        "channel_id": "UCzjCfV3LHyarKbdb-2ScGZg",
+        "resolved_title": "Atlanta Falcons",
+        "subscribers": "@AtlantaFalcons"
+      },
+      {
+        "channel_name": "92.9 The Game Atlanta",
+        "label": "92.9 The Game radio channel",
+        "type": "media",
+        "priority": 1,
+        "status": "RESOLVED 2026-09-02",
+        "channel_id": "UCQ9sMMYqrUJT2hLURPwEFzQ",
+        "resolved_title": "92.9 The Game",
+        "subscribers": "@929TheGame"
+      },
+      {
+        "channel_name": "Locked On Falcons",
+        "label": "team-focused creator/insider (Aaron Freeman)",
+        "type": "blogger",
+        "priority": 2,
+        "status": "RESOLVED 2026-09-02",
+        "channel_id": "UCf0YzYctxDlpPgYXxTwn8hw",
+        "resolved_title": "Locked On Falcons",
+        "subscribers": "@LockedOnFalcons"
+      }
+    ],
+    "rss": [
+      {
+        "label": "Google News - Atlanta Falcons",
+        "url": "https://news.google.com/rss/search?q=%22Atlanta+Falcons%22&hl=en-US&gl=US&ceid=US:en",
+        "note": "legal published feed; never hostile-crawl"
+      }
+    ],
+    "web": []
+  },
+  "people": [
+    { "slug": "dad", "name": "Dad", "relation": "father", "channel": "link", "address": null, "token": "x8ethmnsgurhbdcq", "prompts_mode": "auto", "custom_prompts": [], "added": "2026-09-02T18:36:38Z" },
+    { "slug": "son", "name": "Son", "relation": "son", "channel": "link", "address": null, "token": "zlydjnujje1sub2a", "prompts_mode": "auto", "custom_prompts": [], "added": "2026-09-02T18:36:38Z" }
+  ]
+}

@@ -16,5 +16,8 @@
       { "label": "The Times and Democrat (Orangeburg's own paper)", "url": "https://thetandd.com/", "note": "VERIFY exact feed URL at activation (Lee Enterprises papers usually publish RSS). If no feed exists, the Google News query above carries it." }
     ],
     "web": []
-  }
+  },
+  "people": [
+    { "slug": "neighbor", "name": "Neighbor", "relation": "local", "channel": "link", "address": null, "token": "dfi9oujfjvhbydrj", "prompts_mode": "auto", "custom_prompts": [], "added": "2026-09-02T18:36:38Z" }
+  ]
 }

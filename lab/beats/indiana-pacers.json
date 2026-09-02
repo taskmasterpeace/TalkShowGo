@@ -1,0 +1,130 @@
+{
+  "id": "indiana-pacers",
+  "name": "Indiana Pacers",
+  "status": "active",
+  "description": "NBA - Indiana Pacers: team account, beat writers (IndyStar + Fieldhouse Files), 107.5 The Fan radio, and the insiders. NBA off-season (Sept 2026) - trades, injuries (Tyrese Haliburton's Achilles recovery), and roster-building content heading into camp, not game recaps. One of three plugs (with Orangeburg and the Atlanta Falcons) proving the show-maker generalizes past battle rap - and the 'even at the end of the season' case: there's still a show to make.",
+  "show": {
+    "name": "THE FIELDHOUSE",
+    "tagline": "Your Pacers, every day, like you were courtside",
+    "timespan_hours": 24,
+    "format_bias": "auto",
+    "show_type": "moderated-collision",
+    "intro": {
+      "enabled": true,
+      "template": "Score/record check in one breath, then the day's biggest storyline as a topic card."
+    },
+    "outro": {
+      "enabled": true,
+      "template": "Next game countdown + one bold prediction the comments can hold us to."
+    }
+  },
+  "cases": [
+    {
+      "id": "offseason-arc",
+      "title": "The Offseason: Rebuilding Around Haliburton's Return",
+      "context": "Standing case for a team that made the 2025 NBA Finals and lost its floor general seven minutes into Game 7: Tyrese Haliburton ruptured his Achilles in that game, costing him the entire 2025-26 season. Recovery has been the defining storyline since - he's back to 5-on-5 work (a shingles diagnosis briefly slowed the ramp-up), and the organization has voiced confidence he's a Day 1 option for 2026-27, but every step of that timeline is news. The roster around him changed while he was out: Indiana sent Isaiah Jackson and Bennedict Mathurin (plus draft capital) to the Clippers for Kobe Brown and Ivica Zubac, later flipped Kam Jones to the Bulls for Braden Smith, re-signed Brown and Jalen Slawson, and added veteran Larry Nance Jr. - a real shift from the pace-and-space identity that got them to the Finals. Indiana also gave up its own 2026 first-round pick in an earlier deal, limiting draft flexibility this cycle. Track: Haliburton's health and ramp-up, whether Zubac at center changes the offensive identity, and whether a wounded-but-recent-Finalist holds position in a crowded East heading into camp.",
+      "status": "tracking"
+    }
+  ],
+  "_law": "Handles rot, userIds don't. Source-verify resolves each handle via user/info BEFORE first ingest and monthly after, and STORES the userId - all polling runs on userId, never userName. Never assume a seed handle is current.",
+  "sources": {
+    "twitter": [
+      {
+        "handle": "Pacers",
+        "label": "Indiana Pacers (official)",
+        "type": "media",
+        "priority": 1,
+        "status": "VERIFIED 2026-09-02",
+        "userId": "19409270",
+        "followers": 1410524,
+        "display_name": "Indiana Pacers"
+      },
+      {
+        "handle": "DustinDopirak",
+        "label": "Dustin Dopirak - Indianapolis Star Pacers beat writer",
+        "type": "blogger",
+        "priority": 1,
+        "status": "VERIFIED 2026-09-02",
+        "userId": "56228519",
+        "followers": 17835,
+        "display_name": "Dustin Dopirak"
+      },
+      {
+        "handle": "ScottAgness",
+        "label": "Scott Agness - Fieldhouse Files, independent Pacers beat writer (covering the team since 2012)",
+        "type": "blogger",
+        "priority": 1,
+        "status": "VERIFIED 2026-09-02",
+        "candidates": [
+          "FieldhouseFiles"
+        ],
+        "userId": "20950240",
+        "followers": 33918,
+        "display_name": "Scott Agness"
+      },
+      {
+        "handle": "1075thefan",
+        "label": "93.5/107.5 The Fan - Indianapolis sports radio (Pacers flagship talk)",
+        "type": "media",
+        "priority": 1,
+        "status": "VERIFIED 2026-09-02",
+        "userId": "21462484",
+        "followers": 36876,
+        "display_name": "1075 The Fan"
+      },
+      {
+        "handle": "TonyREast",
+        "label": "Tony East - Locked On Pacers / WTHR Pacers reporter",
+        "type": "blogger",
+        "priority": 2,
+        "status": "VERIFIED 2026-09-02",
+        "userId": "148881988",
+        "followers": 22600,
+        "display_name": "Tony East"
+      }
+    ],
+    "youtube": [
+      {
+        "channel_name": "Indiana Pacers",
+        "label": "official team channel",
+        "type": "media",
+        "priority": 1,
+        "status": "RESOLVED 2026-09-02",
+        "channel_id": "UCUQDCnAwU-35cOo8WCzg6zA",
+        "resolved_title": "Indiana Pacers",
+        "subscribers": "@pacers"
+      },
+      {
+        "channel_name": "1075 The Fan Indianapolis",
+        "label": "93.5/107.5 The Fan radio channel",
+        "type": "media",
+        "priority": 1,
+        "status": "RESOLVED 2026-09-02",
+        "channel_id": "UCFEMrHbmrxrnv2nj_8tnqag",
+        "resolved_title": "1075 the Fan",
+        "subscribers": "@1075TheFan_"
+      },
+      {
+        "channel_name": "Locked On Pacers",
+        "label": "team-focused creator/insider (Tony East)",
+        "type": "blogger",
+        "priority": 2,
+        "status": "RESOLVED 2026-09-02",
+        "channel_id": "UCKaJsU7eEpuYea4CE1Y0nDQ",
+        "resolved_title": "Locked On Pacers",
+        "subscribers": "@LockedOnPacers"
+      }
+    ],
+    "rss": [
+      {
+        "label": "Google News - Indiana Pacers",
+        "url": "https://news.google.com/rss/search?q=%22Indiana+Pacers%22&hl=en-US&gl=US&ceid=US:en",
+        "note": "legal published feed; never hostile-crawl"
+      }
+    ],
+    "web": []
+  },
+  "people": [
+    { "slug": "pacers-fan", "name": "Pacers Fan", "relation": "fan", "channel": "link", "address": null, "token": "yf3zt5t34iqj7f3l", "prompts_mode": "auto", "custom_prompts": [], "added": "2026-09-02T18:36:38Z" }
+  ]
+}

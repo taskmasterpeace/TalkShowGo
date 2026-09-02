@@ -102,5 +102,8 @@
     ],
     "rss": [],
     "web": []
-  }
+  },
+  "people": [
+    { "slug": "the-block", "name": "The Block", "relation": "local", "channel": "link", "address": null, "token": "k4om2vmgsyfhr2me", "prompts_mode": "auto", "custom_prompts": [], "added": "2026-09-02T18:36:38Z" }
+  ]
 }
