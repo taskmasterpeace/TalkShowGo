@@ -27,7 +27,8 @@ const whoOf = name => { const n = name.toLowerCase(); if (n.includes('tasha')) r
 
 const lines = []
 for (const raw of fs.readFileSync(seg, 'utf8').split('\n')) {
-  const m = raw.trim().match(/^([A-Z][A-Z .']*?)\s*(?:\[[a-z ]+\])?\s*\(([^)]*)\)\s*:\s*(.+)$/)
+  // NAME [any tags]* (delivery): text — tags may be many / mixed-case / with commas (MIX pass output)
+  const m = raw.trim().match(/^([A-Z][A-Z .'\-]*?)\s*(?:\[[^\]]*\]\s*)*\(([^)]*)\)\s*:\s*(.+)$/)
   if (!m) continue
   const who = whoOf(m[1]); if (!who) continue
   let text = m[3].replace(/\[E\d+\]/g, '').replace(/\[[a-z -]+\]/gi, '').replace(/[*_]/g, '').replace(/\s{2,}/g, ' ').trim()

@@ -111,26 +111,31 @@ const main = async () => {
     const seg = a1, out = a2
     if (!seg || !out) { console.error('usage: segment <segment.md> <out.mp3>'); process.exit(1) }
     const tmp = fs.mkdtempSync(path.join(path.dirname(path.resolve(out)), 'brz_'))
-    const lines = []
-    for (const raw of fs.readFileSync(seg, 'utf8').split('\n')) {
-      const m = raw.trim().match(/^([A-Z][A-Z .']*?)\s*(?:\[([a-z ]+)\])?\s*\(([^)]*)\)\s*:\s*(.+)$/)
-      if (!m) continue
-      const who = whoOf(m[1]); if (!who) continue
-      const text = m[4].replace(/\[E\d+\]/g, '').replace(/[*_]/g, '').replace(/\s{2,}/g, ' ').trim()
-      if (!text || text === '(unusable turn)') continue
-      const deliv = (m[3] || '').replace(/\|/g, ', ')
-      const tag = m[2] ? (m[2].includes('interrupt') ? 'cutting in fast, ' : 'talking over the last words, ') : ''
-      lines.push({ who, text, instruction: `${tag}${deliv || CAST[who].base}` })
-    }
-    console.error(`${lines.length} lines`)
-    const parts = []
-    for (let i = 0; i < lines.length; i++) {
-      const l = lines[i], f = path.join(tmp, `s${i}.wav`)
-      await line(l.who, l.text, l.instruction, f)
-      parts.push(f)
-      console.error(`${i + 1}/${lines.length} ${l.who} [${l.instruction.slice(0, 40)}] ${l.text.slice(0, 50)}`)
-    }
-    concatToMp3(parts, out, tmp); fs.rmSync(tmp, { recursive: true, force: true }); return
+    try { // never leave a brz_* orphan behind when the gateway 409s mid-render
+      const lines = []
+      // line shape: NAME [any tags]* (delivery): text — tags may be many, mixed-case, with commas
+      // (the MIX pass writes "[Booming, confident] [interrupting]"); only a real overlap tag is a cue
+      for (const raw of fs.readFileSync(seg, 'utf8').split('\n')) {
+        const m = raw.trim().match(/^([A-Z][A-Z .'\-]*?)\s*((?:\[[^\]]*\]\s*)*)\(([^)]*)\)\s*:\s*(.+)$/)
+        if (!m) continue
+        const who = whoOf(m[1]); if (!who) continue
+        const text = m[4].replace(/\[E\d+\]/g, '').replace(/[*_]/g, '').replace(/\s{2,}/g, ' ').trim()
+        if (!text || text === '(unusable turn)') continue
+        const deliv = (m[3] || '').replace(/\|/g, ', ')
+        const tags = (m[2] || '').toLowerCase()
+        const tag = /interrupt|cutting in/.test(tags) ? 'cutting in fast, ' : /overlap|talking over|under them/.test(tags) ? 'talking over the last words, ' : ''
+        lines.push({ who, text, instruction: `${tag}${deliv || CAST[who].base}` })
+      }
+      console.error(`${lines.length} lines`)
+      const parts = []
+      for (let i = 0; i < lines.length; i++) {
+        const l = lines[i], f = path.join(tmp, `s${i}.wav`)
+        await line(l.who, l.text, l.instruction, f)
+        parts.push(f)
+        console.error(`${i + 1}/${lines.length} ${l.who} [${l.instruction.slice(0, 40)}] ${l.text.slice(0, 50)}`)
+      }
+      concatToMp3(parts, out, tmp); return
+    } finally { fs.rmSync(tmp, { recursive: true, force: true }) }
   }
   console.error('modes: design | reel [out] | segment <md> <out>'); process.exit(1)
 }

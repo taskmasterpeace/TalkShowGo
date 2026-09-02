@@ -161,8 +161,75 @@ export async function briefAgents(briefing: any, castIds: string[], delegates: a
   return { briefing_id: briefing.id, question: briefing.question?.text, deliveries }
 }
 
-export function saveDeliveries(briefingId: string, result: any) {
+// ---- THE DELEGATE, HUMAN PATH: the show INTERVIEWS the real person instead of a model playing them ----
+// 1) interviewQuestions: 4-6 short, plain, NEUTRAL questions built from the briefing and tuned to who
+//    the person is; the last is always a one-sentence verdict. (Robert: "they gotta get your opinion.")
+export async function interviewQuestions(briefing: any, delegate: any): Promise<{ questions: string[]; ms: number }> {
+  const t0 = Date.now()
+  const moves = (briefing.moves || []).map((m: any) => `- (${m.kind}) ${m.headline}: ${m.body}`).join('\n')
+  const sys = `You write INTERVIEW QUESTIONS for a talk show's delegate — a real person a viewer named to represent a point of view. They have just read an impartial briefing. Write 4 to 6 SHORT, plain-spoken, NEUTRAL questions that would surface THIS person's honest opinion: what they saw, what surprised them, where they disagree, what the room gets wrong, what would change their mind. Tune the questions to who they are. No leading questions, no jargon, no em-dashes. The LAST question must be exactly: "In one sentence, what's your verdict?"
+Output STRICT JSON: {"questions":["..."]}`
+  const user = `THE PERSON: ${delegate.name}${delegate.persona_note ? ' — ' + delegate.persona_note : ''}\n\nTHE QUESTION THE SHOW ASKS: ${briefing.question?.text}\n\nTHE BRIEFING MOVES:\n${moves}`
+  const out = await callModel({ id: 'google/gemini-2.5-flash-lite', provider: 'openrouter' }, sys, user, { temperature: 0.5, maxTokens: 600 })
+  const j = parseJsonLoose(out.text)
+  let qs: string[] = Array.isArray(j?.questions) ? j.questions.filter((q: any) => typeof q === 'string' && q.trim()).map((q: string) => q.trim().slice(0, 240)).slice(0, 6) : []
+  if (!qs.length) qs = ['What jumped out at you in the briefing?', 'Where do you think the coverage has it wrong?', 'What would change your mind?']
+  if (!/verdict\?$/i.test(qs[qs.length - 1])) qs.push("In one sentence, what's your verdict?")
+  return { questions: qs, ms: Date.now() - t0 }
+}
+
+// 2) humanDelivery: the person's typed answers become their delivery, VERBATIM. No model touches a
+//    human's words; reasons carry no evidence ids (their words are their own) and the delivery is
+//    flagged human+verbatim so the floor can seat it as a scripted turn, never rewritten.
+export function humanDelivery(briefing: any, delegate: any, answers: { q: string; a: string }[]) {
+  const slug = String(delegate.name || 'guest').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'guest'
+  // verbatim means verbatim: a generous cap, and a flag if anything was ever cut
+  const clean = (answers || []).filter(x => x && typeof x.a === 'string' && x.a.trim()).map(x => { const a = x.a.trim(); return { q: String(x.q || '').slice(0, 240), a: a.slice(0, 6000), ...(a.length > 6000 ? { truncated: true } : {}) } })
+  if (!clean.length) return null
+  const verdict = clean.find(x => /verdict/i.test(x.q))?.a || clean[clean.length - 1].a
+  return {
+    cast_id: 'delegate:' + slug, name: delegate.name, kind: 'delegate', human: true, verbatim: true,
+    dna_id: 'human', dna_attribute: 'THE REAL ONE', budget: null, moves_included: (briefing.moves || []).map((m: any) => m.id),
+    ok: true, provider: 'human', ms: 0, allowed_evidence_ids: [], persona_note: delegate.persona_note || null,
+    interview: clean,
+    stance: { answer: verdict, thesis: verdict, reasons: clean.filter(x => !/verdict/i.test(x.q)).map(x => ({ text: x.a, evidence_ids: [], asked: x.q })), concession: '', uncertainty: '' },
+  }
+}
+
+// merge one delivery into the briefing's agents file (replace the same cast_id, else append) —
+// goes through saveDeliveries so the host-count promote rule still protects the house stances
+export function mergeDelivery(briefingId: string, delivery: any) {
+  const p = path.join(ROOT, 'lab', 'briefings', briefingId + '.agents.json')
+  let cur: any = { briefing_id: briefingId, deliveries: [] }
+  try { cur = JSON.parse(fs.readFileSync(p, 'utf8')) } catch { /* first delivery for this briefing */ }
+  const list = (cur.deliveries || []).filter((d: any) => d.cast_id !== delivery.cast_id)
+  list.push(delivery)
+  return saveDeliveries(briefingId, { ...cur, briefing_id: briefingId, deliveries: list })
+}
+
+// Count DISTINCT briefed HOUSE hosts (delegates don't take the floor yet) — the gate compile_beat enforces.
+export function okHouseCount(result: any): number {
+  return new Set((result?.deliveries || []).filter((d: any) => d && d.ok && d.kind !== 'delegate').map((d: any) => d.cast_id)).size
+}
+
+/** Save stances WITHOUT ever clobbering a usable set: a new result with fewer briefed house hosts
+ *  than the file already holds is written alongside (<brf>.agents.<ts>.json), not over it; and a
+ *  promoted host re-brief CARRIES FORWARD any human (verbatim) delegate the new result doesn't
+ *  include — a person's answers are never deleted by re-running the models. Atomic temp+rename. */
+export function saveDeliveries(briefingId: string, result: any): { path: string; promoted: boolean; carried: string[] } {
   const dir = path.join(ROOT, 'lab', 'briefings')
   fs.mkdirSync(dir, { recursive: true })
-  fs.writeFileSync(path.join(dir, briefingId + '.agents.json'), JSON.stringify(result, null, 2) + '\n')
+  const main = path.join(dir, briefingId + '.agents.json')
+  let existing: any = null
+  try { existing = JSON.parse(fs.readFileSync(main, 'utf8')) } catch { /* none yet */ }
+  const existingOk = okHouseCount(existing), incomingOk = okHouseCount(result)
+  const promote = !(existingOk >= 2 && incomingOk < existingOk)
+  const incomingIds = new Set((result.deliveries || []).map((d: any) => d.cast_id))
+  const carriedHumans = promote ? (existing?.deliveries || []).filter((d: any) => d && d.human && !incomingIds.has(d.cast_id)) : []
+  const payload = { ...result, deliveries: [...(result.deliveries || []), ...carriedHumans], saved_at: new Date().toISOString(), promoted: promote }
+  const target = promote ? main : path.join(dir, `${briefingId}.agents.${new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)}.json`)
+  const tmp = target + '.tmp'
+  fs.writeFileSync(tmp, JSON.stringify(payload, null, 2) + '\n')
+  fs.renameSync(tmp, target)
+  return { path: target, promoted: promote, carried: carriedHumans.map((d: any) => d.name) }
 }

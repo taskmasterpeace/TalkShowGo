@@ -39,6 +39,8 @@ export default function Stringer() {
   const [show, setShow] = useState<any>(null)
   const [showBusy, setShowBusy] = useState(false)
   const [traceOpen, setTraceOpen] = useState<number | null>(null)
+  // the human delegate interview: the show asks, the person answers in their own words
+  const [iv, setIv] = useState<{ idx: number; questions: string[]; answers: string[]; busy: boolean; done?: any; error?: string | null } | null>(null)
   if (!state) return <div className="p-8 cmd-kbd">LOADING STRINGER…</div>
 
   const d = res
@@ -62,6 +64,27 @@ export default function Stringer() {
       const r = await fetch('/api/command/briefing', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ stringer_id: d.id, final_question: briefQ }) })
       const j = await r.json(); if (j.ok) setBrief(j); else setErr(j.error || 'briefing failed')
     } catch (e: any) { setErr(String(e?.message || e)) } finally { setBBusy(false) }
+  }
+  const startInterview = async (i: number) => {
+    if (!brief?.id) return
+    setIv({ idx: i, questions: [], answers: [], busy: true, error: null })
+    try {
+      const r = await fetch('/api/command/briefing/interview', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ briefing_id: brief.id, delegate: delegates[i] }) })
+      const j = await r.json(); if (!j.ok) throw new Error(j.error || 'interview failed')
+      setIv({ idx: i, questions: j.questions, answers: j.questions.map(() => ''), busy: false, error: null })
+    } catch (e: any) { setIv({ idx: i, questions: [], answers: [], busy: false, error: String(e?.message || e) }) }
+  }
+  const submitInterview = async () => {
+    if (!iv || !brief?.id) return
+    setIv({ ...iv, busy: true, error: null })
+    try {
+      const answers = iv.questions.map((q, k) => ({ q, a: iv.answers[k] || '' }))
+      const r = await fetch('/api/command/briefing/interview', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ briefing_id: brief.id, delegate: delegates[iv.idx], answers }) })
+      const j = await r.json(); if (!j.ok) throw new Error(j.error || 'could not save your take')
+      setIv(v => v ? { ...v, busy: false, done: j.delivery } : v)
+      // surface the human take in the room without re-briefing anyone
+      setAgents((a: any) => ({ ...(a || { briefing_id: brief.id, question: brief.question?.text }), deliveries: [...((a?.deliveries) || []).filter((x: any) => x.cast_id !== j.delivery.cast_id), j.delivery] }))
+    } catch (e: any) { setIv(v => v ? { ...v, busy: false, error: String(e?.message || e) } : v) }
   }
   const supplementWeb = async () => {
     if (!d?.id) return
@@ -255,13 +278,15 @@ export default function Stringer() {
               <div className="cmd-panel p-3 space-y-2" style={{ borderStyle: 'dashed' }}>
                 <div className="cmd-kbd" style={{ color: 'var(--cmd-red)' }}>THE DELEGATE — add a real person to represent a view. fed the SAME briefing, forms their OWN take.</div>
                 {delegates.length > 0 && (
-                  <div className="flex gap-2 flex-wrap">
+                  <div className="flex gap-2 flex-wrap items-center">
                     {delegates.map((d, i) => (
-                      <span key={i} className="chip" style={{ borderColor: 'var(--cmd-red)' }}>
+                      <span key={i} className="chip" style={{ borderColor: 'var(--cmd-red)', display: 'inline-flex', alignItems: 'center', gap: 6, minHeight: 24 }}>
                         {d.name}{d.persona_note ? ` · ${d.persona_note.slice(0, 30)}` : ''}
-                        <button onClick={() => setDelegates(x => x.filter((_, k) => k !== i))} style={{ background: 'none', border: 'none', color: 'var(--cmd-dim)', cursor: 'pointer', marginLeft: 5 }}>✕</button>
+                        <button onClick={() => startInterview(i)} title="the show asks this person questions; their answers are saved verbatim" style={{ background: 'none', border: '1px solid var(--cmd-red)', color: 'var(--cmd-red)', cursor: 'pointer', fontSize: 10, padding: '1px 6px' }}>INTERVIEW</button>
+                        <button onClick={() => setDelegates(x => x.filter((_, k) => k !== i))} style={{ background: 'none', border: 'none', color: 'var(--cmd-dim)', cursor: 'pointer' }}>✕</button>
                       </span>
                     ))}
+                    <span className="cmd-kbd">BRIEF = a model plays them from the briefing · INTERVIEW = the real person answers, verbatim</span>
                   </div>
                 )}
                 <div className="flex gap-2 flex-wrap">
@@ -269,6 +294,25 @@ export default function Stringer() {
                   <input className="cmd-input" spellCheck={false} style={{ flex: 1, minWidth: 220 }} placeholder="who they are / where they stand (optional)" value={dNote} onChange={e => setDNote(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') addDelegate() }} />
                   <button className="cmd-btn ghost" disabled={!dName.trim()} onClick={addDelegate}>+ ADD</button>
                 </div>
+                {iv && (
+                  <div className="cmd-panel p-3 space-y-2" style={{ borderColor: 'var(--cmd-red)' }}>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="cmd-label" style={{ color: 'var(--cmd-red)', margin: 0 }}>THE SHOW INTERVIEWS {String(delegates[iv.idx]?.name || '').toUpperCase()}</span>
+                      <span className="cmd-kbd">answer in your own words. nothing gets rewritten. this is your take, verbatim.</span>
+                      <button className="cmd-btn ghost ml-auto" onClick={() => setIv(null)}>✕</button>
+                    </div>
+                    {iv.busy && !iv.questions.length && <span role="status" className="cmd-kbd">writing questions from the briefing…</span>}
+                    {iv.error && <span className="chip err">{iv.error}</span>}
+                    {iv.questions.map((q, k) => (
+                      <div key={k} className="space-y-1">
+                        <label style={{ color: 'var(--cmd-ink)', fontSize: 13.5, display: 'block' }} htmlFor={`iv-${k}`}>{k + 1}. {q}</label>
+                        <textarea id={`iv-${k}`} className="cmd-textarea" spellCheck={false} rows={2} value={iv.answers[k] || ''} disabled={!!iv.done} onChange={e => { const val = e.target.value; setIv(v => v ? { ...v, answers: v.answers.map((a, j) => j === k ? val : a) } : v) }} placeholder="your answer" />
+                      </div>
+                    ))}
+                    {iv.questions.length > 0 && !iv.done && <button className="cmd-btn primary" disabled={iv.busy || !iv.answers.some(a => a.trim())} onClick={submitInterview}>{iv.busy ? 'SAVING…' : 'THAT IS MY TAKE'}</button>}
+                    {iv.done && <span className="chip ok">SAVED VERBATIM — {delegates[iv.idx]?.name} is on this briefing as a HUMAN delegate</span>}
+                  </div>
+                )}
               </div>
               <div className="flex items-center gap-3 flex-wrap">
                 {(() => {
@@ -287,6 +331,7 @@ export default function Stringer() {
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="cmd-display" style={{ fontSize: 15, color: 'var(--cmd-ink)' }}>{dv.name}</span>
                     {dv.kind === 'delegate' && <span className="chip" style={{ borderColor: 'var(--cmd-red)', color: 'var(--cmd-red)' }}>DELEGATE</span>}
+                    {dv.human && <span className="chip ok" title="a real person answered the show's questions; saved word for word">HUMAN · VERBATIM</span>}
                     <span className="chip info">{dv.dna_attribute}</span>
                     <span className="cmd-kbd">{(dv.dna_id || '').split('/').pop()}</span>
                     {dv.ok
@@ -301,7 +346,7 @@ export default function Stringer() {
                         {(dv.stance?.reasons || []).map((r: any, k: number) => (
                           <div key={k} className="flex gap-2" style={{ fontSize: 13, color: 'var(--cmd-dim)', lineHeight: 1.5 }}>
                             <span style={{ color: 'var(--cmd-red)' }}>▸</span>
-                            <span>{r.text} {(r.evidence_ids || []).map((e: string) => <span key={e} className="chip info" style={{ marginLeft: 3 }}>{e}</span>)}</span>
+                            <span>{r.asked && <span className="cmd-kbd" style={{ display: 'block', color: 'var(--cmd-faint)' }}>{r.asked}</span>}{r.text} {(r.evidence_ids || []).map((e: string) => <span key={e} className="chip info" style={{ marginLeft: 3 }}>{e}</span>)}</span>
                           </div>
                         ))}
                       </div>

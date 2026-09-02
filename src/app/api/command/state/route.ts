@@ -63,10 +63,24 @@ export async function GET() {
   }
   const stringers = listStringers()
   const briefings = listBriefings()
+
+  // every built show, newest first — so a finished mp3 is never unreachable after a reload
+  const showsDir = path.join(ROOT, 'lab', 'shows')
+  const shows = fs.existsSync(showsDir)
+    ? fs.readdirSync(showsDir).map(d => {
+        const s = j(path.join(showsDir, d, 'status.json'))
+        if (!s) return null
+        const age_s = s.updated ? Math.round((Date.now() - new Date(s.updated).getTime()) / 1000) : null
+        // present a job that stopped heartbeating as dead (same stale rule the showbuild GET persists)
+        const STALE: Record<string, number> = { queued: 180, compile: 300, floor: 900, scripted: 300, audio: 900 }
+        const stale = !['done', 'error', 'cancelled'].includes(s.stage) && age_s != null && age_s > (STALE[s.stage] || 600)
+        return { slug: d, stage: stale ? 'error' : s.stage, stale, pct: s.pct, message: stale ? `stopped reporting during ${s.stage}` : s.message, question: s.question || null, briefing: s.briefing || null, started: s.started || null, updated: s.updated || null, age_s, duration_s: s.duration_s || null, lines: s.lines || null, voice_engine: s.voice_engine || null, pid: s.pid || null, audio_url: s.audio ? `/api/command/audio/shows/${d}/${path.basename(s.audio)}` : null }
+      }).filter(Boolean).sort((a: any, b: any) => String(b.started || '').localeCompare(String(a.started || '')))
+    : []
   try {
     const r = await fetch('http://192.168.1.249:8700/v1/health', { signal: AbortSignal.timeout(4000) })
     health.gateway = r.ok
   } catch { health.gateway = false }
 
-  return NextResponse.json({ beats, cast, guests, voices, images, audio, manifest, runs, pulls, topics, topicsAll, formats, production_skins, models, stringers, briefings, health })
+  return NextResponse.json({ beats, cast, guests, voices, images, audio, manifest, runs, pulls, topics, topicsAll, formats, production_skins, models, stringers, briefings, shows, health })
 }

@@ -67,7 +67,11 @@ export default function Desk() {
   const tw = beat?.sources?.twitter || []
   const yt = beat?.sources?.youtube || []
   const twOk = tw.filter((s: any) => String(s.status || '').startsWith('VERIFIED')).length
-  const ytOk = yt.filter((c: any) => String(c.status || '').startsWith('RESOLVED')).length
+  // YouTube health = what the LAST PULL actually got back, not the static "RESOLVED" stamp
+  const lastPullForMeter = (state.pulls || []).find((p: any) => p?.beat === beat?.id)
+  const ytOk = lastPullForMeter?.youtube?.length ? lastPullForMeter.youtube.filter((c: any) => !c.error).length
+    : lastPullForMeter?.youtube_error ? 0   // the whole YouTube sweep failed on the last pull: nothing is healthy
+      : yt.filter((c: any) => String(c.status || '').startsWith('RESOLVED')).length
   const hosts = state.cast?.hosts || []
   // per-SHOW data only - a pull/topics file carries its beat id; never show another show's data
   const latestPull = report || (state.pulls || []).find((p: any) => p?.beat === beat?.id) || null
@@ -181,7 +185,7 @@ export default function Desk() {
               <div className="cmd-label">YOUTUBE CHANNELS</div>
               <div className="cmd-num">{ytOk}<span style={{ color: 'var(--cmd-faint)' }}>/{yt.length}</span></div>
               <div className="meter mt-2"><i style={{ transform: `scaleX(${yt.length ? ytOk / yt.length : 0})` }} /></div>
-              <div className="cmd-kbd mt-2">RESOLVED CHANNELS</div>
+              <div className="cmd-kbd mt-2">{lastPullForMeter?.youtube?.length ? `RETURNED ON LAST PULL${lastPullForMeter.youtube.some((c: any) => /yt-dlp/.test(c.via || '')) ? ' · SOME VIA YT-DLP' : ''}` : 'RESOLVED CHANNELS'}</div>
             </Link>
             <Link href="/command/cast" className="cmd-panel p-4 block hover:opacity-90">
               <div className="cmd-label">CAST</div>

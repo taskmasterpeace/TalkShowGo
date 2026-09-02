@@ -9,6 +9,22 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const ARG = Object.fromEntries(process.argv.slice(2).map(a => { const m = a.match(/^--([^=]+)=?(.*)$/); return m ? [m[1], m[2] || true] : [a, true] }))
+// optional heartbeat into a make_show status.json (--status=<path>) so the desk sees real turn
+// progress during the 2-3 minute floor instead of a frozen percentage
+const STATUS_PATH = ARG.status ? path.resolve(String(ARG.status)) : null
+const TERMINAL_STAGES = new Set(['done', 'error', 'cancelled'])
+function heartbeat(turnNo, maxTurns, spoken, target) {
+  if (!STATUS_PATH) return
+  try {
+    const s = JSON.parse(fs.readFileSync(STATUS_PATH, 'utf8'))
+    // the producer cancelled (or the parent died and was marked) — an orphaned floor must STOP, never
+    // resurrect the status back to "floor"
+    if (TERMINAL_STAGES.has(s.stage)) { console.error(`status is ${s.stage} — floor stopping`); process.exit(130) }
+    const frac = Math.min(1, Math.max(turnNo / Math.max(1, maxTurns || 1), spoken / Math.max(1, target || 1)))
+    const next = JSON.stringify({ ...s, stage: 'floor', pct: Math.round(25 + 35 * frac), message: `floor: turn ${turnNo}/${maxTurns} · ${spoken} words`, updated: new Date().toISOString() }, null, 2)
+    fs.writeFileSync(STATUS_PATH + '.tmp', next); fs.renameSync(STATUS_PATH + '.tmp', STATUS_PATH)   // atomic: a reader never sees a torn file
+  } catch { /* heartbeat is best-effort */ }
+}
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '..', '..')
 const OLLAMA = process.env.ENGINE_OLLAMA_URL || 'http://192.168.1.249:11434'
 const MODELS = {
@@ -237,6 +253,7 @@ async function main() {
     }
     turns.push({ id: hostId, name: host.name.toUpperCase(), ...t, tag: tag || null, ms: Date.now() - t0, noMerge: !!instruction })
     spoken += words(t.line); turnNo++
+    heartbeat(turnNo, beat.max_turns, spoken, beat.target_spoken_words)
     console.error(`turn ${turnNo} ${hostId}${tag ? ' [' + tag + ']' : ''} ${words(t.line)}w ${Date.now() - t0}ms :: ${t.line.slice(0, 70)}`)
     return true
   }

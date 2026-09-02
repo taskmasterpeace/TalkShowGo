@@ -17,3 +17,6 @@ Law (Robert, 2026-08-31): every rendered audio file gets a row here the moment i
 ## Standing engine decisions (2026-08-31)
 - **VOICE ENGINE = Breeze TTS 2 on cupcake** (`/v1/audio/breeze-design` + `/v1/audio/breeze-clone` w/ per-line `instruction` for emotion/nonverbals). Kokoro retired (draft-only wobble). ElevenLabs Battlerap Algorithm stays the narrator option.
 - Cast reference voices live in `lab/cast/voices/` (designed once, seed-locked, cloned per line = consistency).
+
+| tay-roc-battle-rapper-6ct7fw.mp3 | 2026-09-02 | 10 lines · Which of Tay Roc's battles is the greatest of his career? | breeze via make_show (openrouter floor, seed 7) |
+| tay-roc-battle-rapper-6ct7fw.mp3 | 2026-09-02 | 29 lines · Which of Tay Roc's battles is the greatest of his career? | breeze via make_show (openrouter floor, seed 7) |

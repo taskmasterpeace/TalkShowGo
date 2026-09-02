@@ -3,6 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { extractLeads, materialFromPull, saveLeads } from '@/lib/command/leads'
 import { loadConfig } from '@/lib/command/stringer'
+import { logTimer } from '@/lib/command/log'
 
 export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
@@ -32,14 +33,22 @@ export async function POST(req: Request) {
   const material = materialFromPull(report)
   if (!material.length) return NextResponse.json({ ok: false, error: 'pull report is empty' }, { status: 400 })
 
+  const t = logTimer()
   try {
     const { leads, ms, raw } = await extractLeads(material, String(body.context || ''), loadConfig())
-    if (!leads.length) return NextResponse.json({ ok: true, pulled_from: pullFile, feed_count: material.length, ms, counts: { total: 0, auto: 0, expand: 0, store: 0, ignore: 0 }, leads: [], byBand: { auto: [], expand: [], store: [], ignore: [] }, _debug_raw: String(raw || '').slice(0, 700) })
+    // zero leads is NOT a success: never save it, never report ok:true, never leak raw model text to the client
+    if (!leads.length) {
+      console.error('[leads] 0 leads parsed from model output; raw head:', String(raw || '').slice(0, 300))
+      t.done({ kind: 'leads', stage: 'parse', ok: false, beat: report.beat || null, ref: pullFile, summary: `0 leads from ${material.length} items`, error: raw ? 'model text but no leads parsed' : 'no leads returned' })
+      return NextResponse.json({ ok: false, error: raw ? 'the miner returned text but no leads could be parsed — retry' : 'the miner returned no leads for this feed', stage: 'parse', retryable: true, pulled_from: pullFile, feed_count: material.length, ms }, { status: 502 })
+    }
     const byBand = { auto: leads.filter(l => l.band === 'auto'), expand: leads.filter(l => l.band === 'expand'), store: leads.filter(l => l.band === 'store'), ignore: leads.filter(l => l.band === 'ignore') }
     const out = { pulled_from: pullFile, beat: report.beat || null, mined_at: new Date().toISOString(), feed_count: material.length, ms, counts: { total: leads.length, auto: byBand.auto.length, expand: byBand.expand.length, store: byBand.store.length, ignore: byBand.ignore.length }, leads }
     saveLeads(pullFile, out)
+    t.done(() => ({ kind: 'leads', stage: 'mine', ok: true, beat: report.beat || null, ref: pullFile, summary: `${leads.length} leads · ${byBand.auto.length} auto · ${byBand.expand.length} expand`, meta: { auto: byBand.auto.slice(0, 6).map(l => l.value), archived: leads.filter(l => l.since || l.until).length } }))
     return NextResponse.json({ ok: true, ...out, byBand })
   } catch (e: any) {
+    t.done({ kind: 'leads', stage: 'mine', ok: false, beat: report.beat || null, ref: pullFile, summary: 'lead miner failed', error: String(e?.message || e) })
     return NextResponse.json({ ok: false, error: 'lead miner failed: ' + String(e?.message || e).slice(0, 160), stage: 'mine', retryable: true }, { status: 502 })
   }
 }

@@ -7,6 +7,14 @@ export default function Sources() {
   const [busy, setBusy] = useState<string | null>(null)
   const [flash, setFlash] = useState<string | null>(null)
   const [log, setLog] = useState<string[]>([])
+  // SCOUT panel: topic-first discovery (who's covering it on YouTube / X) + resolve-a-name
+  const [topic, setTopic] = useState('')
+  const [hours, setHours] = useState(48)
+  const [scout, setScout] = useState<any>(null)
+  const [scoutErr, setScoutErr] = useState<string | null>(null)
+  const [name, setName] = useState('')
+  const [resolved, setResolved] = useState<any>(undefined)   // undefined = untouched, null = no match
+  const [resolveErr, setResolveErr] = useState<string | null>(null)
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { beat, beats, pick } = useBeat(state)
@@ -44,6 +52,54 @@ export default function Sources() {
     setBusy('yt'); setLog([])
     try { const r = await fetch('/api/command/youtube', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ file: beat.file, action: 'resolve' }) }); const j = await r.json(); setLog(j.log || []) }
     finally { setBusy(null); reload() }
+  }
+
+  // --- SCOUT: topic -> who's covering it; name -> channel; one-click ADD into THIS beat ---
+  const scoutPost = async (body: any) => {
+    const r = await fetch('/api/command/scout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+    const j = await r.json().catch(() => ({} as any))
+    if (!r.ok || !j?.ok) throw new Error((j?.error || `http ${r.status}`) + (j?.stage ? ` [${j.stage}]` : ''))
+    return j
+  }
+  const runScout = async () => {
+    const t = topic.trim(); if (t.length < 2 || busy) return
+    setBusy('scout'); setScoutErr(null)
+    try { setScout(await scoutPost({ topic: t, beat_file: beat.file, hours })) }
+    catch (e: any) { setScoutErr(String(e?.message || e)) }
+    finally { setBusy(null) }
+  }
+  const runResolveName = async () => {
+    const n = name.trim(); if (n.length < 2 || busy) return
+    setBusy('resolve'); setResolveErr(null); setResolved(undefined)
+    try { const j = await scoutPost({ resolve: n }); setResolved(j.channel ?? null) }
+    catch (e: any) { setResolveErr(String(e?.message || e)) }
+    finally { setBusy(null) }
+  }
+  // live against the CURRENT beat (server flags go stale the moment the picker switches beats)
+  const inBeatYt = (id?: string | null) => !!id && yt.some((c: any) => c.channel_id === id)
+  const inBeatTw = (h?: string | null) => !!h && tw.some((s: any) => String(s.handle || '').toLowerCase() === String(h).replace(/^@/, '').toLowerCase())
+  const scoutAdd = async (key: string, add: any, label: string) => {
+    setBusy(key); setScoutErr(null)
+    try { await scoutPost({ add: { beat_file: beat.file, ...add } }); await reload(); setFlash('ADDED ' + label.toUpperCase()); setTimeout(() => setFlash(null), 1600) }
+    catch (e: any) { setScoutErr('ADD FAILED: ' + String(e?.message || e)) }
+    finally { setBusy(null) }
+  }
+
+  // one resolved-channel row (the pick, or an alternate): title · @handle · subs · id · open · ADD/IN BEAT
+  const channelRow = (c: any, suspect = false) => {
+    const k = 'add:yt:' + c.channel_id
+    return (
+      <div key={c.channel_id} className="flex flex-wrap items-center gap-2">
+        <span style={{ color: 'var(--cmd-ink)' }}>{c.title}</span>
+        {c.handle && <span style={{ color: 'var(--cmd-cyan)' }}>{c.handle}</span>}
+        {c.subscribers && <span className={`chip ${suspect ? 'warn' : ''}`} title={suspect ? 'tiny channel with a matching name: possible squatter, eyeball it' : undefined}>{suspect ? 'SUSPECT: ' : ''}{String(c.subscribers).toUpperCase()}</span>}
+        <span className="cmd-kbd">{c.channel_id}</span>
+        <a href={c.url} target="_blank" rel="noreferrer" className="chip info" style={{ textDecoration: 'none' }} title="open the channel - eyeball it's the right one">↗</a>
+        {inBeatYt(c.channel_id)
+          ? <span className="chip ok">IN BEAT</span>
+          : <button className="cmd-btn ghost" disabled={busy !== null} onClick={() => scoutAdd(k, { youtube: { channel_id: c.channel_id, channel_name: c.title, subscribers: c.handle } }, c.title)}>{busy === k ? 'ADDING…' : '+ ADD'}</button>}
+      </div>
+    )
   }
 
   // enrich: activity from THIS SHOW's latest pull only (no cross-show bleed)
@@ -84,6 +140,130 @@ export default function Sources() {
         <span className={`chip ${pullAge.cls}`}>LAST PULL: {pullAge.text.toUpperCase()}</span>
         <Flash msg={flash} />
       </div>
+
+      {/* SCOUT: topic-first source discovery. When a story gets hot you look up the TOPIC, then you end up
+          looking up somebody's NAME. Both live here, and every hit is one click from joining this beat. */}
+      <section className="cmd-panel">
+        <div className="cmd-h justify-between">
+          <div className="flex items-center gap-3"><div className="vu"><i /><i /><i /><i /></div><h2>SCOUT A TOPIC</h2></div>
+          <span className="cmd-kbd">ADDS GO TO <span style={{ color: 'var(--cmd-amber)' }}>{String(beat.show?.name || beat.name || beat.id).toUpperCase()}</span> (switch beats in the header)</span>
+        </div>
+        <div className="p-4 space-y-4">
+          <div className="flex flex-wrap items-end gap-3">
+            <div className="flex-1" style={{ minWidth: 260 }}>
+              <label className="cmd-label">WHAT&apos;S THE STORY?</label>
+              <input className="cmd-input" spellCheck={false} placeholder="what's the story? (e.g. Lil Durk case)" value={topic} onChange={e => setTopic(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') runScout() }} />
+            </div>
+            <div style={{ width: 120 }}>
+              <label className="cmd-label">WINDOW</label>
+              <select className="cmd-select" value={hours} onChange={e => setHours(Number(e.target.value))}>
+                {[24, 48, 72, 168].map(h => <option key={h} value={h}>{h === 168 ? '7 DAYS' : `${h}H`}</option>)}
+              </select>
+            </div>
+            <button className="cmd-btn primary" disabled={busy !== null || topic.trim().length < 2} onClick={runScout}>{busy === 'scout' ? 'SCOUTING…' : 'SCOUT'}</button>
+          </div>
+          {scoutErr && <div><span className="chip err" title={scoutErr}>SCOUT FAILED: {scoutErr.slice(0, 140)}</span></div>}
+          {scout && (
+            <>
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="chip info">{scout.counts?.youtube_videos ?? 0} VIDEOS</span>
+                <span className="chip info">{scout.counts?.x_posts ?? 0} POSTS</span>
+                <span className="cmd-kbd">{`"${scout.topic}" · LAST ${scout.hours}H · ${new Date(scout.generated_at).toLocaleTimeString()}`}</span>
+                {(scout.warnings || []).map((w: string, i: number) => <span key={i} className="chip warn" title={w}>{w.slice(0, 90)}</span>)}
+              </div>
+              <div className="grid gap-4 xl:grid-cols-2">
+                <div className="cmd-grid-line">
+                  <div className="cmd-h"><h2 style={{ fontSize: 13 }}>YOUTUBE · WHO&apos;S COVERING IT</h2><span className="cmd-kbd">ranked by videos, then freshest</span></div>
+                  {(scout.youtube || []).length === 0 ? <div className="p-4 cmd-kbd">NOBODY FOUND ON YOUTUBE IN THIS WINDOW</div> : (
+                    <div className="overflow-x-auto">
+                      <table className="cmd-table">
+                        <thead><tr><th>CHANNEL</th><th>VIDEOS</th><th>LATEST</th><th /></tr></thead>
+                        <tbody>
+                          {scout.youtube.map((c: any) => {
+                            const inBeat = c.already_in_beat || inBeatYt(c.channel_id)
+                            const k = 'add:yt:' + (c.channel_id || c.channel_name)
+                            return (
+                              <tr key={k}>
+                                <td style={{ minWidth: 160 }}>
+                                  <div className="flex items-center gap-2">
+                                    <div><div style={{ color: 'var(--cmd-ink)' }}>{c.channel_name}</div>{c.handle && <div className="cmd-kbd" style={{ color: 'var(--cmd-cyan)' }}>{c.handle}</div>}</div>
+                                    {c.url && <a href={c.url} target="_blank" rel="noreferrer" className="chip info" style={{ textDecoration: 'none' }} title="open the channel - eyeball it's the right one">↗</a>}
+                                    {c.id_from === 'search' && <span className="chip warn" title="the video carried no channel id; this one came from a name search on the author label (collab streams can land on the wrong half), eyeball it before adding">BY NAME</span>}
+                                  </div>
+                                </td>
+                                <td><span className="flex gap-1 items-center"><span className={`chip ${c.video_count > 1 ? 'ok' : ''}`}>{c.video_count}</span>{c.in_window > 0 && <span className="chip warn" title={`${c.in_window} inside the last ${scout.hours}h`}>{c.in_window} IN {scout.hours}H</span>}</span></td>
+                                <td>
+                                  {c.latest ? (
+                                    <a href={c.latest.url} target="_blank" rel="noreferrer" style={{ color: 'var(--cmd-dim)', textDecoration: 'none' }} title={c.latest.title}>
+                                      <div className="truncate" style={{ maxWidth: 300 }}>{c.latest.title}</div>
+                                      <div className="cmd-kbd">{[c.latest.published, c.latest.views].filter(Boolean).join(' · ')}</div>
+                                    </a>
+                                  ) : <span className="cmd-kbd">·</span>}
+                                </td>
+                                <td>{inBeat ? <span className="chip ok">IN BEAT</span> : c.channel_id ? <button className="cmd-btn ghost" disabled={busy !== null} onClick={() => scoutAdd(k, { youtube: { channel_id: c.channel_id, channel_name: c.channel_name, subscribers: c.handle } }, c.channel_name)}>{busy === k ? 'ADDING…' : '+ ADD'}</button> : <span className="chip" title="YouTube returned no channel id for this one">NO ID</span>}</td>
+                              </tr>
+                            )
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+                <div className="cmd-grid-line">
+                  <div className="cmd-h"><h2 style={{ fontSize: 13 }}>𝕏 · WHO&apos;S TALKING</h2><span className="cmd-kbd">ranked by likes + 2x reposts, then posts</span></div>
+                  {(scout.x || []).length === 0 ? <div className="p-4 cmd-kbd">NOBODY FOUND ON X IN THIS WINDOW</div> : (
+                    <div className="overflow-x-auto">
+                      <table className="cmd-table">
+                        <thead><tr><th>HANDLE</th><th>POSTS</th><th>♥ / ↻</th><th>SAMPLE</th><th /></tr></thead>
+                        <tbody>
+                          {scout.x.map((a: any) => {
+                            const inBeat = a.already_in_beat || inBeatTw(a.handle)
+                            const k = 'add:tw:' + a.handle
+                            return (
+                              <tr key={k}>
+                                <td style={{ minWidth: 150 }}>
+                                  <div className="flex items-center gap-2">
+                                    <div><div style={{ color: 'var(--cmd-ink)' }}>@{a.handle}</div><div className="cmd-kbd">{a.name}{a.followers != null ? ` · ${Number(a.followers).toLocaleString()} followers` : ''}</div></div>
+                                    <a href={a.url} target="_blank" rel="noreferrer" className="chip info" style={{ textDecoration: 'none' }} title={`open x.com/${a.handle} - eyeball it's the right account`}>↗</a>
+                                  </div>
+                                </td>
+                                <td><span className={`chip ${a.posts > 1 ? 'ok' : ''}`}>{a.posts}</span></td>
+                                <td style={{ color: 'var(--cmd-amber)', whiteSpace: 'nowrap' }}>{Number(a.likes).toLocaleString()} / {Number(a.rts).toLocaleString()}</td>
+                                <td>
+                                  {a.sample_url
+                                    ? <a href={a.sample_url} target="_blank" rel="noreferrer" style={{ color: 'var(--cmd-dim)', textDecoration: 'none' }} title={a.sample_text}><div className="truncate" style={{ maxWidth: 300 }}>{a.sample_text}</div></a>
+                                    : <div className="truncate" style={{ maxWidth: 300, color: 'var(--cmd-dim)' }} title={a.sample_text}>{a.sample_text}</div>}
+                                </td>
+                                <td>{inBeat ? <span className="chip ok">IN BEAT</span> : <button className="cmd-btn ghost" disabled={busy !== null} onClick={() => scoutAdd(k, { twitter: { handle: a.handle, label: a.name } }, '@' + a.handle)}>{busy === k ? 'ADDING…' : '+ ADD'}</button>}</td>
+                              </tr>
+                            )
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </>
+          )}
+          <div className="pt-4" style={{ borderTop: '1px solid var(--cmd-line)' }}>
+            <label className="cmd-label">RESOLVE A NAME TO A YOUTUBE CHANNEL</label>
+            <div className="flex flex-wrap items-center gap-3">
+              <input className="cmd-input" style={{ maxWidth: 340 }} spellCheck={false} placeholder="e.g. Ceddy Nash" value={name} onChange={e => setName(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') runResolveName() }} />
+              <button className="cmd-btn" disabled={busy !== null || name.trim().length < 2} onClick={runResolveName}>{busy === 'resolve' ? 'RESOLVING…' : 'RESOLVE'}</button>
+              {resolveErr && <span className="chip err" title={resolveErr}>RESOLVE FAILED: {resolveErr.slice(0, 120)}</span>}
+              {resolved === null && <span className="chip err">NO CHANNEL MATCHED</span>}
+              {resolved && channelRow(resolved, !!resolved.suspect)}
+            </div>
+            {resolved && (resolved.alternates || []).length > 0 && (
+              <div className="mt-3 space-y-1">
+                <div className="cmd-kbd">ALSO MATCHED (eyeball which one you mean):</div>
+                {(resolved.alternates || []).map((c: any) => channelRow(c, c.subs != null && c.subs < 1000))}
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
 
       <section className="cmd-panel">
         <div className="cmd-h justify-between">

@@ -37,6 +37,8 @@ function parseLeads(content: string): any[] {
   const tryP = (x: string) => { try { return JSON.parse(x) } catch { return null } }
   let o = tryP(t)
   if (!o) { const a = t.indexOf('{'), b = t.lastIndexOf('}'); if (a >= 0 && b > a) o = tryP(t.slice(a, b + 1)) }
+  if (!o) { const a = t.indexOf('['), b = t.lastIndexOf(']'); if (a >= 0 && b > a) o = tryP(t.slice(a, b + 1)) }
+  if (Array.isArray(o)) return o                    // the model emitted a bare array of leads — accept it
   if (o && Array.isArray(o.leads)) return o.leads
   const m = /"leads"\s*:\s*\[/.exec(t); if (!m) return []
   let i = m.index + m[0].length; const out: any[] = []
@@ -88,8 +90,9 @@ export async function extractLeads(material: string[], storyContext: string, cfg
 // Build the flat feed material from a pull report (same shape the topic miner uses)
 export function materialFromPull(report: any): string[] {
   const material: string[] = []
-  for (const s of report?.twitter || []) for (const t of s?.top || []) material.push(`[X @${s.handle}] ${t.text} (♥${t.likes || 0} rt${t.rts || 0}) ${t.created || ''}`)
-  for (const c of report?.youtube || []) for (const v of c?.videos || []) material.push(`[YT ${c.channel}] "${v.title}" ${v.published || ''}`)
+  const arr = (v: any) => (Array.isArray(v) ? v : [])   // a hand-edited or partial pull must never throw here
+  for (const s of arr(report?.twitter)) for (const t of arr(s?.top)) material.push(`[X @${s.handle}] ${t.text} (♥${t.likes || 0} rt${t.rts || 0}) ${t.created || ''}`)
+  for (const c of arr(report?.youtube)) for (const v of arr(c?.videos)) material.push(`[YT ${c.channel}] "${v.title}" ${v.published || ''}`)
   return material
 }
 

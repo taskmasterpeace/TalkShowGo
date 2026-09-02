@@ -2,82 +2,142 @@
 /**
  * MAKE SHOW — one command from research→opinion lineage to a rendered AUDIO talk show.
  * Chains: compile_beat (dossier+briefing+stances -> beat card) -> run_floor (the argument) ->
- * render_breeze (voices -> mp3). Writes status.json at each stage so a UI can poll progress.
+ * render_breeze (voices -> mp3, Kokoro fallback). Writes status.json ATOMICALLY at each stage (with
+ * pid + heartbeat) so a UI can poll progress, cancel, and detect a dead job. Every stage always leaves
+ * a <stage>.log, and a failure reports the LAST stderr lines (the real reason), never the command.
  * Requires the cast to already be briefed: lab/briefings/<briefing>.agents.json must exist.
  *
  * Usage: node lab/engine/make_show.mjs --stringer=<id> --briefing=<brf_id> [--runtime=8]
  *        [--provider=openrouter] [--seed=7] [--voice] [--show=<slug>] [--jobdir=<dir>]
+ *        [--attribution=A-F] [--from=compile|floor|audio]   (resume a job dir from a stage)
  */
 import fs from 'node:fs'
 import path from 'node:path'
-import { execFileSync } from 'node:child_process'
+import { spawnSync, execFileSync } from 'node:child_process'
 
 const ARG = Object.fromEntries(process.argv.slice(2).map(a => { const m = a.match(/^--([^=]+)=?(.*)$/); return m ? [m[1], m[2] || true] : [a, true] }))
 const ENGINE = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1'))
 const ROOT = path.resolve(ENGINE, '..', '..')
+const STAGES = ['compile', 'floor', 'audio']
 
 function slugify(s) { return String(s || 'show').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'show' }
+const lastLines = (s, n = 3) => String(s || '').split(/\r?\n/).map(x => x.trim()).filter(Boolean).slice(-n).join(' | ')
+const mmss = d => d == null ? '?' : Math.floor(d / 60) + ':' + String(d % 60).padStart(2, '0')
+const writeAtomic = (p, obj) => { fs.writeFileSync(p + '.tmp', JSON.stringify(obj, null, 2)); fs.renameSync(p + '.tmp', p) }
+
+// append one line to the desk's activity log (same JSONL the control room reads)
+function logActivity(e) {
+  try {
+    const dir = path.join(ROOT, 'lab', 'logs'); fs.mkdirSync(dir, { recursive: true })
+    fs.appendFileSync(path.join(dir, 'activity.jsonl'), JSON.stringify({ ts: new Date().toISOString(), kind: 'build', ...e }) + '\n')
+  } catch { /* logging never breaks a build */ }
+}
 
 async function main() {
   if (!ARG.stringer || !ARG.briefing) { console.error('need --stringer=<id> --briefing=<brf_id>'); process.exit(1) }
   const provider = ARG.provider || 'openrouter'
   const seed = ARG.seed || '7'
   const runtime = ARG.runtime || '8'
+  const from = STAGES.includes(String(ARG.from)) ? String(ARG.from) : 'compile'
   const brf = JSON.parse(fs.readFileSync(path.join(ROOT, 'lab', 'briefings', ARG.briefing + '.json'), 'utf8'))
-  const slug = slugify(ARG.show || brf.title || brf.question?.text)
+  // unique per briefing so two shows from the same subject can never overwrite each other
+  const slug = ARG.show ? slugify(ARG.show) : `${slugify(brf.title || brf.question?.text)}-${String(ARG.briefing).slice(4, 10)}`
   const showDir = ARG.jobdir ? path.resolve(ARG.jobdir) : path.join(ROOT, 'lab', 'shows', slug)
   fs.mkdirSync(showDir, { recursive: true })
   const statusPath = path.join(showDir, 'status.json')
-  const started = new Date().toISOString()
+  const t0 = Date.now()
+  let prev = {}; try { prev = JSON.parse(fs.readFileSync(statusPath, 'utf8')) } catch {}
+  const started = (from !== 'compile' && prev.started) || new Date().toISOString()
+  let curStage = from
   const setStatus = (stage, pct, message, extra = {}) => {
-    fs.writeFileSync(statusPath, JSON.stringify({ stage, pct, message, show: slug, showDir, started, updated: new Date().toISOString(), ...extra }, null, 2))
+    curStage = STAGES.includes(stage) ? stage : curStage
+    writeAtomic(statusPath, { stage, pct, message, show: slug, showDir, briefing: ARG.briefing, stringer: ARG.stringer, pid: process.pid, started, updated: new Date().toISOString(), ...extra })
     console.error(`[${pct}%] ${stage}: ${message}`)
   }
-  const node = process.execPath
-  const run = (script, args, logName) => {
-    const out = execFileSync(node, [path.join(ENGINE, script), ...args], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 64 * 1024 * 1024 })
-    if (logName) fs.writeFileSync(path.join(showDir, logName), out)
-    return out
+  const fail = (e, stage) => {
+    const msg = String(e?.message || e).slice(0, 400)
+    setStatus('error', 0, msg, { error: msg, failed_stage: stage || curStage, elapsed_s: Math.round((Date.now() - t0) / 1000) })
+    logActivity({ stage: stage || curStage, ok: false, ref: slug, ms: Date.now() - t0, summary: `build failed at ${stage || curStage}`, error: msg })
   }
+  // a killed / crashed job must never sit at "floor 40%" forever
+  process.on('uncaughtException', e => { fail(e); process.exit(1) })
+  process.on('unhandledRejection', e => { fail(e); process.exit(1) })
+  for (const sig of ['SIGTERM', 'SIGINT']) process.on(sig, () => { setStatus('cancelled', 0, `cancelled during ${curStage}`, { failed_stage: curStage }); process.exit(130) })
+
+  const node = process.execPath
+  // ALWAYS writes <stage>.log (stdout + stderr); on failure throws the last stderr lines
+  const run = (script, args, logName) => {
+    const r = spawnSync(node, [path.join(ENGINE, script), ...args], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], maxBuffer: 64 * 1024 * 1024 })
+    if (logName) { try { fs.writeFileSync(path.join(showDir, logName), (r.stdout || '') + '\n--- stderr ---\n' + (r.stderr || '')) } catch {} }
+    if (r.error) throw new Error(`${script}: ${r.error.message}`)
+    if (r.status !== 0) throw new Error(`${script}: ${lastLines(r.stderr) || lastLines(r.stdout) || 'exit ' + r.status} (see ${logName || 'log'})`)
+    return r.stdout || ''
+  }
+  // both renderers stage wavs in temp dirs under the show dir; a failed render must not leave orphans
+  const cleanupTemp = () => { try { for (const d of fs.readdirSync(showDir)) if (/^(brz|kok)_/.test(d)) fs.rmSync(path.join(showDir, d), { recursive: true, force: true }) } catch {} }
 
   try {
-    // 1) compile the beat card from the cited lineage
-    setStatus('compile', 5, 'showrunner compiling beat card from the briefing + cast stances')
-    run('compile_beat.mjs', [`--stringer=${ARG.stringer}`, `--briefing=${ARG.briefing}`, `--runtime=${runtime}`, `--out=${showDir}`, `--show=${slug}`, `--attribution=${ARG.attribution || 'A'}`], 'compile.log')
     const beatPath = path.join(showDir, 'beatcard.json')
-    if (!fs.existsSync(beatPath)) throw new Error('compile produced no beatcard.json')
-    const beat = JSON.parse(fs.readFileSync(beatPath, 'utf8'))
-    setStatus('floor', 25, `running the floor on ${provider} — ${Object.keys(beat.stances).length} voices arguing`, { question: beat.question, voices: Object.keys(beat.stances) })
-
-    // 2) run the floor (the actual argument)
     const floorDir = path.join(showDir, 'floor')
-    run('run_floor.mjs', [`--beat=${beatPath}`, `--provider=${provider}`, `--seed=${seed}`, `--out=${floorDir}`], 'floor.log')
     const segment = path.join(floorDir, 'segment_final.md')
-    if (!fs.existsSync(segment)) throw new Error('floor produced no segment_final.md')
+
+    // 1) compile the beat card from the cited lineage
+    if (from === 'compile' || !fs.existsSync(beatPath)) {
+      setStatus('compile', 5, 'showrunner compiling beat card from the briefing + cast stances')
+      run('compile_beat.mjs', [`--stringer=${ARG.stringer}`, `--briefing=${ARG.briefing}`, `--runtime=${runtime}`, `--out=${showDir}`, `--show=${slug}`, `--attribution=${ARG.attribution || 'A'}`], 'compile.log')
+      if (!fs.existsSync(beatPath)) throw new Error('compile produced no beatcard.json (see compile.log)')
+    }
+    const beat = JSON.parse(fs.readFileSync(beatPath, 'utf8'))
+
+    // 2) run the floor (the actual argument) — heartbeats turn progress into status.json
+    if (from !== 'audio' || !fs.existsSync(segment)) {
+      setStatus('floor', 25, `running the floor on ${provider} — ${Object.keys(beat.stances).length} voices arguing`, { question: beat.question, voices: Object.keys(beat.stances) })
+      run('run_floor.mjs', [`--beat=${beatPath}`, `--provider=${provider}`, `--seed=${seed}`, `--out=${floorDir}`, `--status=${statusPath}`], 'floor.log')
+      if (!fs.existsSync(segment)) throw new Error('floor produced no segment_final.md (see floor.log)')
+    }
     const scriptText = fs.readFileSync(segment, 'utf8')
-    const lineCount = (scriptText.match(/^[A-Z][A-Z .']*\s*(?:\[[a-z ]+\])?\s*\([^)]*\)\s*:/gm) || []).length
+    const lineCount = (scriptText.match(/^[A-Z][A-Z .'\-]*?\s*(?:\[[^\]]*\]\s*)*\([^)]*\)\s*:/gm) || []).length
     setStatus('scripted', 60, `argument written (${lineCount} lines)`, { question: beat.question, segment, lines: lineCount })
 
     // 3) render audio (optional but the whole point)
     if (ARG.voice) {
-      setStatus('audio', 65, 'rendering voices on Breeze (cupcake) — this is the slow part')
+      setStatus('audio', 65, 'rendering voices on Breeze (cupcake) — this is the slow part', { question: beat.question, segment, lines: lineCount })
       const mp3 = path.join(showDir, slug + '.mp3')
-      // Breeze is the approved final voice, but it 409s when the box's video engines hold the GPU.
-      // Fall back to Kokoro (separate service) so a show ALWAYS produces audio.
-      let engine = 'breeze'
-      try { run('render_breeze.mjs', ['segment', segment, mp3], 'audio.log') } catch { engine = '' }
-      if (!fs.existsSync(mp3)) { engine = 'kokoro'; setStatus('audio', 75, 'Breeze unavailable (VRAM) — rendering Kokoro draft'); try { run('render_kokoro.mjs', [segment, mp3], 'audio_kokoro.log') } catch { engine = '' } }
-      if (!fs.existsSync(mp3)) throw new Error('both voice engines failed (Breeze VRAM + Kokoro)')
+      try { fs.rmSync(mp3, { force: true }) } catch {}   // a stale mp3 from a prior run must never pass as this run's output
+      cleanupTemp()
+      // Breeze is the approved final voice; it 409s when the box's video engines hold the GPU.
+      // Fall back to Kokoro so a show ALWAYS produces audio — and say WHY in the status.
+      let engine = 'breeze', breezeWhy = ''
+      try { run('render_breeze.mjs', ['segment', segment, mp3], 'audio.log') } catch (e) { engine = ''; breezeWhy = String(e?.message || e).slice(0, 160); cleanupTemp() }
+      if (!fs.existsSync(mp3)) {
+        engine = 'kokoro'
+        setStatus('audio', 75, `Breeze failed (${breezeWhy || 'no mp3'}) — rendering Kokoro draft`, { question: beat.question, segment, lines: lineCount, breeze_error: breezeWhy })
+        try { run('render_kokoro.mjs', [segment, mp3], 'audio_kokoro.log') } catch (e) { engine = ''; breezeWhy += ' | kokoro: ' + String(e?.message || e).slice(0, 160); cleanupTemp() }
+      }
+      if (!fs.existsSync(mp3) || !engine) throw new Error('both voice engines failed — ' + breezeWhy)
       let dur = null; try { dur = Math.round(Number(execFileSync('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', mp3], { encoding: 'utf8' }).trim())) } catch {}
-      setStatus('done', 100, `show ready${dur ? ' — ' + Math.floor(dur / 60) + ':' + String(dur % 60).padStart(2, '0') : ''}${engine === 'kokoro' ? ' (Kokoro draft — Breeze VRAM-blocked)' : ''}`, { question: beat.question, segment, audio: mp3, duration_s: dur, lines: lineCount, voice_engine: engine })
+      const label = `show ready${dur ? ' — ' + mmss(dur) : ''}${engine === 'kokoro' ? ' (Kokoro draft — Breeze: ' + (breezeWhy || 'unavailable') + ')' : ''}`
+      setStatus('done', 100, label, { question: beat.question, segment, audio: mp3, duration_s: dur, lines: lineCount, voice_engine: engine, breeze_error: breezeWhy || null, elapsed_s: Math.round((Date.now() - t0) / 1000) })
+      // provenance law: every rendered file gets a manifest row the moment it exists
+      // columns: | file | length | words written by | voiced by | cast/voice | notes |
+      try {
+        const q = String(beat.question || '').replace(/\|/g, '/').slice(0, 90)
+        fs.appendFileSync(path.join(ENGINE, 'AUDIO_MANIFEST.md'), `\n| ${slug}.mp3 | ${mmss(dur)} | make_show floor on ${provider} (seed ${seed}, ${lineCount} lines) · ${q} | ${engine === 'breeze' ? 'Breeze clone on cupcake (mk-gateway)' : 'Kokoro TTS on cupcake (draft)'} | ${Object.keys(beat.stances).join(', ')} | briefing ${ARG.briefing} · attribution ${ARG.attribution || 'A'} · ${new Date().toISOString().slice(0, 10)} |`)
+      } catch {}
+      logActivity({ stage: 'done', ok: true, ref: slug, ms: Date.now() - t0, summary: `${lineCount} lines · ${mmss(dur)} · ${engine}`, meta: { briefing: ARG.briefing, question: beat.question } })
       console.log(mp3)
     } else {
-      setStatus('done', 100, 'script ready (no audio requested)', { question: beat.question, segment, lines: lineCount })
+      setStatus('done', 100, 'script ready (no audio requested)', { question: beat.question, segment, lines: lineCount, elapsed_s: Math.round((Date.now() - t0) / 1000) })
+      logActivity({ stage: 'done', ok: true, ref: slug, ms: Date.now() - t0, summary: `${lineCount} lines · script only` })
       console.log(segment)
     }
   } catch (e) {
-    setStatus('error', 0, String(e?.message || e).slice(0, 300), { error: String(e?.message || e).slice(0, 300) })
+    fail(e)
     process.exit(1)
   }
 }
-main()
+main().catch(e => {
+  // a failure before setStatus exists (e.g. unreadable briefing): only write into a real job dir, never the cwd
+  if (ARG.jobdir) { try { writeAtomic(path.join(path.resolve(ARG.jobdir), 'status.json'), { stage: 'error', pct: 0, message: String(e?.message || e).slice(0, 400), error: String(e?.message || e).slice(0, 400), failed_stage: 'compile', updated: new Date().toISOString() }) } catch {} }
+  console.error(e); process.exit(1)
+})

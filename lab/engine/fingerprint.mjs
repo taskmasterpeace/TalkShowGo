@@ -8,9 +8,12 @@ const file = process.argv[2]
 if (!file) { console.error('usage: fingerprint.mjs <segment.md>'); process.exit(1) }
 const text = fs.readFileSync(file, 'utf8')
 const lines = text.split('\n').map(l => l.trim()).filter(Boolean)
-const turnRe = /^([A-Z][A-Z .']+?)\s*(\[(interrupting|overlapping)\])?\s*\(([^)]*)\)\s*:\s*(.+)$/
+// NAME [tags]* (delivery): text — the MIX pass may add several bracket tags (delivery adjectives,
+// [interrupting], [under them]); group 2 keeps them all so the overlap check still finds "interrupting"
+const turnRe = /^([A-Z][A-Z .'\-]+?)\s*((?:\[[^\]]*\]\s*)*)\(([^)]*)\)\s*:\s*(.+)$/
 const turns = []
-for (const l of lines) { const m = l.match(turnRe); if (m) turns.push({ speaker: m[1].trim(), tag: m[3] || null, delivery: m[4], line: m[5] }) }
+// groups: 1 speaker · 2 all bracket tags · 3 delivery · 4 line
+for (const l of lines) { const m = l.match(turnRe); if (m) turns.push({ speaker: m[1].trim(), tag: /interrupt/i.test(m[2] || '') ? 'interrupting' : /overlap/i.test(m[2] || '') ? 'overlapping' : null, delivery: m[3], line: m[4] }) }
 if (!turns.length) { console.error('no turns parsed'); process.exit(1) }
 const w = s => (s.match(/\S+/g) || []).length
 const perTurn = turns.map(t => w(t.line))

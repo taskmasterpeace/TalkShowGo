@@ -37,6 +37,8 @@ function parseClusters(content: string): any[] {
   const tryP = (x: string) => { try { return JSON.parse(x) } catch { return null } }
   let o = tryP(t)
   if (!o) { const a = t.indexOf('{'), b = t.lastIndexOf('}'); if (a >= 0 && b > a) o = tryP(t.slice(a, b + 1)) }
+  if (!o) { const a = t.indexOf('['), b = t.lastIndexOf(']'); if (a >= 0 && b > a) o = tryP(t.slice(a, b + 1)) }
+  if (Array.isArray(o)) return o                    // the model emitted a bare array — accept it
   if (o && Array.isArray(o.clusters)) return o.clusters
   const m = /"clusters"\s*:\s*\[/.exec(t); if (!m) return []
   let i = m.index + m[0].length; const out: any[] = []

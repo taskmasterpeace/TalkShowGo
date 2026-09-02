@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutGrid, Radio, Users, Clapperboard, PlayCircle, Shapes, Search, Radar } from 'lucide-react'
+import { LayoutGrid, Radio, Users, Clapperboard, PlayCircle, Shapes, Search, Radar, ScrollText } from 'lucide-react'
 
 const ITEMS = [
   { href: '/command', label: 'DESK', icon: LayoutGrid },
@@ -12,6 +12,7 @@ const ITEMS = [
   { href: '/command/cast', label: 'CAST', icon: Users },
   { href: '/command/producer', label: 'PRODUCER', icon: Clapperboard },
   { href: '/command/tape', label: 'TAPE', icon: PlayCircle },
+  { href: '/command/log', label: 'LOG', icon: ScrollText },
 ]
 
 export function CommandNav() {

@@ -18,6 +18,7 @@ export type CmdState = {
   models: any
   stringers: any[]
   briefings: any[]
+  shows: any[]
   health: Record<string, boolean | null>
 }
 

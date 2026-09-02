@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
+import Clusters from './Clusters'
 
 // The Story Resolution Loop, driven: pull (on DESK) -> CLUSTER -> MINE LEADS -> EXPAND a lead into a
 // dossier -> RANK stories for show value. Every stage reads its last saved run on mount.
@@ -7,20 +8,22 @@ const BANDCHIP: Record<string, string> = { auto: 'err', expand: 'warn', store: '
 const KINDCHIP: Record<string, string> = { story: 'ok', substory: 'info', topic: '' }
 // attribution mode = how hard the hosts attribute claims (cite-or-cut doctrine; A = sourced & committed)
 const ATTR: Record<string, string> = { A: 'A · sourced & committed', B: 'B · named source', C: 'C · platform', D: 'D · reported', E: 'E · word on the street', F: 'F · bare facts' }
+const activePolls = new Set<string>()   // one status poller per show slug, across re-renders
 
 export default function Discovery() {
   const [clusters, setClusters] = useState<any[]>([])
+  const [clustersFile, setClustersFile] = useState<string | null>(null)   // which clusters_*.json the human edits attach to
   const [leads, setLeads] = useState<any[]>([])
   const [ranked, setRanked] = useState<any[]>([])
   const [busy, setBusy] = useState<string | null>(null)
   const [err, setErr] = useState<string | null>(null)
   const [expanded, setExpanded] = useState<Record<string, any>>({})
-  const [build, setBuild] = useState<Record<number, any>>({})
+  const [build, setBuild] = useState<Record<string, any>>({})   // keyed by story title (stable across re-ranks), mirrored in localStorage
   const [autoBusy, setAutoBusy] = useState(false)
   const [attribution, setAttribution] = useState('A')
 
   useEffect(() => {
-    fetch('/api/command/cluster').then(r => r.json()).then(j => setClusters(j?.clusters?.clusters || [])).catch(() => {})
+    fetch('/api/command/cluster').then(r => r.json()).then(j => { setClusters(j?.clusters?.clusters || []); setClustersFile(j?.clusters?.file || null) }).catch(() => {})
     fetch('/api/command/leads').then(r => r.json()).then(j => setLeads(j?.queue?.leads || [])).catch(() => {})
     fetch('/api/command/producer-rank').then(r => r.json()).then(j => setRanked(j?.ranking?.ranked || [])).catch(() => {})
   }, [])
@@ -41,42 +44,99 @@ export default function Discovery() {
   // self-drive: chase every AUTO (80+) lead into evidence, one at a time
   const expandAllAuto = async () => {
     setAutoBusy(true)
-    for (const l of leads.filter((x: any) => x.band === 'auto' && !expanded[x.id]?.dossier_id)) { await expand(l) }
+    for (const l of leads.filter((x: any) => x.band === 'auto' && !expanded[x.id]?.dossier_id && !expanded[x.id]?.busy)) { await expand(l) }
     setAutoBusy(false)
   }
 
-  // one-click STORY -> SHOW: research -> briefing -> cast -> build+voice (the whole pipeline)
-  const buildShow = async (story: any, i: number) => {
-    const setB = (v: any) => setBuild(x => ({ ...x, [i]: { ...(x[i] || {}), ...v } }))
-    const q = (story.contrasting_viewpoints?.length >= 2) ? `${story.title}: ${story.contrasting_viewpoints[0]} or ${story.contrasting_viewpoints[1]}?` : (story.best_angle || story.title)
-    const post = (u: string, b: any) => fetch(u, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(b) }).then(r => r.json())
-    setB({ stage: 'research', pct: 10, error: null, audio_url: null })
+  // ---- one-click STORY -> SHOW, persisted per story so a reload or a rail hop never loses it ----
+  const BUILDS_KEY = 'tsg_builds'
+  const TERMINAL = ['done', 'error', 'cancelled']
+  const readBuilds = (): Record<string, any> => { try { const v = JSON.parse(localStorage.getItem(BUILDS_KEY) || '{}'); return v && typeof v === 'object' && !Array.isArray(v) ? v : {} } catch { return {} } }
+  const updateBuild = (key: string, v: any) => {
+    const all = readBuilds(); all[key] = { ...(all[key] || {}), ...v }
+    try { localStorage.setItem(BUILDS_KEY, JSON.stringify(all)) } catch {}
+    setBuild(x => ({ ...x, [key]: all[key] }))
+  }
+  const post = (u: string, b: any) => fetch(u, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(b) }).then(r => r.json())
+  const tidy = (s: string) => String(s || '').trim().replace(/[?.!\s]+$/g, '')
+  const composeQuestion = (story: any) => (story.contrasting_viewpoints?.length >= 2)
+    ? `${tidy(story.title)}: ${tidy(story.contrasting_viewpoints[0])}, or ${tidy(story.contrasting_viewpoints[1])}?`
+    : (/\?$/.test(String(story.best_angle || '')) ? story.best_angle : `${tidy(story.best_angle || story.title)}?`)
+
+  // poll a server job: real pct from status.json (floor heartbeats), stop on terminal/404, 25-min ceiling.
+  // One poller per slug (a re-mount or a RETRY must never stack timers), transient 'reading' is not an error.
+  const pollShow = (slug: string, key: string) => {
+    if (activePolls.has(slug)) return
+    activePolls.add(slug)
+    const stop = () => activePolls.delete(slug)
+    const tick = async () => {
+      try {
+        const r = await fetch('/api/command/showbuild?show=' + slug)
+        if (r.status === 404) { updateBuild(key, { stage: 'error', error: 'the build is gone from the server (dir removed?)', failed_stage: null }); stop(); return }
+        const st = (await r.json()).status || {}
+        if (st.stage === 'done') { updateBuild(key, { stage: 'done', pct: 100, audio_url: st.audio_url, question: st.question, duration_s: st.duration_s, voice_engine: st.voice_engine, message: st.message, error: null }); stop(); return }
+        if (st.stage === 'error' || st.stage === 'cancelled') { updateBuild(key, { stage: st.stage, error: st.error || st.message, failed_stage: st.failed_stage || null, message: st.message }); stop(); return }
+        const startedAt = readBuilds()[key]?.startedAt || Date.now()
+        if (Date.now() - startedAt > 25 * 60 * 1000) { updateBuild(key, { stage: 'error', error: 'build timed out after 25 min — check lab/shows/' + slug + '/status.json', failed_stage: st.stage || null }); stop(); return }
+        if (!st.transient) updateBuild(key, { stage: st.stage || 'building', pct: Math.max(5, st.pct || 5), message: st.message })
+        setTimeout(tick, 3000)
+      } catch {
+        const startedAt = readBuilds()[key]?.startedAt || Date.now()
+        if (Date.now() - startedAt > 25 * 60 * 1000) { updateBuild(key, { stage: 'error', error: 'lost contact with the build for too long', failed_stage: null }); stop(); return }
+        setTimeout(tick, 4000)
+      }
+    }
+    tick()
+  }
+  // resume any build that was in flight when the page was left; a chain interrupted BEFORE the server
+  // job existed (research/briefing/casting were awaited in this tab) can't resume — mark it so RETRY shows
+  useEffect(() => {
+    const saved = readBuilds(); setBuild(saved)
+    for (const [k, v] of Object.entries<any>(saved)) {
+      if (!v || TERMINAL.includes(v.stage)) continue
+      if (v.slug) pollShow(v.slug, k)
+      else updateBuild(k, { stage: 'error', error: `interrupted during ${v.stage || 'the chain'} before the build started (the page was left) — retry`, failed_stage: null })
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const startJob = async (key: string, bid: string, extra: any = {}) => {
+    const j = await post('/api/command/showbuild', { briefing_id: bid, voice: true, attribution, ...extra })
+    if (!j.ok) {
+      if (j.show) { updateBuild(key, { slug: j.show, stage: 'building', message: j.error }); pollShow(j.show, key); return } // 409: attach to the running one
+      throw new Error('build: ' + (j.error || ''))
+    }
+    updateBuild(key, { slug: j.show, stage: 'queued', pct: 1, message: 'starting…', startedAt: Date.now(), error: null, failed_stage: null })
+    pollShow(j.show, key)
+  }
+  const buildShow = async (story: any) => {
+    const key = story.title
+    const q = composeQuestion(story)
+    updateBuild(key, { stage: 'research', pct: 10, error: null, audio_url: null, question: q, startedAt: Date.now(), slug: null })
     try {
       let j = await post('/api/command/stringer', { input: { kind: 'subject', text: story.title, questions: [q], dual: true } })
       if (!j.ok) throw new Error('research: ' + (j.error || ''))
       const sid = j.id
-      setB({ stage: 'briefing', pct: 35 })
+      updateBuild(key, { stage: 'briefing', pct: 35, sid })
       j = await post('/api/command/briefing', { stringer_id: sid, final_question: q })
       if (!j.ok) throw new Error('briefing: ' + (j.error || ''))
       const bid = j.id
-      setB({ stage: 'casting', pct: 55 })
+      updateBuild(key, { stage: 'casting', pct: 55, bid })
       j = await post('/api/command/briefing/agent', { briefing_id: bid, cast_ids: ['marcus-blaze', 'tasha-raw', 'king-knowledge'] })
       if (!j.ok) throw new Error('casting: ' + (j.error || ''))
-      setB({ stage: 'building', pct: 70 })
-      j = await post('/api/command/showbuild', { briefing_id: bid, voice: true, attribution })
-      if (!j.ok) throw new Error('build: ' + (j.error || ''))
-      const slug = j.show
-      const poll = async () => {
-        try {
-          const st = (await fetch('/api/command/showbuild?show=' + slug).then(r => r.json())).status || {}
-          if (st.stage === 'done') setB({ stage: 'done', pct: 100, audio_url: st.audio_url, question: st.question, duration_s: st.duration_s })
-          else if (st.stage === 'error') setB({ stage: 'error', error: st.message })
-          else { setB({ stage: st.stage || 'building', pct: Math.max(70, st.pct || 70), message: st.message }); setTimeout(poll, 3000) }
-        } catch { setTimeout(poll, 4000) }
-      }
-      poll()
-    } catch (e: any) { setB({ stage: 'error', error: String(e?.message || e) }) }
+      await startJob(key, bid)
+    } catch (e: any) { updateBuild(key, { stage: 'error', error: String(e?.message || e) }) }
   }
+  // retry without repaying research/briefing/cast: resume the same job dir from the stage that failed
+  const retryBuild = async (story: any) => {
+    const key = story.title, b = readBuilds()[key] || {}
+    if (!b.bid) return buildShow(story)
+    try {
+      const from = ['compile', 'floor', 'audio'].includes(b.failed_stage) ? b.failed_stage : null
+      await startJob(key, b.bid, from && b.slug ? { show: b.slug, from_stage: from } : {})
+    } catch (e: any) { updateBuild(key, { stage: 'error', error: String(e?.message || e) }) }
+  }
+  const STAGE_HINT: Record<string, string> = { research: '60–90s', briefing: '~5s', casting: '~30s', queued: 'starting', compile: '~10s', floor: '2–3 min', scripted: 'written', audio: '~2–3 min' }
 
   const Btn = ({ k, url, apply, label, busyLabel }: any) => (
     <button className="cmd-btn primary" disabled={!!busy} onClick={() => run(k, url, apply)}>{busy === k ? busyLabel : label}</button>
@@ -93,7 +153,7 @@ export default function Discovery() {
       <section className="cmd-panel p-4 space-y-3">
         <div className="cmd-kbd">runs over the latest X pull (run PULL on the DESK first). free, cheap models.</div>
         <div className="flex gap-3 flex-wrap">
-          <Btn k="cluster" url="/api/command/cluster" label="① CLUSTER STORIES" busyLabel="FINGERPRINTING…" apply={(j: any) => setClusters(j.clusters || [])} />
+          <Btn k="cluster" url="/api/command/cluster" label="① CLUSTER STORIES" busyLabel="FINGERPRINTING…" apply={(j: any) => { setClusters(j.clusters || []); setClustersFile(j.pulled_from ? String(j.pulled_from).replace(/^pull_/, 'clusters_') : null) }} />
           <Btn k="leads" url="/api/command/leads" label="② MINE LEADS" busyLabel="MINING…" apply={(j: any) => { setLeads(j.leads || []); setExpanded({}) }} />
           <Btn k="rank" url="/api/command/producer-rank" label="③ RANK FOR SHOW" busyLabel="RANKING…" apply={(j: any) => setRanked(j.ranked || [])} />
           {err && <span className="chip err">{err}</span>}
@@ -124,10 +184,28 @@ export default function Discovery() {
               {s.best_angle && <div className="cmd-kbd">angle: {s.best_angle}</div>}
               <div className="flex items-center gap-2 flex-wrap" style={{ borderTop: '1px solid var(--cmd-line)', paddingTop: 7, marginTop: 1 }}>
                 {(() => {
-                  const b = build[i]
-                  if (b?.audio_url) return <><span className="chip ok">SHOW READY{b.duration_s ? ` · ${Math.floor(b.duration_s / 60)}:${String(b.duration_s % 60).padStart(2, '0')}` : ''}</span>{/* eslint-disable-next-line jsx-a11y/media-has-caption */}<audio controls src={b.audio_url} style={{ height: 32, flex: 1, minWidth: 240 }} /></>
-                  if (b && b.stage !== 'error') return <span className="cmd-kbd">building show… [{b.pct}%] {b.stage}{b.message ? ' — ' + b.message : ''}</span>
-                  return <>{b?.stage === 'error' && <span className="chip err" title={b.error}>{String(b.error).slice(0, 44)}</span>}<button className="cmd-btn" onClick={() => buildShow(s, i)}>▶ BUILD THIS SHOW</button><span className="cmd-kbd">research → brief → cast → floor → audio</span></>
+                  const b = build[s.title]
+                  if (b?.stage === 'done' && b.audio_url) return <>
+                    <span className="chip ok">SHOW READY{b.duration_s ? ` · ${Math.floor(b.duration_s / 60)}:${String(b.duration_s % 60).padStart(2, '0')}` : ''}</span>
+                    {b.voice_engine === 'kokoro' && <span className="chip warn" title={b.message}>KOKORO DRAFT</span>}
+                    {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+                    <audio controls src={b.audio_url} style={{ height: 32, flex: 1, minWidth: 240 }} />
+                    <a className="cmd-btn ghost" href={b.audio_url + '?download=1'} style={{ textDecoration: 'none' }}>⬇ MP3</a>
+                    <button className="cmd-btn ghost" onClick={() => buildShow(s)}>↻ BUILD AGAIN</button>
+                  </>
+                  if (b && !['error', 'cancelled'].includes(b.stage)) {
+                    const mins = b.startedAt ? Math.floor((Date.now() - b.startedAt) / 60000) : 0
+                    return <span role="status" aria-live="polite" className="cmd-kbd" style={{ color: 'var(--cmd-amber)' }}>
+                      building… <b>{b.stage}</b> {b.pct}%{STAGE_HINT[b.stage] ? ` (${STAGE_HINT[b.stage]})` : ''}{b.message ? ` — ${b.message}` : ''}{mins ? ` · ${mins} min elapsed` : ''}{b.slug ? ` · ${b.slug}` : ''}
+                    </span>
+                  }
+                  return <>
+                    {b?.stage && <details style={{ maxWidth: '100%' }}><summary className="chip err" style={{ cursor: 'pointer', display: 'inline-block' }} title={b.error}>{b.stage === 'cancelled' ? 'CANCELLED' : 'FAILED'}{b.failed_stage ? ` at ${b.failed_stage}` : ''} · details</summary><div className="cmd-kbd" style={{ whiteSpace: 'pre-wrap', color: 'var(--cmd-dim)', marginTop: 4 }}>{b.error}</div></details>}
+                    {b?.bid
+                      ? <><button className="cmd-btn" onClick={() => retryBuild(s)}>↻ RETRY{['compile', 'floor', 'audio'].includes(b.failed_stage) && b.slug ? ` FROM ${String(b.failed_stage).toUpperCase()}` : ''}</button><button className="cmd-btn ghost" onClick={() => buildShow(s)}>REBUILD FROM RESEARCH</button></>
+                      : <button className="cmd-btn" onClick={() => buildShow(s)}>▶ BUILD THIS SHOW</button>}
+                    <span className="cmd-kbd">research → brief → cast → floor → audio</span>
+                  </>
                 })()}
               </div>
             </div>
@@ -135,28 +213,8 @@ export default function Discovery() {
         </section>
       )}
 
-      {/* STORY CLUSTERS */}
-      {clusters.length > 0 && (
-        <section className="space-y-2">
-          <div className="cmd-label" style={{ color: 'var(--cmd-cyan)' }}>STORY CLUSTERS — grouped by EVENT, not topic</div>
-          <div className="grid gap-2" style={{ gridTemplateColumns: 'repeat(auto-fill,minmax(460px,1fr))' }}>
-            {clusters.map((c: any, i: number) => (
-              <div key={i} className="cmd-panel p-3" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className={`chip ${KINDCHIP[c.kind] || ''}`}>{String(c.kind || 'topic').toUpperCase()}</span>
-                  <span className="cmd-display" style={{ fontSize: 13.5, color: 'var(--cmd-ink)' }}>{c.title}</span>
-                </div>
-                {c.event_fingerprint && <div style={{ color: 'var(--cmd-dim)', fontSize: 12.5, lineHeight: 1.5 }}><b style={{ color: 'var(--cmd-cyan)' }}>{c.event_fingerprint.subject} </b>{c.event_fingerprint.action} {c.event_fingerprint.object}{c.event_fingerprint.claim ? ` — ${c.event_fingerprint.claim}` : ''}</div>}
-                {c.why_moving && <div style={{ color: 'var(--cmd-dim)', fontSize: 12.5 }}>{c.why_moving}</div>}
-                <div className="flex gap-1 flex-wrap items-center">
-                  {(c.shared_signals || []).slice(0, 5).map((sig: string, k: number) => <span key={k} className="cmd-kbd" style={{ fontSize: 10 }}>{sig}</span>)}
-                  <span className="cmd-kbd ml-auto">{(c.evidence || c.item_indices || []).length} items</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
+      {/* STORY CLUSTERS — the AI groups by EVENT; the human can pin / rename / merge / split / dismiss (persisted) */}
+      {clusters.length > 0 && <Clusters clusters={clusters} file={clustersFile} onChange={setClusters} />}
 
       {/* LEAD QUEUE */}
       {leads.length > 0 && (
