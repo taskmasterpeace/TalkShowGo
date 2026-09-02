@@ -127,7 +127,7 @@ Browser control: Playwright as a SECONDARY layer under a `SOURCE ADAPTER` (API a
 - **Provenance Graph** view (STORY→CLAIM→sources tree) — the per-claim source_id is already stored; this is a visualization.
 - **Auto-expand recursion** — currently the producer expands leads manually; a bounded "expand all AUTO (80+)" self-drive is the next step.
 - **Dual-YouTube transcript interleave** — freshness hits can fill the transcript cap before the relevance pass; interleave both.
-- **X full-archive / legacy** — twitterapi.io advanced-search is recent by default; wire archival ranges + the `TranscriptProvider` abstraction for YouTube captions.
+- ~~X full-archive / legacy~~ **DONE** — twitterapi.io advanced_search is a full archive (2006→present) via `since_time`/`until_time`; `searchX` windows + paginates, the lead miner emits `since`/`until` on datable historical X leads, and expand pulls the archive for that window (verified: 2021 window → 2021 posts).
 
 ---
 
