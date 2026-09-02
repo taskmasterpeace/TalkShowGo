@@ -3,6 +3,11 @@ import { useState } from 'react'
 import { useCmdState, useBeat, BeatPicker, ago } from '../lib'
 
 const TL: Record<string, string> = { FACT: 'ok', ATTRIBUTED_CLAIM: 'info', ANALYSIS: 'warn' }
+// per-medium provenance badge (on-brand tokens only, no new colors): YouTube / Web / X
+const MED: Record<string, { tag: string; color: string }> = {
+  youtube: { tag: 'YT', color: 'var(--cmd-red)' }, web: { tag: 'WEB', color: 'var(--cmd-cyan)' }, x: { tag: '𝕏', color: 'var(--cmd-amber)' },
+}
+const medOf = (name?: string, url?: string) => String(name || '').startsWith('@') ? MED.x : /youtube\.com|youtu\.be/.test(String(url || '')) ? MED.youtube : MED.web
 const KIND: Record<string, string> = { event: 'THE EVENT', stat: 'THE NUMBERS', tradeoff: 'THE TRADE-OFF', larger_context: 'THE BIGGER PICTURE', uncertainty: 'WHAT WE DON’T KNOW' }
 const Lamp = ({ on, label }: { on: boolean | null | undefined; label: string }) => (
   <span className={`lamp ${on ? 'on' : on === false ? 'err' : ''}`}><i />{label}</span>
@@ -333,30 +338,41 @@ export default function Stringer() {
                 <div className="flex gap-1 items-center flex-wrap">
                   <span className="cmd-kbd">{e.id}</span>
                   <span className={`chip ${TL[e.truth_label] || ''}`}>{e.truth_label}</span>
-                  {e.url ? <a href={e.url} target="_blank" rel="noreferrer" className="chip info" style={{ textDecoration: 'none' }} title={e.source_name}>{e.source_name || e.source_id} ↗</a> : <span className="chip err">UNCITED</span>}
+                  {e.url ? (() => { const m = medOf(e.source_name, e.url); return <a href={e.url} target="_blank" rel="noreferrer" className="chip" style={{ textDecoration: 'none', borderColor: m.color, color: m.color }} title={e.source_name}>{m.tag} · {e.source_name || e.source_id} ↗</a> })() : <span className="chip err">UNCITED</span>}
                 </div>
               </div>
             ))}
           </div>
         </section>
 
-        {/* SOURCE LEDGER */}
+        {/* SOURCE LEDGER — grouped view of every medium the evidence stands on */}
         <section className="space-y-2">
-          <div className="cmd-label" style={{ color: 'var(--cmd-cyan)' }}>SOURCE LEDGER</div>
+          {(() => {
+            const src = d.sources || []
+            const count = (m: string) => src.filter((s: any) => (MED[s.medium] ? s.medium : (medOf(s.publisher, s.url) === MED.youtube ? 'youtube' : medOf(s.publisher, s.url) === MED.x ? 'x' : 'web')) === m).length
+            return (
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="cmd-label" style={{ color: 'var(--cmd-cyan)', margin: 0 }}>SOURCE LEDGER</span>
+                {(['youtube', 'web', 'x'] as const).map(m => count(m) > 0 && <span key={m} className="chip" style={{ borderColor: MED[m].color, color: MED[m].color }}>{MED[m].tag} {count(m)}</span>)}
+              </div>
+            )
+          })()}
           <div className="cmd-panel overflow-x-auto">
             <table className="cmd-table">
-              <thead><tr><th>ID</th><th>PUBLISHER</th><th>TITLE</th><th>CLASS</th><th>TRANSCRIPT</th><th /></tr></thead>
+              <thead><tr><th>SRC</th><th>SOURCE</th><th>TITLE</th><th>STATUS</th><th /></tr></thead>
               <tbody>
-                {(d.sources || []).map((s: any) => (
-                  <tr key={s.id}>
-                    <td className="cmd-kbd">{s.id}</td>
-                    <td style={{ color: 'var(--cmd-ink)' }}>{s.publisher}</td>
-                    <td style={{ color: 'var(--cmd-dim)', maxWidth: 320 }}>{s.title}</td>
-                    <td className="cmd-kbd">{s.trust === 'configured' ? '★ trusted' : s.source_class}</td>
-                    <td><span className={`chip ${s.transcript_status === 'ok' ? 'ok' : ''}`}>{s.transcript_status}{s.words ? ` · ${(s.words / 1000).toFixed(1)}k` : ''}</span></td>
-                    <td><a href={s.url} target="_blank" rel="noreferrer" className="chip info" style={{ textDecoration: 'none' }}>↗</a></td>
-                  </tr>
-                ))}
+                {(d.sources || []).map((s: any) => {
+                  const m = MED[s.medium] || medOf(s.publisher, s.url)
+                  return (
+                    <tr key={s.id}>
+                      <td><span className="chip" style={{ borderColor: m.color, color: m.color }} title={s.id}>{m.tag}</span></td>
+                      <td style={{ color: 'var(--cmd-ink)' }}>{s.publisher}{s.trust === 'configured' && <span className="cmd-kbd" style={{ color: 'var(--cmd-amber)' }}> ★</span>}</td>
+                      <td style={{ color: 'var(--cmd-dim)', maxWidth: 320 }}>{s.title}</td>
+                      <td><span className={`chip ${s.transcript_status === 'ok' ? 'ok' : ''}`}>{s.transcript_status}{s.words ? ` · ${(s.words / 1000).toFixed(1)}k` : ''}</span></td>
+                      <td>{s.url ? <a href={s.url} target="_blank" rel="noreferrer" className="chip" style={{ textDecoration: 'none', borderColor: m.color, color: m.color }}>↗</a> : null}</td>
+                    </tr>
+                  )
+                })}
               </tbody>
             </table>
           </div>

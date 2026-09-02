@@ -66,14 +66,19 @@ async function ytSearch(query: string, trusted: { channel_id: string; name: stri
   }
   // global search(es): apply the mode filter; `dual` runs a freshness pass + a relevance pass, merged
   // dual: a freshness pass (mode's recency filter) + an all-time relevance pass (drop the recency
-  // filter so highly-relevant older sources aren't excluded), merged by `add`
+  // filter so highly-relevant older sources aren't excluded)
   const runs = opts.dual ? [{ ...mf, sort_by: 'upload_date' }, { sort_by: 'relevance' }] : [mf]
+  const lists: any[][] = []
   for (const filt of runs) {
     try {
       const res: any = await yt.search(query, { type: 'video', ...filt })
-      for (const v of (res?.videos || res?.results || []).slice(0, cfg.youtube?.global_results || 6)) add(v, 'commentary', 'discovered')
-    } catch { /* global search failed for this filter */ }
+      lists.push((res?.videos || res?.results || []).slice(0, cfg.youtube?.global_results || 6))
+    } catch { lists.push([]) /* this filter failed */ }
   }
+  // INTERLEAVE the passes (freshness[0], relevance[0], freshness[1], …) so a capped transcript
+  // budget draws from BOTH, instead of one pass filling the cap before the other is reached
+  const maxLen = Math.max(0, ...lists.map(l => l.length))
+  for (let i = 0; i < maxLen; i++) for (const list of lists) if (list[i]) add(list[i], 'commentary', 'discovered')
   const arr = Object.values(out)
   arr.forEach((s, i) => { s.id = 'S' + String(i + 1).padStart(3, '0') })
   return arr
