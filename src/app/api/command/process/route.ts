@@ -16,10 +16,12 @@ function key() {
  *  Writes a pull report to lab/runs/pull_<ts>.json. This is stage 1 of PROCESS; the
  *  evidence->showplan->floor->voice chain consumes this report next. */
 export async function POST(req: Request) {
-  const { file } = await req.json()
+  const body = (await req.json().catch(() => ({} as any))) || {}
+  const file = body.file
   if (!/^[a-z0-9-]+\.json$/.test(file || '')) return NextResponse.json({ error: 'bad file' }, { status: 400 })
   const beat = JSON.parse(fs.readFileSync(path.join(ROOT, 'lab', 'beats', file), 'utf8'))
-  const hours = beat.show?.timespan_hours || 24
+  // ad-hoc window: POST {hours} overrides the beat's default for this pull only (doesn't touch config)
+  const hours = Math.min(720, Math.max(1, Math.round(+body.hours) || beat.show?.timespan_hours || 24))
   const since = Date.now() - hours * 3600 * 1000
   const K = key()
   const report: any = { beat: beat.id, timespan_hours: hours, pulled_at: new Date().toISOString(), twitter: [], youtube: [], totals: { tweets: 0, videos: 0 } }
@@ -46,18 +48,26 @@ export async function POST(req: Request) {
   try {
     const Parser = (await import('rss-parser')).default
     const parser = new Parser()
+    // YouTube RSS rate-limits bursts with intermittent 404/500s, so space the feeds out and retry
+    // once with backoff (the channel_ids are fine — the failures were the burst, not bad ids).
     for (const ch of beat.sources.youtube || []) {
       if (!ch.channel_id) continue
-      try {
-        const feed = await parser.parseURL(`https://www.youtube.com/feeds/videos.xml?channel_id=${ch.channel_id}`)
+      const url = `https://www.youtube.com/feeds/videos.xml?channel_id=${ch.channel_id}`
+      let feed: any = null, lastErr: any = null
+      for (let attempt = 0; attempt < 3 && !feed; attempt++) {
+        if (attempt) await new Promise(r => setTimeout(r, 900 * attempt))
+        try { feed = await parser.parseURL(url) } catch (e) { lastErr = e }
+      }
+      if (feed) {
         const recent = (feed.items || [])
           .map((it: any) => ({ title: it.title, video_id: String(it.id || '').split(':').pop(), published: it.pubDate, url: it.link }))
           .filter((v: any) => new Date(v.published).getTime() >= since)
         report.youtube.push({ channel: ch.resolved_title || ch.channel_name, channel_id: ch.channel_id, in_window: recent.length, videos: recent.slice(0, 8) })
         report.totals.videos += recent.length
-      } catch (e: any) {
-        report.youtube.push({ channel: ch.channel_name, error: String(e?.message || e).slice(0, 80) })
+      } else {
+        report.youtube.push({ channel: ch.resolved_title || ch.channel_name, error: String(lastErr?.message || lastErr).slice(0, 80) })
       }
+      await new Promise(r => setTimeout(r, 450)) // space feeds to dodge RSS rate-limiting
     }
   } catch (e: any) {
     report.youtube_error = String(e?.message || e).slice(0, 120)
