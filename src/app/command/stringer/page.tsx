@@ -38,9 +38,11 @@ export default function Stringer() {
   const [dNote, setDNote] = useState('')
   const [show, setShow] = useState<any>(null)
   const [showBusy, setShowBusy] = useState(false)
+  const [traceOpen, setTraceOpen] = useState<number | null>(null)
   if (!state) return <div className="p-8 cmd-kbd">LOADING STRINGER…</div>
 
   const d = res
+  const evById: Record<string, any> = Object.fromEntries(((res?.evidence) || []).map((e: any) => [e.id, e]))
   const hosts: any[] = state.cast?.hosts || []
   const dnaById: Record<string, any> = Object.fromEntries(((state.models?.models) || []).map((m: any) => [m.id, m]))
   const recent: any[] = state.stringers || []
@@ -148,9 +150,25 @@ export default function Stringer() {
                 <div style={{ color: 'var(--cmd-ink)', fontSize: 14, margin: '8px 0', lineHeight: 1.6 }}>{a.direct_answer}</div>
                 <div className="flex gap-1 flex-wrap items-center">
                   <span className="cmd-kbd">{a.confidence?.toUpperCase()}</span>
-                  {(a.evidence_ids || []).map((e: string) => <span key={e} className="chip info">{e}</span>)}
+                  {(a.evidence_ids || []).map((e: string) => { const ev = evById[e]; const m = ev ? medOf(ev.source_name, ev.url) : null; return <span key={e} className="chip" title={ev?.claim || e} style={m ? { borderColor: m.color, color: m.color } : {}}>{e}</span> })}
                   {(a.unknowns || []).map((u: string, k: number) => <span key={k} className="chip warn" title="open question">? {u}</span>)}
+                  {(a.evidence_ids || []).length > 0 && <button className="cmd-kbd" style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--cmd-cyan)', marginLeft: 4 }} onClick={() => setTraceOpen(traceOpen === i ? null : i)}>{traceOpen === i ? '▾ hide trace' : `⛓ trace (${(a.evidence_ids || []).length})`}</button>}
                 </div>
+                {traceOpen === i && (
+                  <div className="space-y-1" style={{ marginTop: 8, borderTop: '1px solid var(--cmd-line)', paddingTop: 8 }}>
+                    {(a.evidence_ids || []).map((e: string) => {
+                      const ev = evById[e]
+                      if (!ev) return <div key={e} className="cmd-kbd">{e} · (not in ledger)</div>
+                      const m = medOf(ev.source_name, ev.url)
+                      return (
+                        <div key={e} className="flex gap-2" style={{ fontSize: 12.5, lineHeight: 1.5 }}>
+                          <span className="chip" style={{ borderColor: m.color, color: m.color, alignSelf: 'flex-start' }}>{m.tag}</span>
+                          <span style={{ color: 'var(--cmd-dim)' }}>{ev.claim}{' '}{ev.url ? <a href={ev.url} target="_blank" rel="noreferrer" style={{ color: m.color, textDecoration: 'none', whiteSpace: 'nowrap' }}>— {ev.source_name} ↗</a> : <span className="chip err">uncited</span>}</span>
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
               </div>
             ))}
           </section>
