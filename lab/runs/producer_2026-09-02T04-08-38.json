@@ -1,0 +1,117 @@
+{
+  "pulled_from": "clusters_2026-09-02T04-08-38.json",
+  "beat": "battle-rap",
+  "ranked_at": "2026-09-02T04:16:33.987Z",
+  "format": "debate",
+  "counts": {
+    "total": 7,
+    "debatable": 6
+  },
+  "ms": 4629,
+  "usage": {
+    "prompt_tokens": 1838,
+    "completion_tokens": 1157,
+    "total_tokens": 2995,
+    "cost": 0.0006466,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0006466,
+      "upstream_inference_prompt_cost": 0.0001838,
+      "upstream_inference_completions_cost": 0.0004628
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "ranked": [
+    {
+      "title": "Keefe D guilty: justice for Tupac, or a case built on his own mouth?",
+      "show_value": 90,
+      "rationale": "Major legal outcome with a high-profile victim and a confessed participant; strong potential for debate on justice vs. self-incrimination.",
+      "best_angle": "Did Keefe D's own words seal his fate, or is this a flawed conviction?",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "Justice has finally been served for Tupac's murder, with Keefe D's confession leading to a rightful conviction.",
+        "The conviction is questionable, relying heavily on Keefe D's statements which may be unreliable or coerced, rather than "
+      ],
+      "debatable": true
+    },
+    {
+      "title": "URLTV Announces Summer Madness XVI Card Details",
+      "show_value": 75,
+      "rationale": "Significant event in the battle rap community with high-profile matchups, generating buzz and fan engagement.",
+      "best_angle": "Previewing the biggest battles and predicting outcomes for Summer Madness XVI.",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "Tay Roc vs. Rum Nitty is the undisputed main event and will steal the show.",
+        "Ill Will vs. Chess is the most anticipated matchup due to their history and skill sets."
+      ],
+      "debatable": true
+    },
+    {
+      "title": "Jay Blac Discusses \"Winning Matters\" in Battle Rap Context",
+      "show_value": 60,
+      "rationale": "Explores a core tenet of competitive performance and its application to battle rap, particularly concerning celebrity involvement.",
+      "best_angle": "Does 'winning matter' more than entertainment value when celebrity rappers like Kai Cenat enter the scene?",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "In professional battle rap, winning is paramount and should be the sole focus, regardless of the performer's background.",
+        "For new or celebrity entrants, the entertainment and spectacle can be as important as winning, especially for growing th"
+      ],
+      "debatable": true
+    },
+    {
+      "title": "Murda Mook Accused of Wearing Hair Extensions",
+      "show_value": 50,
+      "rationale": "A visually-driven, somewhat petty controversy that can generate lighthearted debate and commentary on authenticity.",
+      "best_angle": "Is Murda Mook's new hairstyle a sign of insecurity or just a style choice, and does it impact his credibility?",
+      "best_format": "hot-take",
+      "contrasting_viewpoints": [
+        "Murda Mook is being scrutinized unfairly for his hairstyle, which is a personal choice and irrelevant to his rap skills.",
+        "Authenticity is key in battle rap culture, and claims of artificial enhancements like hair extensions undermine a battle"
+      ],
+      "debatable": true
+    },
+    {
+      "title": "Loaded Lux Performs \"No Name\" on The Radar",
+      "show_value": 40,
+      "rationale": "A notable artist releasing new material, offering a chance to discuss his performance and relevance.",
+      "best_angle": "Analyzing Loaded Lux's performance on The Radar and his current standing in the battle rap scene.",
+      "best_format": "explainer",
+      "contrasting_viewpoints": [],
+      "debatable": false
+    },
+    {
+      "title": "Shotgun Suge Freestyles Over Case \"Missing You\" Beat",
+      "show_value": 30,
+      "rationale": "A freestyle is a creative output, but without a strong narrative or conflict, it's less compelling for debate.",
+      "best_angle": "Shotgun Suge's freestyle: a creative homage or a missed opportunity?",
+      "best_format": "hot-take",
+      "contrasting_viewpoints": [
+        "Shotgun Suge's freestyle over the 'Missing You' beat is a skillful display of lyrical ability and a fitting tribute.",
+        "The freestyle lacks originality and doesn't add significant value to either Shotgun Suge's or Case's catalog."
+      ],
+      "debatable": true
+    },
+    {
+      "title": "Blueface's Romantic Situation",
+      "show_value": 20,
+      "rationale": "Celebrity gossip, low on substance and debate potential unless tied to a larger cultural discussion.",
+      "best_angle": "Blueface's unconventional relationship dynamics: a sign of success or a chaotic lifestyle?",
+      "best_format": "hot-take",
+      "contrasting_viewpoints": [
+        "Blueface is simply living his life and embracing his relationships openly, which is his prerogative.",
+        "Blueface's romantic situation is a spectacle that reflects poorly on personal responsibility and healthy relationships."
+      ],
+      "debatable": true
+    }
+  ]
+}

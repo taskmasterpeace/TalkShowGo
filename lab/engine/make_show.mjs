@@ -10,10 +10,14 @@
  * Usage: node lab/engine/make_show.mjs --stringer=<id> --briefing=<brf_id> [--runtime=8]
  *        [--provider=openrouter] [--seed=7] [--voice] [--show=<slug>] [--jobdir=<dir>]
  *        [--attribution=A-F] [--from=compile|floor|audio]   (resume a job dir from a stage)
+ *        [--beat=<beat id>] [--app=http://localhost:PORT]    (the take inbox: before compile, every pending take on the
+ *        beat is seated on the briefing through <app>/api/command/takes/attach; app = --app, else APP_URL, else PORT,
+ *        else :3000; beat = --beat, else inferred from the briefing. Unreachable = a warning, never a failed show.)
  */
 import fs from 'node:fs'
 import path from 'node:path'
 import { spawnSync, execFileSync } from 'node:child_process'
+import { inferBeat, attachTakes, stampTakes } from './lib/takes_mark.mjs'
 
 const ARG = Object.fromEntries(process.argv.slice(2).map(a => { const m = a.match(/^--([^=]+)=?(.*)$/); return m ? [m[1], m[2] || true] : [a, true] }))
 const ENGINE = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1'))
@@ -81,9 +85,26 @@ async function main() {
     const floorDir = path.join(showDir, 'floor')
     const segment = path.join(floorDir, 'segment_final.md')
 
+    // 0) the take inbox: every pending take on the beat becomes a verbatim human delegate on this briefing (compile
+    //    reads the agents file, so this has to land first). A person who dropped a take AFTER this moment stays
+    //    pending for the next show: never half-seated. Unreachable app = warn and continue.
+    const beatId = ARG.beat ? String(ARG.beat) : inferBeat(ROOT, brf)
+    const app = ARG.app ? String(ARG.app) : (process.env.APP_URL || (process.env.PORT ? `http://localhost:${process.env.PORT}` : 'http://localhost:3000'))
+    let inbox = { ok: false, error: 'skipped (not a compile run)', seated: [], skipped: [] }
+    if (from === 'compile' || !fs.existsSync(beatPath)) {
+      if (!beatId) { inbox = { ok: false, error: 'no --beat given and the beat could not be inferred from the briefing; the take inbox was not consulted', seated: [], skipped: [] }; console.error('WARNING: ' + inbox.error) }
+      else {
+        setStatus('compile', 3, `seating the take inbox for ${beatId} on the briefing…`)
+        inbox = await attachTakes(app, beatId, ARG.briefing)
+        if (inbox.ok) console.error(`take inbox: ${inbox.seated.length ? inbox.seated.join(', ') + ' seated' : 'nobody waiting'}${inbox.skipped.length ? ' · skipped: ' + inbox.skipped.map(s => `${s.name} (${s.reason})`).join('; ') : ''}`)
+        else console.error(`WARNING: take inbox unreachable at ${app} (${inbox.error}) — building without it`)
+        logActivity({ stage: 'inbox', ok: inbox.ok, beat: beatId, ref: slug, summary: inbox.ok ? `take inbox seated ${inbox.seated.length} · skipped ${inbox.skipped.length}` : `take inbox unreachable at ${app}, building without it`, error: inbox.ok ? null : inbox.error, meta: { briefing: ARG.briefing, seated: inbox.seated, app } })
+      }
+    }
+
     // 1) compile the beat card from the cited lineage
     if (from === 'compile' || !fs.existsSync(beatPath)) {
-      setStatus('compile', 5, 'showrunner compiling beat card from the briefing + cast stances')
+      setStatus('compile', 5, 'showrunner compiling beat card from the briefing + cast stances', { inbox: inbox.ok ? { seated: inbox.seated, skipped: inbox.skipped } : { error: inbox.error } })
       run('compile_beat.mjs', [`--stringer=${ARG.stringer}`, `--briefing=${ARG.briefing}`, `--runtime=${runtime}`, `--out=${showDir}`, `--show=${slug}`, `--attribution=${ARG.attribution || 'A'}`], 'compile.log')
       if (!fs.existsSync(beatPath)) throw new Error('compile produced no beatcard.json (see compile.log)')
     }
@@ -131,6 +152,8 @@ async function main() {
       logActivity({ stage: 'done', ok: true, ref: slug, ms: Date.now() - t0, summary: `${lineCount} lines · script only` })
       console.log(segment)
     }
+    // the takes this briefing seated now point at the show that used them (used_in: briefing id -> show slug)
+    if (beatId) { try { const st = stampTakes(ROOT, beatId, ARG.briefing, slug); if (st.length) console.error(`take inbox: ${st.length} take${st.length === 1 ? '' : 's'} stamped used_in=${slug}`) } catch (e) { console.error('WARNING: could not stamp takes: ' + e.message) } }
   } catch (e) {
     fail(e)
     process.exit(1)

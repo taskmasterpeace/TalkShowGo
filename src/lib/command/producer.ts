@@ -5,6 +5,7 @@
 // signal — a first-class ranking dimension, not an afterthought.
 import fs from 'node:fs'
 import path from 'node:path'
+import { modelFor } from './models-config'
 
 const ROOT = process.cwd()
 const OR_KEY = process.env.OPENROUTER_API_KEY
@@ -51,7 +52,7 @@ Output STRICT JSON only: {"ranked":[{"title":"<exact story title>","show_value":
   const user = `CANDIDATE STORIES (score every one):\n${topics.map((t: any, i: number) => `${i}. "${t.title}" [kind:${t.kind || '?'} · overlap_sources:${t.overlap_sources ?? 0}]\n   why_today: ${t.why_today || ''}\n   angle: ${t.angle || ''}\n   evidence: ${(t.evidence || []).slice(0, 6).join(' | ')}`).join('\n\n')}`
   const r = await fetch(OR_URL, {
     method: 'POST', headers: { Authorization: 'Bearer ' + OR_KEY, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model: cfg.producer?.model || 'google/gemini-2.5-flash-lite', temperature: 0.3, max_tokens: 4000, response_format: { type: 'json_object' }, messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] }),
+    body: JSON.stringify({ model: cfg.producer?.model || modelFor('rank').id, temperature: 0.3, max_tokens: 4000, response_format: { type: 'json_object' }, messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] }),
     signal: AbortSignal.timeout(120000),
   })
   const j = await r.json()

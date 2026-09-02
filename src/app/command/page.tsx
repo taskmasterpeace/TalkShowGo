@@ -42,6 +42,39 @@ function TopicsPanel({ topics, onMine, busy }: { topics: any; onMine: () => void
   )
 }
 
+// THE JANITOR card: what the maintenance crew (source auditor, squatter watch, explore, window tuner, housekeeper)
+// wants a human to decide, across every beat, plus when it last swept. The page itself is /command/janitor.
+function JanitorCard({ beatId }: { beatId?: string | null }) {
+  const [j, setJ] = useState<any>(null)
+  useEffect(() => {
+    let on = true
+    fetch('/api/command/janitor', { cache: 'no-store' }).then(r => r.json()).then(x => { if (on) setJ(x) }).catch(() => { if (on) setJ({ error: true }) })
+    return () => { on = false }
+  }, [beatId])
+  const beats: any[] = j?.beats || []
+  const total = beats.reduce((a, b) => a + (b.pending || 0), 0)
+  const swept = beats.filter(b => b.ran_at).sort((a, b) => String(b.ran_at).localeCompare(String(a.ran_at)))
+  const last = ago(swept[0]?.ran_at)
+  return (
+    <Link href="/command/janitor" className="cmd-panel p-4 block hover:opacity-90">
+      <div className="flex items-center gap-6">
+        <div>
+          <div className="cmd-label">THE JANITOR</div>
+          <div className="cmd-num" style={{ color: total ? 'var(--cmd-amber)' : undefined }}>{j ? total : '·'}</div>
+        </div>
+        <div className="flex-1">
+          <div className="cmd-kbd">{!j ? 'CHECKING…' : j.error ? 'JANITOR UNREACHABLE' : total ? 'PROPOSALS WAITING FOR A HUMAN' : swept.length ? 'NOTHING WAITING · THE CREW IS CAUGHT UP' : 'NEVER SWEPT · SOURCE AUDIT · SQUATTER WATCH · EXPLORE · WINDOW · HOUSEKEEPING'}</div>
+          {swept.length > 0 && <div className="flex gap-1 mt-2 flex-wrap">{swept.map(b => <span key={b.beat} className={`chip ${b.pending ? 'warn' : 'ok'}`}>{String(b.beat).toUpperCase()} · {b.pending} PENDING{b.failed ? ` · ${b.failed} FAILED` : ''}</span>)}</div>}
+        </div>
+        <div className="cmd-kbd text-right" style={{ whiteSpace: 'nowrap' }}>
+          {swept.length > 0 && <span className={`chip ${last.cls}`}>LAST SWEEP {last.text.toUpperCase()}</span>}
+          <div className="mt-1">OPEN THE JANITOR ↗</div>
+        </div>
+      </div>
+    </Link>
+  )
+}
+
 export default function Desk() {
   const { state, reload } = useCmdState()
   const [busy, setBusy] = useState(false)
@@ -204,6 +237,9 @@ export default function Desk() {
               <div className="cmd-kbd mt-2">RENDERED CUTS</div>
             </Link>
           </div>
+
+          {/* THE JANITOR — proposals waiting for a human, across beats */}
+          <JanitorCard beatId={beat?.id} />
 
           <div className="cmd-panel-hot p-5">
             <div className="flex items-center justify-between">

@@ -7,7 +7,9 @@
 import fs from 'node:fs'
 import path from 'node:path'
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '..', '..')
-const KEY = (fs.readFileSync(path.join(ROOT, '.env'), 'utf8').match(/^TWITTERAPI_IO_KEY=(.+)$/m) || [])[1]
+// key precedence: process env > .env > lab/settings/keys.json (a key pasted in the SETTINGS page); no .env is fine
+const readKey = name => { const e = process.env[name]; if (e && e.trim()) return e.trim(); try { const m = fs.readFileSync(path.join(ROOT, '.env'), 'utf8').match(new RegExp('^' + name + '=(.+)$', 'm')); if (m) return m[1].trim() } catch { /* no .env */ } try { const v = JSON.parse(fs.readFileSync(path.join(ROOT, 'lab', 'settings', 'keys.json'), 'utf8'))[name]; if (v && String(v).trim()) return String(v).trim() } catch { /* no settings file */ } return undefined }
+const KEY = readKey('TWITTERAPI_IO_KEY')
 const beatPath = path.resolve(process.argv[2] || '')
 const beat = JSON.parse(fs.readFileSync(beatPath, 'utf8'))
 const today = new Date().toISOString().slice(0, 10)

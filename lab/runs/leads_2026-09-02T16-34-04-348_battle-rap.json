@@ -1,0 +1,488 @@
+{
+  "pulled_from": "pull_2026-09-02T16-34-04-348_battle-rap.json",
+  "beat": "battle-rap",
+  "mined_at": "2026-09-02T16:40:11.276Z",
+  "feed_count": 42,
+  "ms": 10904,
+  "counts": {
+    "total": 47,
+    "auto": 7,
+    "expand": 30,
+    "store": 10,
+    "ignore": 0
+  },
+  "leads": [
+    {
+      "id": "L010",
+      "type": "PERSON",
+      "value": "Keefe D",
+      "why": "Found guilty of Tupac's murder, a major legal development with potential for courtroom footage and reactions.",
+      "destination": "YOUTUBE_CURRENT",
+      "query": "Keefe D guilty verdict Tupac murder trial",
+      "score": 95,
+      "band": "auto"
+    },
+    {
+      "id": "L042",
+      "type": "REPORT",
+      "value": "Keefe D found guilty of Tupac's murder",
+      "why": "This is a major legal verdict with significant implications and potential for detailed reporting and analysis.",
+      "destination": "WEB",
+      "query": "Keefe D guilty verdict Tupac murder",
+      "score": 95,
+      "band": "auto"
+    },
+    {
+      "id": "L011",
+      "type": "EVENT",
+      "value": "Keefe D murder trial closing arguments",
+      "why": "Live coverage of closing arguments indicates a critical stage in the trial, offering primary source material.",
+      "destination": "YOUTUBE_CURRENT",
+      "query": "Keefe D murder trial closing arguments live",
+      "score": 90,
+      "band": "auto"
+    },
+    {
+      "id": "L001",
+      "type": "EVENT",
+      "value": "SUMMER MADNESS XVI",
+      "why": "This is a recurring event with multiple announced battles and a specific date and location, indicating potential for primary source footage and reactions.",
+      "destination": "X",
+      "query": "SUMMER MADNESS XVI",
+      "score": 85,
+      "band": "auto",
+      "since": "2026-08-31",
+      "until": "2026-09-02"
+    },
+    {
+      "id": "L022",
+      "type": "PERSON",
+      "value": "Lil Durk",
+      "why": "Arrested for murder-for-hire, a significant legal development with potential for reactions and court documents.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Lil Durk murder for hire arrest",
+      "score": 85,
+      "band": "auto"
+    },
+    {
+      "id": "L005",
+      "type": "PERSON",
+      "value": "Ill Will",
+      "why": "Scheduled to battle Chess at Summer Madness XVI, with trailers and discussions already circulating.",
+      "destination": "X",
+      "query": "Ill Will vs Chess SUMMER MADNESS XVI",
+      "score": 80,
+      "band": "auto"
+    },
+    {
+      "id": "L006",
+      "type": "PERSON",
+      "value": "Chess",
+      "why": "Scheduled to battle Ill Will at Summer Madness XVI, with trailers and discussions already circulating.",
+      "destination": "X",
+      "query": "Chess vs Ill Will SUMMER MADNESS XVI",
+      "score": 80,
+      "band": "auto"
+    },
+    {
+      "id": "L003",
+      "type": "PERSON",
+      "value": "Tay Roc",
+      "why": "Scheduled to battle Rum Nitty at Summer Madness XVI, a significant event in battle rap.",
+      "destination": "X",
+      "query": "Tay Roc vs Rum Nitty SUMMER MADNESS XVI",
+      "score": 75,
+      "band": "expand"
+    },
+    {
+      "id": "L004",
+      "type": "PERSON",
+      "value": "Rum Nitty",
+      "why": "Scheduled to battle Tay Roc at Summer Madness XVI, a significant event in battle rap.",
+      "destination": "X",
+      "query": "Rum Nitty vs Tay Roc SUMMER MADNESS XVI",
+      "score": 75,
+      "band": "expand"
+    },
+    {
+      "id": "L019",
+      "type": "ORG",
+      "value": "URLTV",
+      "why": "Announcing Summer Madness XVI and discussing streaming strategies, indicating their current operations and future plans.",
+      "destination": "X",
+      "query": "URLTV SUMMER MADNESS XVI streaming",
+      "score": 75,
+      "band": "expand"
+    },
+    {
+      "id": "L002",
+      "type": "PERSON",
+      "value": "Loaded Lux",
+      "why": "Mentioned performing a new track, indicating recent activity and potential for new music/freestyles.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Loaded Lux \"No Name\" On The Radar",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L014",
+      "type": "PERSON",
+      "value": "Jayblac",
+      "why": "Discussing Kai Cenat's involvement in battle rap and potential for her to be 'cooked' in a battle.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Jayblac Kai Cenat battle rap discussion",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L018",
+      "type": "PERSON",
+      "value": "Beasley",
+      "why": "Discussing Smack's absence and URLTV's streaming strategy, providing insight into event operations.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Beasley Smack URLTV streaming",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L023",
+      "type": "PERSON",
+      "value": "Lul Pab",
+      "why": "The alleged victim in the Lil Durk murder-for-hire case, a key figure in the legal proceedings.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Lul Pab murder for hire",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L036",
+      "type": "PERSON",
+      "value": "Drake",
+      "why": "Made a surprise appearance with Don Toliver, a significant event for fans and the music industry.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Drake Don Toliver surprise appearance",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L039",
+      "type": "DATE",
+      "value": "September 27th",
+      "why": "Specific date for Summer Madness XVI, crucial for tracking event-related content and reactions.",
+      "destination": "X",
+      "query": "Summer Madness XVI September 27",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L045",
+      "type": "CLAIM",
+      "value": "Beasley Reveals SM16 Won’t Stream On Twitch Due To Content Protection Concerns",
+      "why": "This is a specific business decision regarding streaming platforms for a major event.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "SM16 stream Twitch content protection",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L046",
+      "type": "PERSON",
+      "value": "Yunus",
+      "why": "Mentioned in relation to Kai Cenat and a battle, suggesting a significant matchup or discussion point.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Yunus vs Kai Cenat battle",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L007",
+      "type": "PERSON",
+      "value": "Shotgun Suge",
+      "why": "Released a new freestyle, indicating recent creative output.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Shotgun Suge freestyle Case \"Missing You\"",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L015",
+      "type": "PERSON",
+      "value": "John John Da Don",
+      "why": "Mentioned in discussions about Kai Cenat and battle rap, and reacting to T-Top.",
+      "destination": "X",
+      "query": "John John Da Don Kai Cenat",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L021",
+      "type": "PERSON",
+      "value": "Lul Tim",
+      "why": "Reacting to Lil Durk's arrest, indicating a connection and potential for personal testimony.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Lul Tim reacts Lil Durk murder for hire",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L027",
+      "type": "PERSON",
+      "value": "OTF Jam",
+      "why": "Testified against Lil Durk in a legal case, making them a key witness.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "OTF Jam testimony Lil Durk",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L035",
+      "type": "PERSON",
+      "value": "Don Toliver",
+      "why": "Brought out Drake for a performance, a notable event in the music industry.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Don Toliver Drake Burning Bridges performance",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L040",
+      "type": "PLACE",
+      "value": "Atlanta, GA",
+      "why": "Location of Summer Madness XVI, important for understanding the event's context and potential local impact.",
+      "destination": "X",
+      "query": "Summer Madness XVI Atlanta",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L041",
+      "type": "PLACE",
+      "value": "Variety Playhouse in Atlanta, GA",
+      "why": "Specific venue for Summer Madness XVI, providing a concrete location for the event.",
+      "destination": "WEB",
+      "query": "Variety Playhouse Atlanta GA events",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L044",
+      "type": "CLAIM",
+      "value": "URL won't live stream from the app",
+      "why": "Beasley is explaining why URLTV won't live stream from the app, providing insight into their business decisions.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "URLTV app live stream concerns",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L008",
+      "type": "PERSON",
+      "value": "Murda Mook",
+      "why": "Subject of a claim about his appearance, which could lead to visual evidence or reactions.",
+      "destination": "X",
+      "query": "Murda Mook hair weave braids faux locs",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L009",
+      "type": "CLAIM",
+      "value": "Murda Mook wearing weave/faux locs",
+      "why": "This is a specific visual claim that could be verified or refuted with images/videos.",
+      "destination": "X",
+      "query": "Murda Mook hair extensions",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L013",
+      "type": "PERSON",
+      "value": "Kai Cenat",
+      "why": "His house was the scene of Twork's strong reaction, and he is involved in discussions about battle rap culture.",
+      "destination": "X",
+      "query": "Kai Cenat Twork reaction",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L016",
+      "type": "PERSON",
+      "value": "Eazy The Block Captain",
+      "why": "Subject of a YouTube video questioning his status in battle rap.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "IS EAZY THE BLOCK CAPTAIN STILL A STAR IN BATTLE RAP?",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L024",
+      "type": "PERSON",
+      "value": "FBG Butta",
+      "why": "Claimed to have predicted Lil Durk's arrest, suggesting prior knowledge or insight.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "FBG Butta predicted Lil Durk arrest",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L026",
+      "type": "PERSON",
+      "value": "Judge Mathis",
+      "why": "Commented on OTF Jam testifying against Lil Durk, offering an opinion on a legal matter.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Judge Mathis OTF Jam Lil Durk testimony",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L031",
+      "type": "PERSON",
+      "value": "Lady Caution",
+      "why": "Claims to have beaten E-Hart and discusses Tay Roc, indicating recent activity and opinions on other artists.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Lady Caution E-Hart Tay Roc",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L033",
+      "type": "PERSON",
+      "value": "T-Top",
+      "why": "Reacted to John John Da Don's comments, suggesting a developing narrative or conflict.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "T-Top reacts John John Da Don",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L034",
+      "type": "PERSON",
+      "value": "Jakkboy Maine",
+      "why": "Responds to John John Da Don's warning, indicating a direct engagement.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Jakkboy Maine responds John John Da Don",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L037",
+      "type": "URL",
+      "value": "https://t.co/OuvwGwgFzN",
+      "why": "Ticket link for Summer Madness XVI, a direct call to action and potential source of event information.",
+      "destination": "WEB",
+      "query": "https://t.co/OuvwGwgFzN",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L043",
+      "type": "CLAIM",
+      "value": "Smack's absence at events",
+      "why": "Beasley is discussing Smack's absence, which could lead to explanations or further commentary on event organization.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Smack absence URLTV events",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L012",
+      "type": "PERSON",
+      "value": "Twork",
+      "why": "Mentioned reacting strongly at Kai Cenat's house, suggesting a notable interaction.",
+      "destination": "X",
+      "query": "Twork Kai Cenat reaction",
+      "score": 55,
+      "band": "store"
+    },
+    {
+      "id": "L017",
+      "type": "PERSON",
+      "value": "Swamp Flames J2",
+      "why": "Addressing a specific battle, suggesting a point of contention or explanation.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "SWAMP FLAMES J2 ADDRESSING THEIR MIDNIGHT MADNESS BATTLE",
+      "score": 55,
+      "band": "store"
+    },
+    {
+      "id": "L025",
+      "type": "PERSON",
+      "value": "Bin Laden",
+      "why": "Mentioned in the context of assassination payment, a historical and potentially controversial topic.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "How Much He Got Paid To Assassinate Bin Laden",
+      "score": 55,
+      "band": "store"
+    },
+    {
+      "id": "L029",
+      "type": "PERSON",
+      "value": "DJ Vlad",
+      "why": "Engaged in a debate with Jay-Z and made claims about DJ EFN, indicating ongoing commentary and potential for conflict.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "DJ Vlad DJ EFN broke",
+      "score": 55,
+      "band": "store"
+    },
+    {
+      "id": "L032",
+      "type": "PERSON",
+      "value": "E-Hart",
+      "why": "Mentioned by Lady Caution as someone she beat, potentially leading to a response or clarification.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "E-Hart Lady Caution",
+      "score": 55,
+      "band": "store"
+    },
+    {
+      "id": "L020",
+      "type": "ORG",
+      "value": "Marvel",
+      "why": "Mentioned in the context of canceled shows, potentially leading to discussions about their production decisions.",
+      "destination": "X",
+      "query": "Marvel canceled Blade Ironheart Wonder Man",
+      "score": 50,
+      "band": "store"
+    },
+    {
+      "id": "L028",
+      "type": "PERSON",
+      "value": "Jay-Z",
+      "why": "Involved in a debate with DJ Vlad about artistic merit, potentially leading to interviews or past statements.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Jay-Z DJ Vlad better artist",
+      "score": 50,
+      "band": "store"
+    },
+    {
+      "id": "L030",
+      "type": "PERSON",
+      "value": "DJ EFN",
+      "why": "Accused by DJ Vlad of being broke, a claim that could lead to a response or further investigation.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "DJ EFN DJ Vlad accusation",
+      "score": 50,
+      "band": "store"
+    },
+    {
+      "id": "L038",
+      "type": "HASHTAG",
+      "value": "#youcantcopyrespect",
+      "why": "Used across multiple posts related to Summer Madness XVI, indicating a key theme or branding for the event.",
+      "destination": "X",
+      "query": "#youcantcopyrespect",
+      "score": 50,
+      "band": "store"
+    },
+    {
+      "id": "L047",
+      "type": "PERSON",
+      "value": "Blueface",
+      "why": "Mentioned for having his 'girls in the car together', a potentially viral or controversial situation.",
+      "destination": "X",
+      "query": "Blueface girls in car",
+      "score": 50,
+      "band": "store"
+    }
+  ]
+}

@@ -5,6 +5,7 @@
 // This is the Orangeburg behavior automated: don't start from zero, follow the leads.
 import fs from 'node:fs'
 import path from 'node:path'
+import { modelFor } from './models-config'
 
 const ROOT = process.cwd()
 const OR_KEY = process.env.OPENROUTER_API_KEY
@@ -62,7 +63,7 @@ export async function extractLeads(material: string[], storyContext: string, cfg
   const user = `STORY CONTEXT: ${storyContext || '(a fresh feed — infer the stories)'}\n\nFEED ITEMS (index from 0):\n${material.map((m, i) => i + '. ' + m).join('\n')}`
   const r = await fetch(OR_URL, {
     method: 'POST', headers: { Authorization: 'Bearer ' + OR_KEY, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model: cfg.leads?.model || 'google/gemini-2.5-flash-lite', temperature: 0.3, max_tokens: 8000, response_format: { type: 'json_object' }, messages: [{ role: 'system', content: SYS }, { role: 'user', content: user }] }),
+    body: JSON.stringify({ model: cfg.leads?.model || modelFor('leads').id, temperature: 0.3, max_tokens: 8000, response_format: { type: 'json_object' }, messages: [{ role: 'system', content: SYS }, { role: 'user', content: user }] }),
     signal: AbortSignal.timeout(120000),
   })
   const j = await r.json()

@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "ops": [
+    {
+      "ts": "2026-09-02T04:16:05.476Z",
+      "op": "pin",
+      "id": "C002",
+      "pinned": true
+    },
+    {
+      "ts": "2026-09-02T04:16:05.539Z",
+      "op": "rename",
+      "id": "C002",
+      "title": "Keefe D guilty: justice for Tupac, or a case built on his own mouth?"
+    }
+  ],
+  "base": "2026-09-02T04:08:44.587Z"
+}

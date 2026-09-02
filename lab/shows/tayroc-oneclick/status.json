@@ -1,0 +1,15 @@
+{
+  "stage": "done",
+  "pct": 100,
+  "message": "show ready — 2:29 (Kokoro draft — Breeze VRAM-blocked)",
+  "show": "tayroc-oneclick",
+  "showDir": "D:\\git\\talkshowgo\\lab\\shows\\tayroc-oneclick",
+  "started": "2026-09-01T22:03:59.044Z",
+  "updated": "2026-09-01T22:06:09.659Z",
+  "question": "Which of Tay Roc's battles is the greatest of his career?",
+  "segment": "D:\\git\\talkshowgo\\lab\\shows\\tayroc-oneclick\\floor\\segment_final.md",
+  "audio": "D:\\git\\talkshowgo\\lab\\shows\\tayroc-oneclick\\tayroc-oneclick.mp3",
+  "duration_s": 149,
+  "lines": 35,
+  "voice_engine": "kokoro"
+}

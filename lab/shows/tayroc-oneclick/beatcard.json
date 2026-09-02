@@ -1,0 +1,105 @@
+{
+  "id": "tay-roc-battle-rapper",
+  "show": "tayroc-oneclick",
+  "question": "Which of Tay Roc's battles is the greatest of his career?",
+  "target_spoken_words": 368,
+  "max_turns": 27,
+  "stances": {
+    "marcus-blaze": "The battle against Hollow Da Don is the undisputed peak, defined by the legendary 'Seatbelt' bar and his coronation as the face of the URL.",
+    "tasha-raw": "While Hollow Da Don was huge, Tay Roc's longevity and consistent impact, especially post-2021, show his greatest battle is yet to be fully defined.",
+    "king-knowledge": "The Ill Will battle, particularly the second round with the 'Emmett Till' scheme, represents a higher level of lyrical skill and a more definitive performance than Hollow."
+  },
+  "allowed_evidence": {
+    "marcus-blaze": [
+      "E045",
+      "E047",
+      "E046"
+    ],
+    "tasha-raw": [
+      "E034",
+      "E027",
+      "E032",
+      "E033"
+    ],
+    "king-knowledge": [
+      "E039",
+      "E040",
+      "E041",
+      "E030"
+    ]
+  },
+  "withheld": [
+    {
+      "host": "tasha-raw",
+      "evidence": "E035",
+      "turn": 7,
+      "instruction": "There is no single consensus on which of Tay Roc's battles is the greatest of his career."
+    }
+  ],
+  "anaphora_exempt": [
+    "tay roc",
+    "hollow da don",
+    "seatbelt bar",
+    "ill will",
+    "emmett till scheme"
+  ],
+  "protected_facts": [
+    {
+      "note": "Tay Roc's real name is Donte Richardson.",
+      "banned_phrasings": [
+        "Donte Richardson is Tay Roc",
+        "Tay Roc, also known as Donte Richardson"
+      ]
+    }
+  ],
+  "waypoints": [
+    {
+      "after_words": 30,
+      "host": "tasha-raw",
+      "note": "Marcus, you're calling Hollow the undisputed peak, but isn't that ignoring his entire career arc?"
+    },
+    {
+      "after_words": 70,
+      "host": "king-knowledge",
+      "note": "Tasha, you're talking about longevity, but what about the singular moments of brilliance that define greatness?"
+    },
+    {
+      "after_words": 120,
+      "host": "marcus-blaze",
+      "note": "King Knowledge, you bring up Ill Will, but does that battle have the same cultural impact as Hollow?"
+    },
+    {
+      "after_words": 180,
+      "host": "tasha-raw",
+      "note": "King Knowledge, you mentioned the 'Emmett Till' scheme, but the 'Seatbelt' bar from Hollow is what truly cemented him."
+    },
+    {
+      "after_words": 250,
+      "host": "king-knowledge",
+      "note": "Marcus, you cite Hollow solidifying him as 'the face of the URL,' but wasn't that more of a culmination than a singular event?"
+    }
+  ],
+  "detonation_react": {
+    "host": "marcus-blaze",
+    "instruction": "Wait, so you're saying there's no consensus? That feels like a cop-out."
+  },
+  "kk_drop": {
+    "host": "king-knowledge",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "marcus-blaze",
+    "instruction": "Tay Roc has battled for nearly 20 years, but one battle stands above all others."
+  },
+  "exit": {
+    "host": "king-knowledge",
+    "alt_host": "marcus-blaze",
+    "instruction": "We've debated the peak moments and the long game, but the true measure of greatness is always up for discussion."
+  },
+  "_compiled_from": {
+    "stringer": "str_2i21aaz1",
+    "briefing": "brf_6ct7fwv0",
+    "delegates_surfaced": []
+  }
+}

@@ -1,0 +1,448 @@
+{
+  "beat": "atlanta-falcons",
+  "timespan_hours": 72,
+  "pulled_at": "2026-09-02T18:39:31.369Z",
+  "twitter": [
+    {
+      "handle": "AtlantaFalcons",
+      "label": "Atlanta Falcons (official)",
+      "in_window": 20,
+      "top": [
+        {
+          "id": "2094414253570535546",
+          "text": "RT @GervonDexter: Chicago, thank you for everything. 🐻🧡\n\nThese last 3 years have meant more to me than I can put into words. Thank you to t…",
+          "url": "https://x.com/AtlantaFalcons/status/2094414253570535546",
+          "created": "Mon Aug 31 13:17:25 +0000 2026",
+          "likes": 10058,
+          "rts": 489,
+          "replies": 333,
+          "views": 240635
+        },
+        {
+          "id": "2094394207926444452",
+          "text": "Ball hawk, @Billy2Bowman 😈 https://t.co/oabG9bGSO6",
+          "url": "https://x.com/AtlantaFalcons/status/2094394207926444452",
+          "created": "Mon Aug 31 11:57:45 +0000 2026",
+          "likes": 2907,
+          "rts": 218,
+          "replies": 25,
+          "views": 114379
+        },
+        {
+          "id": "2094198485448868202",
+          "text": "👍 @GervonDexter https://t.co/oC2nlTxkZ8",
+          "url": "https://x.com/AtlantaFalcons/status/2094198485448868202",
+          "created": "Sun Aug 30 23:00:01 +0000 2026",
+          "likes": 1840,
+          "rts": 112,
+          "replies": 16,
+          "views": 65309
+        },
+        {
+          "id": "2095150424525328628",
+          "text": "The league knows\n\n@Bijan5Robinson comes in at No. 3 on the #NFLTop100!\n\nhttps://t.co/R8HkabP8wZ https://t.co/akZ1KgajQX",
+          "url": "https://x.com/AtlantaFalcons/status/2095150424525328628",
+          "created": "Wed Sep 02 14:02:41 +0000 2026",
+          "likes": 1290,
+          "rts": 269,
+          "replies": 15,
+          "views": 32215
+        },
+        {
+          "id": "2095153006715011191",
+          "text": "“One of them boys that’ll take it 85 yards if you ain’t ready”\n\n“That boy cut back on me so fast”\n\n“Can anybody catch him?!”\n\n🔥 @Bijan5Robinson  https://t.co/GHJmhGgoTa",
+          "url": "https://x.com/AtlantaFalcons/status/2095153006715011191",
+          "created": "Wed Sep 02 14:12:57 +0000 2026",
+          "likes": 1195,
+          "rts": 236,
+          "replies": 17,
+          "views": 45016
+        }
+      ]
+    },
+    {
+      "handle": "ByDanielFlick",
+      "label": "Daniel Flick - Atlanta Journal-Constitution Falcons beat writer (took over the beat from D. Orlando Ledbetter)",
+      "in_window": 20,
+      "top": [
+        {
+          "id": "2094787106048500026",
+          "text": "Avieon Terrell is in line to start Week 1, and the Falcons appear to be ushering him toward nickel.\n\n“I love it,” Terrell told @ajc in Miami. “A nickel is everything. I feel like when you’re a nickel, you’re (also) a safety, a corner. So, i",
+          "url": "https://x.com/ByDanielFlick/status/2094787106048500026",
+          "created": "Tue Sep 01 13:59:00 +0000 2026",
+          "likes": 670,
+          "rts": 70,
+          "replies": 18,
+          "views": 109072
+        },
+        {
+          "id": "2094549800880345591",
+          "text": "The Falcons set a franchise-record 57 sacks last year.\n\nBetween free agency, trades, cuts, injuries &amp; suspension, only 16 will be part of the Week 1 roster.\n\nThat’s 28.1% returning sack production.",
+          "url": "https://x.com/ByDanielFlick/status/2094549800880345591",
+          "created": "Mon Aug 31 22:16:02 +0000 2026",
+          "likes": 542,
+          "rts": 34,
+          "replies": 16,
+          "views": 28308
+        },
+        {
+          "id": "2094566016311267343",
+          "text": "RT @AtlantaFalcons: We have made the following roster moves:\n\n- Placed JD Bertrand on IR\n- Signed Josh Woods to the 53\n\nhttps://t.co/2mB17N…",
+          "url": "https://x.com/ByDanielFlick/status/2094566016311267343",
+          "created": "Mon Aug 31 23:20:28 +0000 2026",
+          "likes": 395,
+          "rts": 74,
+          "replies": 48,
+          "views": 72475
+        },
+        {
+          "id": "2095165829583143418",
+          "text": "Falcons GM Ian Cunningham:\n\n\"We're competing to make the playoffs. ... That's the main goal.\"",
+          "url": "https://x.com/ByDanielFlick/status/2095165829583143418",
+          "created": "Wed Sep 02 15:03:54 +0000 2026",
+          "likes": 257,
+          "rts": 37,
+          "replies": 12,
+          "views": 10319
+        },
+        {
+          "id": "2094876204025168327",
+          "text": "Falcons GM Ian Cunningham went into his first draft with five picks, left with six selections, and now his first active roster has *seven* rookies.\n\nFour could play big roles Week 1.\n\nThe Falcons’ rookie class has shown a lot of promise:\nht",
+          "url": "https://x.com/ByDanielFlick/status/2094876204025168327",
+          "created": "Tue Sep 01 19:53:02 +0000 2026",
+          "likes": 273,
+          "rts": 19,
+          "replies": 3,
+          "views": 10510
+        }
+      ]
+    },
+    {
+      "handle": "JoshTheAthletic",
+      "label": "Josh Kendall - The Athletic's Falcons beat writer",
+      "in_window": 20,
+      "top": [
+        {
+          "id": "2095156403551813813",
+          "text": "RT @AtlantaFalcons: The league knows\n\n@Bijan5Robinson comes in at No. 3 on the #NFLTop100!\n\nhttps://t.co/R8HkabP8wZ https://t.co/akZ1KgajQX",
+          "url": "https://x.com/JoshTheAthletic/status/2095156403551813813",
+          "created": "Wed Sep 02 14:26:27 +0000 2026",
+          "likes": 1290,
+          "rts": 269,
+          "replies": 15,
+          "views": 32205
+        },
+        {
+          "id": "2095181848963846328",
+          "text": "Falcons GM Ian Cunningham on the suspended James Pearce: \"We can’t have contact with James until after Week 5. Feel really good for the plan we have for James for him to do away fro the building. And then we will have a plan when he does co",
+          "url": "https://x.com/JoshTheAthletic/status/2095181848963846328",
+          "created": "Wed Sep 02 16:07:34 +0000 2026",
+          "likes": 84,
+          "rts": 10,
+          "replies": 0,
+          "views": 3668
+        },
+        {
+          "id": "2094776895317348638",
+          "text": "RT @jjones9: .@JourdanRodrigue and @ByMikeJones do a great job with this list every year. A venerable who's who across the NFL https://t.co…",
+          "url": "https://x.com/JoshTheAthletic/status/2094776895317348638",
+          "created": "Tue Sep 01 13:18:25 +0000 2026",
+          "likes": 50,
+          "rts": 21,
+          "replies": 0,
+          "views": 83887
+        },
+        {
+          "id": "2095164490362851549",
+          "text": "On the acquisition of Gervon Dexter and Jared \nIvey, Ian Cunningham says the Falcons are looking for \"big, powerful, rugged, explosive, violent players.\"",
+          "url": "https://x.com/JoshTheAthletic/status/2095164490362851549",
+          "created": "Wed Sep 02 14:58:35 +0000 2026",
+          "likes": 59,
+          "rts": 9,
+          "replies": 1,
+          "views": 2719
+        },
+        {
+          "id": "2095161100312395946",
+          "text": "RT @BruceFeldmanCFB: Congrats to @PSchrags who has come a long way from doing PR for a hospital &amp; calling into WFAN to becoming the NFL’s k…",
+          "url": "https://x.com/JoshTheAthletic/status/2095161100312395946",
+          "created": "Wed Sep 02 14:45:07 +0000 2026",
+          "likes": 53,
+          "rts": 4,
+          "replies": 3,
+          "views": 37905
+        }
+      ]
+    },
+    {
+      "handle": "929TheGame",
+      "label": "92.9 The Game - Atlanta sports radio (Falcons flagship talk)",
+      "in_window": 12,
+      "top": [
+        {
+          "id": "2094850528878428174",
+          "text": "Do we need to know who'll start in Pittsburgh right now? https://t.co/Rpxc6q5wRx",
+          "url": "https://x.com/929TheGame/status/2094850528878428174",
+          "created": "Tue Sep 01 18:11:01 +0000 2026",
+          "likes": 54,
+          "rts": 8,
+          "replies": 6,
+          "views": 7018
+        },
+        {
+          "id": "2094524978431443144",
+          "text": "Could Gervon Dexter be the defensive line's missing piece? https://t.co/3y4EPyyR9n",
+          "url": "https://x.com/929TheGame/status/2094524978431443144",
+          "created": "Mon Aug 31 20:37:23 +0000 2026",
+          "likes": 26,
+          "rts": 3,
+          "replies": 4,
+          "views": 2518
+        },
+        {
+          "id": "2094846397027586442",
+          "text": "How much of Brian Robinson will we see? https://t.co/6QleTpKHxI",
+          "url": "https://x.com/929TheGame/status/2094846397027586442",
+          "created": "Tue Sep 01 17:54:36 +0000 2026",
+          "likes": 10,
+          "rts": 1,
+          "replies": 3,
+          "views": 1486
+        },
+        {
+          "id": "2094517079537848422",
+          "text": "The 53-man roster is set and we STILL don't know who QB1 will be https://t.co/XxOzsgL9P6",
+          "url": "https://x.com/929TheGame/status/2094517079537848422",
+          "created": "Mon Aug 31 20:06:00 +0000 2026",
+          "likes": 8,
+          "rts": 2,
+          "replies": 1,
+          "views": 1476
+        },
+        {
+          "id": "2094855256739860539",
+          "text": "At what point was Jonathan Kuminga the Hawks' best player last season? https://t.co/BLuLVTcNrx",
+          "url": "https://x.com/929TheGame/status/2094855256739860539",
+          "created": "Tue Sep 01 18:29:48 +0000 2026",
+          "likes": 8,
+          "rts": 0,
+          "replies": 0,
+          "views": 1568
+        }
+      ]
+    },
+    {
+      "handle": "lockedonfalcons",
+      "label": "Locked On Falcons (Aaron Freeman) - daily Falcons podcast/insider",
+      "in_window": 18,
+      "top": [
+        {
+          "id": "2094178012401176853",
+          "text": "RT @RamsNFL: https://t.co/G4Wc6GZVLX",
+          "url": "https://x.com/lockedonfalcons/status/2094178012401176853",
+          "created": "Sun Aug 30 21:38:40 +0000 2026",
+          "likes": 24938,
+          "rts": 2210,
+          "replies": 265,
+          "views": 2362211
+        },
+        {
+          "id": "2094170343271469488",
+          "text": "RT @GervonDexter: Chicago, thank you for everything. 🐻🧡\n\nThese last 3 years have meant more to me than I can put into words. Thank you to t…",
+          "url": "https://x.com/lockedonfalcons/status/2094170343271469488",
+          "created": "Sun Aug 30 21:08:12 +0000 2026",
+          "likes": 10058,
+          "rts": 489,
+          "replies": 333,
+          "views": 240634
+        },
+        {
+          "id": "2095176183654560125",
+          "text": "RT @NFL: No. 3 on the NFL Top 100 Players of 2026…\n\n@AtlantaFalcons RB Bijan Robinson! @NFLFilms https://t.co/seqOFrSuVx",
+          "url": "https://x.com/lockedonfalcons/status/2095176183654560125",
+          "created": "Wed Sep 02 15:45:03 +0000 2026",
+          "likes": 8326,
+          "rts": 1256,
+          "replies": 307,
+          "views": 1283325
+        },
+        {
+          "id": "2094190849240486329",
+          "text": "RT @AtlantaFalcons: Our initial 53 😤\n\nhttps://t.co/FSagotT2Gt https://t.co/G27t2NL3sO",
+          "url": "https://x.com/lockedonfalcons/status/2094190849240486329",
+          "created": "Sun Aug 30 22:29:41 +0000 2026",
+          "likes": 1946,
+          "rts": 342,
+          "replies": 300,
+          "views": 1879864
+        },
+        {
+          "id": "2094183616075190338",
+          "text": "RT @ByDanielFlick: Source: Jack Strand has made the Falcons’ initial 53-man roster out of camp.",
+          "url": "https://x.com/lockedonfalcons/status/2094183616075190338",
+          "created": "Sun Aug 30 22:00:56 +0000 2026",
+          "likes": 1925,
+          "rts": 210,
+          "replies": 72,
+          "views": 209467
+        }
+      ]
+    }
+  ],
+  "youtube": [
+    {
+      "channel": "Atlanta Falcons",
+      "channel_id": "UCzjCfV3LHyarKbdb-2ScGZg",
+      "in_window": 10,
+      "videos": [
+        {
+          "title": "Za'Darius Smith is bringing the energy 🙌 #nfl #interview #veteran #zadariussmith #atlanta #falcons",
+          "video_id": "I3gZw3Ym2NE",
+          "published": "2026-09-02T18:00:00.000Z",
+          "url": "https://www.youtube.com/shorts/I3gZw3Ym2NE"
+        },
+        {
+          "title": "Exclusive interview with GM Ian Cunningham on 2026 initial 53-man roster | Atlanta Falcons",
+          "video_id": "Vk9BuOA2sSc",
+          "published": "2026-09-02T16:19:11.000Z",
+          "url": "https://www.youtube.com/watch?v=Vk9BuOA2sSc"
+        },
+        {
+          "title": "General Manager Ian Cunningham & Assistant GM Jeff Scott Initial 53-Man Roster Press Conference",
+          "video_id": "aq0m80TRdgQ",
+          "published": "2026-09-01T22:33:53.000Z",
+          "url": "https://www.youtube.com/watch?v=aq0m80TRdgQ"
+        },
+        {
+          "title": "Bijan Robinson | The prime example",
+          "video_id": "lBvMMrG5qt4",
+          "published": "2026-09-02T15:00:21.000Z",
+          "url": "https://www.youtube.com/watch?v=lBvMMrG5qt4"
+        },
+        {
+          "title": "What is in store for the 2026 Atlanta Falcons? | Season Preview",
+          "video_id": "jsqRH-0TPlI",
+          "published": "2026-09-01T23:00:21.000Z",
+          "url": "https://www.youtube.com/watch?v=jsqRH-0TPlI"
+        },
+        {
+          "title": "Breaking down the 2026 Atlanta Falcons roster | Falcons Audible Podcast",
+          "video_id": "5MZJy1TM34s",
+          "published": "2026-09-01T20:00:24.000Z",
+          "url": "https://www.youtube.com/watch?v=5MZJy1TM34s"
+        },
+        {
+          "title": "Asking players to shout out their college football teams 🗣️ #collegefootball",
+          "video_id": "sJtVwBUgWr8",
+          "published": "2026-09-01T19:58:20.000Z",
+          "url": "https://www.youtube.com/shorts/sJtVwBUgWr8"
+        },
+        {
+          "title": "Atlanta Falcons Initial 53-Man Roster | 2026",
+          "video_id": "Z_2pzkaX14c",
+          "published": "2026-08-30T23:30:20.000Z",
+          "url": "https://www.youtube.com/watch?v=Z_2pzkaX14c"
+        }
+      ],
+      "via": "rss"
+    },
+    {
+      "channel": "92.9 The Game",
+      "channel_id": "UCQ9sMMYqrUJT2hLURPwEFzQ",
+      "in_window": 15,
+      "videos": [
+        {
+          "title": "Braves manager Walt Weiss on the the NL East Pennant Race and more | The Steakhouse",
+          "video_id": "z8kAYdNCx4E",
+          "published": "2026-09-02T18:21:05.000Z",
+          "url": "https://www.youtube.com/watch?v=z8kAYdNCx4E"
+        },
+        {
+          "title": "Bijan Robinson vs. Drake London: Who could gain 1500 yards this season?",
+          "video_id": "VTcyzsHCZKk",
+          "published": "2026-09-02T18:00:12.000Z",
+          "url": "https://www.youtube.com/shorts/VTcyzsHCZKk"
+        },
+        {
+          "title": "Georgia Tech vs Colorado: What could we see from Mendoza in his first start?",
+          "video_id": "oNpa9glw4T8",
+          "published": "2026-09-02T17:46:39.000Z",
+          "url": "https://www.youtube.com/shorts/oNpa9glw4T8"
+        },
+        {
+          "title": "Georgia Tech must establish new identity with Alberto Mendoza | The Morning Shift",
+          "video_id": "NsfPv0UCWu8",
+          "published": "2026-09-02T17:22:58.000Z",
+          "url": "https://www.youtube.com/watch?v=NsfPv0UCWu8"
+        },
+        {
+          "title": "92.9 The Game LIVE",
+          "video_id": "2bo_ZzGjUVQ",
+          "published": "2026-09-02T16:34:48.000Z",
+          "url": "https://www.youtube.com/watch?v=2bo_ZzGjUVQ"
+        },
+        {
+          "title": "How important will Falcons' secondary be this season? | The Morning Shift",
+          "video_id": "TCqdNyqX5Tc",
+          "published": "2026-09-02T16:16:10.000Z",
+          "url": "https://www.youtube.com/watch?v=TCqdNyqX5Tc"
+        },
+        {
+          "title": "Ian Cunningham breaks down Falcons roster cuts, quarterback competition",
+          "video_id": "FjNHOe_x7Eo",
+          "published": "2026-09-02T15:52:17.000Z",
+          "url": "https://www.youtube.com/watch?v=FjNHOe_x7Eo"
+        },
+        {
+          "title": "Why the Braves' upcoming Phillies series is do-or-die",
+          "video_id": "YNaMhC-WL7c",
+          "published": "2026-09-02T15:40:47.000Z",
+          "url": "https://www.youtube.com/watch?v=YNaMhC-WL7c"
+        }
+      ],
+      "via": "rss"
+    },
+    {
+      "channel": "Locked On Falcons",
+      "channel_id": "UCf0YzYctxDlpPgYXxTwn8hw",
+      "in_window": 5,
+      "videos": [
+        {
+          "title": "COIN FLIP: Atlanta Falcons Face CRITICAL Michael Penix vs Tua Tagovailoa QB1 DECISION",
+          "video_id": "db9HJGxE8OA",
+          "published": "2026-09-02T01:30:06.000Z",
+          "url": "https://www.youtube.com/watch?v=db9HJGxE8OA"
+        },
+        {
+          "title": "Did the Falcons Make a Mistake Cutting Zach Harrison 🤔 #zachharrison #falcons #nfl",
+          "video_id": "Wx8Yx8qlp1w",
+          "published": "2026-09-02T00:33:23.000Z",
+          "url": "https://www.youtube.com/shorts/Wx8Yx8qlp1w"
+        },
+        {
+          "title": "SHOCKER: Atlanta Falcons DITCH Zach Harrison for 3 Fresh-Faced Waiver Claims | Roster Reaction",
+          "video_id": "bI-ohbmhdPo",
+          "published": "2026-09-01T01:00:06.000Z",
+          "url": "https://www.youtube.com/watch?v=bI-ohbmhdPo"
+        },
+        {
+          "title": "What the Gervon Dexter Trade Means for Atlanta 🤔 #gervondexter #falcons #nfl",
+          "video_id": "77dXcZwygGI",
+          "published": "2026-08-31T20:01:16.000Z",
+          "url": "https://www.youtube.com/shorts/77dXcZwygGI"
+        },
+        {
+          "title": "TRADE: Atlanta Falcons BET BIG on Gervon Dexter to Build Jeff Ulbrich's IDEAL Front! + Roster Cuts",
+          "video_id": "1e1j2TW5CKw",
+          "published": "2026-08-30T23:46:12.000Z",
+          "url": "https://www.youtube.com/watch?v=1e1j2TW5CKw"
+        }
+      ],
+      "via": "rss"
+    }
+  ],
+  "totals": {
+    "tweets": 90,
+    "videos": 30
+  }
+}

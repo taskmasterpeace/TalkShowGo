@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 /**
  * TalkShowGo CONVO ENGINE — FLOOR + MIX (lab rig v1)
- * Runs a beat card through per-host actor calls on local Ollama (cupcake), then a messiness pass.
- * Usage: node lab/engine/run_floor.mjs --beat=<beatcard.json> --out=<dir> [--provider=ollama|requesty] [--seed=42]
+ * Runs a beat card through per-host actor calls (default: each host's Model-DNA engine on OpenRouter), then a messiness pass.
+ * Usage: node lab/engine/run_floor.mjs --beat=<beatcard.json> --out=<dir> [--provider=openrouter|ollama|requesty] [--seed=42]
  * Every host turn = ONE call carrying ONLY that host's locked bundle + its evidence subset. No host sees withheld receipts.
+ * Guards: fact guards (spoken ids, protected facts, invented numbers) run for EVERY host; STYLE guards (anaphora,
+ * end-name tic, catchphrase cap, exemplar/self repeat) are a per-host dial - cast.json `guards.style:false` turns them off.
  */
 import fs from 'node:fs'
 import path from 'node:path'
@@ -33,14 +35,21 @@ const MODELS = {
   'king-knowledge': process.env.ENGINE_MODEL_KK || 'qwen3:30b',
   '_mix': process.env.ENGINE_MODEL_MIX || 'qwen3:30b',
 }
-const PROVIDER = ARG.provider || 'ollama'
+const PROVIDER = ARG.provider || 'openrouter'   // the 2026-09-02 lineup lives on OpenRouter (cast.json model.dna_id); ollama = the free local fallback
 
 // ---------- utils ----------
 const J = p => JSON.parse(fs.readFileSync(p, 'utf8'))
 function rng(seed) { let t = seed >>> 0; return () => { t += 0x6D2B79F5; let r = Math.imul(t ^ t >>> 15, 1 | t); r ^= r + Math.imul(r ^ r >>> 7, 61 | r); return ((r ^ r >>> 14) >>> 0) / 4294967296 } }
 const words = s => (s.trim().match(/\S+/g) || []).length
 const stripThink = s => s.replace(/<think>[\s\S]*?<\/think>/g, '').replace(/^[\s\S]*?<\/think>\s*/, '').trim() // also handles a missing opening tag
-function readEnvKey(name) { try { const m = fs.readFileSync(path.join(ROOT, '.env'), 'utf8').match(new RegExp('^' + name + '=(.+)$', 'm')); return m ? m[1].trim() : null } catch { return null } }
+// key precedence: process env (the app hydrates it from lab/settings/keys.json at boot) > .env > lab/settings/keys.json
+// (a key pasted in the SETTINGS page). A missing .env is fine — a distributed install may never have one.
+function readEnvKey(name) {
+  const e = process.env[name]; if (e && String(e).trim()) return String(e).trim()
+  try { const m = fs.readFileSync(path.join(ROOT, '.env'), 'utf8').match(new RegExp('^' + name + '=(.+)$', 'm')); if (m) return m[1].trim() } catch { /* no .env */ }
+  try { const v = JSON.parse(fs.readFileSync(path.join(ROOT, 'lab', 'settings', 'keys.json'), 'utf8'))[name]; if (v && String(v).trim()) return String(v).trim() } catch { /* no settings file */ }
+  return null
+}
 
 // --provider=openrouter routes each host's turn to its Model-DNA engine (the proven cheap models).
 // This is the fix DELIVERY.md named for the writer ceiling: a stronger conversationalist per seat.
@@ -91,7 +100,12 @@ async function callOpenRouter(model, system, user, temperature, max_tokens = 200
   for (let attempt = 1; attempt <= 3; attempt++) {
     try {
       const res = await fetch('https://openrouter.ai/api/v1/chat/completions', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + OR_KEY }, body: JSON.stringify(body), signal: AbortSignal.timeout(120000) })
-      if (!res.ok) throw new Error('openrouter ' + res.status + ' ' + (await res.text()).slice(0, 160))
+      if (!res.ok) {
+        const txt = (await res.text()).slice(0, 160)
+        // an open-weight route that refuses JSON mode (400 on response_format): drop it, the prompt already demands strict JSON
+        if (res.status === 400 && body.response_format && /response_format|json/i.test(txt)) { delete body.response_format; console.error(`  ${model}: no json mode on this route, retrying plain`); continue }
+        throw new Error('openrouter ' + res.status + ' ' + txt)
+      }
       return stripThink((await res.json()).choices?.[0]?.message?.content || '')
     } catch (e) { lastErr = e; console.error(`  retry ${attempt}/3 after: ${e.message}`); await new Promise(r => setTimeout(r, attempt * 3000)) }
   }
@@ -135,7 +149,7 @@ function hostSystem(host, beat, evTexts, evMeta, sharedLaws) {
     `OUTPUT STRICT JSON, nothing else: {"line":"what you say - pure human speech, no ids, no brackets","delivery":"3-6 word emotional direction","addressed_to":"${ADDRESS_ENUM}","evidence":["E6"]}`,
   ].join('\n\n')
 }
-let ADDRESS_ENUM = 'marcus-blaze|tasha-raw|king-knowledge|null'   // rebuilt from the beat's participants in main()
+let ADDRESS_ENUM = 'marcus-blaze|tasha-raw|king-knowledge|champagne-dwayne|null'   // rebuilt from the beat's participants in main()
 function parseTurn(raw) {
   try {
     const m = raw.match(/\{[\s\S]*\}/)
@@ -168,13 +182,19 @@ async function main() {
     if (d.dna_id) DNA[d.id] = FLOOR_SUB[d.dna_id] || d.dna_id
   }
   for (const h of (beat.delegates?.human || [])) if (!hosts[h.id]) hosts[h.id] = { id: h.id, name: h.name, kind: 'human', behavior: { verbosity: 1, interruption_rate: 0, backchannel_rate: 0 }, model: { temperature: 0 }, catchphrase_rare: [] }
-  const speakers = (beat.participants || []).length ? (beat.participants || []).filter(p => p.kind !== 'human').map(p => hosts[p.id]).filter(Boolean) : cast.hosts
+  // older cards without a participants list: seat the house hosts the card actually briefed (a stance), never the
+  // whole cast - a fourth host (Dwayne) must never appear on a floor that gave him no stance and no receipts
+  const briefed = cast.hosts.filter(h => beat.stances && beat.stances[h.id] !== undefined)
+  const speakers = (beat.participants || []).length ? (beat.participants || []).filter(p => p.kind !== 'human').map(p => hosts[p.id]).filter(Boolean) : (briefed.length >= 2 ? briefed : cast.hosts)
   ADDRESS_ENUM = [...speakers.map(s => s.id), ...(beat.delegates?.human || []).map(h => h.id), 'null'].join('|')
+  // guards.style is the per-host DIAL (cast.json shared_rules.guards_law); fact guards are never dialed
+  const styleGuards = id => hosts[id]?.guards?.style !== false
+  console.error(`floor: ${PROVIDER} · ` + speakers.map(s => `${s.id}=${PROVIDER === 'openrouter' ? (DNA[s.id] || DNA._mix) : PROVIDER === 'requesty' ? 'requesty' : (MODELS[s.id] || MODELS._mix)}${styleGuards(s.id) ? '' : ' [no style guards]'}`).join(' · '))
   const outDir = path.resolve(ARG.out || path.join(ROOT, 'lab', 'engine', 'runs', 'run_' + Date.now()))
   fs.mkdirSync(outDir, { recursive: true })
   const rand = rng(Number(ARG.seed || 42))
   const laws = cast.shared_rules.conversation_laws.join(' | ')
-  const BC = { 'king-knowledge': ['Mm.', 'Whew.', 'Hm.'], 'marcus-blaze': ['Okay okay.', 'Nah.', 'Come ON.'], 'tasha-raw': ['Right.', 'Cap.', 'Mmhm.'] }
+  const BC = { 'king-knowledge': ['Mm.', 'Whew.', 'Hm.'], 'marcus-blaze': ['Okay okay.', 'Nah.', 'Come ON.'], 'tasha-raw': ['Right.', 'Cap.', 'Mmhm.'], 'champagne-dwayne': ['Mm-hm.', 'Okay now.', 'Look at you.'] }
 
   const turns = []
   let spoken = 0, turnNo = 0, kkDropped = false, detonated = new Set()
@@ -185,41 +205,46 @@ async function main() {
   const SPELLED = { one: '1', two: '2', three: '3', four: '4', five: '5', six: '6', seven: '7', eight: '8', nine: '9', ten: '10' }
   const ngrams = (s, n) => { const w = s.toLowerCase().match(/[a-z']+/g) || []; const out = []; for (let i = 0; i + n <= w.length; i++) out.push(w.slice(i, i + n).join(' ')); return out }
   function badTurn(hostId, line) {
+    // ---- FACT guards: never a dial, every host, every turn ----
     if (/\bE\d+\b/.test(line)) return 'you said an evidence id out loud; humans say the FACT, never the label'
     // protected facts: phrasings the beat card explicitly bans (fact-precision on real people)
     for (const pf of (beat.protected_facts || [])) for (const b of pf.banned_phrasings) if (line.toLowerCase().includes(b.toLowerCase())) return 'FACT PRECISION: ' + pf.note
-    // anaphora guard: a 3-word phrase said 2x is dead; a 2-word phrase said 3x is dead (kills short-volley tennis)
-    // ...but FACTS are never tics: n-grams carrying the beat's core fact tokens are exempt (banning "she said 'you'" starved run_008)
-    const exempt = beat.anaphora_exempt || []
-    for (const [n, cap] of [[3, 2], [2, 3]]) {
-      const counts = {}
-      for (const t of turns) for (const g of new Set(ngrams(t.line, n))) counts[g] = (counts[g] || 0) + 1
-      for (const g of new Set(ngrams(line, n))) {
-        if (exempt.some(e => g.includes(e))) continue
-        if (counts[g] >= cap) return `the phrase "${g}" has been beaten to death in this room - that phrasing is DEAD, find completely new words`
-      }
-    }
     // numeric hallucination guard: any number not in this host's receipts NOR already spoken on the floor is invented
     const allowedText = ((beat.allowed_evidence[hostId] || []).map(id => evTexts[id] || '').join(' ') + ' ' + beat.question + ' ' + turns.map(t => t.line).join(' '))
     const allowedNums = new Set(allowedText.toLowerCase().replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b/g, m => SPELLED[m]).match(/\d+/g) || [])
     const lineNums = (line.toLowerCase().replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b/g, m => SPELLED[m]).match(/\d+/g) || [])
     for (const n of lineNums) if (!allowedNums.has(n)) return `the number ${n} is not in your receipts; you invented it - drop the number or use a fact you actually hold`
-    // end-name tic: ending every line with your opponent's name reads fake fast
-    const endsWithName = l => /,?\s+(marcus|tasha|king)[.!?"']*\s*$/i.test(l.trim())
-    if (endsWithName(line) && turns.filter(t => t.id === hostId && endsWithName(t.line)).length >= 2) return 'you keep ending your lines with his name - it has become a tic; end this line on the POINT instead'
-    // catchphrase law: yours max once per episode, another host's NEVER
-    for (const h of cast.hosts) for (const c of (h.catchphrase_rare || [])) {
-      const stem = c.toLowerCase().replace(/[^a-z]/g, '').slice(0, Math.max(4, c.length - 2)) // "Periodt" also catches the "Period." dodge
-      const hasIt = l => l.toLowerCase().replace(/[^a-z ]/g, '').split(/\s+/).some(w => w.startsWith(stem))
-      if (hasIt(line)) {
-        if (h.id !== hostId) return `"${c}" is ${h.name}'s signature, not yours - never use another host's words`
-        if (turns.some(t => t.id === hostId && hasIt(t.line))) return `you already used your catchphrase "${c}" (or a variant of it) this episode - once is the cap`
+    // ---- STYLE guards: the per-host dial (cast.json guards.style; false = an unfiltered host, no tic policing) ----
+    if (styleGuards(hostId)) {
+      // anaphora guard: a 3-word phrase said 2x is dead; a 2-word phrase said 3x is dead (kills short-volley tennis)
+      // ...but FACTS are never tics: n-grams carrying the beat's core fact tokens are exempt (banning "she said 'you'" starved run_008)
+      const exempt = beat.anaphora_exempt || []
+      for (const [n, cap] of [[3, 2], [2, 3]]) {
+        const counts = {}
+        for (const t of turns) for (const g of new Set(ngrams(t.line, n))) counts[g] = (counts[g] || 0) + 1
+        for (const g of new Set(ngrams(line, n))) {
+          if (exempt.some(e => g.includes(e))) continue
+          if (counts[g] >= cap) return `the phrase "${g}" has been beaten to death in this room - that phrasing is DEAD, find completely new words`
+        }
       }
+      // end-name tic: ending every line with your opponent's name reads fake fast
+      const endsWithName = l => /,?\s+(marcus|blaze|tasha|king|knowledge|champagne|dwayne)[.!?"']*\s*$/i.test(l.trim())
+      if (endsWithName(line) && turns.filter(t => t.id === hostId && endsWithName(t.line)).length >= 2) return 'you keep ending your lines with his name - it has become a tic; end this line on the POINT instead'
+      // catchphrase law: yours max once per episode, another host's NEVER
+      for (const h of cast.hosts) for (const c of (h.catchphrase_rare || [])) {
+        const stem = c.toLowerCase().replace(/[^a-z]/g, '').slice(0, Math.max(4, c.length - 2)) // "Periodt" also catches the "Period." dodge
+        const hasIt = l => l.toLowerCase().replace(/[^a-z ]/g, '').split(/\s+/).some(w => w.startsWith(stem))
+        if (hasIt(line)) {
+          if (h.id !== hostId) return `"${c}" is ${h.name}'s signature, not yours - never use another host's words`
+          if (turns.some(t => t.id === hostId && hasIt(t.line))) return `you already used your catchphrase "${c}" (or a variant of it) this episode - once is the cap`
+        }
+      }
+      // exemplar / self repeat: a draft that is mostly the room's last lines or the host's own known lines
+      const recent = turns.slice(-3).map(t => t.line)
+      const exemplars = hosts[hostId].print?.things_they_say?.signature_lines || hosts[hostId].exemplars?.signature_lines || []
+      const ownPast = turns.filter(t => t.id === hostId).map(t => t.line)
+      for (const prev of [...recent, ...exemplars, ...ownPast]) if (jaccard(line, prev) > 0.55) return 'your draft repeated the room or your own known lines; say something NEW that advances the argument'
     }
-    const recent = turns.slice(-3).map(t => t.line)
-    const exemplars = hosts[hostId].print?.things_they_say?.signature_lines || hosts[hostId].exemplars?.signature_lines || []
-    const ownPast = turns.filter(t => t.id === hostId).map(t => t.line)
-    for (const prev of [...recent, ...exemplars, ...ownPast]) if (jaccard(line, prev) > 0.55) return 'your draft repeated the room or your own known lines; say something NEW that advances the argument'
     return null
   }
   async function speak(hostId, instruction, tag) {
@@ -363,7 +388,12 @@ async function main() {
   } catch (e) { console.error('MIX failed: ' + e.message + ' — keeping raw') }
   fs.writeFileSync(path.join(outDir, 'segment_final.md'), finalMd)
   fs.writeFileSync(path.join(outDir, 'turns.json'), JSON.stringify(turns, null, 2))
-  fs.writeFileSync(path.join(outDir, 'meta.json'), JSON.stringify({ beat: beat.id, provider: PROVIDER, models: MODELS, seed: Number(ARG.seed || 42), turns: turns.length, spoken_words: spoken, finished: new Date().toISOString() }, null, 2))
+  // meta records the EFFECTIVE lineup this run spoke on (per seat + the mix), the declared Model DNA, and each seat's guard dial
+  const effectiveModel = id => PROVIDER === 'openrouter' ? (DNA[id] || DNA._mix) : PROVIDER === 'requesty' ? (process.env.ENGINE_REQUESTY_MODEL || 'anthropic/claude-sonnet-4-20250514') : (MODELS[id] || MODELS._mix)
+  const models = Object.fromEntries([...speakers.map(s => s.id), '_mix'].map(id => [id, effectiveModel(id)]))
+  const dna = Object.fromEntries(speakers.map(s => [s.id, hosts[s.id]?.model?.dna_id || null]))
+  const guards = Object.fromEntries(speakers.map(s => [s.id, { style: styleGuards(s.id) }]))
+  fs.writeFileSync(path.join(outDir, 'meta.json'), JSON.stringify({ beat: beat.id, provider: PROVIDER, models, dna, guards, seed: Number(ARG.seed || 42), turns: turns.length, spoken_words: spoken, finished: new Date().toISOString() }, null, 2))
   console.log(outDir)
 }
 main().catch(e => { console.error('FATAL: ' + e.message); process.exit(1) })

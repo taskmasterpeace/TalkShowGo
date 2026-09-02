@@ -1,0 +1,267 @@
+{
+  "pulled_from": "pull_2026-09-02T18-39-43-844_atlanta-falcons.json",
+  "beat": "atlanta-falcons",
+  "mined_at": "2026-09-02T18:41:17.885Z",
+  "feed_count": 46,
+  "ms": 6226,
+  "truncated": false,
+  "counts": {
+    "total": 25,
+    "auto": 0,
+    "expand": 10,
+    "store": 15,
+    "ignore": 0
+  },
+  "leads": [
+    {
+      "id": "L001",
+      "type": "PERSON",
+      "value": "Gervon Dexter",
+      "why": "Mentioned in multiple tweets and YouTube videos regarding a trade and his potential impact on the defensive line. Could lead to interviews or statements from him or the team about the trade.",
+      "destination": "X",
+      "query": "Gervon Dexter trade Falcons",
+      "score": 75,
+      "band": "expand"
+    },
+    {
+      "id": "L002",
+      "type": "PERSON",
+      "value": "Bijan Robinson",
+      "why": "Ranked #3 on the #NFLTop100, with multiple tweets and videos highlighting his performance and potential. Could lead to interviews or fan reactions.",
+      "destination": "X",
+      "query": "Bijan Robinson NFL Top 100",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L005",
+      "type": "PERSON",
+      "value": "Ian Cunningham",
+      "why": "Falcons GM quoted multiple times on competing for playoffs, draft strategy, and player acquisitions. Could lead to further interviews or press conferences.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Ian Cunningham Falcons GM press conference 2026",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L003",
+      "type": "PERSON",
+      "value": "Avieon Terrell",
+      "why": "Mentioned as being in line to start at nickel and quoted on his role. Could lead to further interviews or analysis of his play.",
+      "destination": "WEB",
+      "query": "Avieon Terrell Falcons nickel corner",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L011",
+      "type": "PERSON",
+      "value": "Michael Penix Jr.",
+      "why": "Mentioned in a YouTube title as part of a QB1 decision. Could lead to analysis or debate about the starting quarterback situation.",
+      "destination": "YOUTUBE_CURRENT",
+      "query": "Michael Penix Jr. Atlanta Falcons QB1 decision",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L012",
+      "type": "PERSON",
+      "value": "Tua Tagovailoa",
+      "why": "Mentioned in a YouTube title as part of a QB1 decision. Could lead to analysis or debate about the starting quarterback situation.",
+      "destination": "YOUTUBE_CURRENT",
+      "query": "Tua Tagovailoa Atlanta Falcons QB1 decision",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L004",
+      "type": "CLAIM",
+      "value": "Falcons set a franchise-record 57 sacks last year, with only 16 returning for Week 1.",
+      "why": "This statistic highlights a significant potential weakness or change in the team's defensive line production. Could lead to analysis or commentary on the impact.",
+      "destination": "X",
+      "query": "Atlanta Falcons 57 sacks franchise record 2025",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L010",
+      "type": "PERSON",
+      "value": "Za'Darius Smith",
+      "why": "Featured in a YouTube interview, suggesting he's a notable player for the Falcons this season. Could lead to more in-depth analysis of his role.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Za'Darius Smith Atlanta Falcons interview 2026",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L013",
+      "type": "PERSON",
+      "value": "Zach Harrison",
+      "why": "Multiple YouTube titles suggest he was cut or waived, with discussion about whether it was a mistake. Could lead to more detailed explanations of the decision.",
+      "destination": "YOUTUBE_CURRENT",
+      "query": "Zach Harrison Falcons cut",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L023",
+      "type": "QUOTE",
+      "value": "\"We're competing to make the playoffs. ... That's the main goal.\"",
+      "why": "A direct quote from Falcons GM Ian Cunningham outlining the team's primary objective. Could lead to further discussion on their playoff chances.",
+      "destination": "X",
+      "query": "Ian Cunningham Falcons playoff goal quote",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L006",
+      "type": "PERSON",
+      "value": "James Pearce",
+      "why": "Mentioned as being suspended and unable to have contact until after Week 5. Could lead to more information on the suspension and his return plan.",
+      "destination": "X",
+      "query": "James Pearce Falcons suspension",
+      "score": 55,
+      "band": "store"
+    },
+    {
+      "id": "L020",
+      "type": "PERSON",
+      "value": "Drake London",
+      "why": "Included in a YouTube title comparing his potential yardage to Bijan Robinson's. Could lead to analysis of his role and expectations.",
+      "destination": "YOUTUBE_CURRENT",
+      "query": "Drake London vs Bijan Robinson 1500 yards",
+      "score": 55,
+      "band": "store"
+    },
+    {
+      "id": "L021",
+      "type": "PERSON",
+      "value": "Alberto Mendoza",
+      "why": "Mentioned in YouTube titles regarding his first start and establishing a new identity for Georgia Tech. Could lead to analysis of his performance.",
+      "destination": "YOUTUBE_CURRENT",
+      "query": "Alberto Mendoza Georgia Tech first start",
+      "score": 55,
+      "band": "store"
+    },
+    {
+      "id": "L007",
+      "type": "PERSON",
+      "value": "Billy Bowman",
+      "why": "Mentioned as a 'ball hawk' with a video link. Could lead to highlights or analysis of his play.",
+      "destination": "YOUTUBE_CURRENT",
+      "query": "Billy Bowman Falcons highlights",
+      "score": 50,
+      "band": "store"
+    },
+    {
+      "id": "L008",
+      "type": "PERSON",
+      "value": "JD Bertrand",
+      "why": "Placed on IR, indicating a significant roster move and potential injury. Could lead to more details on the injury and his outlook.",
+      "destination": "X",
+      "query": "JD Bertrand Falcons injury IR",
+      "score": 50,
+      "band": "store"
+    },
+    {
+      "id": "L018",
+      "type": "PERSON",
+      "value": "Brian Robinson",
+      "why": "Question posed about how much of him will be seen. Could lead to analysis of his playing time and role.",
+      "destination": "X",
+      "query": "Brian Robinson Falcons playing time",
+      "score": 50,
+      "band": "store"
+    },
+    {
+      "id": "L019",
+      "type": "PERSON",
+      "value": "Jonathan Kuminga",
+      "why": "Question posed about when he was the Hawks' best player. Could lead to analysis of his past performance and current status.",
+      "destination": "X",
+      "query": "Jonathan Kuminga Hawks best player",
+      "score": 50,
+      "band": "store"
+    },
+    {
+      "id": "L022",
+      "type": "PERSON",
+      "value": "Walt Weiss",
+      "why": "Braves manager interviewed about the NL East Pennant Race. Could lead to more details on the race and team strategy.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Walt Weiss Braves NL East Pennant Race interview",
+      "score": 50,
+      "band": "store"
+    },
+    {
+      "id": "L009",
+      "type": "PERSON",
+      "value": "Josh Woods",
+      "why": "Signed to the 53-man roster. Could lead to information about his role or background with the team.",
+      "destination": "X",
+      "query": "Josh Woods Falcons signing",
+      "score": 45,
+      "band": "store"
+    },
+    {
+      "id": "L014",
+      "type": "PERSON",
+      "value": "Jack Strand",
+      "why": "Mentioned as making the initial 53-man roster. Could lead to information about his background and potential role.",
+      "destination": "X",
+      "query": "Jack Strand Falcons roster",
+      "score": 45,
+      "band": "store"
+    },
+    {
+      "id": "L024",
+      "type": "QUOTE",
+      "value": "\"One of them boys that’ll take it 85 yards if you ain’t ready\"",
+      "why": "A quote describing Bijan Robinson's playmaking ability. Could lead to more scouting reports or fan reactions.",
+      "destination": "X",
+      "query": "Bijan Robinson 85 yards quote",
+      "score": 45,
+      "band": "store"
+    },
+    {
+      "id": "L025",
+      "type": "QUOTE",
+      "value": "\"That boy cut back on me so fast\"",
+      "why": "A quote describing Bijan Robinson's agility. Could lead to more scouting reports or fan reactions.",
+      "destination": "X",
+      "query": "Bijan Robinson cut back fast quote",
+      "score": 45,
+      "band": "store"
+    },
+    {
+      "id": "L015",
+      "type": "PERSON",
+      "value": "Jourdan Rodrigue",
+      "why": "Mentioned in relation to an NFL list. Could lead to the list itself or further commentary.",
+      "destination": "X",
+      "query": "Jourdan Rodrigue NFL list",
+      "score": 40,
+      "band": "store"
+    },
+    {
+      "id": "L016",
+      "type": "PERSON",
+      "value": "Mike Jones",
+      "why": "Mentioned in relation to an NFL list. Could lead to the list itself or further commentary.",
+      "destination": "X",
+      "query": "Mike Jones NFL list",
+      "score": 40,
+      "band": "store"
+    },
+    {
+      "id": "L017",
+      "type": "PERSON",
+      "value": "P.J. Schrager",
+      "why": "Congratulated for his career progression. Could lead to more information about his background and current role.",
+      "destination": "X",
+      "query": "P.J. Schrager NFL career",
+      "score": 40,
+      "band": "store"
+    }
+  ]
+}

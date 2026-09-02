@@ -1,0 +1,123 @@
+{
+  "pulled_from": "clusters_2026-08-31T18-49-49.json",
+  "beat": "battle-rap",
+  "ranked_at": "2026-09-01T21:53:49.902Z",
+  "format": "debate",
+  "counts": {
+    "total": 8,
+    "debatable": 5
+  },
+  "ms": 3839,
+  "usage": {
+    "prompt_tokens": 1752,
+    "completion_tokens": 1187,
+    "total_tokens": 2939,
+    "cost": 0.00065,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.00065,
+      "upstream_inference_prompt_cost": 0.0001752,
+      "upstream_inference_completions_cost": 0.0004748
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "ranked": [
+    {
+      "title": "Robert O'Neill on Charlie Kirk, Israel, Iran, UFOs",
+      "show_value": 85,
+      "rationale": "High-profile figure, wide range of controversial and speculative topics, strong opinion potential.",
+      "best_angle": "Can a former Navy SEAL's insights on geopolitical conflicts and UFOs be trusted?",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "O'Neill's geopolitical and UFO claims are credible and insightful.",
+        "O'Neill's commentary on these topics is speculative and lacks sufficient expertise."
+      ],
+      "debatable": true
+    },
+    {
+      "title": "Keefe D Trial Developments",
+      "show_value": 80,
+      "rationale": "High-profile murder trial with significant evidence presented, very recent developments, high public interest.",
+      "best_angle": "Did Keefe D's actions directly lead to Tupac's murder, and is the evidence presented sufficient for conviction?",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "The prosecution has presented compelling evidence that Keefe D is guilty of orchestrating Tupac's murder.",
+        "The evidence against Keefe D is circumstantial and does not prove his direct involvement in the murder."
+      ],
+      "debatable": true
+    },
+    {
+      "title": "Kai Cenat's Involvement in Summer Madness XVI and Related Events",
+      "show_value": 75,
+      "rationale": "Popular streamer entering a rap battle event, generates buzz and discussion, potential for comedic and opinionated takes.",
+      "best_angle": "Is Kai Cenat's foray into rap battling a genuine artistic endeavor or a publicity stunt, and does it legitimize or dilute the battle rap scene?",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "Kai Cenat's participation brings valuable new attention and energy to the battle rap community.",
+        "Kai Cenat's involvement is a superficial stunt that detracts from the authenticity and skill of established battle rappe"
+      ],
+      "debatable": true
+    },
+    {
+      "title": "Hit-Boy Discusses Ghostwriting",
+      "show_value": 65,
+      "rationale": "Prominent producer making claims about ghostwriting, touches on a sensitive and debated topic in hip-hop.",
+      "best_angle": "Should artists who ghostwrite receive credit, and does Hit-Boy's history of it diminish his own legacy?",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "Ghostwriting is a legitimate part of the music industry, and Hit-Boy's contributions should be acknowledged.",
+        "Ghostwriting undermines artistic integrity, and Hit-Boy's claims suggest a lack of original contribution."
+      ],
+      "debatable": true
+    },
+    {
+      "title": "Ill Will vs. Chess at Summer Madness XVI",
+      "show_value": 50,
+      "rationale": "Specific battle rap matchup, but lacks broader appeal or controversy beyond the core fanbase.",
+      "best_angle": "Who will win the Ill Will vs. Chess battle, and what does this matchup signify for the future of URLTV?",
+      "best_format": "hot-take",
+      "contrasting_viewpoints": [
+        "Ill Will's aggressive style and experience give him the edge over Chess.",
+        "Chess's lyrical prowess and strategic approach will overcome Ill Will."
+      ],
+      "debatable": true
+    },
+    {
+      "title": "5X Killer Brian Glaze Gibbs' Views on Preacher Killing",
+      "show_value": 40,
+      "rationale": "Morbid and sensational topic, but limited scope and potential for genuine debate beyond shock value.",
+      "best_angle": "What does the perspective of a convicted killer reveal about the nature of crime and justice?",
+      "best_format": "interview",
+      "contrasting_viewpoints": [],
+      "debatable": false
+    },
+    {
+      "title": "Reed Dollaz Retires",
+      "show_value": 35,
+      "rationale": "Announcement of retirement from a niche figure, limited broad appeal or immediate debate potential.",
+      "best_angle": "What is Reed Dollaz's legacy in battle rap, and is his retirement a significant loss for the scene?",
+      "best_format": "hot-take",
+      "contrasting_viewpoints": [],
+      "debatable": false
+    },
+    {
+      "title": "Rain's Performance in Don't Quote Me Cypher",
+      "show_value": 20,
+      "rationale": "Focus on a single artist's performance in a cypher, lacks a clear debate angle or broad newsworthiness.",
+      "best_angle": "Is Rain's performance in the Don't Quote Me Cypher a sign of emerging talent?",
+      "best_format": "explainer",
+      "contrasting_viewpoints": [],
+      "debatable": false
+    }
+  ]
+}

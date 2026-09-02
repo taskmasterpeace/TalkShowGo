@@ -15,12 +15,16 @@ export default function Sources() {
   const [name, setName] = useState('')
   const [resolved, setResolved] = useState<any>(undefined)   // undefined = untouched, null = no match
   const [resolveErr, setResolveErr] = useState<string | null>(null)
-  // AUTO-ADD 3+ VIDS (Robert 2026-09-01): a channel with three-plus videos on the topic inside the window joins the
-  // beat on its own. Default ON, remembered per browser like the beat picker. X never auto-adds (needs a userId).
+  // Robert 2026-09-02: "It should suggest channels but allow you to verify it." The scout SUGGESTS every channel with
+  // three-plus videos on the topic inside the window; a human ADDs or DISMISSes. AUTO-ADD (no review) skips the
+  // review: OFF on a fresh browser, remembered per browser once the owner turns it on. X never auto-adds (needs a userId).
   const AUTO_KEY = 'tsg_scout_auto'
-  const [auto, setAuto] = useState(true)
-  useEffect(() => { try { const s = localStorage.getItem(AUTO_KEY); if (s === '0') setAuto(false) } catch {} }, [])
+  const [auto, setAuto] = useState(false)
+  useEffect(() => { try { const s = localStorage.getItem(AUTO_KEY); if (s === '1') setAuto(true) } catch {} }, [])
   const toggleAuto = () => { const n = !auto; setAuto(n); try { localStorage.setItem(AUTO_KEY, n ? '1' : '0') } catch {} }
+  // EXPLORE: the beat's own topics (cases, top story clusters, the show name) -> channels it has never used
+  const [explored, setExplored] = useState<any>(null)
+  const [exploreErr, setExploreErr] = useState<string | null>(null)
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { beat, beats, pick } = useBeat(state)
@@ -87,6 +91,26 @@ export default function Sources() {
     catch (e: any) { setResolveErr(String(e?.message || e)) }
     finally { setBusy(null) }
   }
+  const runExplore = async () => {
+    if (busy) return
+    setBusy('explore'); setExploreErr(null)
+    try { setExplored(await scoutPost({ explore: true, beat_file: beat.file, hours: 168 })) }
+    catch (e: any) { setExploreErr(String(e?.message || e)) }
+    finally { setBusy(null) }
+  }
+  // a human said no: the channel lands on lab/scout/dismissed_<beat>.json and is never suggested again
+  const dismissSuggestion = async (s: any) => {
+    const dk = 'dismiss:' + s.channel_id
+    if (busy) return
+    setBusy(dk); setScoutErr(null)
+    try {
+      await scoutPost({ dismiss: { beat_file: beat.file, channel_id: s.channel_id, channel_name: s.channel_name } })
+      setScout((cur: any) => cur ? { ...cur, suggested: (cur.suggested || []).filter((x: any) => x.channel_id !== s.channel_id) } : cur)
+      setExplored((cur: any) => cur ? { ...cur, explored: (cur.explored || []).map((e: any) => ({ ...e, suggested: (e.suggested || []).filter((x: any) => x.channel_id !== s.channel_id) })) } : cur)
+      setFlash('DISMISSED ' + String(s.channel_name).toUpperCase()); setTimeout(() => setFlash(null), 1600)
+    } catch (e: any) { setScoutErr('DISMISS FAILED: ' + String(e?.message || e)) }
+    finally { setBusy(null) }
+  }
   // live against the CURRENT beat (server flags go stale the moment the picker switches beats)
   const inBeatYt = (id?: string | null) => !!id && yt.some((c: any) => c.channel_id === id)
   const inBeatTw = (h?: string | null) => !!h && tw.some((s: any) => String(s.handle || '').toLowerCase() === String(h).replace(/^@/, '').toLowerCase())
@@ -99,6 +123,44 @@ export default function Sources() {
     catch (e: any) { setScoutErr('ADD FAILED: ' + String(e?.message || e)) }
     finally { setBusy(null) }
   }
+
+  // a suggested channel (from SCOUT or EXPLORE): who · how many inside the window · why · ADD (verified) / DISMISS (never again)
+  const suggestionTable = (list: any[], hours: number) => (
+    <div className="overflow-x-auto">
+      <table className="cmd-table">
+        <thead><tr><th>CHANNEL</th><th>IN WINDOW</th><th>WHY</th><th /></tr></thead>
+        <tbody>
+          {list.map((s: any) => {
+            const k = 'add:yt:' + s.channel_id, dk = 'dismiss:' + s.channel_id
+            const inBeat = inBeatYt(s.channel_id)
+            return (
+              <tr key={s.channel_id}>
+                <td style={{ minWidth: 170 }}>
+                  <div className="flex items-center gap-2">
+                    <div><div style={{ color: 'var(--cmd-ink)' }}>{s.channel_name}</div>{s.handle && <div className="cmd-kbd" style={{ color: 'var(--cmd-cyan)' }}>{s.handle}</div>}</div>
+                    {s.url && <a href={s.url} target="_blank" rel="noreferrer" className="chip info" style={{ textDecoration: 'none' }} title="open the channel - eyeball it's the right one before you ADD">↗</a>}
+                  </div>
+                </td>
+                <td><span className="chip warn" title={`${s.in_window} videos inside the last ${hours}h (${s.video_count} on the topic overall)`}>{s.in_window} IN {hours}H</span></td>
+                <td style={{ color: 'var(--cmd-dim)' }}>
+                  {s.reason}
+                  {s.latest_title && <div className="cmd-kbd truncate" style={{ maxWidth: 340 }} title={s.latest_title}>{s.latest_url ? <a href={s.latest_url} target="_blank" rel="noreferrer" style={{ color: 'inherit', textDecoration: 'none' }}>{s.latest_title}</a> : s.latest_title}</div>}
+                </td>
+                <td style={{ whiteSpace: 'nowrap' }}>
+                  <div className="flex items-center gap-2">
+                    {inBeat
+                      ? <span className="chip ok">IN BEAT</span>
+                      : <button className="cmd-btn ghost" disabled={busy !== null} onClick={() => scoutAdd(k, { youtube: { channel_id: s.channel_id, channel_name: s.channel_name, subscribers: s.handle } }, s.channel_name)}>{busy === k ? 'ADDING…' : '✓ ADD'}</button>}
+                    {!inBeat && <button className="cmd-btn ghost" disabled={busy !== null} onClick={() => dismissSuggestion(s)} title="never suggest this channel again for this beat">{busy === dk ? '…' : '✕ DISMISS'}</button>}
+                  </div>
+                </td>
+              </tr>
+            )
+          })}
+        </tbody>
+      </table>
+    </div>
+  )
 
   // one resolved-channel row (the pick, or an alternate): title · @handle · subs · id · open · ADD/IN BEAT
   const channelRow = (c: any, suspect = false) => {
@@ -176,21 +238,32 @@ export default function Sources() {
               </select>
             </div>
             <button className="cmd-btn primary" disabled={busy !== null || topic.trim().length < 2} onClick={runScout}>{busy === 'scout' ? 'SCOUTING…' : 'SCOUT'}</button>
-            <button type="button" role="switch" aria-checked={auto} className="cmd-btn ghost" disabled={busy !== null} onClick={toggleAuto} title="auto-add = 3+ videos on the topic inside the window, real channel id, not already in the beat. X handles are never auto-added (they need the verify flow's userId).">
-              AUTO-ADD 3+ VIDS <span className={`chip ${auto ? 'ok' : ''}`}>{auto ? 'ON' : 'OFF'}</span>
+            <button className="cmd-btn" disabled={busy !== null} onClick={runExplore} title="scout this beat's own topics (its cases, the top story clusters, the show name) over the last 7 days for channels it has never used">{busy === 'explore' ? 'EXPLORING…' : '⌖ EXPLORE'}</button>
+            <button type="button" role="switch" aria-checked={auto} className="cmd-btn ghost" disabled={busy !== null} onClick={toggleAuto} title="ON = every channel that clears the bar (3+ videos on the topic inside the window, real channel id, not already in the beat) is written into the beat with no review. OFF = it is SUGGESTED and you verify. X handles are never auto-added (they need the verify flow's userId).">
+              AUTO-ADD (no review) <span className={`chip ${auto ? 'warn' : ''}`}>{auto ? 'ON' : 'OFF'}</span>
             </button>
           </div>
-          <div className="cmd-kbd">auto-add = 3+ videos on the topic inside the window, real channel id, not already in the beat</div>
+          <div className="cmd-kbd">the scout SUGGESTS every channel with 3+ videos on the topic inside the window (real channel id, not already in the beat, not dismissed) · you verify: ADD, or DISMISS = never again for this beat · EXPLORE walks the beat&apos;s own topics for channels it has never used</div>
           {scoutErr && <div><span className="chip err" title={scoutErr}>SCOUT FAILED: {scoutErr.slice(0, 140)}</span></div>}
           {scout && (
             <>
               <div className="flex flex-wrap items-center gap-2">
                 <span className="chip info">{scout.counts?.youtube_videos ?? 0} VIDEOS</span>
                 <span className="chip info">{scout.counts?.x_posts ?? 0} POSTS</span>
+                <span className={`chip ${(scout.suggested || []).length ? 'warn' : ''}`} title="channels that cleared the bar and wait for your verify">SUGGESTED {(scout.suggested || []).length}</span>
                 {scout.auto && <span className={`chip ${autoAdded.length ? 'ok' : ''}`} title={autoAdded.length ? autoAdded.map((a: any) => `${a.channel_name} (${a.in_window} in ${scout.hours}h)`).join(' · ') : 'auto-add was on; no channel cleared the bar this time'}>AUTO-ADDED {autoAdded.length}</span>}
                 <span className="cmd-kbd">{`"${scout.topic}" · LAST ${scout.hours}H · ${new Date(scout.generated_at).toLocaleTimeString()}`}</span>
                 {(scout.warnings || []).map((w: string, i: number) => <span key={i} className="chip warn" title={w}>{w.slice(0, 90)}</span>)}
               </div>
+              {/* SUGGESTED: cleared the bar, waits for a human. ADD = the same path as the manual + ADD; DISMISS = never again. */}
+              {(scout.suggested || []).length > 0 ? (
+                <div className="cmd-grid-line">
+                  <div className="cmd-h justify-between"><h2 style={{ fontSize: 13 }}>SUGGESTED · {scout.suggested.length} CLEARED THE BAR</h2><span className="cmd-kbd">3+ videos on &quot;{scout.topic}&quot; inside {scout.hours}h · open the channel, eyeball it, then ADD · DISMISS = never suggested again for this beat</span></div>
+                  {suggestionTable(scout.suggested, scout.hours)}
+                </div>
+              ) : (scout.auto && autoAdded.length > 0) ? null : (
+                <div className="cmd-kbd">NO NEW CHANNEL CLEARED THE BAR FOR &quot;{scout.topic}&quot; (3+ videos inside {scout.hours}h, real channel id, not already in the beat, not dismissed) · everyone the scout saw is below; widen the window or try EXPLORE</div>
+              )}
               <div className="grid gap-4 xl:grid-cols-2">
                 <div className="cmd-grid-line">
                   <div className="cmd-h"><h2 style={{ fontSize: 13 }}>YOUTUBE · WHO&apos;S COVERING IT</h2><span className="cmd-kbd">ranked by videos, then freshest</span></div>
@@ -265,6 +338,36 @@ export default function Sources() {
                 </div>
               </div>
             </>
+          )}
+          {/* EXPLORE: the beat's own topics -> channels it has never used. Each channel surfaces once (seen ledger);
+              the JANITOR's scout_explore position keeps the pending ones as proposals, so nothing is lost. */}
+          {exploreErr && <div><span className="chip err" title={exploreErr}>EXPLORE FAILED: {exploreErr.slice(0, 140)}</span></div>}
+          {explored && (
+            <div className="cmd-grid-line">
+              <div className="cmd-h justify-between">
+                <h2 style={{ fontSize: 13 }}>EXPLORE · CHANNELS THIS BEAT HAS NEVER USED</h2>
+                <span className="cmd-kbd">{(explored.topics || []).length} TOPICS · LAST {explored.hours}H · <span style={{ color: explored.suggested_total ? 'var(--cmd-amber)' : undefined }}>{explored.suggested_total || 0} NEW</span> · a channel surfaces once; the <a href="/command/janitor" style={{ color: 'var(--cmd-amber)' }}>JANITOR</a> keeps the ones you have not decided</span>
+              </div>
+              {(explored.topics || []).length === 0 ? (
+                <div className="p-4 cmd-kbd">NOTHING TO EXPLORE YET · give the beat a case or a show name, or run PULL then CLUSTER so it has story clusters to walk</div>
+              ) : (
+                <div className="p-3 space-y-3">
+                  {(explored.explored || []).map((e: any) => (
+                    <div key={e.topic}>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="cmd-display" style={{ letterSpacing: '0.04em' }}>&quot;{e.topic}&quot;</span>
+                        <span className="chip" title="where this topic came from">{String(e.from || '').toUpperCase()}</span>
+                        <span className="cmd-kbd">{e.candidates} channels seen · {(e.suggested || []).length} new</span>
+                        {(e.warnings || []).map((w: string, i: number) => <span key={i} className="chip warn" title={w}>{w.slice(0, 80)}</span>)}
+                      </div>
+                      {(e.suggested || []).length > 0
+                        ? <div className="mt-1">{suggestionTable(e.suggested, e.hours)}</div>
+                        : <div className="cmd-kbd mt-1">nothing new on this topic · everyone with 3+ videos is already in the beat, dismissed, or surfaced before</div>}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           )}
           <div className="pt-4" style={{ borderTop: '1px solid var(--cmd-line)' }}>
             <label className="cmd-label">RESOLVE A NAME TO A YOUTUBE CHANNEL</label>

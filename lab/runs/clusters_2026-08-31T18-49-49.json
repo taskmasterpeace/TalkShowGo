@@ -1,0 +1,406 @@
+{
+  "pulled_from": "pull_2026-08-31T18-49-49.json",
+  "beat": "battle-rap",
+  "clustered_at": "2026-09-01T21:26:42.768Z",
+  "feed_count": 26,
+  "ms": 7046,
+  "counts": {
+    "stories": 8,
+    "substories": 0,
+    "topics": 2
+  },
+  "clusters": [
+    {
+      "id": "C001",
+      "title": "Kai Cenat's Involvement in Summer Madness XVI and Related Events",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Kai Cenat",
+        "action": "involved in",
+        "object": "Summer Madness XVI",
+        "claim": "Kai Cenat is participating in Summer Madness XVI and has been involved in related events, including a viral battle rap stream at his house.",
+        "time": "August 30-31, 2026",
+        "location": "Atlanta, GA",
+        "named_entities": [
+          "Kai Cenat",
+          "Summer Madness XVI",
+          "URLTV"
+        ],
+        "key_phrases": [
+          "Kai Cenat",
+          "Summer Madness",
+          "URLTV",
+          "battle rap stream"
+        ]
+      },
+      "item_indices": [
+        0,
+        1,
+        13,
+        14,
+        15,
+        17,
+        18,
+        19,
+        20
+      ],
+      "shared_signals": [
+        "same_entities",
+        "same_claim",
+        "temporal"
+      ],
+      "why_moving": "Multiple sources from different platforms (X, YouTube) are discussing Kai Cenat's participation in Summer Madness XVI and events surrounding it, including a viral stream at his house.",
+      "parent": null,
+      "evidence": [
+        "[X @urltv] Twork was LOSING HIS MIND at Kai Cenat's House! 🤟🏾🔥\n\nSUMMER MADNESS XVI - Sunday, September 27th at Variety Playhouse in Atlanta, GA!\n\nDropping Exclusively on the URLTV App\n\nTickets:\nhttps://t.co/anFSvzyFQv\n\n#youcantcopyrespect https://t (♥274 rt42) Sun Aug 30 20:40:20 +0000 2026",
+        "[X @urltv] Kai Cenat is coming to Summer Madness, but he wants to rap!\n\nTag the best matchup for Kai in the comments 👀\n\nSUMMER MADNESS XVI - September 27th at Variety Playhouse in Atlanta, GA!\n\nDropping Exclusively on the URLTV App\n\nTickets:\nhttps:// (♥191 rt29) Sun Aug 30 23:05:13 +0000 2026",
+        "[YT Ultimate Rap League] \"Kai Cenat Wants to Battle at SUMMER MADNESS! 👀\" 2026-08-30T23:02:30.000Z",
+        "[YT Ultimate Rap League] \"He Went CRAZY  at Kai Cenat's House! 👀\" 2026-08-30T20:37:38.000Z",
+        "[YT Ultimate Rap League] \"KAI CENAT VS YUNUS / J2 (DNA & A WARD JUMP IN THE BATTLE) | URLTV\" 2026-08-30T19:11:59.000Z",
+        "[YT hiphopisreal.com] \"BEASLEY SPEAKS ON KAI CENAT BATTLING ON SM16?! & URL TWITCH PARTNERSHIP\" 2026-08-31T17:50:24.000Z",
+        "[YT hiphopisreal.com] \"DOC Q REVEALS HOW KAI CENAT’S VIRAL BATTLE RAP STREAM CAME TOGETHER!\" 2026-08-30T20:34:34.000Z",
+        "[YT hiphopisreal.com] \"CHEF TREZ ADDRESSES HIS FIRST KNOCKOUT WIN + EXPLAINS MISSING KAI CENAT’S STREAM\" 2026-08-30T19:26:55.000Z",
+        "[YT hiphopisreal.com] \"JAKKBOY MAINE RECAPS EVERYTHING AT KAI CENAT’S VIRAL STREAM & CHESS REMATCH!\" 2026-08-30T19:08:19.000Z"
+      ]
+    },
+    {
+      "id": "C002",
+      "title": "Keefe D Trial Developments",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Keefe D",
+        "action": "trial developments",
+        "object": "Tupac Shakur murder case",
+        "claim": "Prosecution presented evidence that Keefe D had the gun and passed it to the back seat before Tupac's murder, with closing arguments ongoing.",
+        "time": "August 31, 2026",
+        "location": "Courtroom",
+        "named_entities": [
+          "Keefe D",
+          "Tupac Shakur"
+        ],
+        "key_phrases": [
+          "Keefe D",
+          "Tupac's Murder",
+          "trial",
+          "closing arguments",
+          "prosecutor"
+        ]
+      },
+      "item_indices": [
+        21,
+        25
+      ],
+      "shared_signals": [
+        "same_entities",
+        "same_claim",
+        "temporal"
+      ],
+      "why_moving": "Two YouTube videos from djvlad report on the Keefe D trial, specifically regarding evidence presented and closing arguments.",
+      "parent": null,
+      "evidence": [
+        "[YT djvlad] \"Prosecutor: Keefe D Got the Gun and Passed It to the Back Seat Before Tupac’s Murder\" 2026-08-31T18:25:23.000Z",
+        "[YT djvlad] \"LIVE: Keefe D Murder Trial Closing Arguments: Day 11 Courtroom Coverage\" 2026-08-31T12:18:58.000Z"
+      ]
+    },
+    {
+      "id": "C003",
+      "title": "Ill Will vs. Chess at Summer Madness XVI",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Ill Will vs. Chess",
+        "action": "scheduled for",
+        "object": "Summer Madness XVI",
+        "claim": "Ill Will and Chess are set to battle at Summer Madness XVI.",
+        "time": "September 27, 2026",
+        "location": "Atlanta, GA",
+        "named_entities": [
+          "Ill Will",
+          "Chess",
+          "Summer Madness XVI"
+        ],
+        "key_phrases": [
+          "Ill Will",
+          "Chess",
+          "Summer Madness XVI",
+          "battle"
+        ]
+      },
+      "item_indices": [
+        2
+      ],
+      "shared_signals": [
+        "same_entities",
+        "same_claim",
+        "temporal"
+      ],
+      "why_moving": "A specific matchup for Summer Madness XVI is being promoted.",
+      "parent": null,
+      "evidence": [
+        "[X @urltv] Ill Will vs Chess - Who Wins?\n\nURLTV presents SUMMER MADNESS XVI - Sunday, September 27th at Variety Playhouse in Atlanta, GA!\n\nDropping Exclusively on the URLTV App\n\nTickets:\nhttps://t.co/OuvwGwgFzN\n\n#youcantcopyrespect https://t.co/cNb57L (♥43 rt16) Mon Aug 31 18:07:09 +0000 2026"
+      ]
+    },
+    {
+      "id": "C004",
+      "title": "Rain's Performance in Don't Quote Me Cypher",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Rain",
+        "action": "performed in",
+        "object": "Don't Quote Me Cypher",
+        "claim": "Rain delivered a notable performance in the new Don't Quote Me Cypher.",
+        "time": "August 31, 2026",
+        "location": "",
+        "named_entities": [
+          "Rain",
+          "Don't Quote Me Cypher",
+          "Mickey Factz",
+          "PC",
+          "Marv Won",
+          "Ness Lee",
+          "Drect",
+          "The Last MJ",
+          "June PZ"
+        ],
+        "key_phrases": [
+          "Rain",
+          "Don't Quote Me Cypher",
+          "cypher"
+        ]
+      },
+      "item_indices": [
+        3
+      ],
+      "shared_signals": [
+        "same_entities",
+        "same_claim",
+        "temporal"
+      ],
+      "why_moving": "A specific artist's performance in a new cypher is highlighted.",
+      "parent": null,
+      "evidence": [
+        "[X @urltv] Rain goes CRAZY on the new Don't Quote Me Cypher!\n\nFull cypher featuring Mickey Factz, PC, Marv Won, Rain, Ness Lee, Drect, The Last MJ and June PZ out now\n\nhttps://t.co/X9dluhXGyM https://t.co/SVmWHOF85o (♥39 rt7) Mon Aug 31 00:05:21 +0000 2026"
+      ]
+    },
+    {
+      "id": "C005",
+      "title": "Hit-Boy Discusses Ghostwriting",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Hit-Boy",
+        "action": "discussed",
+        "object": "ghostwriting",
+        "claim": "Hit-Boy revealed that he has ghostwritten for other rappers without receiving credit.",
+        "time": "August 31, 2026",
+        "location": "",
+        "named_entities": [
+          "Hit-Boy"
+        ],
+        "key_phrases": [
+          "Hit-Boy",
+          "ghostwritten",
+          "credit"
+        ]
+      },
+      "item_indices": [
+        23
+      ],
+      "shared_signals": [
+        "same_entities",
+        "same_claim",
+        "temporal"
+      ],
+      "why_moving": "A specific claim made by Hit-Boy about his ghostwriting history is published.",
+      "parent": null,
+      "evidence": [
+        "[YT djvlad] \"Hit-Boy: I’ve Ghostwritten for Rappers and Didn’t Get Any Credit (Part 7)\" 2026-08-31T16:30:30.000Z"
+      ]
+    },
+    {
+      "id": "C006",
+      "title": "Reed Dollaz Retires",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Reed Dollaz",
+        "action": "retires",
+        "object": "",
+        "claim": "Reed Dollaz has retired, with a question posed about his ability to easily make $20,000.",
+        "time": "August 30, 2026",
+        "location": "",
+        "named_entities": [
+          "Reed Dollaz"
+        ],
+        "key_phrases": [
+          "Reed Dollaz",
+          "retires",
+          "$20K"
+        ]
+      },
+      "item_indices": [
+        16
+      ],
+      "shared_signals": [
+        "same_entities",
+        "same_claim",
+        "temporal"
+      ],
+      "why_moving": "A specific announcement about a battle rapper's retirement is made.",
+      "parent": null,
+      "evidence": [
+        "[YT Rare Breed Ent] \"REED DOLLAZ RETIRES - IS $20K EASY FOR HIM TO MAKE?\" 2026-08-30T23:59:31.000Z"
+      ]
+    },
+    {
+      "id": "C007",
+      "title": "5X Killer Brian Glaze Gibbs' Views on Preacher Killing",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Brian Glaze Gibbs",
+        "action": "expressed opinion on",
+        "object": "preacher killing a 12-year-old",
+        "claim": "Brian Glaze Gibbs believes a preacher is 'sick' for killing a 12-year-old.",
+        "time": "August 31, 2026",
+        "location": "",
+        "named_entities": [
+          "Brian Glaze Gibbs",
+          "Donnell Porter"
+        ],
+        "key_phrases": [
+          "Brian Glaze Gibbs",
+          "preacher",
+          "killing",
+          "sick"
+        ]
+      },
+      "item_indices": [
+        22
+      ],
+      "shared_signals": [
+        "same_entities",
+        "same_claim",
+        "temporal"
+      ],
+      "why_moving": "A specific statement from a convicted killer about another crime is published.",
+      "parent": null,
+      "evidence": [
+        "[YT djvlad] \"5X Killer Brian Glaze Gibbs Thinks Preacher is Sick for Killing 12-Year-Old Donnell Porter (Part 11)\" 2026-08-31T18:00:39.000Z"
+      ]
+    },
+    {
+      "id": "C008",
+      "title": "Robert O'Neill on Charlie Kirk, Israel, Iran, UFOs",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Robert O'Neill",
+        "action": "interviewed on",
+        "object": "Charlie Kirk show",
+        "claim": "Robert O'Neill discussed topics including Israel, Iran, and UFOs in a full interview with Charlie Kirk.",
+        "time": "August 31, 2026",
+        "location": "",
+        "named_entities": [
+          "Robert O'Neill",
+          "Charlie Kirk",
+          "Israel",
+          "Iran"
+        ],
+        "key_phrases": [
+          "Robert O'Neill",
+          "Charlie Kirk",
+          "Israel",
+          "Iran",
+          "UFOs"
+        ]
+      },
+      "item_indices": [
+        24
+      ],
+      "shared_signals": [
+        "same_entities",
+        "same_claim",
+        "temporal"
+      ],
+      "why_moving": "A full interview with Robert O'Neill on various geopolitical and speculative topics is released.",
+      "parent": null,
+      "evidence": [
+        "[YT djvlad] \"Robert O’Neill, Who Killed Bin Laden, on Charlie Kirk, Israel, Iran, UFOs (Full Interview)\" 2026-08-31T15:30:12.000Z"
+      ]
+    },
+    {
+      "id": "C009",
+      "title": "Discussions on DJ Vlad and Battle Rap Personalities",
+      "kind": "topic",
+      "event_fingerprint": {
+        "subject": "DJ Vlad and Battle Rap Personalities",
+        "action": "discussed",
+        "object": "their interactions and content",
+        "claim": "There are ongoing discussions and commentary related to DJ Vlad's content and its intersection with battle rap personalities.",
+        "time": "August 30-31, 2026",
+        "location": "",
+        "named_entities": [
+          "DJ Vlad"
+        ],
+        "key_phrases": [
+          "DJ Vlad",
+          "battle rap",
+          "content"
+        ]
+      },
+      "item_indices": [
+        4,
+        8,
+        10,
+        11,
+        12
+      ],
+      "shared_signals": [
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "Multiple posts from @islandgodverb and a retweet on @BattleRapTrap touch upon commentary and reactions related to DJ Vlad and figures within the battle rap scene, without a single specific event.",
+      "parent": null,
+      "evidence": [
+        "[X @BattleRapTrap] RT @ChannelEleven_: @djvlad I like this better. Yall 2 been brought up in EVERYBODY Trial https://t.co/xVWSLXL2LA (♥126 rt9) Mon Aug 31 11:12:54 +0000 2026",
+        "[X @islandgodverb] What’s going on here ? I mean hellooo https://t.co/3uUHuvoOYH (♥265 rt21) Mon Aug 31 10:37:17 +0000 2026",
+        "[X @islandgodverb] Soooo yall got a lot of secret problems behind the scenes … dam .. I guess it ain’t love everywhere 😂 (♥4 rt0) Mon Aug 31 15:17:45 +0000 2026",
+        "[X @islandgodverb] https://t.co/5ASBvqpTff (♥2 rt0) Mon Aug 31 15:17:08 +0000 2026",
+        "[X @islandgodverb] https://t.co/7c2j0JKORU (♥0 rt0) Mon Aug 31 18:11:48 +0000 2026"
+      ]
+    },
+    {
+      "id": "C010",
+      "title": "Reactions to Battle Rap Stream and Personalities",
+      "kind": "topic",
+      "event_fingerprint": {
+        "subject": "Battle Rap Stream and Personalities",
+        "action": "commented on",
+        "object": "various aspects of the scene",
+        "claim": "There are various reactions and commentary regarding recent events and personalities in the battle rap scene.",
+        "time": "August 30-31, 2026",
+        "location": "",
+        "named_entities": [
+          "Joe",
+          "Black Love"
+        ],
+        "key_phrases": [
+          "Black Love",
+          "Black Card",
+          "Chitlins & Beer"
+        ]
+      },
+      "item_indices": [
+        5,
+        6,
+        7
+      ],
+      "shared_signals": [
+        "temporal"
+      ],
+      "why_moving": "Several posts on @BattleRapTrap offer brief, disconnected commentary on themes related to the battle rap community, without a single unifying event.",
+      "parent": null,
+      "evidence": [
+        "[X @BattleRapTrap] Yeah Joe..Put A Point On The Score Board For Black Love 💪🏾🔥💯 (♥3 rt0) Sun Aug 30 20:27:53 +0000 2026",
+        "[X @BattleRapTrap] 😂😂😂😂😂 least he still got that Black Card (♥1 rt0) Mon Aug 31 13:39:49 +0000 2026",
+        "[X @BattleRapTrap] Chitlins &amp; Beer (♥0 rt0) Mon Aug 31 18:18:33 +0000 2026"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "stage": "error",
+  "pct": 0,
+  "message": "Command failed: C:\\Program Files\\nodejs\\node.exe D:\\git\\talkshowgo\\lab\\engine\\compile_beat.mjs --stringer=str_2i21aaz1 --briefing=brf_6ct7fwv0 --runtime=8 --out=D:\\git\\talkshowgo\\lab\\shows\\tay-roc-battle-rapper --show=tay-roc-battle-rapper --attribution=A\nneed >=2 briefed HOUSE HOSTS to run a floor ",
+  "show": "tay-roc-battle-rapper",
+  "showDir": "D:\\git\\talkshowgo\\lab\\shows\\tay-roc-battle-rapper",
+  "started": "2026-09-02T03:43:12.896Z",
+  "updated": "2026-09-02T03:43:13.371Z",
+  "error": "Command failed: C:\\Program Files\\nodejs\\node.exe D:\\git\\talkshowgo\\lab\\engine\\compile_beat.mjs --stringer=str_2i21aaz1 --briefing=brf_6ct7fwv0 --runtime=8 --out=D:\\git\\talkshowgo\\lab\\shows\\tay-roc-battle-rapper --show=tay-roc-battle-rapper --attribution=A\nneed >=2 briefed HOUSE HOSTS to run a floor "
+}

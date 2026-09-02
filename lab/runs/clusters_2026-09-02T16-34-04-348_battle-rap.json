@@ -1,0 +1,471 @@
+{
+  "pulled_from": "pull_2026-09-02T16-34-04-348_battle-rap.json",
+  "beat": "battle-rap",
+  "clustered_at": "2026-09-02T16:40:00.163Z",
+  "feed_count": 42,
+  "ms": 7622,
+  "counts": {
+    "stories": 8,
+    "substories": 0,
+    "topics": 1
+  },
+  "clusters": [
+    {
+      "id": "C001",
+      "title": "URLTV Announces Summer Madness XVI with Multiple Battle Rap Matchups",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "URLTV",
+        "action": "announces",
+        "object": "Summer Madness XVI",
+        "claim": "The event will feature matchups like Tay Roc vs Rum Nitty and Ill Will vs Chess, and will drop exclusively on the URLTV App on September 27th in Atlanta.",
+        "time": "September 27th",
+        "location": "Atlanta, GA",
+        "named_entities": [
+          "URLTV",
+          "Summer Madness XVI",
+          "Tay Roc",
+          "Rum Nitty",
+          "Ill Will",
+          "Chess",
+          "Variety Playhouse"
+        ],
+        "key_phrases": [
+          "Summer Madness XVI",
+          "URLTV App",
+          "Atlanta",
+          "September 27th",
+          "rematch",
+          "youcantcopyrespect"
+        ]
+      },
+      "item_indices": [
+        1,
+        2,
+        4,
+        9,
+        22
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal",
+        "location"
+      ],
+      "why_moving": "Multiple posts from URLTV and retweets announcing the event and specific matchups are live today.",
+      "parent": null,
+      "evidence": [
+        "[X @urltv] Gun Bar King vs Gun Line King\n\nTay Roc vs Rum Nitty - THE REMATCH\n\nmade by @paralleluniversebars\n\nSUMMER MADNESS XVI - September 27th in Atlanta\n\nDropping Exclusively on the URLTV App\n\nTickets:\nhttps://t.co/OuvwGwgFzN\n\n#youcantcopyrespect h (♥227 rt38) Tue Sep 01 16:06:08 +0000 2026",
+        "[X @urltv] Ill Will vs Chess - Who Wins?\n\nURLTV presents SUMMER MADNESS XVI - Sunday, September 27th at Variety Playhouse in Atlanta, GA!\n\nDropping Exclusively on the URLTV App\n\nTickets:\nhttps://t.co/OuvwGwgFzN\n\n#youcantcopyrespect https://t.co/cNb57L (♥163 rt39) Mon Aug 31 18:07:09 +0000 2026",
+        "[X @urltv] Ill Will vs Chess Trailer!\n\nURLTV presents SUMMER MADNESS XVI - Sunday, September 27th at Variety Playhouse in Atlanta, GA!\n\nDropping Exclusively on the URLTV App\n\nTickets:\nhttps://t.co/OuvwGwgFzN\n\n#youcantcopyrespect https://t.co/fXc45Q3Hz (♥67 rt14) Tue Sep 01 17:50:20 +0000 2026",
+        "[X @BattleRapTrap] RT @urltv: Twork was LOSING HIS MIND at Kai Cenat's House! 🤟🏾🔥\n\nSUMMER MADNESS XVI - Sunday, September 27th at Variety Playhouse in Atlanta… (♥306 rt48) Tue Sep 01 10:54:39 +0000 2026",
+        "[YT Ultimate Rap League] \"SUMMER MADNESS XVI ANNOUNCEMENT #3 |  URLTV\" 2026-09-01T16:14:26.000Z"
+      ]
+    },
+    {
+      "id": "C002",
+      "title": "Keefe D Found Guilty in Tupac Shakur Murder Case",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Keefe D",
+        "action": "found guilty",
+        "object": "Tupac Shakur murder",
+        "claim": "Keefe D has been officially found guilty of the murder of Tupac Shakur.",
+        "time": "September 1st, 2026",
+        "location": "",
+        "named_entities": [
+          "Keefe D",
+          "Tupac Shakur"
+        ],
+        "key_phrases": [
+          "found guilty",
+          "Tupac's murder",
+          "murder trial"
+        ]
+      },
+      "item_indices": [
+        7,
+        35,
+        38
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "Multiple sources are reporting on Keefe D being found guilty of Tupac's murder, with one live court coverage.",
+      "parent": null,
+      "evidence": [
+        "[X @BattleRapTrap] RT @BattleRapTrap: KEEFE D OFFICIALLY FOUND GUILTY OF TUPACS MURDER..😳😳‼️‼️ https://t.co/ecTTFSnULS (♥2836 rt260) Tue Sep 01 12:02:10 +0000 2026",
+        "[YT djvlad] \"DJ Vlad Reacts to Keefe D Found Guilty for Killing 2Pac\" 2026-09-01T22:10:46.000Z",
+        "[YT djvlad] \"LIVE: Keefe D Murder Trial Closing Arguments: Day 11 Courtroom Coverage\" 2026-09-01T20:58:18.000Z"
+      ]
+    },
+    {
+      "id": "C003",
+      "title": "Jayblac Discusses Kai Cenat's Role and Impact at Summer Madness XVI",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Jayblac",
+        "action": "discusses",
+        "object": "Kai Cenat's involvement in battle rap",
+        "claim": "Jayblac is discussing Kai Cenat's presence and potential impact on the battle rap culture, particularly in relation to Summer Madness XVI, questioning if her focus on 'baking cakes' overshadows the 'battle rap part'.",
+        "time": "August 31st - September 1st, 2026",
+        "location": "",
+        "named_entities": [
+          "Jayblac",
+          "Kai Cenat",
+          "Summer Madness XVI",
+          "Smack/URL"
+        ],
+        "key_phrases": [
+          "Kai Cenat",
+          "Summer Madness XVI",
+          "Jayblac",
+          "culture",
+          "winning matters",
+          "battle rap"
+        ]
+      },
+      "item_indices": [
+        13,
+        14,
+        25
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "Multiple posts from Jayblac and related discussions about Kai Cenat's role in battle rap and Summer Madness XVI are live.",
+      "parent": null,
+      "evidence": [
+        "[X @JayBlac1615] RT @DaDonJohnJohn: Jayblac talking bout letting somebody win but “winning matters” 🤦🏽‍♂️ \n\nKai get on that stage he needs to get COOKED or… (♥45 rt1) Tue Sep 01 19:47:03 +0000 2026",
+        "[X @JayBlac1615] John John talking about COOKing Wit Kai ya on a Summer Madness stage.\n\nI understand she bakes cakes, and every streamer think it’s sweet, but what about the battle rap part? That don’t “matter”? (♥34 rt1) Tue Sep 01 17:02:48 +0000 2026",
+        "[YT Jayblac1615] \"KAI X SMACK/URL LIVE STREAM WAS A GREAT BOOST FOR THE CULTURE, WHAT HAPPENS NOW?\" 2026-08-31T19:16:10.000Z"
+      ]
+    },
+    {
+      "id": "C004",
+      "title": "Lil Durk Allegedly Involved in Murder-for-Hire Plot",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Lil Durk",
+        "action": "allegedly involved in",
+        "object": "murder-for-hire plot",
+        "claim": "Lil Durk is reportedly facing arrest or has been arrested for a murder-for-hire plot targeting his friend Lul Pab, with testimony from OTF Jam and predictions from FBG Butta.",
+        "time": "September 1st, 2026",
+        "location": "",
+        "named_entities": [
+          "Lil Durk",
+          "Lul Tim",
+          "Lul Pab",
+          "OTF Jam",
+          "FBG Butta"
+        ],
+        "key_phrases": [
+          "murder-for-hire",
+          "arrested",
+          "Lil Durk",
+          "Lul Pab"
+        ]
+      },
+      "item_indices": [
+        34,
+        36,
+        39
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "Multiple sources discuss Lil Durk's alleged involvement in a murder-for-hire plot, including reactions and past predictions.",
+      "parent": null,
+      "evidence": [
+        "[YT djvlad] \"Lul Tim Reacts to Lil Durk's Murder-for-Hire Arrest for Killing His Friend Lul Pab (Flashback)\" 2026-09-01T22:30:12.000Z",
+        "[YT djvlad] \"FBG Butta Predicted Lil Durk Would Be Arrested for M***** for Hire (Flashback)\" 2026-09-01T22:00:00.000Z",
+        "[YT djvlad] \"Judge Mathis: I Was Shocked OTF Jam Testified Against Lil Durk (Part 2)\" 2026-09-01T20:30:18.000Z"
+      ]
+    },
+    {
+      "id": "C005",
+      "title": "Loaded Lux Returns with \"On The Radar\" Freestyle",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Loaded Lux",
+        "action": "releases",
+        "object": "new freestyle",
+        "claim": "Loaded Lux has released a new freestyle titled \"No Name\" on the On The Radar platform, and it's being well-received.",
+        "time": "September 1st, 2026",
+        "location": "",
+        "named_entities": [
+          "Loaded Lux",
+          "On The Radar"
+        ],
+        "key_phrases": [
+          "On The Radar",
+          "freestyle",
+          "back in his bag"
+        ]
+      },
+      "item_indices": [
+        0,
+        29
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "Two sources announce the release of Loaded Lux's new freestyle today.",
+      "parent": null,
+      "evidence": [
+        "[X @urltv] Loaded Lux performs \"No Name\" On The Radar! https://t.co/4Rt22ivISq (♥573 rt126) Tue Sep 01 20:38:15 +0000 2026",
+        "[YT hiphopisreal.com] \"🔥 LOADED LUX IS BACK IN HIS BAG! On The Radar freestyle that’s OUT RIGHT NOW! 🎤🔥 Go run it up!\" 2026-09-01T02:21:04.000Z"
+      ]
+    },
+    {
+      "id": "C006",
+      "title": "Beasley Explains URLTV's Decision Not to Live Stream Summer Madness XVI on Twitch",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Beasley",
+        "action": "explains",
+        "object": "URLTV's streaming decision",
+        "claim": "Beasley reveals that Summer Madness XVI will not be live-streamed on Twitch due to content protection concerns, and will instead be exclusive to the URLTV App.",
+        "time": "August 31st, 2026",
+        "location": "",
+        "named_entities": [
+          "Beasley",
+          "URLTV",
+          "Summer Madness XVI",
+          "Twitch"
+        ],
+        "key_phrases": [
+          "Summer Madness XVI",
+          "URLTV App",
+          "Twitch",
+          "content protection",
+          "live stream"
+        ]
+      },
+      "item_indices": [
+        27,
+        31
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "Two sources explain URLTV's decision not to stream Summer Madness XVI on Twitch.",
+      "parent": null,
+      "evidence": [
+        "[YT hiphopisreal.com] \"BEASLEY ON SMACK’S ABSENCE AT EVENTS + WHY URL WON’T LIVE STREAM FROM THE APP!\" 2026-09-01T16:57:35.000Z",
+        "[YT hiphopisreal.com] \"Beasley Reveals SM16 Won’t Stream On Twitch Due To Content Protection Concerns 🚨\" 2026-08-31T19:48:51.000Z"
+      ]
+    },
+    {
+      "id": "C007",
+      "title": "Murda Mook Accused of Wearing Faux Locs",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Murda Mook",
+        "action": "accused of wearing",
+        "object": "faux locs",
+        "claim": "Murda Mook is being criticized and mocked for allegedly wearing faux locs (hair extensions).",
+        "time": "September 1st, 2026",
+        "location": "",
+        "named_entities": [
+          "Murda Mook"
+        ],
+        "key_phrases": [
+          "Murda Mook",
+          "faux locs",
+          "fake dreads",
+          "hair extensions"
+        ]
+      },
+      "item_indices": [
+        5
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "A post accusing Murda Mook of wearing faux locs is gaining traction.",
+      "parent": null,
+      "evidence": [
+        "[X @KINGDNATOOTH_] MURDA MOOK CAUGHT WEARING WEAVE 🤦🏻‍♂️ MOOK WENT FROM A DU RAG TO BRAIDS AND NOW FAUX LOCS AKA FAKE DREADS. 🤦🏻‍♂️🤦🏻‍♂️🤦🏻‍♂️ FAUX LOCS ARE HAIR EXTENSIONS https://t.co/ugVI6uwT3h (♥355 rt22) Tue Sep 01 15:44:45 +0000 2026"
+      ]
+    },
+    {
+      "id": "C008",
+      "title": "Drake Makes Surprise Appearance with Don Toliver in Toronto",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Drake",
+        "action": "makes surprise appearance",
+        "object": "Don Toliver's performance",
+        "claim": "Drake made a surprise appearance during Don Toliver's first-ever \"Burning Bridges\" performance in Toronto.",
+        "time": "September 1st, 2026",
+        "location": "Toronto",
+        "named_entities": [
+          "Drake",
+          "Don Toliver"
+        ],
+        "key_phrases": [
+          "surprise appearance",
+          "Don Toliver",
+          "Burning Bridges",
+          "Toronto"
+        ]
+      },
+      "item_indices": [
+        28
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "A YouTube video announces Drake's surprise appearance with Don Toliver in Toronto.",
+      "parent": null,
+      "evidence": [
+        "[YT hiphopisreal.com] \"DRAKE SHOCKS TORONTO! DON TOLIVER BRINGS OUT DRAKE FOR FIRST-EVER “BURNING BRIDGES” PERFORMANCE 🤯🔥\" 2026-09-01T11:00:11.000Z"
+      ]
+    },
+    {
+      "id": "C009",
+      "title": "Discussion on the State of Battle Rap and Upcoming Events",
+      "kind": "topic",
+      "event_fingerprint": {
+        "subject": "Battle Rap",
+        "action": "discussion",
+        "object": "current state and future events",
+        "claim": "Various aspects of the battle rap scene are being discussed, including specific battles, artist performances, and the direction of the culture.",
+        "time": "August 31st - September 2nd, 2026",
+        "location": "",
+        "named_entities": [
+          "URLTV",
+          "Summer Madness XVI",
+          "Jayblac",
+          "Kai Cenat",
+          "Loaded Lux",
+          "Tay Roc",
+          "Rum Nitty",
+          "Ill Will",
+          "Chess",
+          "Murda Mook",
+          "Eazy",
+          "John John Da Don",
+          "T-Top",
+          "Jakkboy Maine",
+          "Lady Caution",
+          "E-Hart",
+          "Beasley"
+        ],
+        "key_phrases": [
+          "battle rap",
+          "culture",
+          "freestyle",
+          "event",
+          "artist",
+          "URLTV",
+          "Summer Madness XVI"
+        ]
+      },
+      "item_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41
+      ],
+      "shared_signals": [
+        "same_subject"
+      ],
+      "why_moving": "A broad range of items discuss various aspects of the battle rap scene, artists, and upcoming events without a single unifying event.",
+      "parent": null,
+      "evidence": [
+        "[X @urltv] Loaded Lux performs \"No Name\" On The Radar! https://t.co/4Rt22ivISq (♥573 rt126) Tue Sep 01 20:38:15 +0000 2026",
+        "[X @urltv] Gun Bar King vs Gun Line King\n\nTay Roc vs Rum Nitty - THE REMATCH\n\nmade by @paralleluniversebars\n\nSUMMER MADNESS XVI - September 27th in Atlanta\n\nDropping Exclusively on the URLTV App\n\nTickets:\nhttps://t.co/OuvwGwgFzN\n\n#youcantcopyrespect h (♥227 rt38) Tue Sep 01 16:06:08 +0000 2026",
+        "[X @urltv] Ill Will vs Chess - Who Wins?\n\nURLTV presents SUMMER MADNESS XVI - Sunday, September 27th at Variety Playhouse in Atlanta, GA!\n\nDropping Exclusively on the URLTV App\n\nTickets:\nhttps://t.co/OuvwGwgFzN\n\n#youcantcopyrespect https://t.co/cNb57L (♥163 rt39) Mon Aug 31 18:07:09 +0000 2026",
+        "[X @urltv] Shotgun Suge drops new freestyle over the Case \"Missing You\" beat! 🤟🏾🔥\n\n@realshotgunsuge\n@Case_Music\n\n#youcantcopyrespect https://t.co/wrl6NufClM (♥82 rt14) Tue Sep 01 15:02:36 +0000 2026",
+        "[X @urltv] Ill Will vs Chess Trailer!\n\nURLTV presents SUMMER MADNESS XVI - Sunday, September 27th at Variety Playhouse in Atlanta, GA!\n\nDropping Exclusively on the URLTV App\n\nTickets:\nhttps://t.co/OuvwGwgFzN\n\n#youcantcopyrespect https://t.co/fXc45Q3Hz (♥67 rt14) Tue Sep 01 17:50:20 +0000 2026",
+        "[X @KINGDNATOOTH_] MURDA MOOK CAUGHT WEARING WEAVE 🤦🏻‍♂️ MOOK WENT FROM A DU RAG TO BRAIDS AND NOW FAUX LOCS AKA FAKE DREADS. 🤦🏻‍♂️🤦🏻‍♂️🤦🏻‍♂️ FAUX LOCS ARE HAIR EXTENSIONS https://t.co/ugVI6uwT3h (♥355 rt22) Tue Sep 01 15:44:45 +0000 2026",
+        "[X @BattleRapTrap] RT @BattleRapBum: greatest battle rap trap singer you’ve ever seen https://t.co/onrL4OkdmW (♥2979 rt492) Tue Sep 01 19:29:20 +0000 2026",
+        "[X @BattleRapTrap] RT @BattleRapTrap: KEEFE D OFFICIALLY FOUND GUILTY OF TUPACS MURDER..😳😳‼️‼️ https://t.co/ecTTFSnULS (♥2836 rt260) Tue Sep 01 12:02:10 +0000 2026",
+        "[X @BattleRapTrap] RT @urltv: Twork was LOSING HIS MIND at Kai Cenat's House! 🤟🏾🔥\n\nSUMMER MADNESS XVI - Sunday, September 27th at Variety Playhouse in Atlanta… (♥306 rt48) Tue Sep 01 10:54:39 +0000 2026",
+        "[X @BattleRapTrap] RT @DocQtorr: Yall want a card in December? (♥119 rt18) Wed Sep 02 00:24:29 +0000 2026",
+        "[X @JayBlac1615] RT @ToneQapo: Marvel canceled Blade, canceled Ironheart, canceled Wonder Man, and had Sam Wilson fighting for his life as Captain America…… (♥49910 rt9478) Tue Sep 01 20:42:10 +0000 2026",
+        "[X @JayBlac1615] RT @popstartimmy: Yunus has spoken https://t.co/58zZUgIc9G (♥81 rt11) Wed Sep 02 14:57:49 +0000 2026",
+        "[X @JayBlac1615] RT @DaDonJohnJohn: Jayblac talking bout letting somebody win but “winning matters” 🤦🏽‍♂️ \n\nKai get on that stage he needs to get COOKED or… (♥45 rt1) Tue Sep 01 19:47:03 +0000 2026",
+        "[X @JayBlac1615] John John talking about COOKing Wit Kai ya on a Summer Madness stage.\n\nI understand she bakes cakes, and every streamer think it’s sweet, but what about the battle rap part? That don’t “matter”? (♥34 rt1) Tue Sep 01 17:02:48 +0000 2026",
+        "[X @islandgodverb] Content on the way …. https://t.co/NaDQFDqNCr (♥105 rt5) Mon Aug 31 17:06:32 +0000 2026",
+        "[X @islandgodverb] What you “ street thug “ rappers gone rap about now ? Sliding.  ? The gang?  Never snitching ? \n\nBitch please….. (♥18 rt0) Wed Sep 02 00:21:59 +0000 2026",
+        "[X @islandgodverb] Aye verb snaps in interview ! \n\nhttps://t.co/eKhlbbRuri (♥12 rt3) Mon Aug 31 20:18:11 +0000 2026",
+        "[X @islandgodverb] SHOWTIME \n\nhttps://t.co/T5jxnkhRKR (♥9 rt2) Wed Sep 02 01:43:41 +0000 2026",
+        "[X @islandgodverb] Blueface has all his girls in the car together … \n\nHe the man lol (♥11 rt0) Mon Aug 31 22:39:30 +0000 2026",
+        "[YT Ultimate Rap League] \"Yunus vs Kai\" 2026-09-01T23:19:53.000Z",
+        "[YT Ultimate Rap League] \"SUMMER MADNESS XVI ANNOUNCEMENT #3 |  URLTV\" 2026-09-01T16:14:26.000Z",
+        "[YT Ultimate Rap League] \"Kai Cenat LOST IT Over This! 🔥\" 2026-09-01T13:10:10.000Z",
+        "[YT Rare Breed Ent] \"IS EAZY THE BLOCK CAPTAIN STILL A STAR IN BATTLE RAP?\" 2026-09-01T12:00:06.000Z",
+        "[YT Jayblac1615] \"KAI X SMACK/URL LIVE STREAM WAS A GREAT BOOST FOR THE CULTURE, WHAT HAPPENS NOW?\" 2026-08-31T19:16:10.000Z",
+        "[YT hiphopisreal.com] \"SWAMP FLAMES J2 ADDRESSING THEIR MIDNIGHT MADNESS BATTLE! 😳\" 2026-09-01T19:47:52.000Z",
+        "[YT hiphopisreal.com] \"BEASLEY ON SMACK’S ABSENCE AT EVENTS + WHY URL WON’T LIVE STREAM FROM THE APP!\" 2026-09-01T16:57:35.000Z",
+        "[YT hiphopisreal.com] \"DRAKE SHOCKS TORONTO! DON TOLIVER BRINGS OUT DRAKE FOR FIRST-EVER “BURNING BRIDGES” PERFORMANCE 🤯🔥\" 2026-09-01T11:00:11.000Z",
+        "[YT hiphopisreal.com] \"🔥 LOADED LUX IS BACK IN HIS BAG! On The Radar freestyle that’s OUT RIGHT NOW! 🎤🔥 Go run it up!\" 2026-09-01T02:21:04.000Z",
+        "[YT hiphopisreal.com] \"T-TOP REACTS TO JOHN JOHN DA DON TALKING CRAZY TO A WARD BEFORE SM16!\" 2026-08-31T22:42:51.000Z",
+        "[YT hiphopisreal.com] \"Beasley Reveals SM16 Won’t Stream On Twitch Due To Content Protection Concerns 🚨\" 2026-08-31T19:48:51.000Z",
+        "[YT hiphopisreal.com] \"JAKKBOY MAINE RESPONDS TO JOHN JOHN DA DON'S “HE HAS ONE ROUND LEFT” REMATCH WARNING!\" 2026-08-31T19:43:28.000Z",
+        "[YT hiphopisreal.com] \"LADY CAUTION SAYS SHE BEAT E-HART, TALKS 2026 WOTY & TAY ROC!\" 2026-08-31T19:16:11.000Z",
+        "[YT djvlad] \"Lul Tim Reacts to Lil Durk's Murder-for-Hire Arrest for Killing His Friend Lul Pab (Flashback)\" 2026-09-01T22:30:12.000Z",
+        "[YT djvlad] \"DJ Vlad Reacts to Keefe D Found Guilty for Killing 2Pac\" 2026-09-01T22:10:46.000Z",
+        "[YT djvlad] \"FBG Butta Predicted Lil Durk Would Be Arrested for M***** for Hire (Flashback)\" 2026-09-01T22:00:00.000Z",
+        "[YT djvlad] \"How Much He Got Paid To Assassinate Bin Laden... 😳\" 2026-09-01T21:00:25.000Z",
+        "[YT djvlad] \"LIVE: Keefe D Murder Trial Closing Arguments: Day 11 Courtroom Coverage\" 2026-09-01T20:58:18.000Z",
+        "[YT djvlad] \"Judge Mathis: I Was Shocked OTF Jam Testified Against Lil Durk (Part 2)\" 2026-09-01T20:30:18.000Z",
+        "[YT djvlad] \"Jay-Z & DJ Vlad Argue Over Who's the Better Artist: Jay-Z or Kanye (Part 8)\" 2026-09-01T19:30:26.000Z",
+        "[YT djvlad] \"DJ Vlad Exposes DJ EFN For Being Broke\" 2026-09-01T18:50:32.000Z"
+      ]
+    }
+  ]
+}

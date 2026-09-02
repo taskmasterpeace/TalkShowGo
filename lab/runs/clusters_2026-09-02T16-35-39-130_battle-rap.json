@@ -1,0 +1,447 @@
+{
+  "pulled_from": "pull_2026-09-02T16-35-39-130_battle-rap.json",
+  "beat": "battle-rap",
+  "clustered_at": "2026-09-02T16:41:05.736Z",
+  "feed_count": 38,
+  "ms": 8069,
+  "counts": {
+    "stories": 9,
+    "substories": 0,
+    "topics": 1
+  },
+  "clusters": [
+    {
+      "id": "C001",
+      "title": "URLTV Announces Summer Madness XVI with Multiple Battles and Event Details",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "URLTV Summer Madness XVI",
+        "action": "announcement",
+        "object": "event details, battles",
+        "claim": "The event will take place on September 27th in Atlanta, GA, and will be exclusively on the URLTV App.",
+        "time": "September 27th",
+        "location": "Atlanta, GA",
+        "named_entities": [
+          "URLTV",
+          "Summer Madness XVI",
+          "Tay Roc",
+          "Rum Nitty",
+          "Ill Will",
+          "Chess",
+          "Shotgun Suge",
+          "Kai Cenat"
+        ],
+        "key_phrases": [
+          "Summer Madness XVI",
+          "URLTV",
+          "September 27th",
+          "Atlanta",
+          "URLTV App",
+          "youcantcopyrespect"
+        ]
+      },
+      "item_indices": [
+        1,
+        2,
+        3,
+        4,
+        9,
+        21,
+        24,
+        25,
+        26,
+        28,
+        29
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal",
+        "location"
+      ],
+      "why_moving": "Multiple posts and YouTube videos announce and discuss the upcoming URLTV Summer Madness XVI event, including specific matchups and broadcast details.",
+      "parent": null,
+      "evidence": [
+        "[X @urltv] Gun Bar King vs Gun Line King\n\nTay Roc vs Rum Nitty - THE REMATCH\n\nmade by @paralleluniversebars\n\nSUMMER MADNESS XVI - September 27th in Atlanta\n\nDropping Exclusively on the URLTV App\n\nTickets:\nhttps://t.co/OuvwGwgFzN\n\n#youcantcopyrespect h (♥227 rt38) Tue Sep 01 16:06:08 +0000 2026",
+        "[X @urltv] Ill Will vs Chess - Who Wins?\n\nURLTV presents SUMMER MADNESS XVI - Sunday, September 27th at Variety Playhouse in Atlanta, GA!\n\nDropping Exclusively on the URLTV App\n\nTickets:\nhttps://t.co/OuvwGwgFzN\n\n#youcantcopyrespect https://t.co/cNb57L (♥163 rt39) Mon Aug 31 18:07:09 +0000 2026",
+        "[X @urltv] Shotgun Suge drops new freestyle over the Case \"Missing You\" beat! 🤟🏾🔥\n\n@realshotgunsuge\n@Case_Music\n\n#youcantcopyrespect https://t.co/wrl6NufClM (♥82 rt14) Tue Sep 01 15:02:36 +0000 2026",
+        "[X @urltv] Ill Will vs Chess Trailer!\n\nURLTV presents SUMMER MADNESS XVI - Sunday, September 27th at Variety Playhouse in Atlanta, GA!\n\nDropping Exclusively on the URLTV App\n\nTickets:\nhttps://t.co/OuvwGwgFzN\n\n#youcantcopyrespect https://t.co/fXc45Q3Hz (♥67 rt14) Tue Sep 01 17:50:20 +0000 2026",
+        "[X @BattleRapTrap] RT @urltv: Twork was LOSING HIS MIND at Kai Cenat's House! 🤟🏾🔥\n\nSUMMER MADNESS XVI - Sunday, September 27th at Variety Playhouse in Atlanta… (♥306 rt48) Tue Sep 01 10:54:39 +0000 2026",
+        "[YT Ultimate Rap League] \"SUMMER MADNESS XVI ANNOUNCEMENT #3 |  URLTV\" 2026-09-01T16:35:35.170Z",
+        "[YT hiphopisreal.com] \"BEASLEY ON SMACK’S ABSENCE AT EVENTS + WHY URL WON’T LIVE STREAM FROM THE APP!\" 2026-09-01T17:35:37.608Z",
+        "[YT hiphopisreal.com] \"T-TOP REACTS TO JOHN JOHN DA DON TALKING CRAZY TO A WARD BEFORE SM16!\" 2026-09-01T16:35:37.608Z",
+        "[YT hiphopisreal.com] \"JAKKBOY MAINE RESPONDS TO JOHN JOHN DA DON'S “HE HAS ONE ROUND LEFT” REMATCH WARNING!\" 2026-09-01T16:35:37.608Z",
+        "[YT hiphopisreal.com] \"LADY CAUTION SAYS SHE BEAT E-HART, TALKS 2026 WOTY & TAY ROC!\" 2026-09-01T16:35:37.608Z",
+        "[YT hiphopisreal.com] \"BEASLEY SPEAKS ON KAI CENAT BATTLING ON SM16?! & URL TWITCH PARTNERSHIP\" 2026-09-01T16:35:37.608Z"
+      ]
+    },
+    {
+      "id": "C002",
+      "title": "Keefe D Found Guilty of Tupac Shakur's Murder",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Keefe D",
+        "action": "found guilty",
+        "object": "Tupac Shakur's murder",
+        "claim": "Keefe D has been officially found guilty of the murder of Tupac Shakur.",
+        "time": "September 1st, 2026",
+        "location": "",
+        "named_entities": [
+          "Keefe D",
+          "Tupac Shakur"
+        ],
+        "key_phrases": [
+          "Keefe D",
+          "Tupac Shakur",
+          "found guilty",
+          "murder"
+        ]
+      },
+      "item_indices": [
+        7,
+        32,
+        35
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "Multiple sources report on Keefe D being found guilty of Tupac Shakur's murder, with one source specifically mentioning DJ Vlad's reaction.",
+      "parent": null,
+      "evidence": [
+        "[X @BattleRapTrap] RT @BattleRapTrap: KEEFE D OFFICIALLY FOUND GUILTY OF TUPACS MURDER..😳😳‼️‼️ https://t.co/ecTTFSnULS (♥2836 rt260) Tue Sep 01 12:02:10 +0000 2026",
+        "[YT djvlad] \"DJ Vlad Reacts to Keefe D Found Guilty for Killing 2Pac\" 2026-09-01T22:35:38.353Z",
+        "[YT djvlad] \"Judge Mathis on Keefe D, Lil Durk, D4vd, Daejon Love (Uncensored Full Interview)\" 2026-09-01T21:35:38.353Z"
+      ]
+    },
+    {
+      "id": "C003",
+      "title": "Lil Durk Allegedly Involved in Murder-for-Hire Plot",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Lil Durk",
+        "action": "arrested/implicated",
+        "object": "murder-for-hire",
+        "claim": "Lil Durk is facing charges or is being discussed in relation to a murder-for-hire plot.",
+        "time": "September 1st, 2026",
+        "location": "",
+        "named_entities": [
+          "Lil Durk",
+          "Lul Pab",
+          "Lul Tim",
+          "FBG Butta",
+          "OTF Jam"
+        ],
+        "key_phrases": [
+          "Lil Durk",
+          "murder-for-hire",
+          "arrest",
+          "testified against"
+        ]
+      },
+      "item_indices": [
+        31,
+        33,
+        36
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "Multiple DJ Vlad YouTube videos discuss Lil Durk's alleged involvement in a murder-for-hire plot, including reactions and testimony.",
+      "parent": null,
+      "evidence": [
+        "[YT djvlad] \"Lul Tim Reacts to Lil Durk's Murder-for-Hire Arrest for Killing His Friend Lul Pab (Flashback)\" 2026-09-01T22:35:38.353Z",
+        "[YT djvlad] \"FBG Butta Predicted Lil Durk Would Be Arrested for M***** for Hire (Flashback)\" 2026-09-01T22:35:38.353Z",
+        "[YT djvlad] \"Judge Mathis: I Was Shocked OTF Jam Testified Against Lil Durk (Part 2)\" 2026-09-01T20:35:38.353Z"
+      ]
+    },
+    {
+      "id": "C004",
+      "title": "JayBlac Discusses Kai Cenat's Potential Battle Rap Appearance and Cultural Impact",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "JayBlac",
+        "action": "discussing",
+        "object": "Kai Cenat's battle rap appearance",
+        "claim": "JayBlac is discussing Kai Cenat's potential involvement in battle rap, its cultural impact, and whether it matters beyond entertainment.",
+        "time": "September 1st, 2026",
+        "location": "",
+        "named_entities": [
+          "JayBlac",
+          "Kai Cenat",
+          "URLTV",
+          "Smack"
+        ],
+        "key_phrases": [
+          "Kai Cenat",
+          "JayBlac",
+          "battle rap",
+          "culture",
+          "Summer Madness",
+          "URLTV"
+        ]
+      },
+      "item_indices": [
+        13,
+        14,
+        23
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "Multiple posts and a YouTube video from JayBlac's channel discuss Kai Cenat's potential involvement in battle rap events and its impact on the culture.",
+      "parent": null,
+      "evidence": [
+        "[X @JayBlac1615] RT @DaDonJohnJohn: Jayblac talking bout letting somebody win but “winning matters” 🤦🏽‍♂️ \n\nKai get on that stage he needs to get COOKED or… (♥45 rt1) Tue Sep 01 19:47:03 +0000 2026",
+        "[X @JayBlac1615] John John talking about COOKing Wit Kai ya on a Summer Madness stage.\n\nI understand she bakes cakes, and every streamer think it’s sweet, but what about the battle rap part? That don’t “matter”? (♥34 rt1) Tue Sep 01 17:02:48 +0000 2026",
+        "[YT Jayblac1615] \"KAI X SMACK/URL LIVE STREAM WAS A GREAT BOOST FOR THE CULTURE, WHAT HAPPENS NOW?\" 2026-09-01T16:35:37.043Z"
+      ]
+    },
+    {
+      "id": "C005",
+      "title": "Loaded Lux Performs \"No Name\" on The Radar",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Loaded Lux",
+        "action": "performs",
+        "object": "\"No Name\"",
+        "claim": "Loaded Lux performed his song \"No Name\" on The Radar.",
+        "time": "September 1st, 2026",
+        "location": "",
+        "named_entities": [
+          "Loaded Lux"
+        ],
+        "key_phrases": [
+          "Loaded Lux",
+          "No Name",
+          "The Radar",
+          "performs"
+        ]
+      },
+      "item_indices": [
+        0
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "A single tweet announces Loaded Lux's performance of \"No Name\" on The Radar.",
+      "parent": null,
+      "evidence": [
+        "[X @urltv] Loaded Lux performs \"No Name\" On The Radar! https://t.co/4Rt22ivISq (♥573 rt126) Tue Sep 01 20:38:15 +0000 2026"
+      ]
+    },
+    {
+      "id": "C006",
+      "title": "Murda Mook Accused of Wearing Fake Dreads",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Murda Mook",
+        "action": "accused of wearing",
+        "object": "faux locs/fake dreads",
+        "claim": "Murda Mook is being criticized for wearing faux locs (fake dreads).",
+        "time": "September 1st, 2026",
+        "location": "",
+        "named_entities": [
+          "Murda Mook"
+        ],
+        "key_phrases": [
+          "Murda Mook",
+          "faux locs",
+          "fake dreads",
+          "hair extensions"
+        ]
+      },
+      "item_indices": [
+        5
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "A tweet specifically calls out Murda Mook for wearing what is described as fake dreads.",
+      "parent": null,
+      "evidence": [
+        "[X @KINGDNATOOTH_] MURDA MOOK CAUGHT WEARING WEAVE 🤦🏻‍♂️ MOOK WENT FROM A DU RAG TO BRAIDS AND NOW FAUX LOCS AKA FAKE DREADS. 🤦🏻‍♂️🤦🏻‍♂️🤦🏻‍♂️ FAUX LOCS ARE HAIR EXTENSIONS https://t.co/ugVI6uwT3h (♥355 rt22) Tue Sep 01 15:44:45 +0000 2026"
+      ]
+    },
+    {
+      "id": "C007",
+      "title": "Marvel's Recent Project Cancellations and Character Struggles",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Marvel",
+        "action": "canceled projects",
+        "object": "Blade, Ironheart, Wonder Man",
+        "claim": "Marvel has canceled several projects and is facing challenges with characters like Captain America.",
+        "time": "September 1st, 2026",
+        "location": "",
+        "named_entities": [
+          "Marvel",
+          "Blade",
+          "Ironheart",
+          "Wonder Man",
+          "Sam Wilson",
+          "Captain America"
+        ],
+        "key_phrases": [
+          "Marvel canceled",
+          "Blade",
+          "Ironheart",
+          "Wonder Man",
+          "Captain America"
+        ]
+      },
+      "item_indices": [
+        11
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "A single tweet lists several Marvel projects that have allegedly been canceled, along with character struggles.",
+      "parent": null,
+      "evidence": [
+        "[X @JayBlac1615] RT @ToneQapo: Marvel canceled Blade, canceled Ironheart, canceled Wonder Man, and had Sam Wilson fighting for his life as Captain America…… (♥49913 rt9478) Tue Sep 01 20:42:10 +0000 2026"
+      ]
+    },
+    {
+      "id": "C008",
+      "title": "Charleston White Discusses Yella Beezy's Potential Guilt in Mo3's Murder",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Charleston White",
+        "action": "discussing",
+        "object": "Yella Beezy's guilt in Mo3's murder",
+        "claim": "Charleston White believes Yella Beezy will be found guilty of killing Mo3 if he doesn't testify.",
+        "time": "September 2nd, 2026",
+        "location": "",
+        "named_entities": [
+          "Charleston White",
+          "Yella Beezy",
+          "Mo3"
+        ],
+        "key_phrases": [
+          "Charleston White",
+          "Yella Beezy",
+          "Mo3",
+          "murder",
+          "guilty"
+        ]
+      },
+      "item_indices": [
+        30
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "A YouTube video features Charleston White discussing Yella Beezy's potential guilt in the murder of Mo3.",
+      "parent": null,
+      "evidence": [
+        "[YT djvlad] \"Charleston White: Yella Beezy Will Be Found Guilty of Killing Mo3 if He Doesn't Take Stand (Part 3)\" 2026-09-02T16:30:38.353Z"
+      ]
+    },
+    {
+      "id": "C009",
+      "title": "Jay-Z and DJ Vlad Debate Artistic Merit",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Jay-Z and DJ Vlad",
+        "action": "argue",
+        "object": "who is the better artist",
+        "claim": "Jay-Z and DJ Vlad are debating who is the better artist, specifically comparing Jay-Z and Kanye West.",
+        "time": "September 1st, 2026",
+        "location": "",
+        "named_entities": [
+          "Jay-Z",
+          "DJ Vlad",
+          "Kanye West"
+        ],
+        "key_phrases": [
+          "Jay-Z",
+          "DJ Vlad",
+          "better artist",
+          "Kanye West"
+        ]
+      },
+      "item_indices": [
+        37
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "A YouTube video captures an argument between Jay-Z and DJ Vlad about who is the better artist.",
+      "parent": null,
+      "evidence": [
+        "[YT djvlad] \"Jay-Z & DJ Vlad Argue Over Who's the Better Artist: Jay-Z or Kanye (Part 8)\" 2026-09-01T19:35:38.353Z"
+      ]
+    },
+    {
+      "id": "C010",
+      "title": "Battle Rap Community Discusses Event Cards and Future Plans",
+      "kind": "topic",
+      "event_fingerprint": {
+        "subject": "Battle Rap",
+        "action": "discussion",
+        "object": "event cards, future plans",
+        "claim": "There is ongoing discussion within the battle rap community about upcoming events and potential future cards.",
+        "time": "September 1st-2nd, 2026",
+        "location": "",
+        "named_entities": [
+          "URLTV",
+          "Smack",
+          "Kai Cenat"
+        ],
+        "key_phrases": [
+          "battle rap",
+          "event card",
+          "December",
+          "culture"
+        ]
+      },
+      "item_indices": [
+        6,
+        10,
+        12,
+        16,
+        17,
+        18,
+        19,
+        20,
+        22,
+        23,
+        27
+      ],
+      "shared_signals": [
+        "same_subject"
+      ],
+      "why_moving": "A collection of tweets and YouTube titles touch on various aspects of the battle rap scene, including performances, opinions on rappers, and event planning, but do not coalesce around a single specific event or claim.",
+      "parent": null,
+      "evidence": [
+        "[X @BattleRapTrap] RT @BattleRapBum: greatest battle rap trap singer you’ve ever seen https://t.co/onrL4OkdmW (♥2980 rt492) Tue Sep 01 19:29:20 +0000 2026",
+        "[X @BattleRapTrap] RT @DocQtorr: Yall want a card in December? (♥119 rt18) Wed Sep 02 00:24:29 +0000 2026",
+        "[X @JayBlac1615] RT @popstartimmy: Yunus has spoken https://t.co/58zZUgIc9G (♥81 rt12) Wed Sep 02 14:57:49 +0000 2026",
+        "[X @islandgodverb] Content on the way …. https://t.co/NaDQFDqNCr (♥105 rt5) Mon Aug 31 17:06:32 +0000 2026",
+        "[X @islandgodverb] What you “ street thug “ rappers gone rap about now ? Sliding.  ? The gang?  Never snitching ? \n\nBitch please….. (♥18 rt0) Wed Sep 02 00:21:59 +0000 2026",
+        "[X @islandgodverb] Aye verb snaps in interview ! \n\nhttps://t.co/eKhlbbRuri (♥12 rt3) Mon Aug 31 20:18:11 +0000 2026",
+        "[X @islandgodverb] SHOWTIME \n\nhttps://t.co/T5jxnkhRKR (♥9 rt2) Wed Sep 02 01:43:41 +0000 2026",
+        "[X @islandgodverb] Blueface has all his girls in the car together … \n\nHe the man lol (♥11 rt0) Mon Aug 31 22:39:30 +0000 2026",
+        "[YT Rare Breed Ent] \"IS EAZY THE BLOCK CAPTAIN STILL A STAR IN BATTLE RAP?\" 2026-09-01T16:35:36.372Z",
+        "[YT Jayblac1615] \"KAI X SMACK/URL LIVE STREAM WAS A GREAT BOOST FOR THE CULTURE, WHAT HAPPENS NOW?\" 2026-09-01T16:35:37.043Z",
+        "[YT hiphopisreal.com] \"BEASLEY FULL INTERVIEW.mp4\" 2026-09-01T16:35:37.608Z"
+      ]
+    }
+  ]
+}

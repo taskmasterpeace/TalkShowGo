@@ -1,0 +1,381 @@
+{
+  "pulled_from": "pull_2026-09-02T02-16-51.json",
+  "beat": "battle-rap",
+  "clustered_at": "2026-09-02T03:37:55.078Z",
+  "feed_count": 22,
+  "ms": 5860,
+  "counts": {
+    "stories": 6,
+    "substories": 1,
+    "topics": 2
+  },
+  "clusters": [
+    {
+      "id": "C001",
+      "title": "URLTV Announces Summer Madness XVI with Multiple Matchups",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "URLTV",
+        "action": "announces",
+        "object": "Summer Madness XVI",
+        "claim": "URLTV is promoting Summer Madness XVI, an event scheduled for September 27th in Atlanta, featuring matchups like Ill Will vs. Chess and Tay Roc vs. Rum Nitty.",
+        "time": "September 27th, 2026",
+        "location": "Atlanta, GA",
+        "named_entities": [
+          "URLTV",
+          "Summer Madness XVI",
+          "Ill Will",
+          "Chess",
+          "Tay Roc",
+          "Rum Nitty",
+          "Variety Playhouse"
+        ],
+        "key_phrases": [
+          "Summer Madness XVI",
+          "URLTV",
+          "Atlanta",
+          "September 27th",
+          "Ill Will vs Chess",
+          "Tay Roc vs Rum Nitty"
+        ]
+      },
+      "item_indices": [
+        1,
+        2,
+        4,
+        9,
+        19,
+        20
+      ],
+      "shared_signals": [
+        "same_entities",
+        "same_claim",
+        "temporal",
+        "location"
+      ],
+      "why_moving": "Multiple posts from URLTV and related accounts announce and promote the Summer Madness XVI event, including specific matchups and dates.",
+      "parent": null,
+      "evidence": [
+        "[X @urltv] Ill Will vs Chess - Who Wins?\n\nURLTV presents SUMMER MADNESS XVI - Sunday, September 27th at Variety Playhouse in Atlanta, GA!\n\nDropping Exclusively on the URLTV App\n\nTickets:\nhttps://t.co/OuvwGwgFzN\n\n#youcantcopyrespect https://t.co/cNb57L (♥162 rt39) Mon Aug 31 18:07:09 +0000 2026",
+        "[X @urltv] Gun Bar King vs Gun Line King\n\nTay Roc vs Rum Nitty - THE REMATCH\n\nmade by @paralleluniversebars\n\nSUMMER MADNESS XVI - September 27th in Atlanta\n\nDropping Exclusively on the URLTV App\n\nTickets:\nhttps://t.co/OuvwGwgFzN\n\n#youcantcopyrespect h (♥174 rt24) Tue Sep 01 16:06:08 +0000 2026",
+        "[X @urltv] Ill Will vs Chess Trailer!\n\nURLTV presents SUMMER MADNESS XVI - Sunday, September 27th at Variety Playhouse in Atlanta, GA!\n\nDropping Exclusively on the URLTV App\n\nTickets:\nhttps://t.co/OuvwGwgFzN\n\n#youcantcopyrespect https://t.co/fXc45Q3Hz (♥54 rt12) Tue Sep 01 17:50:20 +0000 2026",
+        "[X @BattleRapTrap] RT @urltv: Twork was LOSING HIS MIND at Kai Cenat's House! 🤟🏾🔥\n\nSUMMER MADNESS XVI - Sunday, September 27th at Variety Playhouse in Atlanta… (♥304 rt48) Tue Sep 01 10:54:39 +0000 2026",
+        "[YT Ultimate Rap League] \"Yunus vs Kai\" 2026-09-01T23:19:53.000Z",
+        "[YT Ultimate Rap League] \"SUMMER MADNESS XVI ANNOUNCEMENT #3 |  URLTV\" 2026-09-01T16:14:26.000Z"
+      ]
+    },
+    {
+      "id": "C002",
+      "title": "Keefe D Found Guilty of Tupac's Murder",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Keefe D",
+        "action": "found guilty of",
+        "object": "Tupac's murder",
+        "claim": "Keefe D has been officially found guilty of the murder of Tupac.",
+        "time": "September 1st, 2026",
+        "location": "",
+        "named_entities": [
+          "Keefe D",
+          "Tupac"
+        ],
+        "key_phrases": [
+          "Keefe D",
+          "Tupac's murder",
+          "found guilty"
+        ]
+      },
+      "item_indices": [
+        6,
+        7
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "same_url",
+        "temporal"
+      ],
+      "why_moving": "Two identical posts, one a retweet, declare Keefe D has been found guilty of Tupac's murder.",
+      "parent": null,
+      "evidence": [
+        "[X @BattleRapTrap] RT @BattleRapTrap: KEEFE D OFFICIALLY FOUND GUILTY OF TUPACS MURDER..😳😳‼️‼️ https://t.co/ecTTFSnULS (♥2823 rt257) Tue Sep 01 12:02:10 +0000 2026",
+        "[X @BattleRapTrap] KEEFE D OFFICIALLY FOUND GUILTY OF TUPACS MURDER..😳😳‼️‼️ https://t.co/ecTTFSnULS (♥2823 rt257) Tue Sep 01 00:32:01 +0000 2026"
+      ]
+    },
+    {
+      "id": "C003",
+      "title": "Loaded Lux Performs \"No Name\" on The Radar",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Loaded Lux",
+        "action": "performs",
+        "object": "\"No Name\" on The Radar",
+        "claim": "Loaded Lux performed his song \"No Name\" on The Radar.",
+        "time": "September 1st, 2026",
+        "location": "",
+        "named_entities": [
+          "Loaded Lux",
+          "The Radar"
+        ],
+        "key_phrases": [
+          "Loaded Lux",
+          "No Name",
+          "The Radar",
+          "performs"
+        ]
+      },
+      "item_indices": [
+        0
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "A single post announces Loaded Lux's performance of \"No Name\" on The Radar.",
+      "parent": null,
+      "evidence": [
+        "[X @urltv] Loaded Lux performs \"No Name\" On The Radar! https://t.co/4Rt22ivISq (♥315 rt67) Tue Sep 01 20:38:15 +0000 2026"
+      ]
+    },
+    {
+      "id": "C004",
+      "title": "Murda Mook Accused of Wearing Weave/Faux Locs",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Murda Mook",
+        "action": "accused of wearing",
+        "object": "weave/faux locs",
+        "claim": "Murda Mook is being criticized for wearing faux locs (fake dreads), described as hair extensions.",
+        "time": "September 1st, 2026",
+        "location": "",
+        "named_entities": [
+          "Murda Mook"
+        ],
+        "key_phrases": [
+          "Murda Mook",
+          "weave",
+          "faux locs",
+          "fake dreads",
+          "hair extensions"
+        ]
+      },
+      "item_indices": [
+        5
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "A post specifically calls out Murda Mook for wearing faux locs.",
+      "parent": null,
+      "evidence": [
+        "[X @KINGDNATOOTH_] MURDA MOOK CAUGHT WEARING WEAVE 🤦🏻‍♂️ MOOK WENT FROM A DU RAG TO BRAIDS AND NOW FAUX LOCS AKA FAKE DREADS. 🤦🏻‍♂️🤦🏻‍♂️🤦🏻‍♂️ FAUX LOCS ARE HAIR EXTENSIONS https://t.co/ugVI6uwT3h (♥268 rt18) Tue Sep 01 15:44:45 +0000 2026"
+      ]
+    },
+    {
+      "id": "C005",
+      "title": "Shotgun Suge Drops Freestyle",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Shotgun Suge",
+        "action": "drops",
+        "object": "new freestyle",
+        "claim": "Shotgun Suge released a new freestyle over the Case \"Missing You\" beat.",
+        "time": "September 1st, 2026",
+        "location": "",
+        "named_entities": [
+          "Shotgun Suge",
+          "Case"
+        ],
+        "key_phrases": [
+          "Shotgun Suge",
+          "freestyle",
+          "Case",
+          "Missing You"
+        ]
+      },
+      "item_indices": [
+        3
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "A post announces Shotgun Suge's new freestyle.",
+      "parent": null,
+      "evidence": [
+        "[X @urltv] Shotgun Suge drops new freestyle over the Case \"Missing You\" beat! 🤟🏾🔥\n\n@realshotgunsuge\n@Case_Music\n\n#youcantcopyrespect https://t.co/wrl6NufClM (♥62 rt10) Tue Sep 01 15:02:36 +0000 2026"
+      ]
+    },
+    {
+      "id": "C006",
+      "title": "Marvel's Recent Cancellations and Character Issues",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Marvel",
+        "action": "canceled",
+        "object": "Blade, Ironheart, Wonder Man",
+        "claim": "Marvel has canceled several shows/projects including Blade, Ironheart, and Wonder Man, and is facing issues with Sam Wilson as Captain America.",
+        "time": "September 1st, 2026",
+        "location": "",
+        "named_entities": [
+          "Marvel",
+          "Blade",
+          "Ironheart",
+          "Wonder Man",
+          "Sam Wilson",
+          "Captain America"
+        ],
+        "key_phrases": [
+          "Marvel",
+          "canceled",
+          "Blade",
+          "Ironheart",
+          "Wonder Man",
+          "Sam Wilson",
+          "Captain America"
+        ]
+      },
+      "item_indices": [
+        11
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "A single post details recent cancellations and character issues within Marvel projects.",
+      "parent": null,
+      "evidence": [
+        "[X @JayBlac1615] RT @ToneQapo: Marvel canceled Blade, canceled Ironheart, canceled Wonder Man, and had Sam Wilson fighting for his life as Captain America…… (♥45430 rt8594) Tue Sep 01 20:42:10 +0000 2026"
+      ]
+    },
+    {
+      "id": "C007",
+      "title": "Kai Cenat's Reaction at Summer Madness XVI Event",
+      "kind": "substory",
+      "event_fingerprint": {
+        "subject": "Kai Cenat",
+        "action": "reacts",
+        "object": "Summer Madness XVI event",
+        "claim": "Kai Cenat had a strong emotional reaction ('LOSING HIS MIND', 'get COOKED') at the Summer Madness XVI event, with discussion about his participation and performance.",
+        "time": "September 1st, 2026",
+        "location": "Atlanta, GA",
+        "named_entities": [
+          "Kai Cenat",
+          "Summer Madness XVI",
+          "URLTV",
+          "Twork",
+          "Jayblac",
+          "John John"
+        ],
+        "key_phrases": [
+          "Kai Cenat",
+          "Summer Madness XVI",
+          "LOSING HIS MIND",
+          "get COOKED",
+          "Twork",
+          "Jayblac",
+          "John John"
+        ]
+      },
+      "item_indices": [
+        9,
+        12,
+        13,
+        21
+      ],
+      "shared_signals": [
+        "same_entities",
+        "same_claim",
+        "temporal"
+      ],
+      "why_moving": "Multiple posts discuss Kai Cenat's involvement and reactions at the Summer Madness XVI event, including a YouTube video title.",
+      "parent": "URLTV Announces Summer Madness XVI with Multiple Matchups",
+      "evidence": [
+        "[X @BattleRapTrap] RT @urltv: Twork was LOSING HIS MIND at Kai Cenat's House! 🤟🏾🔥\n\nSUMMER MADNESS XVI - Sunday, September 27th at Variety Playhouse in Atlanta… (♥304 rt48) Tue Sep 01 10:54:39 +0000 2026",
+        "[X @JayBlac1615] RT @DaDonJohnJohn: Jayblac talking bout letting somebody win but “winning matters” 🤦🏽‍♂️ \n\nKai get on that stage he needs to get COOKED or… (♥35 rt0) Tue Sep 01 19:47:03 +0000 2026",
+        "[X @JayBlac1615] John John talking about COOKing Wit Kai ya on a Summer Madness stage.\n\nI understand she bakes cakes, and every streamer think it’s sweet, but what about the battle rap part? That don’t “matter”? (♥33 rt1) Tue Sep 01 17:02:48 +0000 2026",
+        "[YT Ultimate Rap League] \"Kai Cenat LOST IT Over This! 🔥\" 2026-09-01T13:10:10.000Z"
+      ]
+    },
+    {
+      "id": "C008",
+      "title": "Islandgodverb's Content and Observations",
+      "kind": "topic",
+      "event_fingerprint": {
+        "subject": "islandgodverb",
+        "action": "posting content and observations",
+        "object": "various topics",
+        "claim": "islandgodverb is posting content and making observations about various situations, including Blueface and relationship dynamics.",
+        "time": "August 31st, 2026",
+        "location": "",
+        "named_entities": [
+          "islandgodverb",
+          "Blueface"
+        ],
+        "key_phrases": [
+          "Content on the way",
+          "Blueface",
+          "girls in the car",
+          "secret problems",
+          "snaps in interview"
+        ]
+      },
+      "item_indices": [
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "shared_signals": [
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "Multiple posts from the same user, islandgodverb, indicate ongoing content creation and commentary.",
+      "parent": null,
+      "evidence": [
+        "[X @islandgodverb] What’s going on here ? I mean hellooo https://t.co/3uUHuvoOYH (♥406 rt34) Mon Aug 31 10:37:17 +0000 2026",
+        "[X @islandgodverb] Content on the way …. https://t.co/NaDQFDqNCr (♥104 rt4) Mon Aug 31 17:06:32 +0000 2026",
+        "[X @islandgodverb] Aye verb snaps in interview ! \n\nhttps://t.co/eKhlbbRuri (♥12 rt3) Mon Aug 31 20:18:11 +0000 2026",
+        "[X @islandgodverb] Blueface has all his girls in the car together … \n\nHe the man lol (♥11 rt0) Mon Aug 31 22:39:30 +0000 2026",
+        "[X @islandgodverb] Soooo yall got a lot of secret problems behind the scenes … dam .. I guess it ain’t love everywhere 😂 (♥7 rt1) Mon Aug 31 15:17:45 +0000 2026"
+      ]
+    },
+    {
+      "id": "C009",
+      "title": "Discussion on Battle Rap Trap Singers",
+      "kind": "topic",
+      "event_fingerprint": {
+        "subject": "Battle Rap Trap Singers",
+        "action": "discussion",
+        "object": "greatest ever",
+        "claim": "There is a discussion about who is the greatest battle rap trap singer.",
+        "time": "September 1st, 2026",
+        "location": "",
+        "named_entities": [
+          "BattleRapTrap"
+        ],
+        "key_phrases": [
+          "battle rap trap singer",
+          "greatest"
+        ]
+      },
+      "item_indices": [
+        8
+      ],
+      "shared_signals": [
+        "same_subject"
+      ],
+      "why_moving": "A single post is about the topic of battle rap trap singers.",
+      "parent": null,
+      "evidence": [
+        "[X @BattleRapTrap] RT @BattleRapBum: greatest battle rap trap singer you’ve ever seen https://t.co/onrL4OkdmW (♥1968 rt320) Tue Sep 01 19:29:20 +0000 2026"
+      ]
+    }
+  ]
+}

@@ -122,7 +122,38 @@
     "web": []
   },
   "people": [
-    { "slug": "dad", "name": "Dad", "relation": "father", "channel": "link", "address": null, "token": "x8ethmnsgurhbdcq", "prompts_mode": "auto", "custom_prompts": [], "added": "2026-09-02T18:36:38Z" },
-    { "slug": "son", "name": "Son", "relation": "son", "channel": "link", "address": null, "token": "zlydjnujje1sub2a", "prompts_mode": "auto", "custom_prompts": [], "added": "2026-09-02T18:36:38Z" }
+    {
+      "slug": "dad",
+      "name": "Dad",
+      "relation": "father",
+      "channel": "link",
+      "address": null,
+      "token": "x8ethmnsgurhbdcq",
+      "prompts_mode": "auto",
+      "custom_prompts": [],
+      "added": "2026-09-02T18:36:38Z"
+    },
+    {
+      "slug": "son",
+      "name": "Son",
+      "relation": "son",
+      "channel": "link",
+      "address": null,
+      "token": "zlydjnujje1sub2a",
+      "prompts_mode": "auto",
+      "custom_prompts": [],
+      "added": "2026-09-02T18:36:38Z"
+    },
+    {
+      "slug": "api-test",
+      "name": "Api Test",
+      "relation": "cousin",
+      "channel": "link",
+      "address": null,
+      "token": "ih8l5gug2nmdd99d",
+      "prompts_mode": "auto",
+      "custom_prompts": [],
+      "added": "2026-09-02T18:52:39Z"
+    }
   ]
 }

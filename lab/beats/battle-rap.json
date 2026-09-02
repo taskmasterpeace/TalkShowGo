@@ -85,7 +85,7 @@
         "label": "HHIR",
         "type": "media",
         "priority": 2,
-        "status": "VERIFIED 2026-08-31",
+        "status": "SUSPECT 2026-09-02: 4 followers (label says media: HHIR); display name \"HipHop IsReal\" shares no word with the label \"HHIR\"",
         "userId": "165942201",
         "followers": 4,
         "display_name": "HipHop IsReal"
@@ -169,6 +169,16 @@
     "web": []
   },
   "people": [
-    { "slug": "robert", "name": "Robert", "relation": "owner", "channel": "link", "address": null, "token": "ccajdrlweki2ymlh", "prompts_mode": "auto", "custom_prompts": [], "added": "2026-09-02T18:36:38Z" }
+    {
+      "slug": "robert",
+      "name": "Robert",
+      "relation": "owner",
+      "channel": "link",
+      "address": null,
+      "token": "ccajdrlweki2ymlh",
+      "prompts_mode": "auto",
+      "custom_prompts": [],
+      "added": "2026-09-02T18:36:38Z"
+    }
   ]
 }

@@ -1,0 +1,215 @@
+{
+  "pulled_from": "clusters_2026-09-02T18-39-43-844_atlanta-falcons.json",
+  "beat": "atlanta-falcons",
+  "ranked_at": "2026-09-02T18:41:59.652Z",
+  "format": "debate",
+  "counts": {
+    "total": 14,
+    "debatable": 13
+  },
+  "ms": 6814,
+  "usage": {
+    "prompt_tokens": 3861,
+    "completion_tokens": 2120,
+    "total_tokens": 5981,
+    "cost": 0.0012341,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0012341,
+      "upstream_inference_prompt_cost": 0.0003861,
+      "upstream_inference_completions_cost": 0.000848
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "ranked": [
+    {
+      "title": "Falcons' QB1 Decision Unresolved",
+      "show_value": 90,
+      "rationale": "The starting QB is always a high-stakes, high-interest topic with clear opposing viewpoints on who should get the job.",
+      "best_angle": "Who should be the Falcons' starting QB and why?",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "The team should go with the veteran presence.",
+        "The future is now, give the younger QB a shot."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Gervon Dexter's Departure from Chicago and Arrival with Falcons",
+      "show_value": 85,
+      "rationale": "A significant player acquisition brings immediate intrigue and potential for debate on his impact and fit.",
+      "best_angle": "Was acquiring Gervon Dexter a smart move for the Falcons, and will he be a difference-maker?",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "Dexter is the missing piece for the defensive line and a great gamble.",
+        "Dexter is an unproven commodity with character concerns who could be a bust."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Falcons' Defensive Production Decline After Roster Changes",
+      "show_value": 80,
+      "rationale": "This presents a stark, potentially alarming statistic that invites debate about the team's defensive strategy and personnel.",
+      "best_angle": "Are the Falcons' roster changes setting up a significant decline in defensive production?",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "The team has gutted its pass rush and will suffer greatly.",
+        "The new personnel will bring fresh energy and a different, effective scheme."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Bijan Robinson Ranked No. 3 on NFL Top 100",
+      "show_value": 75,
+      "rationale": "A star player's high ranking is great for buzz, but the debate is more about his future potential and team success.",
+      "best_angle": "Is Bijan Robinson already an elite, top-tier NFL player, and can he carry the Falcons?",
+      "best_format": "hot-take",
+      "contrasting_viewpoints": [
+        "Robinson is a generational talent who will be an MVP candidate.",
+        "His ranking is inflated by potential; he needs to prove it with team wins."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Falcons' Roster Cuts and Waiver Claims",
+      "show_value": 70,
+      "rationale": "Focusing on a specific controversial cut like Zach Harrison allows for a debate about team decisions and player evaluation.",
+      "best_angle": "Did the Falcons make a mistake cutting Zach Harrison, and were the waiver claims a better move?",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "Cutting Harrison was a blunder; he had potential the team overlooked.",
+        "The waiver claims represent a smarter, more immediate upgrade for the roster."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Falcons GM Ian Cunningham on Acquiring 'Big, Powerful, Rugged, Explosive, Violent Players'",
+      "show_value": 65,
+      "rationale": "The GM's quote is colorful and sets a tone, inviting discussion about the team's identity and player acquisition strategy.",
+      "best_angle": "What does GM Cunningham's 'violent players' philosophy mean for the Falcons' on-field identity?",
+      "best_format": "explainer",
+      "contrasting_viewpoints": [
+        "This philosophy signals a return to a physical, dominant team.",
+        "This language is concerning and could lead to undisciplined play."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Falcons GM Ian Cunningham Discusses 53-Man Roster and Team Goals",
+      "show_value": 60,
+      "rationale": "The GM's comments on goals and roster construction provide talking points about the team's direction and expectations.",
+      "best_angle": "Can the Falcons realistically compete for the playoffs with this roster, according to the GM?",
+      "best_format": "interview",
+      "contrasting_viewpoints": [
+        "The GM's confidence is warranted; this team is built for the postseason.",
+        "The GM is setting unrealistic expectations; the roster has too many holes."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Falcons' Rookie Class Shows Promise",
+      "show_value": 55,
+      "rationale": "While positive, 'promise' is subjective and can be debated regarding its immediate impact and overall quality.",
+      "best_angle": "How much immediate impact can the Falcons expect from their promising rookie class?",
+      "best_format": "explainer",
+      "contrasting_viewpoints": [
+        "Several rookies are ready to contribute significantly from day one.",
+        "Rookie production is often overstated; they'll need time to develop."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Avieon Terrell Moving to Nickelback Role for Falcons",
+      "show_value": 50,
+      "rationale": "A specific player move can spark debate about its impact on the secondary and the player's potential.",
+      "best_angle": "Is Avieon Terrell's move to nickelback the right decision for the Falcons' secondary?",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "Terrell has the skills to excel at nickel and improve the defense.",
+        "This move shows a lack of depth at corner and might not be a long-term solution."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Falcons GM Ian Cunningham on James Pearce's Suspension",
+      "show_value": 45,
+      "rationale": "A suspended player is a point of discussion, but the GM's comments are more informational than controversial.",
+      "best_angle": "How will James Pearce's suspension impact the Falcons, and what's the plan for his return?",
+      "best_format": "explainer",
+      "contrasting_viewpoints": [
+        "The team has a solid plan to manage Pearce's absence and reintegrate him.",
+        "The suspension is a significant setback and raises questions about his reliability."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Falcons GM Ian Cunningham on Competing for Playoffs",
+      "show_value": 40,
+      "rationale": "A straightforward statement of goals, less a point of contention and more an expectation to be met.",
+      "best_angle": "Is the Falcons' goal of making the playoffs realistic this season?",
+      "best_format": "hot-take",
+      "contrasting_viewpoints": [
+        "The GM's statement reflects genuine belief in the team's potential.",
+        "This is standard coach-speak; the roster doesn't support playoff aspirations."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Falcons' Roster Moves: JD Bertrand to IR, Josh Woods Signed",
+      "show_value": 30,
+      "rationale": "Specific roster transactions are usually too granular for a debate show unless they signal a larger trend.",
+      "best_angle": "How do these specific roster moves impact the Falcons' depth and strategy?",
+      "best_format": "explainer",
+      "contrasting_viewpoints": [
+        "These moves are minor adjustments to manage depth and injuries.",
+        "The team is scrambling to fill holes, indicating underlying roster weaknesses."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Falcons Set Initial 53-Man Roster",
+      "show_value": 25,
+      "rationale": "The final roster is important, but the debate is usually about specific cuts or inclusions, not the list itself.",
+      "best_angle": "What are the biggest surprises and takeaways from the Falcons' initial 53-man roster?",
+      "best_format": "explainer",
+      "contrasting_viewpoints": [
+        "The roster reflects smart decisions based on talent and need.",
+        "There are questionable omissions and inclusions that will be debated."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Discussion on Falcons' Secondary Importance",
+      "show_value": 20,
+      "rationale": "This is too vague and analytical without a clear point of contention to be a strong debate topic.",
+      "best_angle": "How crucial is the Falcons' secondary to their success this season?",
+      "best_format": "explainer",
+      "contrasting_viewpoints": [],
+      "debatable": false,
+      "pinned": false
+    }
+  ]
+}

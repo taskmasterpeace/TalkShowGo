@@ -1,0 +1,355 @@
+[
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Y'all, it's no contest. Hollow Da Don is the one that put the belt on Roc, made him the face of the URL. That's it.",
+    "delivery": "Booming, confident, states verdict",
+    "addressed_to": "null",
+    "evidence": [
+      "E047"
+    ],
+    "tag": null,
+    "ms": 739,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "But did one battle change his face inverse?",
+    "delivery": "dry counter",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 598,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Inverse? Tasha, you're talking about a damn face lift. I'm talking about the moment he *became* the face of the URL. That's the whole damn story!",
+    "delivery": "booming, defiant, dismissive",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E047"
+    ],
+    "tag": null,
+    "ms": 564,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "'Face of the URL'? Been that for years, Marcus. But that week? That was the invoice. And it was stamped 'paid in full.'",
+    "delivery": "dry, factual",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 794,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "An invoice? Nah, that was the coronation, my man. The whole damn league bowed down.",
+    "delivery": "booming, dismissive, escalating",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": null,
+    "ms": 1040,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Cap.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The coronation was loud, but the invoice is what pays the mortgage. Rapverdict's own scorecards say the haymakers secured the two-one edge.",
+    "delivery": "low, certain, reframing",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E046"
+    ],
+    "tag": null,
+    "ms": 4509,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Neither is his moment, Marcus. This defines his legend.",
+    "delivery": "flat dismissal",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E047"
+    ],
+    "tag": "interrupting",
+    "ms": 2362,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "A single round can't carry a whole battle, Tasha. The record shows no consensus on his greatest battle.",
+    "delivery": "calm, definitive counter",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E035"
+    ],
+    "tag": "interrupting",
+    "ms": 3680,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Okay, 'definitely legendary.' Note the asterisks?",
+    "delivery": "low, precise",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": null,
+    "ms": 601,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Okay, okay, asterisks? You're hung up on asterisks, Tasha. This was the crowning achievement, not just a footnote.",
+    "delivery": "weary exasperation, then sharp focus",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E047"
+    ],
+    "tag": null,
+    "ms": 2048,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Crowding achievement doesn't pay the invoice though. Does it?",
+    "delivery": "dry precision",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 559,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "You both talking about the receipt and the crown. The real question is: which one you can't tell the story without.",
+    "delivery": "low, unhurried, definitive",
+    "addressed_to": "null",
+    "evidence": [],
+    "tag": null,
+    "ms": 4045,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "No. Story needs receipts. This one pays full price.",
+    "delivery": "cold precision",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E047"
+    ],
+    "tag": "interrupting",
+    "ms": 637,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Whew.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "A title is what they give you. A tape is what they replay. And the Hollow tape got replayed.",
+    "delivery": "low, definitive, leaning forward",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E047"
+    ],
+    "tag": null,
+    "ms": 8554,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Rapverdict got receipts on that round. And his face got cemented. Which one disappears first?",
+    "delivery": "dry precision",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E045",
+      "E047"
+    ],
+    "tag": null,
+    "ms": 699,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The face gets cemented by the wave, but the legacy is built by the tide. And the tide of replay value... that's the Hollow tape.",
+    "delivery": "slow, definitive, letting it land",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E046",
+      "E047"
+    ],
+    "tag": null,
+    "ms": 4011,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "But the seatbelt?",
+    "delivery": "flat flip",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": null,
+    "ms": 441,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The seatbelt question is a distraction. The real measure is which battle you can't skip a round of. And with Hollow, nobody hits fast-forward.",
+    "delivery": "slow, dismissive, leaning in",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E046"
+    ],
+    "tag": null,
+    "ms": 4297,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Seatbelt defined him. You can't skip it.",
+    "delivery": "flat, cutting through",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": null,
+    "ms": 646,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "We talkin' about the seatbelt like it's the whole car. Rapverdict's own archives show no consensus on his single greatest battle, but they do show a two-one edge and a cemented position.",
+    "delivery": "slow, definitive, leaning back",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E035",
+      "E046",
+      "E047"
+    ],
+    "tag": null,
+    "ms": 9134,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Again, not what archives say. Receipts say 'legendary' on the round. That's it.",
+    "delivery": "flat, dismissive",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E045"
+    ],
+    "tag": null,
+    "ms": 705,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "The archives say he edged it out, Tasha. That win made him the man for the league.",
+    "delivery": "matter-of-fact, weary but firm",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 1877,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "'Edged it out.' And that's where you're stuck, Marcus. That round? It wasn't an edge. It was cement. His face, paid in full.",
+    "delivery": "dry artistry",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E045"
+    ],
+    "tag": null,
+    "ms": 860,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Cement is for sidewalks, Tasha. This was the heavyweight belt.",
+    "delivery": "Booming, triumphant, dismissive",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E047"
+    ],
+    "tag": null,
+    "ms": 1758,
+    "noMerge": true
+  }
+]

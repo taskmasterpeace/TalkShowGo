@@ -21,5 +21,17 @@
     { "id": "perplexity/sonar-pro", "provider": "perplexity/openrouter", "role": "impartial context gathering (native web)", "use": "THE BRIEFING - pull unbiased facts + the larger context before anyone (agent OR user) is asked for an opinion" },
     { "id": "perplexity/sonar-reasoning-pro", "provider": "perplexity", "role": "deeper analysis with web + reasoning" }
   ],
+  "lineup_2026_09_02": {
+    "_why": "Robert 2026-09-02: 'figure out what models we need; let me know what models we end up going with.' Everything runs on OpenRouter (Requesty is dead with 402s; the Mac-mini hermes4 seat fought the video engines for VRAM). Every id below was verified live on OpenRouter 2026-09-02. Locked in lab/cast/cast.json (model.provider/id/dna_id); run_floor.mjs defaults to --provider=openrouter.",
+    "floor_default_provider": "openrouter",
+    "roles": {
+      "showrunner": { "model": "anthropic/claude-sonnet-5", "why": "The Pro: the producer writes no dialogue but does the casting, the beat sheet and the bright-line enforcement; the one seat where the best writer earns its price" },
+      "marcus-blaze": { "model": "google/gemini-2.5-flash-lite", "why": "The Instant Read: fires in under a second and snaps to a verdict, which IS Blaze's processing (gut first, evidence hunted backwards); unchanged" },
+      "tasha-raw": { "model": "deepseek/deepseek-v3.2-exp", "why": "The Committed Voice, Robert's pick: plants the flag and will not back down, which is Tasha's whole posture (receipts first, concedes the frame never the conclusion)" },
+      "king-knowledge": { "model": "deepseek/deepseek-r1", "why": "The Deliberate Mind: the beat of silence before the smart guy talks. On the live floor run_floor swaps R1 for deepseek-v3.2-exp (FLOOR_SUB) because R1's chain-of-thought stalls improv turns; the print keeps him the elder either way; unchanged" },
+      "champagne-dwayne": { "model": "nousresearch/hermes-4-70b", "why": "The Unfiltered Mouth: uncensored, savage, says the thing nobody else will. The only engine that will say the quiet part without a disclaimer, so he is the one host with guards.style off" },
+      "mix": { "model": "google/gemini-2.5-flash-lite", "why": "the messiness pass is cheap texture work (fillers, false starts, interruptions); the fastest engine wins" }
+    }
+  },
   "casting_rule": "Match the model's quirk to the seat whose personality NEEDS it. A show is a spread of temperaments: pair a fast gut (Flash Lite) against a slow analyst (R1), drop the uncensored comic (Hermes-4) in for the button, let the wildcard (Weaver) detonate one line. Diversity of engines = diversity of voices, for pennies."
 }

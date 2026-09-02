@@ -1,0 +1,46 @@
+{
+  "pulled_from": "clusters_2026-09-02T18-40-15-933_indiana-pacers.json",
+  "beat": "indiana-pacers",
+  "ranked_at": "2026-09-02T18:42:03.889Z",
+  "format": "debate",
+  "counts": {
+    "total": 1,
+    "debatable": 0
+  },
+  "ms": 634,
+  "usage": {
+    "prompt_tokens": 591,
+    "completion_tokens": 106,
+    "total_tokens": 697,
+    "cost": 0.0001015,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0001015,
+      "upstream_inference_prompt_cost": 0.0000591,
+      "upstream_inference_completions_cost": 0.0000424
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "ranked": [
+    {
+      "title": "Indiana Pacers promote Tyrese Haliburton jersey sales",
+      "show_value": 5,
+      "rationale": "This is a straightforward promotional announcement with no inherent conflict or debate.",
+      "best_angle": "N/A",
+      "best_format": "explainer",
+      "contrasting_viewpoints": [],
+      "debatable": false,
+      "pinned": false
+    }
+  ]
+}

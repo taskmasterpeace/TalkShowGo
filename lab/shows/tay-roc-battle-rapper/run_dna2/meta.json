@@ -1,0 +1,14 @@
+{
+  "beat": "tay-roc-battle-rapper",
+  "provider": "openrouter",
+  "models": {
+    "tasha-raw": "hf.co/bartowski/NousResearch_Hermes-4-70B-GGUF:Q4_K_M",
+    "marcus-blaze": "qwen3:30b",
+    "king-knowledge": "qwen3:30b",
+    "_mix": "qwen3:30b"
+  },
+  "seed": 11,
+  "turns": 36,
+  "spoken_words": 391,
+  "finished": "2026-09-01T20:58:28.236Z"
+}

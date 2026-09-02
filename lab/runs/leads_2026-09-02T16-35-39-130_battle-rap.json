@@ -1,0 +1,503 @@
+{
+  "pulled_from": "pull_2026-09-02T16-35-39-130_battle-rap.json",
+  "beat": "battle-rap",
+  "mined_at": "2026-09-02T16:44:27.376Z",
+  "feed_count": 38,
+  "ms": 13092,
+  "truncated": false,
+  "counts": {
+    "total": 48,
+    "auto": 7,
+    "expand": 34,
+    "store": 7,
+    "ignore": 0
+  },
+  "leads": [
+    {
+      "id": "L008",
+      "type": "CLAIM",
+      "value": "Keefe D found guilty of Tupac's murder",
+      "why": "This is a major legal development with significant implications. Primary source court documents or reactions from involved parties would be crucial.",
+      "destination": "X",
+      "query": "Keefe D guilty Tupac murder",
+      "score": 95,
+      "band": "auto",
+      "since": "2026-09-01",
+      "until": "2026-09-02"
+    },
+    {
+      "id": "L042",
+      "type": "QUOTE",
+      "value": "KEEFE D OFFICIALLY FOUND GUILTY OF TUPACS MURDER..😳😳‼️‼️",
+      "why": "A direct claim about a major legal outcome. This is a high-value lead for verification and primary source material.",
+      "destination": "X",
+      "query": "\"Keefe D officially found guilty of Tupacs murder\" site:twitter.com",
+      "score": 95,
+      "band": "auto"
+    },
+    {
+      "id": "L009",
+      "type": "PERSON",
+      "value": "Keefe D",
+      "why": "Central figure in the recent guilty verdict for Tupac's murder. His statements or legal proceedings are primary evidence.",
+      "destination": "YOUTUBE_CURRENT",
+      "query": "Keefe D guilty verdict",
+      "score": 90,
+      "band": "auto"
+    },
+    {
+      "id": "L001",
+      "type": "EVENT",
+      "value": "SUMMER MADNESS XVI",
+      "why": "This is a recurring event with multiple mentions, indicating its significance in the battle rap scene. Details about dates, location, and performers can be found.",
+      "destination": "X",
+      "query": "SUMMER MADNESS XVI",
+      "score": 85,
+      "band": "auto",
+      "since": "2026-08-31",
+      "until": "2026-09-02"
+    },
+    {
+      "id": "L023",
+      "type": "PERSON",
+      "value": "Lil Durk",
+      "why": "Allegedly involved in a murder-for-hire plot. This is a serious legal matter that could yield primary evidence.",
+      "destination": "X",
+      "query": "Lil Durk murder for hire",
+      "score": 85,
+      "band": "auto",
+      "since": "2026-09-01",
+      "until": "2026-09-02"
+    },
+    {
+      "id": "L027",
+      "type": "PERSON",
+      "value": "OTF Jam",
+      "why": "Testified against Lil Durk. His testimony is a crucial piece of evidence in the legal proceedings.",
+      "destination": "X",
+      "query": "OTF Jam testified Lil Durk",
+      "score": 80,
+      "band": "auto"
+    },
+    {
+      "id": "L039",
+      "type": "ORG",
+      "value": "djvlad",
+      "why": "Has multiple interviews and reactions related to significant events and figures in hip-hop and battle rap. His channel is a key source.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "djvlad interviews",
+      "score": 80,
+      "band": "auto"
+    },
+    {
+      "id": "L004",
+      "type": "PERSON",
+      "value": "Ill Will",
+      "why": "Scheduled to battle Chess at Summer Madness XVI. His past performances and reactions to this matchup could be valuable.",
+      "destination": "X",
+      "query": "Ill Will vs Chess",
+      "score": 75,
+      "band": "expand"
+    },
+    {
+      "id": "L005",
+      "type": "PERSON",
+      "value": "Chess",
+      "why": "Scheduled to battle Ill Will at Summer Madness XVI. His past performances and reactions to this matchup could be valuable.",
+      "destination": "X",
+      "query": "Chess vs Ill Will",
+      "score": 75,
+      "band": "expand"
+    },
+    {
+      "id": "L016",
+      "type": "PERSON",
+      "value": "Beasley",
+      "why": "Appears in multiple YouTube titles discussing Summer Madness XVI, Kai Cenat, and URL's streaming strategy. His interviews are primary sources.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Beasley Summer Madness XVI Kai Cenat",
+      "score": 75,
+      "band": "expand"
+    },
+    {
+      "id": "L022",
+      "type": "PERSON",
+      "value": "Lul Tim",
+      "why": "Reacting to Lil Durk's alleged involvement in a murder. His reaction could be a primary source of information or lead to further details.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Lul Tim Lil Durk murder",
+      "score": 75,
+      "band": "expand"
+    },
+    {
+      "id": "L026",
+      "type": "PERSON",
+      "value": "Judge Mathis",
+      "why": "Providing commentary on Keefe D, Lil Durk, and other figures. His interviews offer expert opinions and potential insights.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Judge Mathis Keefe D Lil Durk",
+      "score": 75,
+      "band": "expand"
+    },
+    {
+      "id": "L002",
+      "type": "PERSON",
+      "value": "Tay Roc",
+      "why": "Mentioned as a participant in a rematch against Rum Nitty at Summer Madness XVI, suggesting potential for interviews or past performances.",
+      "destination": "X",
+      "query": "Tay Roc vs Rum Nitty",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L003",
+      "type": "PERSON",
+      "value": "Rum Nitty",
+      "why": "Mentioned as a participant in a rematch against Tay Roc at Summer Madness XVI, suggesting potential for interviews or past performances.",
+      "destination": "X",
+      "query": "Rum Nitty vs Tay Roc",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L011",
+      "type": "PERSON",
+      "value": "Kai Cenat",
+      "why": "His house was the scene of Twork's strong reaction, and he's mentioned in relation to Summer Madness XVI. This could lead to content from his streams or events.",
+      "destination": "X",
+      "query": "Kai Cenat Summer Madness XVI",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L012",
+      "type": "PERSON",
+      "value": "Jayblac",
+      "why": "Discussing Kai Cenat's involvement in battle rap and Summer Madness XVI. His commentary could lead to interviews or his own content.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Jayblac Kai Cenat Summer Madness XVI",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L019",
+      "type": "PERSON",
+      "value": "Charleston White",
+      "why": "Discussing Yella Beezy and Mo3's murder case. His commentary could lead to further investigation or statements from involved parties.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Charleston White Yella Beezy Mo3",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L020",
+      "type": "PERSON",
+      "value": "Yella Beezy",
+      "why": "Mentioned in relation to a murder charge. This could lead to legal documents or statements from him or his representatives.",
+      "destination": "X",
+      "query": "Yella Beezy murder charge",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L029",
+      "type": "PERSON",
+      "value": "DJ Vlad",
+      "why": "Engaged in a debate with Jay-Z and has multiple interviews related to current events. His platform is a source of information.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "DJ Vlad interviews",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L035",
+      "type": "ORG",
+      "value": "URLTV",
+      "why": "Promoting Summer Madness XVI and discussing their app and streaming strategy. Information about their business decisions is available.",
+      "destination": "X",
+      "query": "URLTV Summer Madness XVI",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L036",
+      "type": "ORG",
+      "value": "Ultimate Rap League",
+      "why": "Announced Summer Madness XVI. Their official announcements and content are primary sources.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Ultimate Rap League Summer Madness XVI",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L038",
+      "type": "ORG",
+      "value": "hiphopisreal.com",
+      "why": "Produced multiple videos related to Summer Madness XVI, including interviews with Beasley and reactions to other battlers. Their content provides insights into the scene.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "hiphopisreal.com Summer Madness XVI",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L046",
+      "type": "QUOTE",
+      "value": "John John talking about COOKing Wit Kai ya on a Summer Madness stage. I understand she bakes cakes, and every streamer think it’s sweet, but what about the batt",
+      "why": "A critical question about Kai Cenat's involvement in battle rap, specifically at Summer Madness. Could lead to responses from John John or others involved.",
+      "destination": "X",
+      "query": "\"John John talking about COOKing Wit Kai ya\" site:twitter.com",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L007",
+      "type": "PERSON",
+      "value": "Murda Mook",
+      "why": "Subject of a viral tweet regarding his appearance. This could lead to his reaction or further discussion.",
+      "destination": "X",
+      "query": "Murda Mook weave",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L013",
+      "type": "PERSON",
+      "value": "John John Da Don",
+      "why": "Mentioned in relation to Kai Cenat and potentially T-Top. His commentary and interactions are relevant to the battle rap scene.",
+      "destination": "X",
+      "query": "John John Da Don Kai Cenat",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L014",
+      "type": "PERSON",
+      "value": "T-Top",
+      "why": "Reacting to John John Da Don's comments. This suggests a potential interview or statement from T-Top.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "T-Top reacts John John Da Don",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L015",
+      "type": "PERSON",
+      "value": "Jakkboy Maine",
+      "why": "Responding to John John Da Don's comments. This suggests a potential interview or statement from Jakkboy Maine.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Jakkboy Maine responds John John Da Don",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L017",
+      "type": "PERSON",
+      "value": "Lady Caution",
+      "why": "Making claims about beating E-Hart and discussing WOTY and Tay Roc. This could lead to an interview or statement.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Lady Caution E-Hart Tay Roc",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L025",
+      "type": "PERSON",
+      "value": "FBG Butta",
+      "why": "Claimed to have predicted Lil Durk's arrest. His statement could be a lead to further information or context.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "FBG Butta predicted Lil Durk arrest",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L031",
+      "type": "PERSON",
+      "value": "Eazy the Block Captain",
+      "why": "Subject of a YouTube video questioning his status in battle rap. This could lead to his response or analysis of his career.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Eazy the Block Captain battle rap",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L032",
+      "type": "PERSON",
+      "value": "Smack",
+      "why": "Mentioned in relation to his absence at events and URL's streaming strategy. His absence and the reasons behind it are noteworthy.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Smack absence URL events",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L040",
+      "type": "QUOTE",
+      "value": "MURDA MOOK CAUGHT WEARING WEAVE 🤦🏻‍♂️ MOOK WENT FROM A DU RAG TO BRAIDS AND NOW FAUX LOCS AKA FAKE DREADS. 🤦🏻‍♂️🤦🏻‍♂️🤦🏻‍♂️ FAUX LOCS ARE HAIR EXTENSIONS",
+      "why": "A specific and potentially controversial statement about a public figure. Could lead to a reaction or further discussion.",
+      "destination": "X",
+      "query": "\"Murda Mook wearing weave\" site:twitter.com",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L045",
+      "type": "QUOTE",
+      "value": "Jayblac talking bout letting somebody win but “winning matters” 🤦🏽‍♂️ Kai get on that stage he needs to get COOKED or…",
+      "why": "A specific commentary on Jayblac's stance regarding Kai Cenat's participation in battle rap. Could lead to Jayblac's full statement or Kai Cenat's reaction.",
+      "destination": "X",
+      "query": "\"Jayblac talking bout letting somebody win\" site:twitter.com",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L006",
+      "type": "PERSON",
+      "value": "Shotgun Suge",
+      "why": "Released a new freestyle, indicating recent activity and potential for interviews or commentary on his music.",
+      "destination": "X",
+      "query": "Shotgun Suge freestyle",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L010",
+      "type": "PERSON",
+      "value": "Twork",
+      "why": "Mentioned as reacting strongly at Kai Cenat's house, suggesting a potential video or interview related to this event.",
+      "destination": "X",
+      "query": "Twork Kai Cenat reaction",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L021",
+      "type": "PERSON",
+      "value": "Mo3",
+      "why": "Victim in a murder case discussed by Charleston White. Information about the case could be sought.",
+      "destination": "X",
+      "query": "Mo3 murder case",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L024",
+      "type": "PERSON",
+      "value": "Lul Pab",
+      "why": "Allegedly murdered, with Lil Durk implicated. Details of the case are relevant.",
+      "destination": "X",
+      "query": "Lul Pab murder",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L028",
+      "type": "PERSON",
+      "value": "Jay-Z",
+      "why": "Engaged in a debate with DJ Vlad about artistic merit. This could lead to further discussion or interviews.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Jay-Z DJ Vlad Jay-Z vs Kanye",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L030",
+      "type": "PERSON",
+      "value": "Loaded Lux",
+      "why": "Performed a song titled 'No Name' on The Radar. This could lead to the song itself or related content.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Loaded Lux No Name The Radar",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L037",
+      "type": "ORG",
+      "value": "Rare Breed Ent",
+      "why": "Produced a video questioning Eazy the Block Captain's status. Their content is relevant to battle rap analysis.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Rare Breed Ent Eazy the Block Captain",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L043",
+      "type": "QUOTE",
+      "value": "Marvel canceled Blade, canceled Ironheart, canceled Wonder Man, and had Sam Wilson fighting for his life as Captain America……",
+      "why": "A specific claim about Marvel's production decisions. Could lead to official statements or industry analysis.",
+      "destination": "X",
+      "query": "\"Marvel canceled Blade\" site:twitter.com",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L018",
+      "type": "PERSON",
+      "value": "E-Hart",
+      "why": "Mentioned by Lady Caution as someone she beat. This could lead to a response or clarification from E-Hart.",
+      "destination": "X",
+      "query": "E-Hart Lady Caution",
+      "score": 55,
+      "band": "store"
+    },
+    {
+      "id": "L041",
+      "type": "QUOTE",
+      "value": "greatest battle rap trap singer you’ve ever seen",
+      "why": "A subjective claim about a performer, potentially leading to identification of the singer and their work.",
+      "destination": "X",
+      "query": "\"greatest battle rap trap singer\" site:twitter.com",
+      "score": 55,
+      "band": "store"
+    },
+    {
+      "id": "L048",
+      "type": "QUOTE",
+      "value": "What you “ street thug “ rappers gone rap about now ? Sliding. ? The gang? Never snitching ? Bitch please…..",
+      "why": "A critical statement about the lyrical content of certain rappers. Could lead to a response from rappers or further discussion on rap themes.",
+      "destination": "X",
+      "query": "\"street thug rappers\" \"sliding\" \"the gang\" \"never snitching\"",
+      "score": 55,
+      "band": "store"
+    },
+    {
+      "id": "L049",
+      "type": "QUOTE",
+      "value": "Aye verb snaps in interview !",
+      "why": "A direct endorsement of an interview, suggesting the interview itself is valuable content.",
+      "destination": "X",
+      "query": "\"Aye verb snaps in interview\"",
+      "score": 55,
+      "band": "store"
+    },
+    {
+      "id": "L034",
+      "type": "PERSON",
+      "value": "Blueface",
+      "why": "Mentioned for having his girls in the car together. This could lead to content related to his personal life or relationships.",
+      "destination": "X",
+      "query": "Blueface girls in car",
+      "score": 50,
+      "band": "store"
+    },
+    {
+      "id": "L044",
+      "type": "QUOTE",
+      "value": "Yunus has spoken",
+      "why": "An enigmatic statement that could refer to a person or a specific piece of information. Needs further context.",
+      "destination": "X",
+      "query": "\"Yunus has spoken\" site:twitter.com",
+      "score": 50,
+      "band": "store"
+    },
+    {
+      "id": "L047",
+      "type": "QUOTE",
+      "value": "Smh so many people on twitter really just claimed to be professionals sports bettors cause they hit one…",
+      "why": "A commentary on the nature of sports betting claims on Twitter. Could lead to the source of the claim or further discussion on the topic.",
+      "destination": "X",
+      "query": "\"so many people on twitter really just claimed to be professionals sports bettors\" site:twitter.com",
+      "score": 50,
+      "band": "store"
+    }
+  ]
+}

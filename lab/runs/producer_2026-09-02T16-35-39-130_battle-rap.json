@@ -1,0 +1,150 @@
+{
+  "pulled_from": "clusters_2026-09-02T16-35-39-130_battle-rap.json",
+  "beat": "battle-rap",
+  "ranked_at": "2026-09-02T16:41:29.364Z",
+  "format": "debate",
+  "counts": {
+    "total": 9,
+    "debatable": 8
+  },
+  "ms": 4661,
+  "usage": {
+    "prompt_tokens": 2423,
+    "completion_tokens": 1384,
+    "total_tokens": 3807,
+    "cost": 0.0007959,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0007959,
+      "upstream_inference_prompt_cost": 0.0002423,
+      "upstream_inference_completions_cost": 0.0005536
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "ranked": [
+    {
+      "title": "Keefe D Found Guilty of Tupac Shakur's Murder",
+      "show_value": 95,
+      "rationale": "Massive historical significance, high emotional intensity, and a clear guilty verdict make this a must-watch.",
+      "best_angle": "Justice served: The end of a decades-long pursuit of truth in a legendary murder case.",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "The legal system has finally delivered justice for Tupac Shakur.",
+        "Concerns about the evidence and the conviction process."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Lil Durk Allegedly Involved in Murder-for-Hire Plot",
+      "show_value": 90,
+      "rationale": "High-profile artist, serious allegations, and potential testimony create significant drama and conversation.",
+      "best_angle": "From chart-topper to alleged kingpin: How did Lil Durk get here?",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "Lil Durk is a victim of circumstance and false accusations.",
+        "The evidence and testimony point to Lil Durk's direct involvement in criminal activity."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "URLTV Announces Summer Madness XVI with Multiple Battles and Event Details",
+      "show_value": 75,
+      "rationale": "Anticipation for a major battle rap event with high-profile matchups generates excitement and fan debate.",
+      "best_angle": "Summer Madness XVI: The matchups that will define battle rap's next chapter.",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "Tay Roc vs. Rum Nitty is the undisputed main event and will steal the show.",
+        "Ill Will vs. Chess is the dark horse that could be the most technically impressive battle."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "JayBlac Discusses Kai Cenat's Potential Battle Rap Appearance and Cultural Impact",
+      "show_value": 70,
+      "rationale": "The intersection of a massive streamer and battle rap culture is a hot topic with strong opinions.",
+      "best_angle": "Kai Cenat in the battle rap arena: A cultural phenomenon or a gimmick?",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "Kai Cenat's involvement elevates battle rap and brings new fans.",
+        "Battle rap purists are concerned about the dilution of the culture and the focus on clout over skill."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Charleston White Discusses Yella Beezy's Potential Guilt in Mo3's Murder",
+      "show_value": 65,
+      "rationale": "A controversial figure discussing a high-profile murder case guarantees strong opinions and emotional reactions.",
+      "best_angle": "Charleston White's take: Is Yella Beezy the key to solving Mo3's murder?",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "Charleston White's insights are crucial and based on inside knowledge.",
+        "Charleston White is a provocateur exploiting a tragedy for attention."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Jay-Z and DJ Vlad Debate Artistic Merit",
+      "show_value": 60,
+      "rationale": "A clash between two influential figures in hip-hop about artistic legacy is inherently interesting.",
+      "best_angle": "Jay-Z vs. DJ Vlad: The ultimate debate on who truly defines hip-hop artistry.",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "Jay-Z's artistic evolution and business acumen make him the GOAT.",
+        "DJ Vlad's critical analysis and historical perspective offer a valid counterpoint to Jay-Z's claims."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Murda Mook Accused of Wearing Fake Dreads",
+      "show_value": 50,
+      "rationale": "A quirky, celebrity-focused controversy that can generate lighthearted debate and memes.",
+      "best_angle": "Murda Mook's hair: Authenticity crisis or just a style choice?",
+      "best_format": "hot-take",
+      "contrasting_viewpoints": [
+        "Murda Mook is being unfairly targeted for his personal style choices.",
+        "There's a disconnect between Murda Mook's image and his alleged use of fake hair, which is a form of deception."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Marvel's Recent Project Cancellations and Character Struggles",
+      "show_value": 40,
+      "rationale": "While topical for fans, the broad nature of cancellations and character struggles lacks a clear debate focus.",
+      "best_angle": "Is Marvel losing its touch? Examining the recent wave of project cancellations.",
+      "best_format": "explainer",
+      "contrasting_viewpoints": [
+        "Marvel's creative direction is faltering, leading to numerous cancellations.",
+        "These cancellations are strategic business decisions in a competitive market."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Loaded Lux Performs \"No Name\" on The Radar",
+      "show_value": 30,
+      "rationale": "A single performance, while by a notable artist, lacks the conflict or broad appeal for a debate segment.",
+      "best_angle": "Loaded Lux's return to the spotlight: A new era for the battle rap legend?",
+      "best_format": "interview",
+      "contrasting_viewpoints": [],
+      "debatable": false,
+      "pinned": false
+    }
+  ]
+}

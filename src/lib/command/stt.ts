@@ -6,9 +6,13 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { execFileSync } from 'node:child_process'
+import { modelFor } from './models-config'
 
 const OR_URL = 'https://openrouter.ai/api/v1/chat/completions'
-export const STT_MODEL = 'google/gemini-2.5-flash'
+/** The STT engine comes from SETTINGS -> MODELS (lab/settings/models.json); the lineup default is
+ *  google/gemini-2.5-flash (audio input — flash-lite cannot hear). Read per call so a change is live. */
+export const sttModel = () => modelFor('stt').id
+export const STT_MODEL = sttModel()   // the value at load, for callers that only display it
 const PROMPT = 'Transcribe this audio verbatim, word for word, in the language spoken. Keep every sentence the speaker said. Do not summarize, shorten, correct, or add anything. Output only the transcript text: no label, no quotes, no commentary. If there is no speech at all, output nothing.'
 
 /** ffmpeg -> 24kHz mono 16-bit wav (the Breeze ref-clip format). Throws with ffmpeg's stderr on failure. */
@@ -71,7 +75,7 @@ export async function transcribeWav(wavPath: string): Promise<{ text: string; ms
     method: 'POST',
     headers: { Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      model: STT_MODEL, temperature: 0, max_tokens: maxTokens,
+      model: sttModel(), temperature: 0, max_tokens: maxTokens,
       messages: [{ role: 'user', content: [{ type: 'text', text: PROMPT }, { type: 'input_audio', input_audio: { data, format: 'wav' } }] }],
     }),
     signal: AbortSignal.timeout(90000),

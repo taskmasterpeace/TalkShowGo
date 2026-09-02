@@ -3,12 +3,10 @@
 // citation URL from the source map, so the model can never invent one.
 import fs from 'node:fs'
 import path from 'node:path'
-import os from 'node:os'
-import { execFileSync } from 'node:child_process'
 import { excludedTerms, isExcluded } from './openrouter-web'
+import { fetchTranscriptSegments, type TranscriptSegment } from './transcript'
 
 const ROOT = process.cwd()
-const YTDLP = process.env.YTDLP_PATH || 'C:/Users/taskm/AppData/Local/Programs/Python/Python313/Scripts/yt-dlp.exe'
 const OR_KEY = process.env.OPENROUTER_API_KEY
 
 export function loadConfig(): any {
@@ -16,7 +14,7 @@ export function loadConfig(): any {
 }
 
 export type Assignment = { kind: 'subject' | 'question'; text: string; questions: string[] }
-export type Src = { id: string; medium: 'youtube'; source_class: string; trust: string; title: string; publisher: string; url: string; video_id: string; published_at: string | null; transcript_status: string; words: number }
+export type Src = { id: string; medium: 'youtube'; source_class: string; trust: string; title: string; publisher: string; url: string; video_id: string; published_at: string | null; transcript_status: string; words: number; transcript_segments?: TranscriptSegment[] }
 
 const ytUrl = (id: string) => `https://www.youtube.com/watch?v=${id}`
 
@@ -84,24 +82,18 @@ async function ytSearch(query: string, trusted: { channel_id: string; name: stri
   return arr
 }
 
-export function fetchTranscript(videoId: string, capWords: number): { text: string; words: number; status: string } {
-  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'tsg_str_'))
+/** Delegates to lib/command/transcript's yt-dlp + parseVtt (the timestamped-transcript lib WS-2 built
+ *  for the YOUTUBE page) and keeps this function's original return shape so runStringer doesn't change.
+ *  `segments` is new: the source object in the dossier stores it (capped) so a claim can later cite
+ *  video_id@mm:ss instead of just a bare source id. */
+export async function fetchTranscript(videoId: string, capWords: number): Promise<{ text: string; words: number; status: string; segments: TranscriptSegment[] }> {
   try {
-    execFileSync(YTDLP, ['--skip-download', '--write-auto-sub', '--write-sub', '--sub-lang', 'en', '--sub-format', 'vtt', '-o', path.join(tmp, 'v'), ytUrl(videoId)], { timeout: 60000, stdio: 'pipe' })
-    const vtt = fs.readdirSync(tmp).find(f => f.endsWith('.vtt'))
-    if (!vtt) return { text: '', words: 0, status: 'missing' }
-    const raw = fs.readFileSync(path.join(tmp, vtt), 'utf8')
-    const seen = new Set<string>(); const lines: string[] = []
-    for (let l of raw.split('\n')) {
-      l = l.replace(/<[^>]*>/g, '').replace(/&nbsp;/g, ' ').replace(/&gt;/g, '>').replace(/&amp;/g, '&').trim()
-      if (!l || /^(WEBVTT|Kind:|Language:)/.test(l) || /-->/.test(l) || seen.has(l)) continue
-      seen.add(l); lines.push(l)
-    }
-    const words = lines.join(' ').split(/\s+/)
-    const text = words.slice(0, capWords).join(' ')
-    return { text, words: words.length, status: 'ok' }
-  } catch { return { text: '', words: 0, status: 'failed' } }
-  finally { fs.rmSync(tmp, { recursive: true, force: true }) }
+    const tr = await fetchTranscriptSegments(videoId, { capWords })
+    return { text: tr.text, words: tr.words, status: 'ok', segments: tr.segments }
+  } catch (e: any) {
+    const missing = /no captions available/i.test(String(e?.message || e))
+    return { text: '', words: 0, status: missing ? 'missing' : 'failed', segments: [] }
+  }
 }
 
 const PARSE_SYS = `You are an IMPARTIAL research analyst for a talk show. From the transcript material below (each block labeled [Sxxx | publisher | title]), extract evidence and answer the questions. HARD RULES:
@@ -184,8 +176,9 @@ export async function runStringer(assignment: Assignment, trusted: { channel_id:
   const blocks: string[] = []
   for (const s of sources.slice(0, cfg.youtube?.transcript_limit || 6)) {
     if (totalWords >= (cfg.youtube?.transcript_words_total || 60000)) { s.transcript_status = 'skipped'; continue }
-    const tr = fetchTranscript(s.video_id, capWords)
+    const tr = await fetchTranscript(s.video_id, capWords)
     s.transcript_status = tr.status; s.words = tr.words
+    if (tr.segments.length) s.transcript_segments = tr.segments.slice(0, 400) // so a claim can cite video_id@mm:ss
     if (tr.status === 'ok' && tr.text) { withText.push(s); blocks.push(`[${s.id} | ${s.publisher} | ${s.title}]\n${tr.text}`); totalWords += tr.words }
   }
   // 3) parse (impartial)

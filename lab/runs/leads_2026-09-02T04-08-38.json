@@ -1,0 +1,410 @@
+{
+  "pulled_from": "pull_2026-09-02T04-08-38.json",
+  "beat": "battle-rap",
+  "mined_at": "2026-09-02T04:08:54.319Z",
+  "feed_count": 19,
+  "ms": 9517,
+  "counts": {
+    "total": 39,
+    "auto": 6,
+    "expand": 27,
+    "store": 6,
+    "ignore": 0
+  },
+  "leads": [
+    {
+      "id": "L002",
+      "type": "PERSON",
+      "value": "KEEFE D",
+      "why": "The claim of being found guilty of Tupac's murder is a major development and requires verification and primary source confirmation.",
+      "destination": "X",
+      "query": "KEEFE D found guilty Tupac murder",
+      "score": 95,
+      "band": "auto",
+      "since": "2026-09-01",
+      "until": "2026-09-02"
+    },
+    {
+      "id": "L030",
+      "type": "CLAIM",
+      "value": "KEEFE D OFFICIALLY FOUND GUILTY OF TUPACS MURDER",
+      "why": "This is a major legal claim that requires immediate verification from official sources.",
+      "destination": "X",
+      "query": "Keefe D found guilty Tupac murder official verdict",
+      "score": 95,
+      "band": "auto",
+      "since": "2026-09-01",
+      "until": "2026-09-02"
+    },
+    {
+      "id": "L020",
+      "type": "URL",
+      "value": "https://t.co/ecTTFSnULS",
+      "why": "This URL is linked to the claim about Keefe D being found guilty of Tupac's murder, likely containing primary evidence or reporting.",
+      "destination": "X",
+      "query": "site:t.co ecTTFSnULS",
+      "score": 90,
+      "band": "auto"
+    },
+    {
+      "id": "L001",
+      "type": "EVENT",
+      "value": "SUMMER MADNESS XVI",
+      "why": "This is a recurring event in battle rap, and the specific details (date, location, matchups) are crucial for understanding the current landscape and potential future events.",
+      "destination": "X",
+      "query": "SUMMER MADNESS XVI",
+      "score": 85,
+      "band": "auto"
+    },
+    {
+      "id": "L027",
+      "type": "DATE",
+      "value": "September 27th",
+      "why": "This is the specific date for SUMMER MADNESS XVI, a key event.",
+      "destination": "X",
+      "query": "SUMMER MADNESS XVI date",
+      "score": 80,
+      "band": "auto"
+    },
+    {
+      "id": "L029",
+      "type": "ORG",
+      "value": "URLTV",
+      "why": "This organization is central to the Summer Madness XVI event and the distribution of content like performances and trailers.",
+      "destination": "X",
+      "query": "URLTV SUMMER MADNESS XVI",
+      "score": 80,
+      "band": "auto"
+    },
+    {
+      "id": "L005",
+      "type": "PERSON",
+      "value": "Ill Will",
+      "why": "Mentioned in multiple posts regarding Summer Madness XVI matchups, indicating current relevance and potential for new content/reactions.",
+      "destination": "X",
+      "query": "Ill Will vs Chess SUMMER MADNESS XVI",
+      "score": 75,
+      "band": "expand"
+    },
+    {
+      "id": "L006",
+      "type": "PERSON",
+      "value": "Chess",
+      "why": "Mentioned in multiple posts regarding Summer Madness XVI matchups, indicating current relevance and potential for new content/reactions.",
+      "destination": "X",
+      "query": "Ill Will vs Chess SUMMER MADNESS XVI",
+      "score": 75,
+      "band": "expand"
+    },
+    {
+      "id": "L014",
+      "type": "URL",
+      "value": "https://t.co/OuvwGwgFzN",
+      "why": "This URL is repeatedly linked to Summer Madness XVI tickets, suggesting it's the primary point of sale or information for the event.",
+      "destination": "WEB",
+      "query": "site:t.co OuvwGwgFzN",
+      "score": 75,
+      "band": "expand"
+    },
+    {
+      "id": "L028",
+      "type": "PLACE",
+      "value": "Atlanta, GA",
+      "why": "This is the location for SUMMER MADNESS XVI, important for event context.",
+      "destination": "X",
+      "query": "SUMMER MADNESS XVI Atlanta",
+      "score": 75,
+      "band": "expand"
+    },
+    {
+      "id": "L035",
+      "type": "PRODUCT",
+      "value": "URLTV App",
+      "why": "This app is stated as the exclusive platform for Summer Madness XVI content, making it a key distribution channel.",
+      "destination": "WEB",
+      "query": "URLTV App Summer Madness XVI",
+      "score": 75,
+      "band": "expand"
+    },
+    {
+      "id": "L003",
+      "type": "PERSON",
+      "value": "Tay Roc",
+      "why": "Mentioned in a specific upcoming battle at Summer Madness XVI, indicating a current competitive engagement.",
+      "destination": "X",
+      "query": "Tay Roc vs Rum Nitty SUMMER MADNESS XVI",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L004",
+      "type": "PERSON",
+      "value": "Rum Nitty",
+      "why": "Mentioned in a specific upcoming battle at Summer Madness XVI, indicating a current competitive engagement.",
+      "destination": "X",
+      "query": "Tay Roc vs Rum Nitty SUMMER MADNESS XVI",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L009",
+      "type": "PERSON",
+      "value": "Kai Cenat",
+      "why": "Mentioned in relation to Summer Madness XVI and Twork's reaction, suggesting a potential crossover or influence in the battle rap scene.",
+      "destination": "X",
+      "query": "Kai Cenat SUMMER MADNESS XVI Twork",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L011",
+      "type": "PERSON",
+      "value": "Jayblac",
+      "why": "His commentary on 'winning matters' and Kai Cenat's involvement in battle rap is a specific point of discussion that could lead to his interviews or statements.",
+      "destination": "X",
+      "query": "Jayblac Kai Cenat battle rap winning matters",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L012",
+      "type": "PERSON",
+      "value": "John John",
+      "why": "His comments about 'cooking wit Kai' and battle rap's relevance are specific points of discussion that could lead to his interviews or statements.",
+      "destination": "X",
+      "query": "John John Kai Cenat battle rap",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L026",
+      "type": "HASHTAG",
+      "value": "#youcantcopyrespect",
+      "why": "This hashtag is consistently used across multiple posts related to URLTV and Summer Madness XVI, indicating a campaign or theme.",
+      "destination": "X",
+      "query": "#youcantcopyrespect",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L033",
+      "type": "CLAIM",
+      "value": "Jayblac talking bout letting somebody win but “winning matters”",
+      "why": "This is a specific point of commentary from Jayblac that could lead to finding the full interview or discussion.",
+      "destination": "X",
+      "query": "Jayblac winning matters Kai Cenat",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L034",
+      "type": "CLAIM",
+      "value": "John John talking about COOKing Wit Kai ya on a Summer Madness stage.",
+      "why": "This is a specific point of commentary from John John that could lead to finding the full interview or discussion.",
+      "destination": "X",
+      "query": "John John Kai Cenat Summer Madness",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L007",
+      "type": "PERSON",
+      "value": "Shotgun Suge",
+      "why": "Released a new freestyle, which is a direct piece of content that can be reviewed and analyzed.",
+      "destination": "X",
+      "query": "Shotgun Suge freestyle Case Missing You beat",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L010",
+      "type": "PERSON",
+      "value": "Twork",
+      "why": "His reaction to Kai Cenat at Summer Madness XVI is mentioned, suggesting a specific moment or interaction that could be a video lead.",
+      "destination": "X",
+      "query": "Twork Kai Cenat SUMMER MADNESS XVI reaction",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L017",
+      "type": "URL",
+      "value": "https://t.co/cNb57L",
+      "why": "This URL is linked to the Ill Will vs Chess trailer for Summer Madness XVI, a specific promotional video.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Ill Will vs Chess SUMMER MADNESS XVI trailer urltv",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L018",
+      "type": "URL",
+      "value": "https://t.co/fXc45Q3Hz",
+      "why": "This URL is linked to the Ill Will vs Chess trailer for Summer Madness XVI, a specific promotional video.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Ill Will vs Chess SUMMER MADNESS XVI trailer urltv",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L032",
+      "type": "CLAIM",
+      "value": "Twork was LOSING HIS MIND at Kai Cenat's House",
+      "why": "This describes a specific reaction and event involving notable figures, likely captured on video.",
+      "destination": "X",
+      "query": "Twork Kai Cenat House reaction",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L038",
+      "type": "VIDEO",
+      "value": "Ill Will vs Chess Trailer",
+      "why": "This is a promotional trailer for a specific battle, offering a preview of the matchup.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Ill Will vs Chess Trailer SUMMER MADNESS XVI URLTV",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L008",
+      "type": "PERSON",
+      "value": "MURDA MOOK",
+      "why": "A specific claim is made about his appearance (wearing weave/faux locs), which could be visually verified or lead to reactions.",
+      "destination": "X",
+      "query": "MURDA MOOK weave faux locs",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L015",
+      "type": "URL",
+      "value": "https://t.co/Rtiv2ivISq",
+      "why": "This URL is linked to Loaded Lux performing 'No Name' on The Radar, a specific performance that can be viewed.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Loaded Lux \"No Name\" On The Radar urltv",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L016",
+      "type": "URL",
+      "value": "https://t.co/wrl6NufClM",
+      "why": "This URL is linked to Shotgun Suge's freestyle, a specific piece of content that can be viewed.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Shotgun Suge freestyle Case Missing You beat urltv",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L024",
+      "type": "URL",
+      "value": "https://t.co/eKhlbbRuri",
+      "why": "This URL is linked to islandgodverb snapping in an interview, a direct piece of content.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "islandgodverb interview urltv",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L031",
+      "type": "CLAIM",
+      "value": "MURDA MOOK CAUGHT WEARING WEAVE",
+      "why": "This is a specific, potentially embarrassing claim about a public figure that could lead to visual evidence or reactions.",
+      "destination": "X",
+      "query": "Murda Mook wearing weave evidence",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L036",
+      "type": "INTERVIEW",
+      "value": "islandgodverb snaps in interview",
+      "why": "This indicates a specific interview exists and is noteworthy, likely containing strong opinions or statements.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "islandgodverb interview",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L037",
+      "type": "VIDEO",
+      "value": "Loaded Lux performs \"No Name\" On The Radar",
+      "why": "This is a specific performance video that can be directly accessed and analyzed.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Loaded Lux \"No Name\" On The Radar URLTV",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L039",
+      "type": "VIDEO",
+      "value": "Shotgun Suge drops new freestyle over the Case \"Missing You\" beat",
+      "why": "This is a specific freestyle performance that can be directly viewed and assessed.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Shotgun Suge freestyle Case Missing You beat",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L019",
+      "type": "URL",
+      "value": "https://t.co/ugVI6uwT3h",
+      "why": "This URL is linked to a claim about Murda Mook wearing weave, likely a visual or video evidence.",
+      "destination": "X",
+      "query": "site:t.co ugVI6uwT3h",
+      "score": 55,
+      "band": "store"
+    },
+    {
+      "id": "L013",
+      "type": "PERSON",
+      "value": "Blueface",
+      "why": "A specific social media observation about his personal life (having 'all his girls in the car together') could lead to his social media or related content.",
+      "destination": "X",
+      "query": "Blueface girls in car",
+      "score": 50,
+      "band": "store"
+    },
+    {
+      "id": "L021",
+      "type": "URL",
+      "value": "https://t.co/onrL4OkdmW",
+      "why": "This URL is linked to a claim about the 'greatest battle rap trap singer', likely a video or performance.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "site:t.co onrL4OkdmW BattleRapTrap",
+      "score": 50,
+      "band": "store"
+    },
+    {
+      "id": "L022",
+      "type": "URL",
+      "value": "https://t.co/3uUHuvoOYH",
+      "why": "This URL is linked to a cryptic post by islandgodverb, potentially a video or image that needs investigation.",
+      "destination": "X",
+      "query": "site:t.co 3uUHuvoOYH islandgodverb",
+      "score": 45,
+      "band": "store"
+    },
+    {
+      "id": "L023",
+      "type": "URL",
+      "value": "https://t.co/NaDQFDqNCr",
+      "why": "This URL is linked to a post by islandgodverb saying 'Content on the way', likely a teaser for upcoming material.",
+      "destination": "X",
+      "query": "site:t.co NaDQFDqNCr islandgodverb",
+      "score": 45,
+      "band": "store"
+    },
+    {
+      "id": "L025",
+      "type": "URL",
+      "value": "https://t.co/T5jxnkhRKR",
+      "why": "This URL is linked to 'SHOWTIME' by islandgodverb, potentially a performance or announcement.",
+      "destination": "X",
+      "query": "site:t.co T5jxnkhRKR islandgodverb",
+      "score": 45,
+      "band": "store"
+    }
+  ]
+}

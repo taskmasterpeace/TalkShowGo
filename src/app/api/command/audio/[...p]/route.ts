@@ -9,6 +9,8 @@ const BASES: Record<string, string> = {
   voices: path.join(ROOT, 'lab', 'cast', 'voices'),
   images: path.join(ROOT, 'lab', 'cast', 'images'),
   shows: path.join(ROOT, 'lab', 'shows'),
+  clips: path.join(ROOT, 'lab', 'clips'),
+  takes: path.join(ROOT, 'lab', 'takes'),
 }
 const TYPES: Record<string, string> = { '.mp3': 'audio/mpeg', '.wav': 'audio/wav', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.md': 'text/markdown; charset=utf-8', '.txt': 'text/plain; charset=utf-8' }
 

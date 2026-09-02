@@ -1,0 +1,564 @@
+{
+  "pulled_from": "pull_2026-09-02T18-39-43-844_atlanta-falcons.json",
+  "beat": "atlanta-falcons",
+  "clustered_at": "2026-09-02T18:40:53.122Z",
+  "feed_count": 46,
+  "ms": 10102,
+  "counts": {
+    "stories": 14,
+    "substories": 0,
+    "topics": 0
+  },
+  "clusters": [
+    {
+      "id": "C001",
+      "title": "Falcons Set Initial 53-Man Roster",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Atlanta Falcons",
+        "action": "sets",
+        "object": "initial 53-man roster",
+        "claim": "The Atlanta Falcons have finalized their initial 53-man roster.",
+        "time": "August 30-31, 2026",
+        "location": "Atlanta Falcons",
+        "named_entities": [
+          "Atlanta Falcons"
+        ],
+        "key_phrases": [
+          "53-man roster",
+          "initial roster",
+          "roster moves"
+        ]
+      },
+      "item_indices": [
+        7,
+        18,
+        23,
+        24,
+        26,
+        27,
+        30,
+        32,
+        39
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "Several posts announce and discuss the Falcons' initial 53-man roster, including official announcements and media analysis.",
+      "parent": null,
+      "evidence": [
+        "[X @ByDanielFlick] RT @AtlantaFalcons: We have made the following roster moves:\n\n- Placed JD Bertrand on IR\n- Signed Josh Woods to the 53\n\nhttps://t.co/2mB17N… (♥395 rt74) Mon Aug 31 23:20:28 +0000 2026",
+        "[X @929TheGame] The 53-man roster is set and we STILL don't know who QB1 will be https://t.co/XxOzsgL9P6 (♥8 rt2) Mon Aug 31 20:06:00 +0000 2026",
+        "[X @lockedonfalcons] RT @AtlantaFalcons: Our initial 53 😤\n\nhttps://t.co/FSagotT2Gt https://t.co/G27t2NL3sO (♥1946 rt342) Sun Aug 30 22:29:41 +0000 2026",
+        "[X @lockedonfalcons] RT @ByDanielFlick: Source: Jack Strand has made the Falcons’ initial 53-man roster out of camp. (♥1925 rt210) Sun Aug 30 22:00:56 +0000 2026",
+        "[YT Atlanta Falcons] \"Exclusive interview with GM Ian Cunningham on 2026 initial 53-man roster | Atlanta Falcons\" 2026-09-02T16:19:11.000Z",
+        "[YT Atlanta Falcons] \"General Manager Ian Cunningham & Assistant GM Jeff Scott Initial 53-Man Roster Press Conference\" 2026-09-01T22:33:53.000Z",
+        "[YT Atlanta Falcons] \"Breaking down the 2026 Atlanta Falcons roster | Falcons Audible Podcast\" 2026-09-01T20:00:24.000Z",
+        "[YT Atlanta Falcons] \"Atlanta Falcons Initial 53-Man Roster | 2026\" 2026-08-30T23:30:20.000Z",
+        "[YT 92.9 The Game] \"Ian Cunningham breaks down Falcons roster cuts, quarterback competition\" 2026-09-02T15:52:17.000Z"
+      ]
+    },
+    {
+      "id": "C002",
+      "title": "Falcons GM Ian Cunningham Discusses 53-Man Roster and Team Goals",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Ian Cunningham",
+        "action": "discusses",
+        "object": "Falcons 53-man roster and team goals",
+        "claim": "Falcons GM Ian Cunningham is discussing the team's 53-man roster, draft class, and playoff aspirations.",
+        "time": "September 1-2, 2026",
+        "location": "Atlanta Falcons",
+        "named_entities": [
+          "Ian Cunningham",
+          "Atlanta Falcons"
+        ],
+        "key_phrases": [
+          "53-man roster",
+          "GM Ian Cunningham",
+          "team goals",
+          "playoffs"
+        ]
+      },
+      "item_indices": [
+        7,
+        8,
+        9,
+        11,
+        13,
+        26,
+        27,
+        39
+      ],
+      "shared_signals": [
+        "same_entities",
+        "same_claim",
+        "temporal"
+      ],
+      "why_moving": "Multiple reports and interviews feature Falcons GM Ian Cunningham discussing the team's roster moves, draft class, and season outlook.",
+      "parent": null,
+      "evidence": [
+        "[X @ByDanielFlick] RT @AtlantaFalcons: We have made the following roster moves:\n\n- Placed JD Bertrand on IR\n- Signed Josh Woods to the 53\n\nhttps://t.co/2mB17N… (♥395 rt74) Mon Aug 31 23:20:28 +0000 2026",
+        "[X @ByDanielFlick] Falcons GM Ian Cunningham:\n\n\"We're competing to make the playoffs. ... That's the main goal.\" (♥257 rt37) Wed Sep 02 15:03:54 +0000 2026",
+        "[X @ByDanielFlick] Falcons GM Ian Cunningham went into his first draft with five picks, left with six selections, and now his first active roster has *seven* rookies.\n\nFour could play big roles Week 1.\n\nThe Falcons’ rookie class has shown a lot of promise:\nht (♥273 rt19) Tue Sep 01 19:53:02 +0000 2026",
+        "[X @JoshTheAthletic] Falcons GM Ian Cunningham on the suspended James Pearce: \"We can’t have contact with James until after Week 5. Feel really good for the plan we have for James for him to do away fro the building. And then we will have a plan when he does co (♥84 rt10) Wed Sep 02 16:07:34 +0000 2026",
+        "[X @JoshTheAthletic] On the acquisition of Gervon Dexter and Jared \nIvey, Ian Cunningham says the Falcons are looking for \"big, powerful, rugged, explosive, violent players.\" (♥59 rt9) Wed Sep 02 14:58:35 +0000 2026",
+        "[YT Atlanta Falcons] \"Exclusive interview with GM Ian Cunningham on 2026 initial 53-man roster | Atlanta Falcons\" 2026-09-02T16:19:11.000Z",
+        "[YT Atlanta Falcons] \"General Manager Ian Cunningham & Assistant GM Jeff Scott Initial 53-Man Roster Press Conference\" 2026-09-01T22:33:53.000Z",
+        "[YT 92.9 The Game] \"Ian Cunningham breaks down Falcons roster cuts, quarterback competition\" 2026-09-02T15:52:17.000Z"
+      ]
+    },
+    {
+      "id": "C003",
+      "title": "Gervon Dexter's Departure from Chicago and Arrival with Falcons",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Gervon Dexter",
+        "action": "departs and is acquired",
+        "object": "Chicago Bears and Atlanta Falcons",
+        "claim": "Gervon Dexter is thanking Chicago for his time there and his move to the Atlanta Falcons is being discussed.",
+        "time": "August 30-31, 2026",
+        "location": "Chicago, Atlanta",
+        "named_entities": [
+          "Gervon Dexter",
+          "Chicago",
+          "Atlanta Falcons"
+        ],
+        "key_phrases": [
+          "thank you for everything",
+          "Gervon Dexter",
+          "Atlanta Falcons",
+          "Chicago"
+        ]
+      },
+      "item_indices": [
+        0,
+        2,
+        16,
+        21,
+        44,
+        45
+      ],
+      "shared_signals": [
+        "same_entities",
+        "same_claim",
+        "temporal",
+        "same_url"
+      ],
+      "why_moving": "Multiple sources are reacting to Gervon Dexter's departure from Chicago and his move to the Falcons, including his own statement and analysis from Falcons-focused media.",
+      "parent": null,
+      "evidence": [
+        "[X @AtlantaFalcons] RT @GervonDexter: Chicago, thank you for everything. 🐻🧡\n\nThese last 3 years have meant more to me than I can put into words. Thank you to t… (♥10058 rt489) Mon Aug 31 13:17:25 +0000 2026",
+        "[X @AtlantaFalcons] 👍 @GervonDexter https://t.co/oC2nlTxkZ8 (♥1840 rt112) Sun Aug 30 23:00:01 +0000 2026",
+        "[X @929TheGame] Could Gervon Dexter be the defensive line's missing piece? https://t.co/3y4EPyyR9n (♥26 rt3) Mon Aug 31 20:37:23 +0000 2026",
+        "[X @lockedonfalcons] RT @GervonDexter: Chicago, thank you for everything. 🐻🧡\n\nThese last 3 years have meant more to me than I can put into words. Thank you to t… (♥10058 rt489) Sun Aug 30 21:08:12 +0000 2026",
+        "[YT Locked On Falcons] \"What the Gervon Dexter Trade Means for Atlanta 🤔 #gervondexter #falcons #nfl\" 2026-08-31T20:01:16.000Z",
+        "[YT Locked On Falcons] \"TRADE: Atlanta Falcons BET BIG on Gervon Dexter to Build Jeff Ulbrich's IDEAL Front! + Roster Cuts\" 2026-08-30T23:46:12.000Z"
+      ]
+    },
+    {
+      "id": "C004",
+      "title": "Bijan Robinson Ranked No. 3 on NFL Top 100",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Bijan Robinson",
+        "action": "ranked",
+        "object": "NFL Top 100",
+        "claim": "Bijan Robinson is ranked No. 3 on the NFL Top 100 players list for 2026.",
+        "time": "September 2, 2026",
+        "location": "NFL",
+        "named_entities": [
+          "Bijan Robinson",
+          "NFL Top 100"
+        ],
+        "key_phrases": [
+          "NFL Top 100",
+          "Bijan Robinson",
+          "No. 3"
+        ]
+      },
+      "item_indices": [
+        3,
+        4,
+        10,
+        22,
+        28
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "Multiple sources from different outlets are reporting on Bijan Robinson's ranking on the NFL Top 100, with some providing additional commentary and video.",
+      "parent": null,
+      "evidence": [
+        "[X @AtlantaFalcons] The league knows\n\n@Bijan5Robinson comes in at No. 3 on the #NFLTop100!\n\nhttps://t.co/R8HkabP8wZ https://t.co/akZ1KgajQX (♥1290 rt269) Wed Sep 02 14:02:41 +0000 2026",
+        "[X @AtlantaFalcons] “One of them boys that’ll take it 85 yards if you ain’t ready”\n\n“That boy cut back on me so fast”\n\n“Can anybody catch him?!”\n\n🔥 @Bijan5Robinson  https://t.co/GHJmhGgoTa (♥1195 rt236) Wed Sep 02 14:12:57 +0000 2026",
+        "[X @JoshTheAthletic] RT @AtlantaFalcons: The league knows\n\n@Bijan5Robinson comes in at No. 3 on the #NFLTop100!\n\nhttps://t.co/R8HkabP8wZ https://t.co/akZ1KgajQX (♥1290 rt269) Wed Sep 02 14:26:27 +0000 2026",
+        "[X @lockedonfalcons] RT @NFL: No. 3 on the NFL Top 100 Players of 2026…\n\n@AtlantaFalcons RB Bijan Robinson! @NFLFilms https://t.co/seqOFrSuVx (♥8326 rt1256) Wed Sep 02 15:45:03 +0000 2026",
+        "[YT Atlanta Falcons] \"Bijan Robinson | The prime example\" 2026-09-02T15:00:21.000Z"
+      ]
+    },
+    {
+      "id": "C005",
+      "title": "Falcons' QB1 Decision Unresolved",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Atlanta Falcons",
+        "action": "has unresolved decision",
+        "object": "QB1",
+        "claim": "Despite the 53-man roster being set, the starting quarterback (QB1) for the Falcons remains unknown.",
+        "time": "August 31 - September 2, 2026",
+        "location": "Atlanta Falcons",
+        "named_entities": [
+          "Atlanta Falcons"
+        ],
+        "key_phrases": [
+          "QB1",
+          "starting quarterback",
+          "roster set",
+          "undecided"
+        ]
+      },
+      "item_indices": [
+        18,
+        39,
+        41
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "Multiple sources highlight the ongoing uncertainty surrounding the Falcons' starting quarterback position.",
+      "parent": null,
+      "evidence": [
+        "[X @929TheGame] The 53-man roster is set and we STILL don't know who QB1 will be https://t.co/XxOzsgL9P6 (♥8 rt2) Mon Aug 31 20:06:00 +0000 2026",
+        "[YT 92.9 The Game] \"Ian Cunningham breaks down Falcons roster cuts, quarterback competition\" 2026-09-02T15:52:17.000Z",
+        "[YT Locked On Falcons] \"COIN FLIP: Atlanta Falcons Face CRITICAL Michael Penix vs Tua Tagovailoa QB1 DECISION\" 2026-09-02T01:30:06.000Z"
+      ]
+    },
+    {
+      "id": "C006",
+      "title": "Falcons' Roster Cuts and Waiver Claims",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Atlanta Falcons",
+        "action": "makes roster cuts and waiver claims",
+        "object": "players",
+        "claim": "The Falcons made roster cuts and brought in players via waiver claims, including potentially ditching Zach Harrison.",
+        "time": "August 31 - September 2, 2026",
+        "location": "Atlanta Falcons",
+        "named_entities": [
+          "Atlanta Falcons",
+          "Zach Harrison"
+        ],
+        "key_phrases": [
+          "roster cuts",
+          "waiver claims",
+          "Zach Harrison"
+        ]
+      },
+      "item_indices": [
+        42,
+        43
+      ],
+      "shared_signals": [
+        "same_entities",
+        "same_claim",
+        "temporal"
+      ],
+      "why_moving": "These posts discuss specific roster decisions, including cuts and waiver claims, with a focus on Zach Harrison.",
+      "parent": null,
+      "evidence": [
+        "[YT Locked On Falcons] \"Did the Falcons Make a Mistake Cutting Zach Harrison 🤔 #zachharrison #falcons #nfl\" 2026-09-02T00:33:23.000Z",
+        "[YT Locked On Falcons] \"SHOCKER: Atlanta Falcons DITCH Zach Harrison for 3 Fresh-Faced Waiver Claims | Roster Reaction\" 2026-09-01T01:00:06.000Z"
+      ]
+    },
+    {
+      "id": "C007",
+      "title": "Falcons' Defensive Production Decline After Roster Changes",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Atlanta Falcons defense",
+        "action": "sees production decline",
+        "object": "sack production",
+        "claim": "Due to significant roster turnover, only 28.1% of the Falcons' franchise-record 57 sacks from last year will return for Week 1.",
+        "time": "August 31, 2026",
+        "location": "Atlanta Falcons",
+        "named_entities": [
+          "Atlanta Falcons"
+        ],
+        "key_phrases": [
+          "franchise-record 57 sacks",
+          "Week 1 roster",
+          "returning sack production",
+          "roster moves"
+        ]
+      },
+      "item_indices": [
+        6
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "This is a specific statistical claim about the Falcons' defensive capabilities based on roster changes.",
+      "parent": null,
+      "evidence": [
+        "[X @ByDanielFlick] The Falcons set a franchise-record 57 sacks last year.\n\nBetween free agency, trades, cuts, injuries &amp; suspension, only 16 will be part of the Week 1 roster.\n\nThat’s 28.1% returning sack production. (♥542 rt34) Mon Aug 31 22:16:02 +0000 2026"
+      ]
+    },
+    {
+      "id": "C008",
+      "title": "Avieon Terrell Moving to Nickelback Role for Falcons",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Avieon Terrell",
+        "action": "positioned to start and move",
+        "object": "nickelback role",
+        "claim": "Avieon Terrell is expected to start at nickelback for the Falcons and embraces the versatility of the position.",
+        "time": "September 1, 2026",
+        "location": "Atlanta Falcons",
+        "named_entities": [
+          "Avieon Terrell"
+        ],
+        "key_phrases": [
+          "start Week 1",
+          "nickelback",
+          "versatility"
+        ]
+      },
+      "item_indices": [
+        5
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "This is a specific player personnel update for the Falcons.",
+      "parent": null,
+      "evidence": [
+        "[X @ByDanielFlick] Avieon Terrell is in line to start Week 1, and the Falcons appear to be ushering him toward nickel.\n\n“I love it,” Terrell told @ajc in Miami. “A nickel is everything. I feel like when you’re a nickel, you’re (also) a safety, a corner. So, i (♥670 rt70) Tue Sep 01 13:59:00 +0000 2026"
+      ]
+    },
+    {
+      "id": "C009",
+      "title": "Falcons' Rookie Class Shows Promise",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Falcons' rookie class",
+        "action": "shows promise",
+        "object": "Week 1 roles",
+        "claim": "The Falcons' rookie class has shown promise, with seven rookies making the active roster and four potentially playing significant roles in Week 1.",
+        "time": "September 1, 2026",
+        "location": "Atlanta Falcons",
+        "named_entities": [
+          "Atlanta Falcons"
+        ],
+        "key_phrases": [
+          "rookie class",
+          "Week 1",
+          "promise",
+          "seven rookies"
+        ]
+      },
+      "item_indices": [
+        9
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "This is a specific assessment of the Falcons' current roster composition.",
+      "parent": null,
+      "evidence": [
+        "[X @ByDanielFlick] Falcons GM Ian Cunningham went into his first draft with five picks, left with six selections, and now his first active roster has *seven* rookies.\n\nFour could play big roles Week 1.\n\nThe Falcons’ rookie class has shown a lot of promise:\nht (♥273 rt19) Tue Sep 01 19:53:02 +0000 2026"
+      ]
+    },
+    {
+      "id": "C010",
+      "title": "Falcons GM Ian Cunningham on Acquiring 'Big, Powerful, Rugged, Explosive, Violent Players'",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Ian Cunningham",
+        "action": "describes player acquisition philosophy",
+        "object": "Falcons' player personnel strategy",
+        "claim": "Falcons GM Ian Cunningham stated the team is looking for 'big, powerful, rugged, explosive, violent players' when acquiring players like Gervon Dexter and Jared Ivey.",
+        "time": "September 2, 2026",
+        "location": "Atlanta Falcons",
+        "named_entities": [
+          "Ian Cunningham",
+          "Gervon Dexter",
+          "Jared Ivey",
+          "Atlanta Falcons"
+        ],
+        "key_phrases": [
+          "big, powerful, rugged, explosive, violent players",
+          "player acquisition",
+          "Ian Cunningham"
+        ]
+      },
+      "item_indices": [
+        13
+      ],
+      "shared_signals": [
+        "same_entities",
+        "same_claim",
+        "temporal"
+      ],
+      "why_moving": "This is a direct quote from the GM outlining the team's player acquisition philosophy.",
+      "parent": null,
+      "evidence": [
+        "[X @JoshTheAthletic] On the acquisition of Gervon Dexter and Jared \nIvey, Ian Cunningham says the Falcons are looking for \"big, powerful, rugged, explosive, violent players.\" (♥59 rt9) Wed Sep 02 14:58:35 +0000 2026"
+      ]
+    },
+    {
+      "id": "C011",
+      "title": "Falcons GM Ian Cunningham on James Pearce's Suspension",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Ian Cunningham",
+        "action": "comments on",
+        "object": "James Pearce's suspension",
+        "claim": "Falcons GM Ian Cunningham provided an update on James Pearce, stating the team cannot have contact until after Week 5 and has a plan for him to work away from the building.",
+        "time": "September 2, 2026",
+        "location": "Atlanta Falcons",
+        "named_entities": [
+          "Ian Cunningham",
+          "James Pearce"
+        ],
+        "key_phrases": [
+          "James Pearce",
+          "suspension",
+          "Week 5",
+          "away from the building"
+        ]
+      },
+      "item_indices": [
+        11
+      ],
+      "shared_signals": [
+        "same_entities",
+        "same_claim",
+        "temporal"
+      ],
+      "why_moving": "This is a specific update from the GM regarding a suspended player.",
+      "parent": null,
+      "evidence": [
+        "[X @JoshTheAthletic] Falcons GM Ian Cunningham on the suspended James Pearce: \"We can’t have contact with James until after Week 5. Feel really good for the plan we have for James for him to do away fro the building. And then we will have a plan when he does co (♥84 rt10) Wed Sep 02 16:07:34 +0000 2026"
+      ]
+    },
+    {
+      "id": "C012",
+      "title": "Falcons' Roster Moves: JD Bertrand to IR, Josh Woods Signed",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Atlanta Falcons",
+        "action": "makes roster moves",
+        "object": "JD Bertrand and Josh Woods",
+        "claim": "The Falcons placed JD Bertrand on Injured Reserve and signed Josh Woods to the 53-man roster.",
+        "time": "August 31, 2026",
+        "location": "Atlanta Falcons",
+        "named_entities": [
+          "JD Bertrand",
+          "Josh Woods",
+          "Atlanta Falcons"
+        ],
+        "key_phrases": [
+          "roster moves",
+          "IR",
+          "signed",
+          "53-man roster"
+        ]
+      },
+      "item_indices": [
+        7
+      ],
+      "shared_signals": [
+        "same_entities",
+        "same_claim",
+        "temporal"
+      ],
+      "why_moving": "This is a specific roster transaction announcement.",
+      "parent": null,
+      "evidence": [
+        "[X @ByDanielFlick] RT @AtlantaFalcons: We have made the following roster moves:\n\n- Placed JD Bertrand on IR\n- Signed Josh Woods to the 53\n\nhttps://t.co/2mB17N… (♥395 rt74) Mon Aug 31 23:20:28 +0000 2026"
+      ]
+    },
+    {
+      "id": "C013",
+      "title": "Falcons GM Ian Cunningham on Competing for Playoffs",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Ian Cunningham",
+        "action": "states goal",
+        "object": "Falcons' playoff aspirations",
+        "claim": "Falcons GM Ian Cunningham stated that the team's main goal is to compete for the playoffs.",
+        "time": "September 2, 2026",
+        "location": "Atlanta Falcons",
+        "named_entities": [
+          "Ian Cunningham",
+          "Atlanta Falcons"
+        ],
+        "key_phrases": [
+          "competing to make the playoffs",
+          "main goal",
+          "Ian Cunningham"
+        ]
+      },
+      "item_indices": [
+        8
+      ],
+      "shared_signals": [
+        "same_entities",
+        "same_claim",
+        "temporal"
+      ],
+      "why_moving": "This is a direct statement of the team's primary objective from the General Manager.",
+      "parent": null,
+      "evidence": [
+        "[X @ByDanielFlick] Falcons GM Ian Cunningham:\n\n\"We're competing to make the playoffs. ... That's the main goal.\" (♥257 rt37) Wed Sep 02 15:03:54 +0000 2026"
+      ]
+    },
+    {
+      "id": "C014",
+      "title": "Discussion on Falcons' Secondary Importance",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Atlanta Falcons secondary",
+        "action": "importance discussed",
+        "object": "upcoming season",
+        "claim": "The importance of the Falcons' secondary for the upcoming season is being discussed.",
+        "time": "September 2, 2026",
+        "location": "Atlanta Falcons",
+        "named_entities": [
+          "Atlanta Falcons"
+        ],
+        "key_phrases": [
+          "Falcons' secondary",
+          "importance",
+          "upcoming season"
+        ]
+      },
+      "item_indices": [
+        38
+      ],
+      "shared_signals": [
+        "same_claim",
+        "same_entities",
+        "temporal"
+      ],
+      "why_moving": "This is a specific analytical point about a position group for the Falcons.",
+      "parent": null,
+      "evidence": [
+        "[YT 92.9 The Game] \"How important will Falcons' secondary be this season? | The Morning Shift\" 2026-09-02T16:16:10.000Z"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,420 @@
+[
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Y'all talking about a career? We're talking about history. That Hollow Da Don battle? That was the crowning moment, pure and simple.",
+    "delivery": "booming, undeniable, showman-sincere",
+    "addressed_to": "null",
+    "evidence": [
+      "E047"
+    ],
+    "tag": null,
+    "ms": 697,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Y'all quantifying `momen' over twenty years.",
+    "delivery": "dry, unhurried",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E027"
+    ],
+    "tag": "interrupting",
+    "ms": 878,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Okay okay.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Twenty years? Tasha, that battle was the whole damn story! It wasn't just a moment, it was the coronation!",
+    "delivery": "booming, incredulous, showman-sincere",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E047"
+    ],
+    "tag": null,
+    "ms": 608,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Or what? We crown him before the argument even starts?",
+    "delivery": "flat, challenging",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 627,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "We ain't crowning him, Tasha, we're placing the belt ON him! That's the main event!",
+    "delivery": "booming, triumphant, showman-sincere",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 566,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Whew.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "And that 'main event' didn't close the argument either.",
+    "delivery": "clinical",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": null,
+    "ms": 878,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Whew.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Hm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "She said it didn't close the argument? Bullshit! That fight's got legendary haymakers, man. The Seatbelt bar alone? That's a damn title defense!",
+    "delivery": "booming, wounded, showman-sincere",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E046"
+    ],
+    "tag": null,
+    "ms": 751,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Mmhm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Still no consensus. You made your pick, Blaze.",
+    "delivery": "shrug it off",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": "interrupting",
+    "ms": 604,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "No consensus? That's a word for spreadsheets, not for heart, y'all!",
+    "delivery": "booming, incredulous, showman-sincere",
+    "addressed_to": "null",
+    "evidence": [],
+    "tag": null,
+    "ms": 1235,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Your heart doesn't prove it either, Blaze.",
+    "delivery": "cool, dismissive",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": "interrupting",
+    "ms": 607,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Okay okay okay, King, you wanna talk Ill Will? That battle had heart, sure, but Hollow? That was history, man. That was the face of the URL!",
+    "delivery": "booming, resets, defends with passion",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E047"
+    ],
+    "tag": null,
+    "ms": 695,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Heart and history are not the same currency, Marcus. The 'Emmett Till' scheme is not just a moment...it's a masterclass. The question isn't about the biggest stage, it's about the sharpest blade.",
+    "delivery": "low, definitive, reframing",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E039",
+      "E040"
+    ],
+    "tag": null,
+    "ms": 8225,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Come ON.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Cemented or not? Bars are pages. His whole book's still open.",
+    "delivery": "flat",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 838,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "A page can be turned. A masterclass gets studied. That second round? It's still in the curriculum.",
+    "delivery": "low, definitive, dry play",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E039",
+      "E040"
+    ],
+    "tag": null,
+    "ms": 3184,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "The curriculum needs an update, King. That curriculum's from 2017. The record reads different now.",
+    "delivery": "low, economical",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E034"
+    ],
+    "tag": null,
+    "ms": 910,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The record reads different, but the tape don't. That second round is a clear 2-1 victory, and the blade was never sharper.",
+    "delivery": "low, definitive, unhurried",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E039"
+    ],
+    "tag": null,
+    "ms": 3530,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Sharp blade. Whole chapter unwritten.",
+    "delivery": "flat",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": "interrupting",
+    "ms": 577,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "A culmination requires a foundation. That foundation was laid with Ill Will, and the blueprint is still being used.",
+    "delivery": "low, definitive, reframing",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E039"
+    ],
+    "tag": null,
+    "ms": 2784,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Foundation cracks when the original architect keeps building, King. He's past blueprints now.",
+    "delivery": "clinical, challenging",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": null,
+    "ms": 805,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "An architect builds on his own foundation. The second round against Ill Will is the load-bearing wall.",
+    "delivery": "low, unhurried, definitive",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E039",
+      "E040",
+      "E041"
+    ],
+    "tag": null,
+    "ms": 3205,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "King, that blueprint is a foundation, not the whole damn skyscraper! The Hollow battle? That's the penthouse suite where the champion lives!",
+    "delivery": "booming, passionate, with escalating energy",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E047"
+    ],
+    "tag": null,
+    "ms": 631,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "A penthouse is a view. A foundation is what you stand on. The question is what holds the weight.",
+    "delivery": "low, unhurried, definitive",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 3261,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "What holds the weight is the crowd on their feet, King! That's the main event energy!",
+    "delivery": "booming, passionate, with escalating energy",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": null,
+    "ms": 590,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "You heard the crowd once. Consensus was never built. COTY says more. Exhibit A.",
+    "delivery": "flat, deliberate",
+    "addressed_to": null,
+    "evidence": [
+      "E033"
+    ],
+    "tag": null,
+    "ms": 673,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "COTY is a popularity contest. The tape is the evidence. Against Ill Will, he was flawless.",
+    "delivery": "low, definitive, weary",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E039",
+      "E041"
+    ],
+    "tag": null,
+    "ms": 9612,
+    "noMerge": true
+  }
+]

@@ -1,0 +1,421 @@
+[
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Hollow Da Don? Man, that second round alone, that 'Seatbelt' bar? That's the whole damn debate right there, y'all. Undisputed.",
+    "delivery": "BOOMING, PROUD VERDICT",
+    "addressed_to": "null",
+    "evidence": [
+      "E045"
+    ],
+    "tag": null,
+    "ms": 756,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Yeah, and that one round doesn't clear 2-1 against Ill Will.",
+    "delivery": "dry, dismissive",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E041"
+    ],
+    "tag": "interrupting",
+    "ms": 841,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Against Ill Will? We ain't even talking about that undercard bout, Tasha. We talkin' main event!",
+    "delivery": "booming, dismissive, slightly amused",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 621,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Impactful? Sure. But main event?",
+    "delivery": "flat, skeptical",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 654,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Main event? Tasha, that second round was a damn hurricane! It washed away everything else. The whole damn URL crowns him.",
+    "delivery": "BOOMING, EMPHATIC, DISBELIEVING LAUGHTER",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E045"
+    ],
+    "tag": null,
+    "ms": 755,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "says the room. Heard it everywhere.",
+    "delivery": "low, dismissive",
+    "addressed_to": "null",
+    "evidence": [],
+    "tag": "interrupting",
+    "ms": 1253,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "That room ain't just talking, Tasha, they were *witnessing* history! That round secured his whole damn legacy.",
+    "delivery": "booming, rallying, exasperated",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E045"
+    ],
+    "tag": null,
+    "ms": 1095,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Hm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "So consensus changes format now? Cute.",
+    "delivery": "slow, precise",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": null,
+    "ms": 594,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Consensus ain't a format, it's the scorecard, Tasha. It's what the people FELT. He dropped that Seatbelt like a damn title belt!",
+    "delivery": "booming, passionate rebuttal",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 689,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "And what he felt secured the win? A seesaw battle against Hollow.",
+    "delivery": "slow, debunking pace",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E041"
+    ],
+    "tag": null,
+    "ms": 633,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Seesaw battle? My man, you saw the iconic haymakers that made him THE FACE of the URL!",
+    "delivery": "booming, indignant correction",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E047"
+    ],
+    "tag": null,
+    "ms": 626,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "...",
+    "delivery": "level",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 17951,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "And convention center doesn't mean consensus.",
+    "delivery": "dry, dismissive pushback",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": null,
+    "ms": 540,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Mm? That's it? A sound? After all that noise, we get a sound?",
+    "delivery": "booming, incredulous, stage whisper",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": null,
+    "ms": 643,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "'Undisputed greatest'? And no consensus? Pick one, Marcus.",
+    "delivery": "dry, pointed",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 1168,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Pick one? Tasha, you talking about consensus like it's some dusty spreadsheet! This was HEART. This was the moment he became the face of the URL!",
+    "delivery": "booming, passionate, cutting through",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E047"
+    ],
+    "tag": null,
+    "ms": 696,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Heart's not the metric, Marcus. Receipts are.",
+    "delivery": "flat, factual",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 833,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Receipts? Okay, okay, okay! You want receipts? The scorecard said 2-1 for the man! He became the face!",
+    "delivery": "booming, exasperated, pointing finger",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": "interrupting",
+    "ms": 1364,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "...",
+    "delivery": "level",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 14415,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Scorecards said 2-1, Tasha! That's not a receipt, that's the damn verdict!",
+    "delivery": "booming, indignant, triumphant",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E046"
+    ],
+    "tag": null,
+    "ms": 1759,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "And that's it? One card for 2-1?",
+    "delivery": "flat, unimpressed escalation",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 678,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Is that all you got? That's the whole argument? \"One card\"?",
+    "delivery": "booming, indignant correction",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 1575,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Marcus. Vid clip happened. The only thing you debated besides feelings.",
+    "delivery": "dry, dismissive",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 635,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Whew.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Whew? That's your contribution? King, that battle had iconic haymakers securing him a 2-1 edge!",
+    "delivery": "booming, incredulous sigh",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E046"
+    ],
+    "tag": null,
+    "ms": 790,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Mmhm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Same round as Ill Will.",
+    "delivery": "flat, dismissive",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E039",
+      "E040"
+    ],
+    "tag": null,
+    "ms": 1238,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Whew.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Okay okay.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You're comparing THAT moment to some earlier dust-up? This was the turning point!",
+    "delivery": "booming, exasperated correction",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E047"
+    ],
+    "tag": "interrupting",
+    "ms": 1903,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "so which is it Marcus? Dust-up or turning point?",
+    "delivery": "low, challenged",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 610,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "...",
+    "delivery": "level",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 14637,
+    "noMerge": true
+  }
+]

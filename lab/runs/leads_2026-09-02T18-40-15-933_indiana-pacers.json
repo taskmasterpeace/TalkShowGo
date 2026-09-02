@@ -1,0 +1,177 @@
+{
+  "pulled_from": "pull_2026-09-02T18-40-15-933_indiana-pacers.json",
+  "beat": "indiana-pacers",
+  "mined_at": "2026-09-02T18:41:50.383Z",
+  "feed_count": 36,
+  "ms": 4140,
+  "truncated": false,
+  "counts": {
+    "total": 16,
+    "auto": 0,
+    "expand": 8,
+    "store": 8,
+    "ignore": 0
+  },
+  "leads": [
+    {
+      "id": "L010",
+      "type": "PERSON",
+      "value": "Keenan Allen",
+      "why": "Multiple tweets discuss his arrest, his upcoming Week 1 play, and comments from Chris Ballard. This is a developing story with official statements.",
+      "destination": "X",
+      "query": "Keenan Allen arrest Chris Ballard comments",
+      "score": 75,
+      "band": "expand"
+    },
+    {
+      "id": "L005",
+      "type": "PERSON",
+      "value": "Victor Oladipo",
+      "why": "Mentioned as writing an open letter to GMs, insisting he can still contribute at 34. This is a direct statement from a player about his career status.",
+      "destination": "X",
+      "query": "Victor Oladipo open letter GMs",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L011",
+      "type": "PERSON",
+      "value": "Chris Ballard",
+      "why": "His comments on Keenan Allen's arrest and the team's internal punishment are directly referenced, making him a key source for information.",
+      "destination": "X",
+      "query": "Chris Ballard Keenan Allen arrest",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L002",
+      "type": "PERSON",
+      "value": "Ivica Zubac",
+      "why": "Highlighted for a strong performance in FIBA World Cup Qualifiers, with specific stats provided. This could lead to further details on his international play or impact on the Pacers.",
+      "destination": "X",
+      "query": "Ivica Zubac FIBA World Cup Qualifiers stats",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L006",
+      "type": "PERSON",
+      "value": "Caitlin Clark",
+      "why": "Mentioned in relation to USA Basketball duty and unveiling new shoes for World Cup action. This indicates her current activities and potential endorsements.",
+      "destination": "X",
+      "query": "Caitlin Clark USA Basketball World Cup shoes",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L012",
+      "type": "QUOTE",
+      "value": "\"Will keep that internal.\"",
+      "why": "This is a direct quote from Chris Ballard regarding potential in-house punishment for Keenan Allen, indicating a deliberate lack of transparency on the matter.",
+      "destination": "X",
+      "query": "Chris Ballard \"Will keep that internal\" Keenan Allen",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L003",
+      "type": "EVENT",
+      "value": "FIBA World Cup Qualifiers",
+      "why": "Ivica Zubac's performance is detailed in the context of this event, suggesting it's a significant recent happening.",
+      "destination": "WEB",
+      "query": "FIBA World Cup Qualifiers Ivica Zubac",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L007",
+      "type": "EVENT",
+      "value": "FIBA Women's World Cup",
+      "why": "Roster changes are announced for this event, with specific players in and out. This provides concrete information about team composition.",
+      "destination": "X",
+      "query": "FIBA Women's World Cup roster changes Sonia Citron Kiki Iriafen",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L001",
+      "type": "PERSON",
+      "value": "Tyrese Haliburton",
+      "why": "Mentioned in relation to new pinstripe jerseys and his own jersey, indicating potential merchandise tie-ins or personal endorsements.",
+      "destination": "X",
+      "query": "Tyrese Haliburton pinstripe jersey",
+      "score": 55,
+      "band": "store"
+    },
+    {
+      "id": "L008",
+      "type": "PERSON",
+      "value": "Kelsey Mitchell",
+      "why": "Named Eastern Conference Player of the Month for August with specific stats. This is a verifiable achievement.",
+      "destination": "X",
+      "query": "Kelsey Mitchell Eastern Conference Player of the Month August",
+      "score": 55,
+      "band": "store"
+    },
+    {
+      "id": "L009",
+      "type": "PERSON",
+      "value": "A'ja Wilson",
+      "why": "Mentioned as being out of the FIBA Women's World Cup roster and also as earning Player of the Month honors. This dual mention suggests ongoing relevance.",
+      "destination": "X",
+      "query": "A'ja Wilson FIBA Women's World Cup roster",
+      "score": 55,
+      "band": "store"
+    },
+    {
+      "id": "L014",
+      "type": "PERSON",
+      "value": "Carlie Irsay-Gordon",
+      "why": "Praised Keenan Allen shortly before his arrest, creating a potential narrative contrast or insight into team dynamics.",
+      "destination": "WEB",
+      "query": "Carlie Irsay-Gordon Keenan Allen praise",
+      "score": 55,
+      "band": "store"
+    },
+    {
+      "id": "L004",
+      "type": "CLAIM",
+      "value": "Commemorative helmet sticker to honor Dolly Parton for every game this season",
+      "why": "This is a specific claim about a tribute that could be verified or provide context on the team's motivations.",
+      "destination": "X",
+      "query": "Vol_Football Dolly Parton helmet sticker season",
+      "score": 50,
+      "band": "store"
+    },
+    {
+      "id": "L013",
+      "type": "PERSON",
+      "value": "Pato O'Ward",
+      "why": "Mentioned for sweeping a doubleheader weekend in Milwaukee, indicating a significant racing achievement.",
+      "destination": "X",
+      "query": "Pato O'Ward Milwaukee doubleheader sweep",
+      "score": 50,
+      "band": "store"
+    },
+    {
+      "id": "L015",
+      "type": "STATISTIC",
+      "value": "43.5 games",
+      "why": "This is an over/under prediction for the Indiana Pacers' season win total, providing a specific benchmark for performance expectations.",
+      "destination": "WEB",
+      "query": "Indiana Pacers over under 43.5 wins season",
+      "score": 50,
+      "band": "store"
+    },
+    {
+      "id": "L016",
+      "type": "PERSON",
+      "value": "Pascal Siakam",
+      "why": "Mentioned calling a game-winning play against the Bulls, highlighting a specific moment of impact.",
+      "destination": "WEB",
+      "query": "Pascal Siakam game winner Bulls",
+      "score": 50,
+      "band": "store"
+    }
+  ]
+}

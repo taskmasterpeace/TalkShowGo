@@ -1,0 +1,20 @@
+{
+  "stage": "done",
+  "pct": 100,
+  "message": "show ready — 2:56",
+  "show": "tay-roc-battle-rapper-6ct7fw",
+  "showDir": "D:\\git\\talkshowgo\\lab\\shows\\tay-roc-battle-rapper-6ct7fw",
+  "briefing": "brf_6ct7fwv0",
+  "stringer": "str_2i21aaz1",
+  "pid": 46768,
+  "started": "2026-09-02T04:08:19.052Z",
+  "updated": "2026-09-02T04:18:42.944Z",
+  "question": "Which of Tay Roc's battles is the greatest of his career?",
+  "segment": "D:\\git\\talkshowgo\\lab\\shows\\tay-roc-battle-rapper-6ct7fw\\floor\\segment_final.md",
+  "audio": "D:\\git\\talkshowgo\\lab\\shows\\tay-roc-battle-rapper-6ct7fw\\tay-roc-battle-rapper-6ct7fw.mp3",
+  "duration_s": 176,
+  "lines": 29,
+  "voice_engine": "breeze",
+  "breeze_error": null,
+  "elapsed_s": 257
+}

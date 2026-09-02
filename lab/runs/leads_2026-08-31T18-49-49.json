@@ -1,0 +1,296 @@
+{
+  "pulled_from": "pull_2026-08-31T18-49-49.json",
+  "beat": "battle-rap",
+  "mined_at": "2026-09-01T21:11:54.664Z",
+  "feed_count": 26,
+  "ms": 6890,
+  "counts": {
+    "total": 28,
+    "auto": 3,
+    "expand": 10,
+    "store": 14,
+    "ignore": 1
+  },
+  "leads": [
+    {
+      "id": "L002",
+      "type": "PERSON",
+      "value": "Kai Cenat",
+      "why": "He is a central figure, with multiple mentions of his potential participation in battle rap and his house being a location for a viral stream.",
+      "destination": "X",
+      "query": "Kai Cenat battle rap SUMMER MADNESS XVI",
+      "score": 90,
+      "band": "auto"
+    },
+    {
+      "id": "L001",
+      "type": "EVENT",
+      "value": "SUMMER MADNESS XVI",
+      "why": "This is the central event being promoted, with specific dates and locations, and it's where Kai Cenat is expected to participate.",
+      "destination": "WEB",
+      "query": "SUMMER MADNESS XVI Atlanta Variety Playhouse September 27th",
+      "score": 85,
+      "band": "auto"
+    },
+    {
+      "id": "L003",
+      "type": "ACCOUNT",
+      "value": "@urltv",
+      "why": "This is the originator of multiple promotional posts for SUMMER MADNESS XVI and related content, providing direct links and information.",
+      "destination": "X",
+      "query": "from:urltv SUMMER MADNESS XVI",
+      "score": 80,
+      "band": "auto"
+    },
+    {
+      "id": "L004",
+      "type": "CLAIM",
+      "value": "Kai Cenat wants to rap at Summer Madness",
+      "why": "This is a direct claim from the event promoter, indicating a potential new direction or participation for Kai Cenat in the battle rap scene.",
+      "destination": "X",
+      "query": "Kai Cenat \"wants to rap\" Summer Madness XVI",
+      "score": 75,
+      "band": "expand"
+    },
+    {
+      "id": "L005",
+      "type": "VIDEO",
+      "value": "KAI CENAT VS YUNUS / J2 (DNA & A WARD JUMP IN THE BATTLE) | URLTV",
+      "why": "This video shows a specific battle involving Kai Cenat, potentially providing context for his interest in battle rap and the dynamics of the scene.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "KAI CENAT VS YUNUS J2 DNA A WARD URLTV",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L006",
+      "type": "INTERVIEW",
+      "value": "BEASLEY SPEAKS ON KAI CENAT BATTLING ON SM16?! & URL TWITCH PARTNERSHIP",
+      "why": "This interview likely provides insight from someone involved or knowledgeable about Kai Cenat's potential participation and URLTV's strategy.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "BEASLEY KAI CENAT SM16 URLTWITCH",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L007",
+      "type": "INTERVIEW",
+      "value": "DOC Q REVEALS HOW KAI CENAT’S VIRAL BATTLE RAP STREAM CAME TOGETHER!",
+      "why": "This interview could offer behind-the-scenes details on the event that made Kai Cenat's house go viral in relation to battle rap.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "DOC Q KAI CENAT viral battle rap stream",
+      "score": 70,
+      "band": "expand"
+    },
+    {
+      "id": "L008",
+      "type": "PERSON",
+      "value": "Twork",
+      "why": "Mentioned as having a strong reaction at Kai Cenat's house, suggesting a significant event or interaction occurred.",
+      "destination": "X",
+      "query": "Twork Kai Cenat's House reaction",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L017",
+      "type": "CLAIM",
+      "value": "Kai Cenat's viral battle rap stream",
+      "why": "This claim suggests a significant event occurred at Kai Cenat's house that brought attention to battle rap, with multiple sources referencing it.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "Kai Cenat viral battle rap stream details",
+      "score": 65,
+      "band": "expand"
+    },
+    {
+      "id": "L009",
+      "type": "PERSON",
+      "value": "Ill Will",
+      "why": "Mentioned in a direct matchup for Summer Madness XVI, indicating a key participant in the event.",
+      "destination": "X",
+      "query": "Ill Will vs Chess Summer Madness XVI",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L010",
+      "type": "PERSON",
+      "value": "Chess",
+      "why": "Mentioned in a direct matchup for Summer Madness XVI, indicating a key participant in the event.",
+      "destination": "X",
+      "query": "Ill Will vs Chess Summer Madness XVI",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L011",
+      "type": "PERSON",
+      "value": "Rain",
+      "why": "Highlighted for a performance on the 'Don't Quote Me Cypher', indicating a notable artist within the battle rap scene.",
+      "destination": "X",
+      "query": "Rain Don't Quote Me Cypher",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L018",
+      "type": "PLACE",
+      "value": "Kai Cenat's House",
+      "why": "This location was the site of a viral battle rap stream, making it a focal point for recent events in the culture.",
+      "destination": "X",
+      "query": "Kai Cenat's House battle rap stream",
+      "score": 60,
+      "band": "expand"
+    },
+    {
+      "id": "L012",
+      "type": "HASHTAG",
+      "value": "#youcantcopyrespect",
+      "why": "This hashtag is used by the official event promoter (@urltv) and is likely associated with the Summer Madness XVI event and its branding.",
+      "destination": "X",
+      "query": "#youcantcopyrespect urltv",
+      "score": 55,
+      "band": "store"
+    },
+    {
+      "id": "L013",
+      "type": "URL",
+      "value": "https://t.co/anFSvzyFQv",
+      "why": "This is a direct ticket link for Summer Madness XVI, potentially leading to sales data or event information.",
+      "destination": "WEB",
+      "query": "https://t.co/anFSvzyFQv",
+      "score": 50,
+      "band": "store"
+    },
+    {
+      "id": "L014",
+      "type": "PERSON",
+      "value": "Reed Dollaz",
+      "why": "The title of a YouTube video questions his retirement and earning potential, suggesting a significant figure in battle rap.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "REED DOLLAZ RETIRES $20K",
+      "score": 50,
+      "band": "store"
+    },
+    {
+      "id": "L015",
+      "type": "PERSON",
+      "value": "Jakkboy Maine",
+      "why": "Recapped events at Kai Cenat's viral stream, providing a firsthand account of the atmosphere and happenings.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "JAKKBOY MAINE KAI CENAT stream recap",
+      "score": 50,
+      "band": "store"
+    },
+    {
+      "id": "L016",
+      "type": "PERSON",
+      "value": "Chef Trez",
+      "why": "Explains missing Kai Cenat's stream and discusses his own performance, offering a perspective from someone within the scene.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "CHEF TREZ KAI CENAT stream",
+      "score": 50,
+      "band": "store"
+    },
+    {
+      "id": "L019",
+      "type": "PERSON",
+      "value": "Mickey Factz",
+      "why": "Mentioned as part of the 'Don't Quote Me Cypher', indicating a participant in a notable rap cypher.",
+      "destination": "X",
+      "query": "Mickey Factz Don't Quote Me Cypher",
+      "score": 45,
+      "band": "store"
+    },
+    {
+      "id": "L020",
+      "type": "PERSON",
+      "value": "PC",
+      "why": "Mentioned as part of the 'Don't Quote Me Cypher', indicating a participant in a notable rap cypher.",
+      "destination": "X",
+      "query": "PC Don't Quote Me Cypher",
+      "score": 45,
+      "band": "store"
+    },
+    {
+      "id": "L021",
+      "type": "PERSON",
+      "value": "Marv Won",
+      "why": "Mentioned as part of the 'Don't Quote Me Cypher', indicating a participant in a notable rap cypher.",
+      "destination": "X",
+      "query": "Marv Won Don't Quote Me Cypher",
+      "score": 45,
+      "band": "store"
+    },
+    {
+      "id": "L022",
+      "type": "PERSON",
+      "value": "Ness Lee",
+      "why": "Mentioned as part of the 'Don't Quote Me Cypher', indicating a participant in a notable rap cypher.",
+      "destination": "X",
+      "query": "Ness Lee Don't Quote Me Cypher",
+      "score": 45,
+      "band": "store"
+    },
+    {
+      "id": "L023",
+      "type": "PERSON",
+      "value": "Drect",
+      "why": "Mentioned as part of the 'Don't Quote Me Cypher', indicating a participant in a notable rap cypher.",
+      "destination": "X",
+      "query": "Drect Don't Quote Me Cypher",
+      "score": 45,
+      "band": "store"
+    },
+    {
+      "id": "L024",
+      "type": "PERSON",
+      "value": "The Last MJ",
+      "why": "Mentioned as part of the 'Don't Quote Me Cypher', indicating a participant in a notable rap cypher.",
+      "destination": "X",
+      "query": "The Last MJ Don't Quote Me Cypher",
+      "score": 45,
+      "band": "store"
+    },
+    {
+      "id": "L025",
+      "type": "PERSON",
+      "value": "June PZ",
+      "why": "Mentioned as part of the 'Don't Quote Me Cypher', indicating a participant in a notable rap cypher.",
+      "destination": "X",
+      "query": "June PZ Don't Quote Me Cypher",
+      "score": 45,
+      "band": "store"
+    },
+    {
+      "id": "L026",
+      "type": "ACCOUNT",
+      "value": "@BattleRapTrap",
+      "why": "This account is reposting content related to battle rap and Kai Cenat, potentially offering commentary or wider reach.",
+      "destination": "X",
+      "query": "from:BattleRapTrap Kai Cenat",
+      "score": 40,
+      "band": "store"
+    },
+    {
+      "id": "L027",
+      "type": "ACCOUNT",
+      "value": "@islandgodverb",
+      "why": "This account is posting cryptic messages and links related to 'secret problems' and 'love everywhere', possibly commenting on drama within the battle rap scene.",
+      "destination": "X",
+      "query": "from:islandgodverb battle rap drama",
+      "score": 40,
+      "band": "store"
+    },
+    {
+      "id": "L028",
+      "type": "PERSON",
+      "value": "djvlad",
+      "why": "While not directly about battle rap, Vlad is a prominent figure in hip-hop news, and his content might intersect or offer context.",
+      "destination": "YOUTUBE_ORIGINAL",
+      "query": "djvlad battle rap",
+      "score": 30,
+      "band": "ignore"
+    }
+  ]
+}

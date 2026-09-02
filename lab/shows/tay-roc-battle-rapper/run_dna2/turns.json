@@ -1,0 +1,435 @@
+[
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Tay Roc vs. Hollow Da Don, y'all! That second round? The 'Seatbelt' bar? That's history, plain and simple.",
+    "delivery": "BOOMING, CONFIDENT ANNOUNCEMENT",
+    "addressed_to": "null",
+    "evidence": [
+      "E045"
+    ],
+    "tag": null,
+    "ms": 842,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Hollow's second? It's up there.",
+    "delivery": "calm, correcting",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 539,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "'Up there'? Tasha, that wasn't just 'up there,' that was a damn supernova!",
+    "delivery": "shocked disbelief, then building heat",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 618,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Marcus. Impact's in the receipts. Ill Will's round two? The Emmett Till scheme? That's the URL's receipt.",
+    "delivery": "low, pointed",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E039",
+      "E040"
+    ],
+    "tag": null,
+    "ms": 929,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Whew.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Hollow's second? That's the argument? King, you're still stuck on the undercard. We talkin' 'bout the MAIN EVENT!",
+    "delivery": "argumentative, dismissive, escalating",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E045"
+    ],
+    "tag": null,
+    "ms": 751,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Hm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Whew.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Whew.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Y'all naming moments. I'm asking about the fight that built the fighter.",
+    "delivery": "calm, leaning forward slightly",
+    "addressed_to": "marcus-blaze|tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 3015,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Okay, King. So tell me how Hollow builds him more than Ill Will did?",
+    "delivery": "quiet, pushing the point",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E041"
+    ],
+    "tag": "interrupting",
+    "ms": 780,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "So we're saying there isn't one.",
+    "delivery": "low, pausing after",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": null,
+    "ms": 644,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "There ISN'T one? Y'all heard that? Nah, that's wild. We talkin' legendary rounds here!",
+    "delivery": "shocked disbelief, building heat",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E045"
+    ],
+    "tag": "interrupting",
+    "ms": 597,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Wild, sure. But. Figured out what 'legendary' pays?",
+    "delivery": "dry and cutting",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 703,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Face of the URL! That's the main event, y'all! With iconic haymakers, not just talk.",
+    "delivery": "booming, decisive, dismissive",
+    "addressed_to": "null",
+    "evidence": [
+      "E047"
+    ],
+    "tag": null,
+    "ms": 613,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Iconic haymakers ain't born in main events. They're forged in the first fire that proves what you are. So the real question is: what fight made Tay Roc a gunner?",
+    "delivery": "low, slow, unhurried reframe",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E044"
+    ],
+    "tag": null,
+    "ms": 7147,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "That's your fast track, Marcus. But the receipts...",
+    "delivery": "low, dry, trailing off",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 1984,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "The receipts are Hollow, Tasha! His greatest round is STILL the one that blew the roof off the building!",
+    "delivery": "booming, indignant, dismissive",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E045"
+    ],
+    "tag": null,
+    "ms": 1302,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Okay, Marcus. Your roof. Still, I check the foundation.",
+    "delivery": "low, precise",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 983,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Foundation? Tasha, that 'Seatbelt' round IS the foundation! It's why he's even got a roof to check!",
+    "delivery": "booming, indignant, dismissive",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E045"
+    ],
+    "tag": null,
+    "ms": 652,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The foundation ain't one round. It's the fight that made the URL see him as a gunner. That's DNA.",
+    "delivery": "low, definitive, eyes on Blaze",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E044"
+    ],
+    "tag": null,
+    "ms": 3151,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Cap.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "And who won, Marcus?",
+    "delivery": "flat, pointed",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 1437,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The tape don't care who won. It cares who you became after.",
+    "delivery": "low, definitive, with weight",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 2537,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "But who you became, King? That's URL's receipt: Ill Will battle, second round. Periodt.",
+    "delivery": "dry. precise. throws it back at him",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E039",
+      "E040",
+      "E041"
+    ],
+    "tag": null,
+    "ms": 810,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "I'll give you the foundation of the URL argument. But that Hollow battle? That's the whole damn building. He won that, 2-1.",
+    "delivery": "booming, indignant, dismissive",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E046"
+    ],
+    "tag": null,
+    "ms": 2115,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Your building. My blueprint.",
+    "delivery": "flat. dismissive.",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 886,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "That 'other half' rebuttal ain't just a moment. It's the birth certificate for the gunner.",
+    "delivery": "low, definitive, letting it land",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E043"
+    ],
+    "tag": null,
+    "ms": 3107,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Yeah. And birth certificates. They show first breath. Still prove first fight. Ill Will was his.",
+    "delivery": "dry precision",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E039",
+      "E040",
+      "E041"
+    ],
+    "tag": null,
+    "ms": 1956,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "First breath is the baby. First fight is the man. DNA was the first time he had to be the man.",
+    "delivery": "low, definitive, with finality",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E043"
+    ],
+    "tag": null,
+    "ms": 6286,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "But baby, DNA's first breath? Still earned Hollow the house, right?",
+    "delivery": "dry and factual",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": null,
+    "ms": 815,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The house was built off the blueprint. DNA was the blueprint.",
+    "delivery": "low, definitive, letting it sit",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 2572,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Blueprint? King, you're talking about the blueprints while the house is burning down! That Hollow battle IS the fire!",
+    "delivery": "booming, indignant, dismissive",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E045"
+    ],
+    "tag": null,
+    "ms": 1177,
+    "noMerge": true
+  }
+]

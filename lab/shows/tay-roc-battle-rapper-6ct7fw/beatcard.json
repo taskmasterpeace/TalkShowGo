@@ -1,0 +1,109 @@
+{
+  "id": "tay-roc-battle-rapper",
+  "show": "tay-roc-battle-rapper-6ct7fw",
+  "question": "Which of Tay Roc's battles is the greatest of his career?",
+  "target_spoken_words": 368,
+  "max_turns": 27,
+  "stances": {
+    "marcus-blaze": "Tay Roc vs. Hollow Da Don is the undisputed greatest because it elevated him to 'the face of the URL,' a status no other battle achieved.",
+    "tasha-raw": "The battle against Hollow Da Don is Roc's greatest due to its historic impact and the iconic 'Seatbelt' bar, which cemented his legacy.",
+    "king-knowledge": "While Roc has many great battles, his performance against Hollow Da Don is the greatest overall due to its combination of historic haymakers and career-defining status elevation."
+  },
+  "allowed_evidence": {
+    "marcus-blaze": [
+      "E047",
+      "E045",
+      "E046"
+    ],
+    "tasha-raw": [
+      "E045",
+      "E047",
+      "E032"
+    ],
+    "king-knowledge": [
+      "E046",
+      "E047",
+      "E034",
+      "E035"
+    ]
+  },
+  "withheld": [
+    {
+      "host": "king-knowledge",
+      "evidence": "E039",
+      "turn": 7,
+      "instruction": "Tay Roc's second round in his battle against Ill Will is widely considered one of the greatest single rounds in the history of the Ultimate Rap League."
+    }
+  ],
+  "anaphora_exempt": [
+    "tay roc",
+    "hollow da don",
+    "url",
+    "seatbelt bar",
+    "ill will",
+    "dna"
+  ],
+  "protected_facts": [
+    {
+      "note": "Tay Roc's real name is Donte Richardson.",
+      "banned_phrasings": [
+        "Donte Richardson's real name is Tay Roc"
+      ]
+    }
+  ],
+  "waypoints": [
+    {
+      "after_words": 25,
+      "host": "tasha-raw",
+      "note": "Marcus, you say 'the face of the URL,' but wasn't that more about a body of work than one single battle?"
+    },
+    {
+      "after_words": 75,
+      "host": "king-knowledge",
+      "note": "Tasha, you're focusing on one bar, but didn't Roc have other battles with equally iconic moments?"
+    },
+    {
+      "after_words": 150,
+      "host": "marcus-blaze",
+      "note": "King Knowledge, you mention career-defining status, but how does that compare to the tangible impact of being 'the face'?"
+    },
+    {
+      "after_words": 225,
+      "host": "tasha-raw",
+      "note": "Marcus, is 'the face of the URL' truly a higher achievement than a battle that's considered one of the greatest rounds in history?"
+    },
+    {
+      "after_words": 300,
+      "host": "king-knowledge",
+      "note": "Tasha, you're fixated on the 'Seatbelt' bar, but Roc's performance against DNA had an equally iconic rebuttal."
+    }
+  ],
+  "attribution": {
+    "mode": "A",
+    "label": "SOURCED & COMMITTED",
+    "law": "When a receipt is an ATTRIBUTED_CLAIM, name who said it and where (person/outlet + platform), then COMMIT to your read of it - never hedge it into mush. A FACT you state plainly. Never present an unproven claim as settled fact; never bury a real fact under \"allegedly\"."
+  },
+  "detonation_react": {
+    "host": "tasha-raw",
+    "instruction": "Wait, Ill Will? I thought we were talking about Hollow Da Don. But that Ill Will round is definitely legendary, I'll give you that."
+  },
+  "kk_drop": {
+    "host": "king-knowledge",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "marcus-blaze",
+    "instruction": "Tay Roc's battle against Hollow Da Don is the one that made him 'the face of the URL.'"
+  },
+  "exit": {
+    "host": "marcus-blaze",
+    "alt_host": "tasha-raw",
+    "instruction": "We can debate rounds and rebuttals all day, but the impact of Hollow Da Don cemented Roc's place. We'll be back to discuss who's next."
+  },
+  "_compiled_from": {
+    "stringer": "str_2i21aaz1",
+    "briefing": "brf_6ct7fwv0",
+    "delegates_surfaced": []
+  }
+}

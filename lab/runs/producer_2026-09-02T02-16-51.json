@@ -1,0 +1,114 @@
+{
+  "pulled_from": "clusters_2026-09-02T02-16-51.json",
+  "beat": "battle-rap",
+  "ranked_at": "2026-09-02T03:38:09.434Z",
+  "format": "debate",
+  "counts": {
+    "total": 7,
+    "debatable": 5
+  },
+  "ms": 3541,
+  "usage": {
+    "prompt_tokens": 2025,
+    "completion_tokens": 1046,
+    "total_tokens": 3071,
+    "cost": 0.0006209,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0006209,
+      "upstream_inference_prompt_cost": 0.0002025,
+      "upstream_inference_completions_cost": 0.0004184
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "ranked": [
+    {
+      "title": "Keefe D Found Guilty of Tupac's Murder",
+      "show_value": 95,
+      "rationale": "Monumental news with massive historical and cultural implications, guaranteed to spark intense debate and conversation.",
+      "best_angle": "Justice served or a miscarriage of justice? Examining the evidence and the impact of this verdict.",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "The verdict is a just conclusion to a decades-long pursuit of justice for Tupac Shakur.",
+        "The conviction is based on insufficient evidence and raises serious questions about the legal process."
+      ],
+      "debatable": true
+    },
+    {
+      "title": "URLTV Announces Summer Madness XVI with Multiple Matchups",
+      "show_value": 75,
+      "rationale": "A major event in the battle rap world with high-profile matchups that will generate significant fan discussion and prediction.",
+      "best_angle": "Who are the biggest winners and losers of the Summer Madness XVI card? Predicting the outcomes.",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "Ill Will vs. Chess: Who takes the crown in this highly anticipated clash?",
+        "Tay Roc vs. Rum Nitty: Can Rum Nitty get revenge in this rematch?"
+      ],
+      "debatable": true
+    },
+    {
+      "title": "Marvel's Recent Cancellations and Character Issues",
+      "show_value": 70,
+      "rationale": "Significant fan base and ongoing discussion around Marvel's creative direction and business decisions.",
+      "best_angle": "Is Marvel losing its touch? Analyzing the impact of recent cancellations on the MCU's future.",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "Marvel's recent cancellations signal a creative bankruptcy and a disconnect with its audience.",
+        "These cancellations are strategic business decisions necessary for the long-term health of the Marvel brand."
+      ],
+      "debatable": true
+    },
+    {
+      "title": "Kai Cenat's Reaction at Summer Madness XVI Event",
+      "show_value": 60,
+      "rationale": "Kai Cenat is a huge personality, and his involvement in a major battle rap event is inherently interesting and likely to be dramatic.",
+      "best_angle": "Was Kai Cenat's presence a boost or a distraction for Summer Madness XVI?",
+      "best_format": "hot-take",
+      "contrasting_viewpoints": [
+        "Kai Cenat's involvement brought massive mainstream attention and energy to battle rap.",
+        "Cenat's presence diluted the focus on the actual battles and the core battle rap community."
+      ],
+      "debatable": true
+    },
+    {
+      "title": "Murda Mook Accused of Wearing Weave/Faux Locs",
+      "show_value": 55,
+      "rationale": "A controversial and potentially humorous topic within the battle rap community that touches on authenticity.",
+      "best_angle": "Does Murda Mook's hairstyle choice impact his credibility as a battle rapper?",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "Wearing faux locs is a personal style choice and has no bearing on Murda Mook's skill or authenticity.",
+        "This hairstyle choice undermines Murda Mook's image and raises questions about his authenticity in the culture."
+      ],
+      "debatable": true
+    },
+    {
+      "title": "Loaded Lux Performs \"No Name\" on The Radar",
+      "show_value": 40,
+      "rationale": "Loaded Lux is a legendary figure, and any new performance is noteworthy, but this is more of an event recap than a debate topic.",
+      "best_angle": "Loaded Lux's enduring impact on the rap game.",
+      "best_format": "explainer",
+      "contrasting_viewpoints": [],
+      "debatable": false
+    },
+    {
+      "title": "Shotgun Suge Drops Freestyle",
+      "show_value": 30,
+      "rationale": "A new freestyle is standard content for battle rappers, unlikely to generate significant debate outside of his core fanbase.",
+      "best_angle": "Analyzing Shotgun Suge's lyrical prowess in his latest freestyle.",
+      "best_format": "explainer",
+      "contrasting_viewpoints": [],
+      "debatable": false
+    }
+  ]
+}

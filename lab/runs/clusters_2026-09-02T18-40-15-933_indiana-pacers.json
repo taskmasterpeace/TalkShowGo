@@ -1,0 +1,52 @@
+{
+  "pulled_from": "pull_2026-09-02T18-40-15-933_indiana-pacers.json",
+  "beat": "indiana-pacers",
+  "clustered_at": "2026-09-02T18:41:38.907Z",
+  "feed_count": 36,
+  "ms": 1165,
+  "counts": {
+    "stories": 1,
+    "substories": 0,
+    "topics": 0
+  },
+  "clusters": [
+    {
+      "id": "C001",
+      "title": "Indiana Pacers promote Tyrese Haliburton jersey sales",
+      "kind": "story",
+      "event_fingerprint": {
+        "subject": "Indiana Pacers",
+        "action": "promote jersey sales",
+        "object": "Tyrese Haliburton jerseys",
+        "claim": "Tyrese Haliburton jerseys are available for purchase.",
+        "time": "September 1, 2026",
+        "location": "Indiana",
+        "named_entities": [
+          "Tyrese Haliburton",
+          "Indiana Pacers"
+        ],
+        "key_phrases": [
+          "Pinstripe jerseys",
+          "now available"
+        ]
+      },
+      "item_indices": [
+        0,
+        3,
+        21
+      ],
+      "shared_signals": [
+        "same_entities",
+        "same_claim",
+        "temporal"
+      ],
+      "why_moving": "Multiple posts from the Indiana Pacers official account and their YouTube channel are promoting the availability of Tyrese Haliburton's jerseys.",
+      "parent": null,
+      "evidence": [
+        "[X @Pacers] Tyrese lookin’ fly in the Pinstripes 😮‍💨\n\nGrab yours at https://t.co/HSf8WF8Mrk. https://t.co/QefAJttskU (♥3932 rt281) Tue Sep 01 14:03:52 +0000 2026",
+        "[X @Pacers] Tyrese Haliburton has his, and now it’s time to get yours 🔥\n\nPinstripe jerseys are now available at https://t.co/HSf8WF8Mrk. https://t.co/QGsChAE2Br (♥727 rt37) Tue Sep 01 14:00:07 +0000 2026",
+        "[YT Indiana Pacers] \"Tyrese Haliburton Has His, and Now it’s Time to Get Yours 🔥\" 2026-09-01T14:00:20.000Z"
+      ]
+    }
+  ]
+}

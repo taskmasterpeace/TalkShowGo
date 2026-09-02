@@ -1,0 +1,137 @@
+{
+  "pulled_from": "clusters_2026-09-02T16-34-04-348_battle-rap.json",
+  "beat": "battle-rap",
+  "ranked_at": "2026-09-02T16:40:32.428Z",
+  "format": "debate",
+  "counts": {
+    "total": 8,
+    "debatable": 7
+  },
+  "ms": 4400,
+  "usage": {
+    "prompt_tokens": 2280,
+    "completion_tokens": 1307,
+    "total_tokens": 3587,
+    "cost": 0.0007508,
+    "is_byok": false,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "cache_write_tokens": 0,
+      "audio_tokens": 0,
+      "video_tokens": 0
+    },
+    "cost_details": {
+      "upstream_inference_cost": 0.0007508,
+      "upstream_inference_prompt_cost": 0.000228,
+      "upstream_inference_completions_cost": 0.0005228
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "image_tokens": 0,
+      "audio_tokens": 0
+    }
+  },
+  "ranked": [
+    {
+      "title": "Keefe D Found Guilty in Tupac Shakur Murder Case",
+      "show_value": 95,
+      "rationale": "A landmark conviction in a high-profile murder case with decades of public fascination. High emotional intensity, recognizable characters, and significant conversation volume.",
+      "best_angle": "Justice served or a miscarriage of justice? Examining the evidence and the impact on hip-hop history.",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "The conviction is a just and long-overdue outcome for Tupac's murder.",
+        "The conviction is based on questionable evidence and sets a dangerous precedent."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Lil Durk Allegedly Involved in Murder-for-Hire Plot",
+      "show_value": 85,
+      "rationale": "Serious criminal allegations against a major artist. High conflict potential, emotional intensity, and recognizable characters.",
+      "best_angle": "Is this a pattern of behavior or a targeted attack? Exploring the allegations and their implications for the music industry.",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "Lil Durk's alleged involvement points to a deeper criminal underworld connection.",
+        "The allegations are unsubstantiated and a smear campaign against a successful artist."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "URLTV Announces Summer Madness XVI with Multiple Battle Rap Matchups",
+      "show_value": 75,
+      "rationale": "A major event in the battle rap community with highly anticipated matchups. Offers clear debate points on the state of battle rap and specific rivalries.",
+      "best_angle": "The biggest matchups in battle rap: Who will win and what does it mean for the culture?",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "Tay Roc vs. Rum Nitty is the definitive rematch that will settle the score.",
+        "Ill Will vs. Chess is the most technically skilled matchup that showcases the evolution of battle rap."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Jayblac Discusses Kai Cenat's Role and Impact at Summer Madness XVI",
+      "show_value": 70,
+      "rationale": "Explores the intersection of streaming culture and battle rap, a current and relevant topic with strong opinions.",
+      "best_angle": "Is Kai Cenat a legitimate force in battle rap or a novelty act diluting the culture?",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "Kai Cenat's involvement brings valuable new audiences and energy to battle rap.",
+        "Streamers like Kai Cenat lack the authentic skills and respect for battle rap, potentially harming its integrity."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Beasley Explains URLTV's Decision Not to Live Stream Summer Madness XVI on Twitch",
+      "show_value": 65,
+      "rationale": "A business decision with implications for fan access and the platform's strategy. Creates a clear conflict between business interests and fan desires.",
+      "best_angle": "Is URLTV protecting its brand or alienating its fanbase by restricting streaming access?",
+      "best_format": "debate",
+      "contrasting_viewpoints": [
+        "URLTV's decision to keep SM16 off Twitch is a smart business move to control content and drive app subscriptions.",
+        "URLTV is making a mistake by not streaming on Twitch, limiting accessibility and missing out on a massive audience."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Loaded Lux Returns with \"On The Radar\" Freestyle",
+      "show_value": 60,
+      "rationale": "A significant return for a legendary battle rapper. Offers a platform to discuss his legacy and current relevance.",
+      "best_angle": "Is Loaded Lux still a top-tier threat, or is this a nostalgic victory lap?",
+      "best_format": "hot-take",
+      "contrasting_viewpoints": [
+        "Loaded Lux's return proves he's still one of the greatest to ever do it.",
+        "While good, this freestyle shows Loaded Lux is past his prime and can't compete with today's top battlers."
+      ],
+      "debatable": true,
+      "pinned": false
+    },
+    {
+      "title": "Drake Makes Surprise Appearance with Don Toliver in Toronto",
+      "show_value": 50,
+      "rationale": "A major pop culture moment involving a global superstar. High recognizability, but limited debate potential beyond fan reactions.",
+      "best_angle": "Drake's surprise appearances: A sign of genuine connection or calculated marketing?",
+      "best_format": "explainer",
+      "contrasting_viewpoints": [],
+      "debatable": false,
+      "pinned": false
+    },
+    {
+      "title": "Murda Mook Accused of Wearing Faux Locs",
+      "show_value": 30,
+      "rationale": "A minor controversy within the battle rap community. Low stakes and limited broader appeal, though it has comedic potential.",
+      "best_angle": "The 'faux locs' controversy: A silly distraction or a sign of authenticity issues in battle rap?",
+      "best_format": "hot-take",
+      "contrasting_viewpoints": [
+        "Murda Mook wearing faux locs is a trivial issue blown out of proportion.",
+        "The accusation against Murda Mook highlights a larger trend of inauthenticity in battle rap culture."
+      ],
+      "debatable": true,
+      "pinned": false
+    }
+  ]
+}

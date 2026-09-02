@@ -6,8 +6,8 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
-export type LogKind = 'pull' | 'topics' | 'cluster' | 'leads' | 'expand' | 'rank' | 'research' | 'web' | 'briefing' | 'cast' | 'build' | 'scout' | 'system'
-export const LOG_KINDS: LogKind[] = ['pull', 'topics', 'cluster', 'leads', 'expand', 'rank', 'research', 'web', 'briefing', 'cast', 'build', 'scout', 'system']
+export type LogKind = 'pull' | 'topics' | 'cluster' | 'leads' | 'expand' | 'rank' | 'research' | 'web' | 'briefing' | 'cast' | 'build' | 'scout' | 'take' | 'sim' | 'system'
+export const LOG_KINDS: LogKind[] = ['pull', 'topics', 'cluster', 'leads', 'expand', 'rank', 'research', 'web', 'briefing', 'cast', 'build', 'scout', 'take', 'sim', 'system']
 
 export type LogEvent = {
   ts: string
