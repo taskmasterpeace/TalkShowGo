@@ -102,6 +102,9 @@ lab/research/stringer/
 data/research/
 lab/cast/guests/delegate-*.json
 lab/briefings/
+# per-guest designed voice caches (the 3 house voices stay tracked; these regenerate on demand)
+lab/cast/voices/delegate-*.wav
+lab/cast/voices/delegate-*.ref.txt
 
 # operational activity log (append-only, grows unbounded)
 lab/logs/

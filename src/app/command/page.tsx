@@ -185,7 +185,12 @@ export default function Desk() {
               <div className="cmd-label">YOUTUBE CHANNELS</div>
               <div className="cmd-num">{ytOk}<span style={{ color: 'var(--cmd-faint)' }}>/{yt.length}</span></div>
               <div className="meter mt-2"><i style={{ transform: `scaleX(${yt.length ? ytOk / yt.length : 0})` }} /></div>
-              <div className="cmd-kbd mt-2">{lastPullForMeter?.youtube?.length ? `RETURNED ON LAST PULL${lastPullForMeter.youtube.some((c: any) => /yt-dlp/.test(c.via || '')) ? ' · SOME VIA YT-DLP' : ''}` : 'RESOLVED CHANNELS'}</div>
+              <div className="cmd-kbd mt-2">{lastPullForMeter?.youtube?.length ? `RETURNED ON LAST PULL · ${(() => {
+                // which rung answered: RSS (exact stamps) / INNERTUBE (keyless, in-process) / YT-DLP (last resort)
+                const via: Record<string, number> = {}
+                for (const c of lastPullForMeter.youtube) { const k = c.error ? 'FAILED' : String(c.via || '?').split(' ')[0].toUpperCase(); via[k] = (via[k] || 0) + 1 }
+                return Object.entries(via).map(([k, n]) => `${n} ${k}`).join(' · ')
+              })()}` : 'RESOLVED CHANNELS'}</div>
             </Link>
             <Link href="/command/cast" className="cmd-panel p-4 block hover:opacity-90">
               <div className="cmd-label">CAST</div>

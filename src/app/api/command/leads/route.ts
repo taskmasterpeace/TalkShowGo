@@ -35,7 +35,7 @@ export async function POST(req: Request) {
 
   const t = logTimer()
   try {
-    const { leads, ms, raw } = await extractLeads(material, String(body.context || ''), loadConfig())
+    const { leads, ms, raw, truncated } = await extractLeads(material, String(body.context || ''), loadConfig())
     // zero leads is NOT a success: never save it, never report ok:true, never leak raw model text to the client
     if (!leads.length) {
       console.error('[leads] 0 leads parsed from model output; raw head:', String(raw || '').slice(0, 300))
@@ -43,9 +43,9 @@ export async function POST(req: Request) {
       return NextResponse.json({ ok: false, error: raw ? 'the miner returned text but no leads could be parsed — retry' : 'the miner returned no leads for this feed', stage: 'parse', retryable: true, pulled_from: pullFile, feed_count: material.length, ms }, { status: 502 })
     }
     const byBand = { auto: leads.filter(l => l.band === 'auto'), expand: leads.filter(l => l.band === 'expand'), store: leads.filter(l => l.band === 'store'), ignore: leads.filter(l => l.band === 'ignore') }
-    const out = { pulled_from: pullFile, beat: report.beat || null, mined_at: new Date().toISOString(), feed_count: material.length, ms, counts: { total: leads.length, auto: byBand.auto.length, expand: byBand.expand.length, store: byBand.store.length, ignore: byBand.ignore.length }, leads }
+    const out = { pulled_from: pullFile, beat: report.beat || null, mined_at: new Date().toISOString(), feed_count: material.length, ms, truncated: !!truncated, counts: { total: leads.length, auto: byBand.auto.length, expand: byBand.expand.length, store: byBand.store.length, ignore: byBand.ignore.length }, leads }
     saveLeads(pullFile, out)
-    t.done(() => ({ kind: 'leads', stage: 'mine', ok: true, beat: report.beat || null, ref: pullFile, summary: `${leads.length} leads · ${byBand.auto.length} auto · ${byBand.expand.length} expand`, meta: { auto: byBand.auto.slice(0, 6).map(l => l.value), archived: leads.filter(l => l.since || l.until).length } }))
+    t.done(() => ({ kind: 'leads', stage: 'mine', ok: true, beat: report.beat || null, ref: pullFile, summary: `${leads.length} leads · ${byBand.auto.length} auto · ${byBand.expand.length} expand${truncated ? ' · model output hit the token cap (partial list)' : ''}`, meta: { auto: byBand.auto.slice(0, 6).map(l => l.value), archived: leads.filter(l => l.since || l.until).length, truncated: !!truncated } }))
     return NextResponse.json({ ok: true, ...out, byBand })
   } catch (e: any) {
     t.done({ kind: 'leads', stage: 'mine', ok: false, beat: report.beat || null, ref: pullFile, summary: 'lead miner failed', error: String(e?.message || e) })

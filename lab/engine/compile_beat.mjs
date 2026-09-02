@@ -69,17 +69,24 @@ async function main() {
   const evIds = new Set(evEntries.map(e => e.id))
   const evidence = { topic: dossier.assignment?.text || briefing.title || 'show', compiled: dossier.updated_at || dossier.created_at || null, question: briefing.question?.text, entries: evEntries }
 
-  // 2) participants — only HOUSE HOSTS can take the floor today (delegates surface a stance but the
-  //    floor engine binds turns to cast.json hosts + their voices; delegate-in-floor is the next step)
+  // 2) participants — HOUSE HOSTS anchor the floor (>=2 required); DELEGATES take the floor too:
+  //    an AI delegate argues from its own briefed stance on its own engine; a HUMAN delegate's words are
+  //    seated VERBATIM (never rewritten) and voiced by cloning the person's own recording.
   const okDeliveries = (agents.deliveries || []).filter(d => d.ok && d.stance)
   const floorParts = okDeliveries.filter(d => castIds.has(d.cast_id)).slice(0, 3)
   const delegateParts = okDeliveries.filter(d => !castIds.has(d.cast_id))
   if (floorParts.length < 2) { console.error('need >=2 briefed HOUSE HOSTS to run a floor (got ' + floorParts.length + ')'); process.exit(1) }
 
-  const participants = floorParts.map(d => {
-    const allowed = (d.allowed_evidence_ids || []).filter(id => evIds.has(id))
-    const stance = [d.stance.answer, d.stance.thesis].filter(Boolean).join(' ').replace(/\s+/g, ' ').trim().slice(0, 400)
-    return { id: d.cast_id, name: d.name, stance, allowed }
+  const stanceOf = d => [d.stance.answer, d.stance.thesis].filter(Boolean).join(' ').replace(/\s+/g, ' ').trim().slice(0, 400)
+  const participants = floorParts.map(d => ({ id: d.cast_id, name: d.name, kind: 'host', stance: stanceOf(d), allowed: (d.allowed_evidence_ids || []).filter(id => evIds.has(id)) }))
+  // AI delegates join the director's collision (a position + receipts, like a host); max 2 seats
+  const aiDelegates = delegateParts.filter(d => !d.human).slice(0, 2).map(d => ({ id: d.cast_id, name: d.name, kind: 'delegate', stance: stanceOf(d), allowed: (d.allowed_evidence_ids || []).filter(id => evIds.has(id)), dna_id: d.dna_id || 'google/gemini-2.5-flash-lite', persona_note: d.persona_note || null }))
+  participants.push(...aiDelegates)
+  // human delegates: their interview answers become scripted verbatim turns (first two reasons + the verdict)
+  const humanDelegates = delegateParts.filter(d => d.human).slice(0, 2).map(d => {
+    const reasons = (d.stance.reasons || []).filter(r => r && r.text).slice(0, 2).map(r => ({ text: String(r.text).trim(), asked: r.asked || null }))
+    const verdict = d.stance.answer ? [{ text: String(d.stance.answer).trim(), asked: 'verdict' }] : []
+    return { id: d.cast_id, name: d.name, kind: 'human', verbatim_turns: [...reasons, ...verdict].filter(t => t.text), voice: d.voice || null, persona_note: d.persona_note || null }
   })
 
   // 3) SHOWRUNNER: engineer collision (distinct positions + split receipts) + director track
@@ -147,6 +154,14 @@ async function main() {
   const amode = (ARG.attribution && ATTRIBUTION_MODES[String(ARG.attribution).toUpperCase()]) ? String(ARG.attribution).toUpperCase() : 'A'
 
   const runtimeMin = ARG.runtime ? +ARG.runtime : 8
+  const targetWords = Math.round(runtimeMin * 46)
+  // seat each human's verbatim turns at word marks across the floor (a fan's verdict lands late)
+  const human_slots = []
+  for (const h of humanDelegates) {
+    const marks = h.verbatim_turns.length >= 3 ? [0.22, 0.5, 0.8] : h.verbatim_turns.length === 2 ? [0.3, 0.75] : [0.6]
+    h.verbatim_turns.forEach((t, i) => human_slots.push({ key: `${h.id}#${i}`, host: h.id, name: h.name, after_words: Math.round(targetWords * (marks[i] ?? 0.6)), text: t.text, asked: t.asked }))
+  }
+  human_slots.sort((a, b) => a.after_words - b.after_words)
   const beat = {
     id: (ARG.id || (dossier.assignment?.text || 'show').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40)),
     show: ARG.show || 'compiled',
@@ -155,6 +170,9 @@ async function main() {
     max_turns: Math.max(18, Math.round(runtimeMin * 3.4)),
     stances: Object.fromEntries(participants.map(p => [p.id, p.stance])),
     allowed_evidence: Object.fromEntries(participants.map(p => [p.id, p.allowed])),
+    participants: [...participants.map(p => ({ id: p.id, name: p.name, kind: p.kind })), ...humanDelegates.map(h => ({ id: h.id, name: h.name, kind: 'human', voice: h.voice }))],
+    delegates: { ai: aiDelegates.map(d => ({ id: d.id, name: d.name, dna_id: d.dna_id, persona_note: d.persona_note })), human: humanDelegates },
+    human_slots,
     withheld, anaphora_exempt, protected_facts, waypoints,
     attribution: { mode: amode, label: ATTRIBUTION_MODES[amode].label, law: ATTRIBUTION_MODES[amode].law },
     ...(detonation_react ? { detonation_react } : {}),
@@ -170,7 +188,8 @@ async function main() {
   console.log('  show dir:', outDir)
   console.log('  question:', beat.question)
   console.log('  floor:', participants.map(p => p.name).join(' vs '))
-  if (delegateParts.length) console.log('  delegates surfaced (not yet in floor):', delegateParts.map(d => d.name).join(', '))
+  if (aiDelegates.length) console.log('  AI delegates on the floor:', aiDelegates.map(d => d.name).join(', '))
+  if (humanDelegates.length) console.log('  human delegates seated verbatim:', humanDelegates.map(h => `${h.name} (${h.verbatim_turns.length} turns${h.voice?.sample_wav ? ', own voice' : ''})`).join(', '))
   console.log('  evidence:', evEntries.length, '| waypoints:', waypoints.length, '| withheld:', withheld.length, '| kk_drop:', dropHost)
   console.log('\n  next: node lab/engine/run_floor.mjs --beat=' + path.join(outDir, 'beatcard.json').replace(/\\/g, '/') + ' --provider=openrouter')
 }

@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useCmdState, useBeat, BeatPicker, ago } from '../lib'
 
 const TL: Record<string, string> = { FACT: 'ok', ATTRIBUTED_CLAIM: 'info', ANALYSIS: 'warn' }
@@ -12,6 +12,21 @@ const KIND: Record<string, string> = { event: 'THE EVENT', stat: 'THE NUMBERS', 
 const Lamp = ({ on, label }: { on: boolean | null | undefined; label: string }) => (
   <span className={`lamp ${on ? 'on' : on === false ? 'err' : ''}`}><i />{label}</span>
 )
+
+// THE DELEGATE interview, voice path: an answer is typed, spoken (recorded -> transcribed, editable), or a tapped
+// follow-up choice; every recorded take is kept and the LONGEST becomes the person's voice sample for the floor.
+type IvSource = 'typed' | 'voice' | 'choice'
+type IvAnswer = { text: string; source: IvSource; wav?: string; seconds?: number; transcript?: string }
+type IvTake = { k: number; wav: string; seconds: number; transcript: string }
+type IvFollowup = { q: string; choices: string[]; pick: string | null; other: string }
+type Iv = {
+  idx: number; questions: string[]; answers: IvAnswer[]; busy: boolean; done?: any; error?: string | null
+  phase: 'answer' | 'followups'; followups: IvFollowup[]; fuBusy: boolean; fuNote?: string | null
+  rec: { k: number; secs: number } | null; uploading: number | null; takes: IvTake[]; mic: 'unsupported' | 'denied' | null
+}
+type IvRec = { mr: MediaRecorder; stream: MediaStream; timer: ReturnType<typeof setInterval>; k: number; startedAt: number; abort: boolean }
+const IV_MIMES = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4']
+const blobToB64 = (blob: Blob) => new Promise<string>((res, rej) => { const fr = new FileReader(); fr.onload = () => res(String(fr.result || '').split(',')[1] || ''); fr.onerror = () => rej(fr.error || new Error('could not read the recording')); fr.readAsDataURL(blob) })
 
 export default function Stringer() {
   const { state } = useCmdState()
@@ -39,8 +54,12 @@ export default function Stringer() {
   const [show, setShow] = useState<any>(null)
   const [showBusy, setShowBusy] = useState(false)
   const [traceOpen, setTraceOpen] = useState<number | null>(null)
-  // the human delegate interview: the show asks, the person answers in their own words
-  const [iv, setIv] = useState<{ idx: number; questions: string[]; answers: string[]; busy: boolean; done?: any; error?: string | null } | null>(null)
+  // the human delegate interview: the show asks, the person answers in their own words (typed, or spoken and
+  // transcribed), taps through 2-3 follow-ups, and their longest take is kept as their voice sample for the floor
+  const [iv, setIv] = useState<Iv | null>(null)
+  const recRef = useRef<IvRec | null>(null)
+  // never leave a live mic behind if the page unmounts mid-take
+  useEffect(() => () => { const r = recRef.current; if (!r) return; clearInterval(r.timer); r.abort = true; try { if (r.mr.state !== 'inactive') r.mr.stop() } catch { /* already stopped */ } r.stream.getTracks().forEach(t => t.stop()); recRef.current = null }, [])
   if (!state) return <div className="p-8 cmd-kbd">LOADING STRINGER…</div>
 
   const d = res
@@ -65,22 +84,95 @@ export default function Stringer() {
       const j = await r.json(); if (j.ok) setBrief(j); else setErr(j.error || 'briefing failed')
     } catch (e: any) { setErr(String(e?.message || e)) } finally { setBBusy(false) }
   }
+  // ---- THE DELEGATE interview (voice path) ----
+  const ivPost = async (body: any) => {
+    const r = await fetch('/api/command/briefing/interview', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+    const j = await r.json(); if (!j.ok) throw new Error(j.error || 'interview failed'); return j
+  }
+  const freshIv = (i: number, p: Partial<Iv> = {}): Iv => ({ idx: i, questions: [], answers: [], busy: false, error: null, phase: 'answer', followups: [], fuBusy: false, rec: null, uploading: null, takes: [], mic: null, ...p })
+  // stop the live take; abort=true throws it away (closing the panel), otherwise onstop uploads it
+  const stopRec = (abort = false) => {
+    const r = recRef.current; if (!r) return
+    clearInterval(r.timer); r.abort = abort; recRef.current = null
+    try { if (r.mr.state !== 'inactive') r.mr.stop(); else r.stream.getTracks().forEach(t => t.stop()) } catch { r.stream.getTracks().forEach(t => t.stop()) }
+    if (abort) setIv(v => v ? { ...v, rec: null } : v)
+  }
   const startInterview = async (i: number) => {
     if (!brief?.id) return
-    setIv({ idx: i, questions: [], answers: [], busy: true, error: null })
+    stopRec(true)
+    setIv(freshIv(i, { busy: true }))
     try {
-      const r = await fetch('/api/command/briefing/interview', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ briefing_id: brief.id, delegate: delegates[i] }) })
-      const j = await r.json(); if (!j.ok) throw new Error(j.error || 'interview failed')
-      setIv({ idx: i, questions: j.questions, answers: j.questions.map(() => ''), busy: false, error: null })
-    } catch (e: any) { setIv({ idx: i, questions: [], answers: [], busy: false, error: String(e?.message || e) }) }
+      const j = await ivPost({ briefing_id: brief.id, delegate: delegates[i] })
+      setIv(freshIv(i, { questions: j.questions, answers: j.questions.map(() => ({ text: '', source: 'typed' as IvSource })) }))
+    } catch (e: any) { setIv(freshIv(i, { error: String(e?.message || e) })) }
+  }
+  // one take -> base64 -> the route converts + transcribes -> the transcript lands in the textarea (editable)
+  const uploadTake = async (briefingId: string, delegate: any, question: string, k: number, blob: Blob, secs: number) => {
+    try {
+      if (blob.size < 1000) throw new Error('that take was empty: hit RECORD and talk for a few seconds before STOP')
+      const audio_b64 = await blobToB64(blob)
+      const j = await ivPost({ briefing_id: briefingId, delegate, question, audio_b64, mime: blob.type || 'audio/webm' })
+      const text = String(j.transcript || '').trim(), seconds = Number(j.seconds) || secs
+      setIv(v => {
+        if (!v) return v
+        if (!text) return { ...v, uploading: null, error: 'no speech heard in that take: try again a little closer to the mic' }
+        const answers = v.answers.map((a, i) => i === k ? { text, source: 'voice' as IvSource, wav: String(j.wav), seconds, transcript: text } : a)
+        return { ...v, uploading: null, error: null, answers, takes: [...v.takes, { k, wav: String(j.wav), seconds, transcript: text }] }
+      })
+    } catch (e: any) { setIv(v => v ? { ...v, uploading: null, error: String(e?.message || e) } : v) }
+  }
+  const startRec = async (k: number) => {
+    if (!iv || iv.done || !brief?.id || recRef.current) return
+    const briefingId = brief.id, delegate = delegates[iv.idx], question = iv.questions[k]
+    if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) { setIv(v => v ? { ...v, mic: 'unsupported' } : v); return }
+    let stream: MediaStream
+    try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }) }
+    catch (e: any) { setIv(v => v ? { ...v, mic: /NotAllowed|Security|Permission/i.test(String(e?.name || e)) ? 'denied' : 'unsupported' } : v); return }
+    const mime = IV_MIMES.find(m => MediaRecorder.isTypeSupported(m)) || ''
+    let mr: MediaRecorder
+    try { mr = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream) }
+    catch { stream.getTracks().forEach(t => t.stop()); setIv(v => v ? { ...v, mic: 'unsupported' } : v); return }
+    const chunks: Blob[] = []
+    const startedAt = Date.now()
+    const me: IvRec = { mr, stream, k, startedAt, abort: false, timer: setInterval(() => setIv(v => v && v.rec ? { ...v, rec: { ...v.rec, secs: Math.floor((Date.now() - startedAt) / 1000) } } : v), 250) }
+    mr.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data) }
+    mr.onstop = () => {
+      stream.getTracks().forEach(t => t.stop())
+      if (me.abort) return
+      const secs = Math.round((Date.now() - startedAt) / 10) / 100
+      const blob = new Blob(chunks, { type: mr.mimeType || mime || 'audio/webm' })
+      setIv(v => v ? { ...v, rec: null, uploading: k } : v)
+      void uploadTake(briefingId, delegate, question, k, blob, secs)
+    }
+    recRef.current = me
+    mr.start(250)
+    setIv(v => v ? { ...v, rec: { k, secs: 0 }, mic: null, error: null } : v)
+  }
+  const loadFollowups = async () => {
+    if (!iv || !brief?.id) return
+    const sofar = iv.questions.map((q, k) => ({ q, a: (iv.answers[k]?.text || '').trim() })).filter(x => x.a)
+    if (!sofar.length) return
+    setIv(v => v ? { ...v, fuBusy: true, error: null } : v)
+    try {
+      const j = await ivPost({ briefing_id: brief.id, delegate: delegates[iv.idx], transcript_so_far: sofar, followups: true })
+      const fus: IvFollowup[] = (j.followups || []).map((f: any) => ({ q: String(f.q || ''), choices: (f.choices || []).map(String), pick: null, other: '' })).filter((f: IvFollowup) => f.q && f.choices.length)
+      setIv(v => v ? { ...v, fuBusy: false, phase: 'followups', followups: fus, fuNote: j.fallback ? 'the show could not write custom follow-ups just now, so these are the standard ones' : null } : v)
+    } catch (e: any) { setIv(v => v ? { ...v, fuBusy: false, error: String(e?.message || e) } : v) }
   }
   const submitInterview = async () => {
     if (!iv || !brief?.id) return
-    setIv({ ...iv, busy: true, error: null })
+    const answers: { q: string; a: string; source: IvSource; wav?: string }[] = iv.questions
+      .map((q, k) => { const a = iv.answers[k]; return { q, a: (a?.text || '').trim(), source: a?.source || 'typed', ...(a?.wav ? { wav: a.wav } : {}) } })
+      .filter(x => x.a)
+    for (const f of iv.followups) { const other = f.other.trim(); if (other || f.pick) answers.push({ q: f.q, a: other || String(f.pick), source: other ? 'typed' : 'choice' }) }
+    if (!answers.length) return
+    // the LONGEST recorded take is the voice sample; its ref text is that take's transcript as the person corrected it
+    const longest = [...iv.takes].sort((a, b) => b.seconds - a.seconds)[0]
+    const refText = longest ? ((iv.answers[longest.k]?.wav === longest.wav && (iv.answers[longest.k]?.text || '').trim()) || longest.transcript) : ''
+    const voice = longest && refText ? { sample_wav: longest.wav, ref_text: refText } : undefined
+    setIv(v => v ? { ...v, busy: true, error: null } : v)
     try {
-      const answers = iv.questions.map((q, k) => ({ q, a: iv.answers[k] || '' }))
-      const r = await fetch('/api/command/briefing/interview', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ briefing_id: brief.id, delegate: delegates[iv.idx], answers }) })
-      const j = await r.json(); if (!j.ok) throw new Error(j.error || 'could not save your take')
+      const j = await ivPost({ briefing_id: brief.id, delegate: delegates[iv.idx], answers, ...(voice ? { voice } : {}) })
       setIv(v => v ? { ...v, busy: false, done: j.delivery } : v)
       // surface the human take in the room without re-briefing anyone
       setAgents((a: any) => ({ ...(a || { briefing_id: brief.id, question: brief.question?.text }), deliveries: [...((a?.deliveries) || []).filter((x: any) => x.cast_id !== j.delivery.cast_id), j.delivery] }))
@@ -294,25 +386,102 @@ export default function Stringer() {
                   <input className="cmd-input" spellCheck={false} style={{ flex: 1, minWidth: 220 }} placeholder="who they are / where they stand (optional)" value={dNote} onChange={e => setDNote(e.target.value)} onKeyDown={e => { if (e.key === 'Enter') addDelegate() }} />
                   <button className="cmd-btn ghost" disabled={!dName.trim()} onClick={addDelegate}>+ ADD</button>
                 </div>
-                {iv && (
+                {iv && (() => {
+                  const who = delegates[iv.idx]
+                  const answered = iv.answers.some(a => (a.text || '').trim())
+                  const locked = !!iv.done || iv.busy
+                  const inFlight = iv.rec !== null || iv.uploading !== null || iv.fuBusy
+                  const fuAnswered = iv.followups.filter(f => f.pick || f.other.trim()).length
+                  const longestSecs = iv.takes.length ? Math.round(Math.max(...iv.takes.map(t => t.seconds))) : 0
+                  return (
                   <div className="cmd-panel p-3 space-y-2" style={{ borderColor: 'var(--cmd-red)' }}>
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="cmd-label" style={{ color: 'var(--cmd-red)', margin: 0 }}>THE SHOW INTERVIEWS {String(delegates[iv.idx]?.name || '').toUpperCase()}</span>
-                      <span className="cmd-kbd">answer in your own words. nothing gets rewritten. this is your take, verbatim.</span>
-                      <button className="cmd-btn ghost ml-auto" onClick={() => setIv(null)}>✕</button>
+                      <span className="cmd-label" style={{ color: 'var(--cmd-red)', margin: 0 }}>THE SHOW INTERVIEWS {String(who?.name || '').toUpperCase()}</span>
+                      <span className="cmd-kbd">talk or type. nothing gets rewritten. this is your take, verbatim.</span>
+                      {iv.phase === 'followups' && <span className="chip" style={{ borderColor: 'var(--cmd-red)', color: 'var(--cmd-red)' }}>FOLLOW-UPS</span>}
+                      <button className="cmd-btn ghost ml-auto" onClick={() => { stopRec(true); setIv(null) }}>✕</button>
                     </div>
                     {iv.busy && !iv.questions.length && <span role="status" className="cmd-kbd">writing questions from the briefing…</span>}
+                    {iv.mic === 'unsupported' && <span className="chip err">this browser cannot record audio here: use Chrome or Edge on localhost or https, or just type your answers</span>}
+                    {iv.mic === 'denied' && <span className="chip err">microphone blocked: allow the mic for this site in the address bar, then hit RECORD again</span>}
                     {iv.error && <span className="chip err">{iv.error}</span>}
-                    {iv.questions.map((q, k) => (
-                      <div key={k} className="space-y-1">
-                        <label style={{ color: 'var(--cmd-ink)', fontSize: 13.5, display: 'block' }} htmlFor={`iv-${k}`}>{k + 1}. {q}</label>
-                        <textarea id={`iv-${k}`} className="cmd-textarea" spellCheck={false} rows={2} value={iv.answers[k] || ''} disabled={!!iv.done} onChange={e => { const val = e.target.value; setIv(v => v ? { ...v, answers: v.answers.map((a, j) => j === k ? val : a) } : v) }} placeholder="your answer" />
+                    {iv.questions.map((q, k) => {
+                      const a = iv.answers[k] || { text: '', source: 'typed' as IvSource }
+                      const recHere = iv.rec?.k === k, upHere = iv.uploading === k
+                      return (
+                        <div key={k} className="space-y-1">
+                          <label style={{ color: 'var(--cmd-ink)', fontSize: 13.5, display: 'block' }} htmlFor={`iv-${k}`}>{k + 1}. {q}</label>
+                          <textarea id={`iv-${k}`} className="cmd-textarea" spellCheck={false} rows={2} value={a.text} disabled={locked || recHere || upHere}
+                            onChange={e => { const val = e.target.value; setIv(v => v ? { ...v, answers: v.answers.map((x, j) => j === k ? { ...x, text: val } : x) } : v) }}
+                            placeholder={recHere ? 'listening…' : upHere ? 'transcribing…' : 'type your answer, or hit RECORD and just talk'} />
+                          <div className="flex items-center gap-2 flex-wrap">
+                            {recHere
+                              ? <button type="button" className="cmd-btn primary" style={{ padding: '8px 16px' }} onClick={() => stopRec()}>■ STOP</button>
+                              : <button type="button" className="cmd-btn ghost" disabled={locked || inFlight} onClick={() => startRec(k)} style={{ color: 'var(--cmd-red)' }} title="record this answer with your voice; it gets transcribed word for word">🎙 {a.source === 'voice' ? 'RECORD AGAIN' : 'RECORD'}</button>}
+                            {recHere && <span role="status" className="chip err" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}><i style={{ width: 7, height: 7, borderRadius: 999, background: 'var(--cmd-red)', animation: 'blink 1s steps(2) infinite' }} />REC {iv.rec?.secs ?? 0}s</span>}
+                            {upHere && <span role="status" className="chip info">TRANSCRIBING…</span>}
+                            {a.source === 'voice' && !recHere && !upHere && <>
+                              <span className="chip" style={{ borderColor: 'var(--cmd-red)', color: 'var(--cmd-red)' }}>VOICE{a.seconds ? ` · ${Math.round(a.seconds)}s` : ''}</span>
+                              <span className="cmd-kbd">transcribed from your voice, edit if it misheard</span>
+                            </>}
+                          </div>
+                        </div>
+                      )
+                    })}
+                    {iv.questions.length > 0 && !iv.done && iv.phase === 'answer' && (
+                      <div className="flex items-center gap-3 flex-wrap" style={{ paddingTop: 4 }}>
+                        <button type="button" className="cmd-btn primary" disabled={locked || inFlight || !answered} onClick={loadFollowups}>{iv.fuBusy ? 'WRITING FOLLOW-UPS…' : 'NEXT: FOLLOW-UPS ›'}</button>
+                        <button type="button" className="cmd-btn ghost" disabled={locked || inFlight || !answered} onClick={submitInterview}>{iv.busy ? 'SAVING…' : 'SKIP, THAT IS MY TAKE'}</button>
+                        <span className="cmd-kbd">{iv.takes.length
+                          ? `${iv.takes.length} take${iv.takes.length === 1 ? '' : 's'} recorded · your longest (${longestSecs}s) becomes your voice sample for the floor`
+                          : 'record at least one answer and your voice gets cloned for your turns on the floor (a clear 10 to 20 second answer is ideal)'}</span>
                       </div>
-                    ))}
-                    {iv.questions.length > 0 && !iv.done && <button className="cmd-btn primary" disabled={iv.busy || !iv.answers.some(a => a.trim())} onClick={submitInterview}>{iv.busy ? 'SAVING…' : 'THAT IS MY TAKE'}</button>}
-                    {iv.done && <span className="chip ok">SAVED VERBATIM — {delegates[iv.idx]?.name} is on this briefing as a HUMAN delegate</span>}
+                    )}
+                    {iv.phase === 'followups' && !iv.done && (
+                      <div className="space-y-3" style={{ borderTop: '1px solid var(--cmd-line)', paddingTop: 10 }}>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="cmd-label" style={{ color: 'var(--cmd-red)', margin: 0 }}>FOLLOW-UPS</span>
+                          <span className="cmd-kbd">the show heard you. tap the closest answer, or say it your way.</span>
+                          {iv.fuNote && <span className="chip warn">{iv.fuNote}</span>}
+                        </div>
+                        {iv.followups.length === 0 && <span className="cmd-kbd">no follow-ups this time. save your take below.</span>}
+                        {iv.followups.map((f, n) => (
+                          <div key={n} className="space-y-2">
+                            <div style={{ color: 'var(--cmd-ink)', fontSize: 13.5 }}>{iv.questions.length + n + 1}. {f.q}</div>
+                            <div className="grid gap-2" style={{ gridTemplateColumns: 'repeat(auto-fill,minmax(210px,1fr))' }}>
+                              {f.choices.map((c, ci) => {
+                                const sel = f.pick === c
+                                return (
+                                  <button key={ci} type="button" className="cmd-btn ghost" disabled={locked} aria-pressed={sel}
+                                    onClick={() => setIv(v => v ? { ...v, followups: v.followups.map((x, j) => j === n ? { ...x, pick: sel ? null : c, other: sel ? x.other : '' } : x) } : v)}
+                                    style={{ minHeight: 48, padding: '10px 14px', justifyContent: 'flex-start', textAlign: 'left', whiteSpace: 'normal', letterSpacing: '0.02em', fontSize: 13.5, lineHeight: 1.35, borderWidth: 2, borderColor: sel ? 'var(--cmd-red)' : undefined, color: sel ? 'var(--cmd-ink)' : undefined, background: sel ? 'var(--cmd-panel2)' : undefined }}>
+                                    <span style={{ color: sel ? 'var(--cmd-red)' : 'var(--cmd-faint)', flex: 'none' }}>{sel ? '●' : '○'}</span>{c}
+                                  </button>
+                                )
+                              })}
+                            </div>
+                            <input className="cmd-input" spellCheck={false} disabled={locked} placeholder="something else…" value={f.other} style={{ maxWidth: 520, fontSize: 12.5, padding: '6px 10px' }}
+                              onChange={e => { const val = e.target.value; setIv(v => v ? { ...v, followups: v.followups.map((x, j) => j === n ? { ...x, other: val, pick: val.trim() ? null : x.pick } : x) } : v) }} />
+                          </div>
+                        ))}
+                        <div className="flex items-center gap-3 flex-wrap">
+                          <button type="button" className="cmd-btn primary" disabled={locked || inFlight || !answered} onClick={submitInterview}>{iv.busy ? 'SAVING…' : 'THAT IS MY TAKE'}</button>
+                          <button type="button" className="cmd-btn ghost" disabled={locked} onClick={() => setIv(v => v ? { ...v, phase: 'answer' } : v)}>‹ BACK TO THE QUESTIONS</button>
+                          <span className="cmd-kbd">{fuAnswered} of {iv.followups.length} follow-ups answered · an unanswered one is simply skipped{iv.takes.length ? ` · voice sample: your longest take (${longestSecs}s)` : ''}</span>
+                        </div>
+                      </div>
+                    )}
+                    {iv.done && (
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="chip ok">SAVED VERBATIM{iv.done.voice ? ' · VOICE SAMPLE KEPT' : ''}</span>
+                        <span className="cmd-kbd">{who?.name} is on this briefing as a HUMAN delegate{iv.done.voice
+                          ? `. your voice will be cloned for your turns on the floor (${Math.round(iv.done.voice.seconds || 0)}s sample)`
+                          : '. no voice sample was kept: record an answer next time and your voice gets cloned for the floor'}</span>
+                      </div>
+                    )}
                   </div>
-                )}
+                  )
+                })()}
               </div>
               <div className="flex items-center gap-3 flex-wrap">
                 {(() => {

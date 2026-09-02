@@ -48,7 +48,9 @@ export async function POST(req: Request) {
   const format = String(body.format || 'debate')
   const t = logTimer()
   try {
-    const rankedRaw = (await rankStories(candidates, { format }, loadConfig()))
+    // a sub-second empty completion is a model flake, not a verdict: one quiet retry before it reaches the desk
+    let rankedRaw = await rankStories(candidates, { format }, loadConfig())
+    if (!rankedRaw.ranked.length) rankedRaw = await rankStories(candidates, { format }, loadConfig())
     const { ms, usage } = rankedRaw
     // a story the producer PINNED is today's story: it goes first no matter what the model scored
     const pinnedTitles = new Set(candidates.filter((c: any) => c.pinned).map((c: any) => String(c.title).trim().toLowerCase()))

@@ -1,10 +1,10 @@
 {
   "id": "hood",
-  "name": "Hood News",
+  "name": "Hood History Club",
   "status": "active",
   "description": "Hood stuff in general - street news, cases, culture (Robert 2026-08-31: 'the hood people'). Specific cases (Lil Durk) fall UNDER this beat as tracked cases. Sister-channel alignment: Hood History Club.",
   "show": {
-    "name": "THE BLOCK REPORT",
+    "name": "HOOD HISTORY CLUB",
     "tagline": "Street news, receipts first",
     "timespan_hours": 24,
     "format_bias": "auto",

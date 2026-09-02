@@ -40,8 +40,12 @@ function parseLeads(content: string): any[] {
   if (!o) { const a = t.indexOf('['), b = t.lastIndexOf(']'); if (a >= 0 && b > a) o = tryP(t.slice(a, b + 1)) }
   if (Array.isArray(o)) return o                    // the model emitted a bare array of leads — accept it
   if (o && Array.isArray(o.leads)) return o.leads
-  const m = /"leads"\s*:\s*\[/.exec(t); if (!m) return []
-  let i = m.index + m[0].length; const out: any[] = []
+  // element-wise recovery: after a "leads":[ anchor, or from the first "[" when the model emitted a bare
+  // array that got cut at the token cap (seen live: 38 feed items -> a truncated array -> 0 leads)
+  const m = /"leads"\s*:\s*\[/.exec(t)
+  let i = m ? m.index + m[0].length : (t.indexOf('[') >= 0 ? t.indexOf('[') + 1 : -1)
+  if (i < 0) return []
+  const out: any[] = []
   while (i < t.length) {
     while (i < t.length && /[\s,]/.test(t[i])) i++
     if (i >= t.length || t[i] === ']' || t[i] !== '{') break
@@ -58,12 +62,13 @@ export async function extractLeads(material: string[], storyContext: string, cfg
   const user = `STORY CONTEXT: ${storyContext || '(a fresh feed — infer the stories)'}\n\nFEED ITEMS (index from 0):\n${material.map((m, i) => i + '. ' + m).join('\n')}`
   const r = await fetch(OR_URL, {
     method: 'POST', headers: { Authorization: 'Bearer ' + OR_KEY, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model: cfg.leads?.model || 'google/gemini-2.5-flash-lite', temperature: 0.3, max_tokens: 4000, response_format: { type: 'json_object' }, messages: [{ role: 'system', content: SYS }, { role: 'user', content: user }] }),
+    body: JSON.stringify({ model: cfg.leads?.model || 'google/gemini-2.5-flash-lite', temperature: 0.3, max_tokens: 8000, response_format: { type: 'json_object' }, messages: [{ role: 'system', content: SYS }, { role: 'user', content: user }] }),
     signal: AbortSignal.timeout(120000),
   })
   const j = await r.json()
   if (!r.ok || j.error) throw new Error(j.error?.message || ('leads http ' + r.status))
   const content = j.choices?.[0]?.message?.content || '{}'
+  const truncated = j.choices?.[0]?.finish_reason === 'length'   // hit the cap: what parsed is a partial list
   const seen = new Set<string>()
   const leads: Lead[] = parseLeads(content)
     .filter((l: any) => l && l.value && l.query)
@@ -84,7 +89,7 @@ export async function extractLeads(material: string[], storyContext: string, cfg
     })
     .filter((l: Lead) => { const k = l.value.toLowerCase().trim(); if (seen.has(k)) return false; seen.add(k); return true })
     .sort((a: Lead, b: Lead) => b.score - a.score)
-  return { leads, ms: Date.now() - t0, usage: j.usage, raw: content }
+  return { leads, ms: Date.now() - t0, usage: j.usage, raw: content, truncated }
 }
 
 // Build the flat feed material from a pull report (same shape the topic miner uses)

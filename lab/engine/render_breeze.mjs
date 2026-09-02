@@ -38,7 +38,38 @@ const CAST = (() => {
   } catch {}
   return out
 })()
-const whoOf = n => { const s = n.toLowerCase(); if (s.includes('tasha')) return 'tasha'; if (s.includes('blaze') || s.includes('marcus')) return 'blaze'; if (s.includes('knowledge') || s.includes('king')) return 'knowledge'; return null }
+// DELEGATE voices, loaded per show from the beat card next to the segment (set in segment mode):
+//   human   -> breeze-clone on the person's OWN recording (voice.sample_wav + ref_text)
+//   AI      -> a voice designed once from who they are, cached in lab/cast/voices/delegate-<slug>.wav
+const EXTRA = {}   // id -> { name, b64, text, seed, base }
+async function loadDelegates(showDir) {
+  let beat = null; try { beat = JSON.parse(fs.readFileSync(path.join(showDir, 'beatcard.json'), 'utf8')) } catch { return }
+  for (const h of (beat.delegates?.human || [])) {
+    const wav = h.voice?.sample_wav
+    if (wav && fs.existsSync(wav)) EXTRA[h.id] = { name: h.name, b64: fs.readFileSync(wav).toString('base64'), text: String(h.voice.ref_text || '').trim(), seed: 7, base: 'natural, in their own voice, unhurried' }
+    else console.error(`  ${h.name}: no voice sample on file, falling back to a designed guest voice`)
+    if (!EXTRA[h.id]) EXTRA[h.id] = await designedGuest(h.id, h.name, h.persona_note)
+  }
+  for (const d of (beat.delegates?.ai || [])) EXTRA[d.id] = await designedGuest(d.id, d.name, d.persona_note)
+}
+async function designedGuest(id, name, note) {
+  const slug = id.replace(/^delegate:/, '').replace(/[^a-z0-9-]/gi, '-')
+  const wavP = path.join(VDIR, `delegate-${slug}.wav`), txtP = path.join(VDIR, `delegate-${slug}.ref.txt`)
+  const refText = `Look, I'm not on TV, I'm just a fan who actually watches. And I'm telling you, this one's different. I've been saying that for a long time.`
+  if (!fs.existsSync(wavP)) {
+    const design = `Everyday American caller-in guest, ${note ? note + ', ' : ''}natural conversational voice, warm, unpolished, sounds like a real fan on the phone with the show, clear close-mic`
+    console.error(`  designing guest voice for ${name}...`)
+    const wav = await post('/v1/audio/breeze-design', { text: refText, design, cfg_scale: 4.0, seed: 400 + (slug.length % 50) })
+    fs.mkdirSync(VDIR, { recursive: true }); fs.writeFileSync(wavP, wav); fs.writeFileSync(txtP, refText)
+  }
+  return { name, b64: fs.readFileSync(wavP).toString('base64'), text: fs.existsSync(txtP) ? fs.readFileSync(txtP, 'utf8').trim() : refText, seed: 400, base: 'natural, conversational, like a fan on the line' }
+}
+const whoOf = n => {
+  const s = n.toLowerCase()
+  if (s.includes('tasha')) return 'tasha'; if (s.includes('blaze') || s.includes('marcus')) return 'blaze'; if (s.includes('knowledge') || s.includes('king')) return 'knowledge'
+  for (const [id, x] of Object.entries(EXTRA)) if (x.name && s.includes(String(x.name).toLowerCase())) return id   // a delegate, by name
+  return null
+}
 const ff = a => execSync(`ffmpeg -hide_banner -loglevel error -y ${a}`, { stdio: ['ignore', 'inherit', 'inherit'] })
 
 async function post(ep, body, tries = 3) {
@@ -51,12 +82,13 @@ async function post(ep, body, tries = 3) {
     } catch (e) { if (a === tries) throw e; console.error(`  retry ${a}: ${e.message}`); await new Promise(r => setTimeout(r, a * 10000)) }
   }
 }
-const refOf = who => ({ b64: fs.readFileSync(path.join(VDIR, who + '.wav')).toString('base64'), text: fs.readFileSync(path.join(VDIR, who + '.ref.txt'), 'utf8').trim() })
+const refOf = who => EXTRA[who] ? { b64: EXTRA[who].b64, text: EXTRA[who].text } : { b64: fs.readFileSync(path.join(VDIR, who + '.wav')).toString('base64'), text: fs.readFileSync(path.join(VDIR, who + '.ref.txt'), 'utf8').trim() }
+const voiceOf = who => CAST[who] || EXTRA[who] || { base: '', seed: 7 }
 async function line(who, text, instruction, file) {
-  const r = refOf(who)
+  const r = refOf(who), v = voiceOf(who)
   // CFG LAW: real direction = 4.0; base/plain read = 1.0 (fast-path graphs exist only for these two)
-  const cfg = instruction && instruction.trim() && instruction !== CAST[who].base ? 4.0 : 1.0
-  const wav = await post('/v1/audio/breeze-clone', { text, ref_audio_b64: r.b64, ref_text: r.text, instruction, cfg_scale: cfg, seed: CAST[who].seed })
+  const cfg = instruction && instruction.trim() && instruction !== v.base ? 4.0 : 1.0
+  const wav = await post('/v1/audio/breeze-clone', { text, ref_audio_b64: r.b64, ref_text: r.text, instruction, cfg_scale: cfg, seed: v.seed })
   fs.writeFileSync(file, wav)
 }
 function concatToMp3(parts, out, tmp) {
@@ -110,6 +142,7 @@ const main = async () => {
   if (mode === 'segment') {
     const seg = a1, out = a2
     if (!seg || !out) { console.error('usage: segment <segment.md> <out.mp3>'); process.exit(1) }
+    await loadDelegates(path.dirname(path.dirname(path.resolve(seg))))   // showDir/floor/segment.md -> showDir/beatcard.json
     const tmp = fs.mkdtempSync(path.join(path.dirname(path.resolve(out)), 'brz_'))
     try { // never leave a brz_* orphan behind when the gateway 409s mid-render
       const lines = []
@@ -124,7 +157,7 @@ const main = async () => {
         const deliv = (m[3] || '').replace(/\|/g, ', ')
         const tags = (m[2] || '').toLowerCase()
         const tag = /interrupt|cutting in/.test(tags) ? 'cutting in fast, ' : /overlap|talking over|under them/.test(tags) ? 'talking over the last words, ' : ''
-        lines.push({ who, text, instruction: `${tag}${deliv || CAST[who].base}` })
+        lines.push({ who, text, instruction: `${tag}${deliv || voiceOf(who).base}` })
       }
       console.error(`${lines.length} lines`)
       const parts = []

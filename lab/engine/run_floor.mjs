@@ -132,9 +132,10 @@ function hostSystem(host, beat, evTexts, evMeta, sharedLaws) {
     (beat.attribution?.law ? `HOW TO ATTRIBUTE (house style this beat): ${beat.attribution.law}` : ''),
     (beat.protected_facts && beat.protected_facts.length ? `FACT PRECISION (absolute):\n- ` + beat.protected_facts.map(p => p.note).join('\n- ') : ''),
     `HARD RULES:\n- 1 to 3 sentences, at most ~${Math.round(28 * host.behavior.verbosity + 12)} words. Shorter is stronger.\n- Spoken register: contractions, informal grammar fine. This is talk, not writing.\n- NEVER use facts outside your receipts. Opinion is free but must SOUND like opinion because of who you are, never hedged.\n- No em-dashes. Max ONE catchphrase per episode: ${JSON.stringify(host.catchphrase_rare)} (you have probably already used it, so avoid).\n- Respond to what was ACTUALLY just said. Push back. Do not summarize. Do not validate by default.\n- STAY ON THE ARGUMENT. Never argue about clips, VODs, footage formats, or who watched what. Never react to another host's small sounds. Attack their ARGUMENT, not the furniture.`,
-    `OUTPUT STRICT JSON, nothing else: {"line":"what you say - pure human speech, no ids, no brackets","delivery":"3-6 word emotional direction","addressed_to":"marcus-blaze|tasha-raw|king-knowledge|null","evidence":["E6"]}`,
+    `OUTPUT STRICT JSON, nothing else: {"line":"what you say - pure human speech, no ids, no brackets","delivery":"3-6 word emotional direction","addressed_to":"${ADDRESS_ENUM}","evidence":["E6"]}`,
   ].join('\n\n')
 }
+let ADDRESS_ENUM = 'marcus-blaze|tasha-raw|king-knowledge|null'   // rebuilt from the beat's participants in main()
 function parseTurn(raw) {
   try {
     const m = raw.match(/\{[\s\S]*\}/)
@@ -159,6 +160,16 @@ async function main() {
   const evTexts = Object.fromEntries(evidence.entries.map(e => [e.id, e.claim]))
   const evMeta = Object.fromEntries(evidence.entries.map(e => [e.id, e]))   // id -> {claim, tier, source_name} for attribution
   const hosts = Object.fromEntries(cast.hosts.map(h => [h.id, h]))
+  // DELEGATES on the floor: an AI delegate is a synthetic host on its own engine; a human delegate is
+  // a name + verbatim turns (never generated). Older beat cards without participants = house hosts only.
+  for (const d of (beat.delegates?.ai || [])) {
+    if (hosts[d.id]) continue
+    hosts[d.id] = { id: d.id, name: d.name, kind: 'delegate', print: { essence: `${d.name}, a DELEGATE on this show: a real voice brought in to represent a point of view, not a house host.${d.persona_note ? ' Who they are: ' + d.persona_note + '.' : ''} You talk plainly, in your own voice, like a sharp fan who actually cares. No broadcaster polish, no fence-sitting.` }, behavior: { verbosity: 0.9, interruption_rate: 0.25, backchannel_rate: 0.1 }, model: { temperature: 0.85, dna_id: d.dna_id }, catchphrase_rare: [] }
+    if (d.dna_id) DNA[d.id] = FLOOR_SUB[d.dna_id] || d.dna_id
+  }
+  for (const h of (beat.delegates?.human || [])) if (!hosts[h.id]) hosts[h.id] = { id: h.id, name: h.name, kind: 'human', behavior: { verbosity: 1, interruption_rate: 0, backchannel_rate: 0 }, model: { temperature: 0 }, catchphrase_rare: [] }
+  const speakers = (beat.participants || []).length ? (beat.participants || []).filter(p => p.kind !== 'human').map(p => hosts[p.id]).filter(Boolean) : cast.hosts
+  ADDRESS_ENUM = [...speakers.map(s => s.id), ...(beat.delegates?.human || []).map(h => h.id), 'null'].join('|')
   const outDir = path.resolve(ARG.out || path.join(ROOT, 'lab', 'engine', 'runs', 'run_' + Date.now()))
   fs.mkdirSync(outDir, { recursive: true })
   const rand = rng(Number(ARG.seed || 42))
@@ -258,9 +269,22 @@ async function main() {
     return true
   }
   function backchannel(hostId) {
-    const host = hosts[hostId]; const pool = BC[hostId] || ['Mm.']
+    const host = hosts[hostId]; const pool = BC[hostId] || ['Mm.', 'Right.']
     turns.push({ id: hostId, name: host.name.toUpperCase(), line: pool[Math.floor(rand() * pool.length)], delivery: 'under them', addressed_to: null, evidence: [], tag: null, ms: 0, bc: true })
     console.error(`      ${hostId} backchannel`)
+  }
+  // a HUMAN delegate's turn: their own words, seated as-is, then a host is directed to answer THEM
+  const usedSlots = new Set()
+  function seatHuman(slot) {
+    usedSlots.add(slot.key)
+    const name = (hosts[slot.host]?.name || slot.name || slot.host).toUpperCase()
+    turns.push({ id: slot.host, name, line: slot.text, delivery: 'in their own voice', addressed_to: null, evidence: [], tag: 'delegate', ms: 0, noMerge: true, verbatim: true })
+    spoken += words(slot.text); turnNo++
+    heartbeat(turnNo, beat.max_turns, spoken, beat.target_spoken_words)
+    console.error(`turn ${turnNo} ${slot.host} [delegate, verbatim] ${words(slot.text)}w :: ${slot.text.slice(0, 70)}`)
+    const shareOf = id => { const w = turns.filter(t => t.id === id).reduce((a, t) => a + (t.line.match(/\S+/g) || []).length, 0); return spoken ? w / spoken : 0 }
+    const responder = [...speakers].sort((a, b) => shareOf(a.id) - shareOf(b.id))[0]
+    if (responder) pendingReact = { id: responder.id, instruction: `A real fan, ${hosts[slot.host]?.name || slot.name}, just spoke on the floor. Answer THEM by name: take their point seriously in one clause, then push your own read. Do not repeat their words.`, tag: null }
   }
   let pendingReact = null, wpIdx = 0
   function pickNext() {
@@ -277,8 +301,8 @@ async function main() {
     // waypoints: the director's progression notes - momentum comes from the beat sheet, not model willpower
     const wp = (beat.waypoints || [])[wpIdx]
     if (wp && spoken >= wp.after_words && wp.host !== (last && last.id)) { wpIdx++; return { id: wp.host, instruction: wp.note, tag: null } } // defer, never drop
-    if (last && last.addressed_to && hosts[last.addressed_to] && last.addressed_to !== last.id && shareOf(last.addressed_to) <= 0.45 && rand() < 0.75) return { id: last.addressed_to }
-    const cands = cast.hosts.filter(h => h.id !== (last && last.id) && !(h.id === beat.kk_drop.host && !kkDropped))
+    if (last && last.addressed_to && hosts[last.addressed_to] && hosts[last.addressed_to].kind !== 'human' && last.addressed_to !== last.id && shareOf(last.addressed_to) <= 0.45 && rand() < 0.75) return { id: last.addressed_to }
+    const cands = speakers.filter(h => h.id !== (last && last.id) && !(h.id === beat.kk_drop.host && !kkDropped))
     const weights = cands.map(h => (0.25 + h.behavior.interruption_rate) * (shareOf(h.id) > 0.4 ? 0.2 : 1)) // damp floor-hogs
     let r = rand() * weights.reduce((a, b) => a + b, 0)
     for (let i = 0; i < cands.length; i++) { r -= weights[i]; if (r <= 0) return { id: cands[i].id, tag: rand() < cands[i].behavior.interruption_rate * 0.5 ? 'interrupting' : null } }
@@ -289,13 +313,18 @@ async function main() {
   await speak(beat.opener.host, beat.opener.instruction)
   // floor
   while (spoken < beat.target_spoken_words && turnNo < beat.max_turns) {
+    // a human delegate's scheduled verbatim turn lands when the floor reaches its word mark
+    const slot = (beat.human_slots || []).find(s => !usedSlots.has(s.key) && spoken >= s.after_words)
+    if (slot) { seatHuman(slot); continue }
     const pick = pickNext()
     // quiet host emits backchannel instead of a turn while holding
     if (pick.id === beat.kk_drop.host && !kkDropped && rand() < hosts[pick.id].behavior.backchannel_rate) { backchannel(pick.id); continue }
     await speak(pick.id, pick.instruction, pick.tag)
     // losing bidder backchannels occasionally
-    if (rand() < 0.3) { const others = cast.hosts.filter(h => h.id !== turns[turns.length - 1].id); const b = others[Math.floor(rand() * others.length)]; if (rand() < b.behavior.backchannel_rate) backchannel(b.id) }
+    if (rand() < 0.3) { const others = speakers.filter(h => h.id !== turns[turns.length - 1].id); const b = others[Math.floor(rand() * others.length)]; if (b && rand() < b.behavior.backchannel_rate) backchannel(b.id) }
   }
+  // any human turn the floor never reached still gets said before the close (their verdict matters)
+  for (const s of (beat.human_slots || [])) if (!usedSlots.has(s.key)) { seatHuman(s); if (pendingReact) { const p = pendingReact; pendingReact = null; await speak(p.id, p.instruction, p.tag) } }
   if (!kkDropped) await speak(beat.kk_drop.host, beat.kk_drop.instruction)
   const lastRealEnd = [...turns].reverse().find(t => !t.bc)
   const exitHost = lastRealEnd && lastRealEnd.id === beat.exit.host ? (beat.exit.alt_host || 'tasha-raw') : beat.exit.host
@@ -315,15 +344,20 @@ async function main() {
   fs.writeFileSync(path.join(outDir, 'segment_raw.md'), rawMd)
 
   // MIX — messiness pass
-  const mixSys = `You are a dialogue editor making an AI talk-show transcript sound like REAL recorded conversation. Rules:\n- Keep every speaker name line format: NAME [tag] (delivery): line\n- Inject sparingly (not every line): fillers, false starts, self-corrections, repeated words when heated\n- Truncate 2-3 lines mid-clause where the next speaker cuts in; tag that next line [interrupting] or [overlapping]\n- Vary turn lengths harder: make SHORT lines shorter, but NEVER shorten a turn longer than 20 words - long turns are load-bearing\n- Keep every backchannel line (the tiny 'Right.' / 'Mm.' lines) exactly as they are\n- Keep ALL [E##] evidence tags exactly where they are. Do NOT add facts, receipts, or new claims. Do NOT add or remove speakers.\n- KEEP EVERY TURN. Total length must stay within 10% of the input. You may split a line with an interruption but never delete content.\n- No em-dashes anywhere (replace any you see with a period or '...').\nOutput ONLY the transcript.`
+  const mixSys = `You are a dialogue editor making an AI talk-show transcript sound like REAL recorded conversation. Rules:\n- Keep every speaker name line format: NAME [tag] (delivery): line\n- Inject sparingly (not every line): fillers, false starts, self-corrections, repeated words when heated\n- Truncate 2-3 lines mid-clause where the next speaker cuts in; tag that next line [interrupting] or [overlapping]\n- Vary turn lengths harder: make SHORT lines shorter, but NEVER shorten a turn longer than 20 words - long turns are load-bearing\n- Keep every backchannel line (the tiny 'Right.' / 'Mm.' lines) exactly as they are\n- Lines tagged [delegate] are a REAL PERSON'S OWN WORDS: copy them EXACTLY, character for character; never edit, cut, or add to them\n- Keep ALL [E##] evidence tags exactly where they are. Do NOT add facts, receipts, or new claims. Do NOT add or remove speakers.\n- KEEP EVERY TURN. Total length must stay within 10% of the input. You may split a line with an interruption but never delete content.\n- No em-dashes anywhere (replace any you see with a period or '...').\nOutput ONLY the transcript.`
   let finalMd = rawMd
   try {
-    const mixed = PROVIDER === 'requesty' ? await callRequesty(mixSys, rawMd, 0.7, 1600)
+    let mixed = PROVIDER === 'requesty' ? await callRequesty(mixSys, rawMd, 0.7, 1600)
       : PROVIDER === 'openrouter' ? await callOpenRouter(DNA._mix, mixSys, rawMd, 0.7, 1600, false)
         : await callOllama(MODELS['_mix'], mixSys, rawMd, 0.7, 1600, false)
     const evCountRaw = (rawMd.match(/\[E\d+\]/g) || []).length, evCountMix = (mixed.match(/\[E\d+\]/g) || []).length
+    // the mixer sometimes echoes the delivery as a bracket tag too ("NAME [x] (x):"): collapse the echo
+    mixed = mixed.replace(/^([A-Z][A-Z .'\-]*?)\s*\[([^\]]+)\]\s*\(\s*\2\s*\)\s*:/gm, '$1 ($2):')
     const mixWords = (mixed.match(/\S+/g) || []).length, rawWords = (rawMd.match(/\S+/g) || []).length
-    if (evCountMix >= Math.floor(evCountRaw * 0.7) && mixWords >= rawWords * 0.75) {
+    // a human's verbatim lines must survive the mix untouched, or the mix is rejected
+    const verbatimKept = turns.filter(t => t.verbatim).every(t => mixed.includes(t.line))
+    if (!verbatimKept) console.error('MIX altered a verbatim delegate line — keeping raw')
+    if (verbatimKept && evCountMix >= Math.floor(evCountRaw * 0.7) && mixWords >= rawWords * 0.75) {
       finalMd = (`# FLOOR MIXED - ${beat.id}\n\n` + mixed.trim() + '\n').replace(/—/g, '...')
     } else console.error(`MIX rejected (evidence ${evCountMix}/${evCountRaw}, words ${mixWords}/${rawWords}), keeping raw`)
   } catch (e) { console.error('MIX failed: ' + e.message + ' — keeping raw') }

@@ -23,7 +23,21 @@ const CAST = {
   knowledge: { voice: 'bm_george', speed: 0.92, pitch: 0.94 }, // British house-narrator elder - unmistakable vs Fenrir
 }
 const BACKCHANNEL = /^(mm+h?m?|whew|hm+|huh|right(,? right)*|nah|cap|wow|okay(,? okay)*)[.!?]*$/i
-const whoOf = name => { const n = name.toLowerCase(); if (n.includes('tasha')) return 'tasha'; if (n.includes('blaze') || n.includes('marcus')) return 'blaze'; if (n.includes('knowledge') || n.includes('king')) return 'knowledge'; return null }
+// DELEGATES (draft path — Kokoro can't clone a voice): each delegate on the beat card gets its own
+// unused Kokoro voice so they never blur into a house host
+const GUEST_POOL = [{ voice: 'am_adam', speed: 1.0, pitch: 1 }, { voice: 'af_sarah', speed: 1.02, pitch: 1 }, { voice: 'am_michael', speed: 0.98, pitch: 1 }, { voice: 'af_nicole', speed: 1.0, pitch: 1 }]
+const DELEGATES = {}   // lowercased name -> id
+try {
+  const beat = JSON.parse(fs.readFileSync(path.join(path.dirname(path.dirname(path.resolve(seg))), 'beatcard.json'), 'utf8'))
+  const all = [...(beat.delegates?.human || []), ...(beat.delegates?.ai || [])]
+  all.forEach((d, i) => { CAST[d.id] = GUEST_POOL[i % GUEST_POOL.length]; DELEGATES[String(d.name).toLowerCase()] = d.id })
+} catch { /* no beat card next to this segment: house hosts only */ }
+const whoOf = name => {
+  const n = name.toLowerCase()
+  if (n.includes('tasha')) return 'tasha'; if (n.includes('blaze') || n.includes('marcus')) return 'blaze'; if (n.includes('knowledge') || n.includes('king')) return 'knowledge'
+  for (const [nm, id] of Object.entries(DELEGATES)) if (nm && n.includes(nm)) return id
+  return null
+}
 
 const lines = []
 for (const raw of fs.readFileSync(seg, 'utf8').split('\n')) {

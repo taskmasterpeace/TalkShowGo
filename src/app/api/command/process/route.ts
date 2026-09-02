@@ -3,6 +3,10 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { execFileSync } from 'node:child_process'
 import { logTimer } from '@/lib/command/log'
+import { ytChannelRecent, inWindow, YtChannelGone } from '@/lib/command/yt'
+import { resolveChannel } from '@/lib/command/scout'
+
+const sleep = (ms: number) => new Promise(r => setTimeout(r, ms))
 
 const YTDLP = process.env.YTDLP_PATH || 'C:/Users/taskm/AppData/Local/Programs/Python/Python313/Scripts/yt-dlp.exe'
 // When YouTube's RSS throttles us (intermittent 404/500 bursts), fall back to yt-dlp's flat listing of
@@ -69,44 +73,96 @@ export async function POST(req: Request) {
     await new Promise(r => setTimeout(r, 300))
   }
 
-  // — YouTube sweep via official channel RSS feeds: exact ISO timestamps, keyless, reliable —
+  // — YouTube sweep, three rungs per channel: RSS (exact timestamps) -> Innertube Videos tab (keyless,
+  //   in-process, relative stamps) -> yt-dlp flat listing. YouTube's RSS throttles bursts with 404/500s;
+  //   the ids are fine (Innertube resolves every one), so a throttled feed must never read as "no videos".
+  //   A channel Innertube can't open at all is a dead/renamed id: re-resolve it by name and FIX THE BEAT.
+  const today = new Date().toISOString().slice(0, 10)
+  let beatDirty = false
+  // POST {skip_rss:true}: go straight to the Innertube rung (an ops switch for when RSS is in a throttling mood)
+  const skipRss = body.skip_rss === true || body.skip_rss === 'true'
+  if (skipRss) report.skip_rss = true
   try {
     const Parser = (await import('rss-parser')).default
     const parser = new Parser()
-    // YouTube RSS rate-limits bursts with intermittent 404/500s, so space the feeds out and retry
-    // once with backoff (the channel_ids are fine — the failures were the burst, not bad ids).
-    for (const ch of beat.sources.youtube || []) {
+    for (const ch of beat.sources?.youtube || []) {
       if (!ch.channel_id) continue
-      const url = `https://www.youtube.com/feeds/videos.xml?channel_id=${ch.channel_id}`
-      let feed: any = null, lastErr: any = null
-      for (let attempt = 0; attempt < 3 && !feed; attempt++) {
-        if (attempt) await new Promise(r => setTimeout(r, 900 * attempt))
-        try { feed = await parser.parseURL(url) } catch (e) { lastErr = e }
+      const name = ch.resolved_title || ch.channel_name
+      // 1) RSS: two tries, then move on (the in-process rung is faster than a third backoff)
+      let feed: any = null, lastErr: any = skipRss ? new Error('skipped by request') : null
+      for (let attempt = 0; attempt < (skipRss ? 0 : 2) && !feed; attempt++) {
+        if (attempt) await sleep(700)
+        try { feed = await parser.parseURL(`https://www.youtube.com/feeds/videos.xml?channel_id=${ch.channel_id}`) } catch (e) { lastErr = e }
       }
       if (feed) {
         const recent = (feed.items || [])
           .map((it: any) => ({ title: it.title, video_id: String(it.id || '').split(':').pop(), published: it.pubDate, url: it.link }))
           .filter((v: any) => new Date(v.published).getTime() >= since)
-        report.youtube.push({ channel: ch.resolved_title || ch.channel_name, channel_id: ch.channel_id, in_window: recent.length, videos: recent.slice(0, 8), via: 'rss' })
+        report.youtube.push({ channel: name, channel_id: ch.channel_id, in_window: recent.length, videos: recent.slice(0, 8), via: 'rss' })
+        report.totals.videos += recent.length
+        await sleep(450) // space feeds to dodge RSS rate-limiting
+        continue
+      }
+      const rss_error = String(lastErr?.message || lastErr).slice(0, 80)
+
+      // 2) Innertube: the channel's Videos tab as the website reads it
+      let inner: Awaited<ReturnType<typeof ytChannelRecent>> | null = null, innerErr: string | null = null, reresolved: any = null
+      let id: string = ch.channel_id
+      try { inner = await ytChannelRecent(id, { name }) }
+      catch (e: any) {
+        if (e instanceof YtChannelGone) {
+          try {
+            const r = await resolveChannel(ch.channel_name || name)
+            if (r && !r.suspect && r.channel_id && r.channel_id !== id) {
+              reresolved = { from: id, to: r.channel_id, title: r.title }
+              id = r.channel_id
+              inner = await ytChannelRecent(id, { name: r.title })
+              ch.channel_id = r.channel_id; ch.resolved_title = r.title; ch.status = `RE-RESOLVED ${today} (was ${reresolved.from})`
+              beatDirty = true
+            } else innerErr = `channel gone (${e.message})` + (r ? ` · resolver ${r.suspect ? 'unsure' : 'returns the same id'}` : ' · no channel by that name')
+          } catch (e2: any) { innerErr = 'channel gone; re-resolve failed: ' + String(e2?.message || e2).slice(0, 80) }
+        } else innerErr = String(e?.message || e).slice(0, 80)
+      }
+      if (inner && inner.items.length) {
+        const recent = inWindow(inner.items, hours).map(v => ({ title: v.title, video_id: v.video_id, published: v.published, url: v.url, approx: true, ago: v.ago, views: v.views }))
+        report.youtube.push({ channel: inner.title || name, channel_id: id, in_window: recent.length, videos: recent.slice(0, 8), via: inner.via, rss_error, ...(reresolved ? { reresolved } : {}) })
+        report.totals.videos += recent.length
+        continue
+      }
+      if (inner && !innerErr) innerErr = 'innertube found no videos'
+
+      // 3) yt-dlp flat listing (newest-first; dated only when yt-dlp gives a timestamp)
+      const fb = ytdlpRecent(id)
+      if (fb && fb.length) {
+        // dated entries are filtered to the window; undated ones (yt-dlp flat mode) are kept newest-first,
+        // capped, and flagged approx — never dropped just because a sibling happened to carry a date
+        const dated = fb.filter(v => v.published), undated = fb.filter(v => !v.published)
+        const recent = [...dated.filter(v => new Date(v.published as string).getTime() >= since), ...undated.slice(0, dated.length ? 2 : 3)]
+        report.youtube.push({ channel: name, channel_id: id, in_window: recent.length, videos: recent.slice(0, 8), via: 'yt-dlp' + (dated.length ? '' : ' (undated, newest-first)'), rss_error, innertube_error: innerErr })
         report.totals.videos += recent.length
       } else {
-        // RSS failed 3x -> yt-dlp flat listing (newest-first; dated only when yt-dlp gives a timestamp)
-        const fb = ytdlpRecent(ch.channel_id)
-        if (fb && fb.length) {
-          // dated entries are filtered to the window; undated ones (yt-dlp flat mode) are kept newest-first,
-          // capped, and flagged approx — never dropped just because a sibling happened to carry a date
-          const dated = fb.filter(v => v.published), undated = fb.filter(v => !v.published)
-          const recent = [...dated.filter(v => new Date(v.published as string).getTime() >= since), ...undated.slice(0, dated.length ? 2 : 3)]
-          report.youtube.push({ channel: ch.resolved_title || ch.channel_name, channel_id: ch.channel_id, in_window: recent.length, videos: recent.slice(0, 8), via: 'yt-dlp' + (dated.length ? '' : ' (undated, newest-first)'), rss_error: String(lastErr?.message || lastErr).slice(0, 80) })
-          report.totals.videos += recent.length
-        } else {
-          report.youtube.push({ channel: ch.resolved_title || ch.channel_name, channel_id: ch.channel_id, error: String(lastErr?.message || lastErr).slice(0, 80) + (fb === null ? ' · yt-dlp fallback unavailable' : ' · yt-dlp found nothing') })
-        }
+        report.youtube.push({ channel: name, channel_id: id, error: `rss: ${rss_error} · innertube: ${innerErr}` + (fb === null ? ' · yt-dlp unavailable' : ' · yt-dlp found nothing') })
       }
-      await new Promise(r => setTimeout(r, 450)) // space feeds to dodge RSS rate-limiting
     }
   } catch (e: any) {
     report.youtube_error = String(e?.message || e).slice(0, 120)
+  }
+  // a re-resolved id is a repair of the beat itself: persist it so the next pull starts from the fixed id.
+  // The pull held `beat` in memory for ~20s; a scout auto-add could have written the file in that window, so
+  // re-read the CURRENT beat and patch ONLY the channels we re-resolved (never clobber a concurrent add).
+  if (beatDirty) {
+    try {
+      const repairs = report.youtube.filter((c: any) => c.reresolved).map((c: any) => c.reresolved)
+      let cur: any
+      try { cur = JSON.parse(fs.readFileSync(path.join(ROOT, 'lab', 'beats', file), 'utf8')) } catch { cur = beat }
+      const list = Array.isArray(cur?.sources?.youtube) ? cur.sources.youtube : []
+      for (const r of repairs) {
+        const row = list.find((c: any) => c?.channel_id === r.from)
+        if (row) { row.channel_id = r.to; row.resolved_title = r.title; row.status = `RE-RESOLVED ${today} (was ${r.from})` }
+      }
+      fs.writeFileSync(path.join(ROOT, 'lab', 'beats', file), JSON.stringify(cur, null, 2) + '\n')
+      report.beat_repaired = repairs
+    } catch (e: any) { report.beat_repair_error = String(e?.message || e).slice(0, 120) }
   }
 
   const outDir = path.join(ROOT, 'lab', 'runs')
@@ -123,7 +179,11 @@ export async function POST(req: Request) {
   t.done(() => ({
     kind: 'pull', stage: 'sweep', ok: true, beat: beat.id, ref: outName,
     summary: `${report.totals.tweets} tweets · ${report.totals.videos} videos · ${hours}h${srcErr ? ` · ${srcErr} source errors` : ''}${report.youtube_error ? ' · youtube sweep failed' : ''}`,
-    meta: { hours, sources_ok: report.twitter.length + report.youtube.length - srcErr, sources_err: srcErr, twitter_sources: report.twitter.length, youtube_sources: report.youtube.length, youtube_error: report.youtube_error || null },
+    meta: {
+      hours, sources_ok: report.twitter.length + report.youtube.length - srcErr, sources_err: srcErr, twitter_sources: report.twitter.length, youtube_sources: report.youtube.length, youtube_error: report.youtube_error || null,
+      youtube_via: report.youtube.reduce((m: Record<string, number>, c: any) => { const k = c.error ? 'error' : String(c.via || '?').split(' ')[0]; m[k] = (m[k] || 0) + 1; return m }, {}),
+      beat_repaired: report.beat_repaired || null,
+    },
   }))
   return NextResponse.json({ ok: true, report })
 }

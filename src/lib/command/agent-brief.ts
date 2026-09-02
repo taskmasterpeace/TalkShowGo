@@ -178,21 +178,43 @@ Output STRICT JSON: {"questions":["..."]}`
   return { questions: qs, ms: Date.now() - t0 }
 }
 
-// 2) humanDelivery: the person's typed answers become their delivery, VERBATIM. No model touches a
-//    human's words; reasons carry no evidence ids (their words are their own) and the delivery is
-//    flagged human+verbatim so the floor can seat it as a scripted turn, never rewritten.
-export function humanDelivery(briefing: any, delegate: any, answers: { q: string; a: string }[]) {
-  const slug = String(delegate.name || 'guest').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'guest'
+// 2) humanDelivery: the person's answers become their delivery, VERBATIM. No model touches a human's
+//    words; reasons carry no evidence ids (their words are their own) and the delivery is flagged
+//    human+verbatim so the floor can seat it as a scripted turn, never rewritten.
+//    Each answer carries its source: 'typed' | 'voice' (recorded, transcribed, then corrected by the
+//    person) | 'choice' (a tapped follow-up option), and a spoken answer keeps the wav it came from.
+//    `voice` is the floor's CLONE CONTRACT for this person: their LONGEST recorded take + that take's
+//    exact transcript, which is precisely what mk-gateway /v1/audio/breeze-clone needs (ref_audio_b64
+//    = the wav on disk, ref_text = the text). The field names are load-bearing: sample_wav, ref_text.
+export type HumanAnswerSource = 'voice' | 'typed' | 'choice'
+export type HumanAnswer = { q: string; a: string; source?: HumanAnswerSource; wav?: string }
+export type DelegateVoice = { sample_wav: string; ref_text: string; seconds?: number }
+const SOURCES = new Set<string>(['voice', 'typed', 'choice'])
+/** cast_id slug for a human delegate ('delegate:' + this) and their take folder name under lab/briefings/<id>/delegates/ */
+export const delegateSlug = (name: unknown) => String(name || 'guest').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'guest'
+
+export function humanDelivery(briefing: any, delegate: any, answers: HumanAnswer[], voice?: DelegateVoice | null) {
+  const slug = delegateSlug(delegate.name)
   // verbatim means verbatim: a generous cap, and a flag if anything was ever cut
-  const clean = (answers || []).filter(x => x && typeof x.a === 'string' && x.a.trim()).map(x => { const a = x.a.trim(); return { q: String(x.q || '').slice(0, 240), a: a.slice(0, 6000), ...(a.length > 6000 ? { truncated: true } : {}) } })
+  const clean = (answers || []).filter(x => x && typeof x.a === 'string' && x.a.trim()).map(x => {
+    const a = x.a.trim()
+    const source: HumanAnswerSource = SOURCES.has(String(x.source)) ? (x.source as HumanAnswerSource) : 'typed'
+    return { q: String(x.q || '').slice(0, 240), a: a.slice(0, 6000), source, ...(typeof x.wav === 'string' && x.wav ? { wav: x.wav } : {}), ...(a.length > 6000 ? { truncated: true } : {}) }
+  })
   if (!clean.length) return null
-  const verdict = clean.find(x => /verdict/i.test(x.q))?.a || clean[clean.length - 1].a
+  // the verdict is the show's closing question; failing that, the last thing they said in their own words (never a tapped choice)
+  const verdictEntry = clean.find(x => /verdict\?\s*$/i.test(x.q)) || clean.find(x => /verdict/i.test(x.q)) || [...clean].reverse().find(x => x.source !== 'choice') || clean[clean.length - 1]
+  const verdict = verdictEntry.a
+  const v = voice && typeof voice.sample_wav === 'string' && voice.sample_wav.trim() && typeof voice.ref_text === 'string' && voice.ref_text.trim()
+    ? { sample_wav: voice.sample_wav.trim(), ref_text: voice.ref_text.trim().slice(0, 6000), ...(Number.isFinite(Number(voice.seconds)) ? { seconds: Number(voice.seconds) } : {}) }
+    : null
   return {
     cast_id: 'delegate:' + slug, name: delegate.name, kind: 'delegate', human: true, verbatim: true,
     dna_id: 'human', dna_attribute: 'THE REAL ONE', budget: null, moves_included: (briefing.moves || []).map((m: any) => m.id),
     ok: true, provider: 'human', ms: 0, allowed_evidence_ids: [], persona_note: delegate.persona_note || null,
     interview: clean,
-    stance: { answer: verdict, thesis: verdict, reasons: clean.filter(x => !/verdict/i.test(x.q)).map(x => ({ text: x.a, evidence_ids: [], asked: x.q })), concession: '', uncertainty: '' },
+    voice: v,
+    stance: { answer: verdict, thesis: verdict, reasons: clean.filter(x => x !== verdictEntry).map(x => ({ text: x.a, evidence_ids: [], asked: x.q, source: x.source })), concession: '', uncertainty: '' },
   }
 }
 

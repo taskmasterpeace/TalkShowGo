@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useCmdState, saveBeat, Flash, useBeat, BeatPicker, ago, statusDate } from '../lib'
 
 export default function Sources() {
@@ -15,6 +15,12 @@ export default function Sources() {
   const [name, setName] = useState('')
   const [resolved, setResolved] = useState<any>(undefined)   // undefined = untouched, null = no match
   const [resolveErr, setResolveErr] = useState<string | null>(null)
+  // AUTO-ADD 3+ VIDS (Robert 2026-09-01): a channel with three-plus videos on the topic inside the window joins the
+  // beat on its own. Default ON, remembered per browser like the beat picker. X never auto-adds (needs a userId).
+  const AUTO_KEY = 'tsg_scout_auto'
+  const [auto, setAuto] = useState(true)
+  useEffect(() => { try { const s = localStorage.getItem(AUTO_KEY); if (s === '0') setAuto(false) } catch {} }, [])
+  const toggleAuto = () => { const n = !auto; setAuto(n); try { localStorage.setItem(AUTO_KEY, n ? '1' : '0') } catch {} }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { beat, beats, pick } = useBeat(state)
@@ -64,7 +70,13 @@ export default function Sources() {
   const runScout = async () => {
     const t = topic.trim(); if (t.length < 2 || busy) return
     setBusy('scout'); setScoutErr(null)
-    try { setScout(await scoutPost({ topic: t, beat_file: beat.file, hours })) }
+    try {
+      const j = await scoutPost({ topic: t, beat_file: beat.file, hours, auto })
+      setScout(j)
+      const n = (j.auto_added || []).length
+      // the beat just changed on disk: pull it back so the YOUTUBE table below shows the new rows
+      if (n) { await reload(); setFlash(`AUTO-ADDED ${n}`); setTimeout(() => setFlash(null), 1600) }
+    }
     catch (e: any) { setScoutErr(String(e?.message || e)) }
     finally { setBusy(null) }
   }
@@ -78,6 +90,9 @@ export default function Sources() {
   // live against the CURRENT beat (server flags go stale the moment the picker switches beats)
   const inBeatYt = (id?: string | null) => !!id && yt.some((c: any) => c.channel_id === id)
   const inBeatTw = (h?: string | null) => !!h && tw.some((s: any) => String(s.handle || '').toLowerCase() === String(h).replace(/^@/, '').toLowerCase())
+  // channels THIS scout wrote into the beat on its own (shown as ADDED (auto) instead of IN BEAT / + ADD)
+  const autoAdded: any[] = scout?.auto_added || []
+  const autoAddedIds = new Set<string>(autoAdded.map((a: any) => a.channel_id))
   const scoutAdd = async (key: string, add: any, label: string) => {
     setBusy(key); setScoutErr(null)
     try { await scoutPost({ add: { beat_file: beat.file, ...add } }); await reload(); setFlash('ADDED ' + label.toUpperCase()); setTimeout(() => setFlash(null), 1600) }
@@ -161,13 +176,18 @@ export default function Sources() {
               </select>
             </div>
             <button className="cmd-btn primary" disabled={busy !== null || topic.trim().length < 2} onClick={runScout}>{busy === 'scout' ? 'SCOUTING…' : 'SCOUT'}</button>
+            <button type="button" role="switch" aria-checked={auto} className="cmd-btn ghost" disabled={busy !== null} onClick={toggleAuto} title="auto-add = 3+ videos on the topic inside the window, real channel id, not already in the beat. X handles are never auto-added (they need the verify flow's userId).">
+              AUTO-ADD 3+ VIDS <span className={`chip ${auto ? 'ok' : ''}`}>{auto ? 'ON' : 'OFF'}</span>
+            </button>
           </div>
+          <div className="cmd-kbd">auto-add = 3+ videos on the topic inside the window, real channel id, not already in the beat</div>
           {scoutErr && <div><span className="chip err" title={scoutErr}>SCOUT FAILED: {scoutErr.slice(0, 140)}</span></div>}
           {scout && (
             <>
               <div className="flex flex-wrap items-center gap-2">
                 <span className="chip info">{scout.counts?.youtube_videos ?? 0} VIDEOS</span>
                 <span className="chip info">{scout.counts?.x_posts ?? 0} POSTS</span>
+                {scout.auto && <span className={`chip ${autoAdded.length ? 'ok' : ''}`} title={autoAdded.length ? autoAdded.map((a: any) => `${a.channel_name} (${a.in_window} in ${scout.hours}h)`).join(' · ') : 'auto-add was on; no channel cleared the bar this time'}>AUTO-ADDED {autoAdded.length}</span>}
                 <span className="cmd-kbd">{`"${scout.topic}" · LAST ${scout.hours}H · ${new Date(scout.generated_at).toLocaleTimeString()}`}</span>
                 {(scout.warnings || []).map((w: string, i: number) => <span key={i} className="chip warn" title={w}>{w.slice(0, 90)}</span>)}
               </div>
@@ -200,7 +220,7 @@ export default function Sources() {
                                     </a>
                                   ) : <span className="cmd-kbd">·</span>}
                                 </td>
-                                <td>{inBeat ? <span className="chip ok">IN BEAT</span> : c.channel_id ? <button className="cmd-btn ghost" disabled={busy !== null} onClick={() => scoutAdd(k, { youtube: { channel_id: c.channel_id, channel_name: c.channel_name, subscribers: c.handle } }, c.channel_name)}>{busy === k ? 'ADDING…' : '+ ADD'}</button> : <span className="chip" title="YouTube returned no channel id for this one">NO ID</span>}</td>
+                                <td>{c.channel_id && autoAddedIds.has(c.channel_id) ? <span className="chip ok" title={`auto-added: ${c.in_window} videos on the topic inside the last ${scout.hours}h`}>ADDED (auto)</span> : inBeat ? <span className="chip ok">IN BEAT</span> : c.channel_id ? <button className="cmd-btn ghost" disabled={busy !== null} onClick={() => scoutAdd(k, { youtube: { channel_id: c.channel_id, channel_name: c.channel_name, subscribers: c.handle } }, c.channel_name)}>{busy === k ? 'ADDING…' : '+ ADD'}</button> : <span className="chip" title="YouTube returned no channel id for this one">NO ID</span>}</td>
                               </tr>
                             )
                           })}

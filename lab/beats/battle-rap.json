@@ -1,12 +1,12 @@
 {
   "id": "battle-rap",
-  "name": "Battle Rap",
+  "name": "Algorithm Institute of Battle Rap",
   "status": "active",
   "description": "US battle rap: leagues, battlers, bloggers. Beat #1 - the proving ground, not the ceiling.",
   "show": {
-    "name": "BARS & RECEIPTS",
-    "tagline": "The daily battle rap desk",
-    "timespan_hours": 24,
+    "name": "ALGORITHM INSTITUTE OF BATTLE RAP",
+    "tagline": "The daily battle rap desk of the Algorithm Institute",
+    "timespan_hours": 48,
     "format_bias": "auto",
     "intro": {
       "enabled": true,
