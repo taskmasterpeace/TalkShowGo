@@ -119,7 +119,9 @@ export default function Clusters({ clusters, file, onChange }: Props) {
 
   return (
     <section className="space-y-2">
-      <style>{CSS}</style>
+      {/* HTML-injected, not a text child: React escapes quotes in the CSS on the server while the browser keeps
+          <style> raw, which hydrates as "Text content does not match" on every cold load (same fix as DATAFLOW) */}
+      <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <div className="flex items-center gap-3 flex-wrap">
         <span className="cmd-label" style={{ color: 'var(--cmd-cyan)', margin: 0 }}>STORY CLUSTERS · grouped by EVENT, not topic · the producer can merge, split, rename, pin, dismiss</span>
         <span className="cmd-kbd">{plural(n.stories, 'story', 'stories')} · {plural(n.substories, 'substory', 'substories')} · {plural(n.topics, 'topic', 'topics')}</span>

@@ -108,3 +108,20 @@ lab/cast/voices/delegate-*.ref.txt
 
 # operational activity log (append-only, grows unbounded)
 lab/logs/
+lab/takes/
+lab/settings/
+lab/clips/
+lab/janitor/
+lab/scout/
+
+# RENDERED / CLONED AUDIO — never commit the actual audio files (Robert 2026-09-02).
+# They are heavy binaries; deliver mp3s through the app (SendUserFile), keep them on disk, out of git.
+# (Already-tracked reference clips in lab/cast/voices/*.wav stay tracked - a gitignore rule does not untrack them - so the voice LOCK is preserved.)
+*.mp3
+*.wav
+*.m4a
+*.ogg
+*.webm
+*.flac
+lab/cast/voices/candidates/*.wav
+lab/cast/voices/candidates/*.mp3

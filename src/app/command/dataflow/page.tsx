@@ -377,7 +377,9 @@ export default function Dataflow() {
 
   return (
     <div className="p-6 space-y-5" style={{ maxWidth: 1440 }}>
-      <style>{CSS}</style>
+      {/* injected as HTML, not a text node: React escapes the quotes in `content:''` on the server while the
+          browser keeps <style> raw, so a text child hydrates with "Text content does not match" on every cold load */}
+      <style dangerouslySetInnerHTML={{ __html: CSS }} />
       <div className="flex items-baseline gap-4 flex-wrap">
         <span className="cmd-display text-lg" style={{ letterSpacing: '0.12em' }}>HOW THE DATA TRAVELS</span>
         <span className="cmd-kbd">DATAFLOW · pull → cluster → leads → rank → dossiers → briefings → stances → shows · real counts and real samples at every hop · click anything to light up its lineage</span>
