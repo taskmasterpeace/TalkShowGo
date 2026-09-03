@@ -27,7 +27,7 @@ function TopicsPanel({ topics, onMine, busy }: { topics: any; onMine: () => void
             <div key={i} className="border p-3" style={{ borderColor: 'var(--cmd-line)' }}>
               <div className="flex items-center gap-2 flex-wrap">
                 <span className="cmd-display" style={{ letterSpacing: '0.04em' }}>{t.title}</span>
-                <span className={`chip ${t.overlap_sources >= 2 ? 'ok' : 'info'}`}>{t.overlap_sources >= 2 ? `OVERLAP ×${t.overlap_sources}` : 'SOLO'}</span>
+                <span className={`chip ${t.overlap_sources >= 2 ? 'ok' : 'info'}`} title="How many of your trusted sources are on this story. 2 or more = a real story, not one person's solo take.">{t.overlap_sources >= 2 ? `OVERLAP ×${t.overlap_sources}` : 'SOLO'}</span>
                 <span className={`chip ${t.kind === 'story' ? 'err' : t.kind === 'follow-up' ? 'warn' : ''}`}>{(t.kind || '').toUpperCase()}</span>
               </div>
               <div className="text-xs mt-1" style={{ color: 'var(--cmd-dim)' }}>{t.why_today}</div>
@@ -274,12 +274,13 @@ export default function Desk() {
               </div>
             )}
             <div className="mt-4 flex gap-2">
-              <span className="chip ok">PULL · LIVE</span>
-              <span className="chip ok">TOPIC MINER · LIVE</span>
-              <span className="chip ok">SHOWPLAN · LIVE</span>
-              <span className="chip warn">FLOOR → BREEZE · ENGINE READY</span>
+              <span className="chip ok" title="Pull = grab tweets + videos.">PULL · LIVE</span>
+              <span className="chip ok" title="Topic Miner = find the story.">TOPIC MINER · LIVE</span>
+              <span className="chip ok" title="Showplan = plan the run of show.">SHOWPLAN · LIVE</span>
+              <span className="chip warn" title="Floor = write the dialogue · Breeze = voice it.">FLOOR → BREEZE · ENGINE READY</span>
               <span className="chip info">AVATAR STAGE · SEE ROADMAP</span>
             </div>
+            <div className="cmd-kbd mt-2">{"'live' = wired & working · 'engine ready' (yellow) = the engine works but isn't in the one-click flow yet."}</div>
           </div>
 
           {/* TOPIC MINER — stage 2 */}

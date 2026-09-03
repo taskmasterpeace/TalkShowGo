@@ -104,7 +104,7 @@ export default function Formats() {
                           <div className="cmd-display" style={{ fontSize: 20, letterSpacing: '0.02em' }}>{f.name}</div>
                           <div className="cmd-kbd" style={{ fontSize: 10 }}>{ref}</div>
                         </div>
-                        <span className={`chip ${depClass(f.cast_logic?.human_dependency || '')}`} style={{ fontSize: 9 }}>{(f.cast_logic?.human_dependency || '').replace(/_/g, ' ')}</span>
+                        <span className={`chip ${depClass(f.cast_logic?.human_dependency || '')}`} style={{ fontSize: 9 }} title="Whether the show needs a second person (e.g. a debate needs an opponent). If none is booked it substitutes or says so; a fallback, not a lock.">{(f.cast_logic?.human_dependency || '').replace(/_/g, ' ')}</span>
                       </div>
                       <div style={{ color: 'var(--cmd-cyan)', fontFamily: 'var(--cmd-mono, monospace)', fontSize: 12 }}>{f.cast_logic?.topology}</div>
                       <div style={{ color: 'var(--cmd-dim)', fontSize: 13, lineHeight: 1.4 }}>{f.series_dna?.spine}</div>

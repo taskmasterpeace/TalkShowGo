@@ -130,6 +130,8 @@ export default function Janitor() {
         </span>
       </div>
 
+      <div className="cmd-kbd">The maintenance crew audits your sources (dead handles, squatter accounts, silent ones) and proposes fixes. Apply or Dismiss each.</div>
+
       {/* HOW IT WORKS: the owner asked for the crew to be described, so it lives on the page */}
       <section className="cmd-panel">
         <div className="cmd-h justify-between">

@@ -242,7 +242,7 @@ export default function Discovery() {
                         ? <span className="chip ok ml-auto" title={`${ex.evidence} evidence · mode ${ex.mode}`}>→ {ex.dossier_id} ({ex.evidence})</span>
                         : <span className="ml-auto flex items-center gap-2">
                             {ex?.error && <span className="chip err" title={String(ex.error)}>{String(ex.error).slice(0, 28)}</span>}
-                            <button className="cmd-btn ghost" disabled={ex?.busy} onClick={() => expand(l)} style={{ whiteSpace: 'nowrap' }} title={`search: ${l.query}`}>{ex?.busy ? 'EXPANDING…' : ex?.error ? 'RETRY →' : 'EXPAND →'}</button>
+                            <button className="cmd-btn ghost" disabled={ex?.busy} onClick={() => expand(l)} style={{ whiteSpace: 'nowrap' }} title={`Expand digs a research lead into evidence. The number is its relevance score; the str_… id is where the result is stored.\nsearch: ${l.query}`}>{ex?.busy ? 'EXPANDING…' : ex?.error ? 'RETRY →' : 'EXPAND →'}</button>
                           </span>}
                     </div>
                   )

@@ -131,3 +131,7 @@ lab/cast/voices/candidates/*.mp3
 lab/cast/images/*.png
 lab/cast/images/*.jpg
 lab/cast/images/sheets/
+
+# talking-head reels + montages (regenerate via casting_reel.mjs / ltx_lipsync.mjs) - media, out of git
+*.mp4
+lab/cast/reels/*.png

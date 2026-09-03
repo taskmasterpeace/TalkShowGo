@@ -449,6 +449,7 @@ export default function Dataflow() {
       {journey && journey.timings.length > 0 && (
         <section className="cmd-panel">
           <div className="cmd-h"><div className="vu"><i /><i /><i /><i /></div><h2>THE CLOCK · what each action took</h2><span className="cmd-kbd ml-auto">newest first · from lab/logs/activity.jsonl</span></div>
+          <div className="cmd-kbd" style={{ padding: '8px 12px' }}>Every action the system took (pull, cluster, rank, expand) with how long it took.</div>
           <div style={{ overflow: 'auto', maxHeight: 320 }}>
             <table className="cmd-table">
               <thead><tr><th>WHEN</th><th>KIND</th><th>STAGE</th><th>OK</th><th>TOOK</th><th>REF</th><th>SUMMARY</th></tr></thead>
