@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutGrid, Radio, Users, Clapperboard, PlayCircle, Shapes, Search, Radar, ScrollText, GitBranch, MonitorPlay, UserRound, Wrench, Settings } from 'lucide-react'
+import { LayoutGrid, Radio, Users, Clapperboard, PlayCircle, Shapes, Search, Radar, ScrollText, GitBranch, MonitorPlay, UserRound, Wrench, Settings, Palette } from 'lucide-react'
 
 // round 3 (2026-09-02): YOUTUBE (rung health, transcripts, clips), PEOPLE (delegates on a beat + their take links),
 // JANITOR (the ecosystem's decisions), SETTINGS (in-app keys + the model lineup)
@@ -16,6 +16,7 @@ const ITEMS = [
   { href: '/command/sources', label: 'SOURCES', icon: Radio, tip: 'The Twitter + YouTube accounts each show watches. Verify and prioritize them.' },
   { href: '/command/people', label: 'PEOPLE', icon: UserRound, tip: 'Real people tied to a show (delegates) and their private drop-in links.' },
   { href: '/command/cast', label: 'CAST', icon: Users, tip: 'Your hosts + the voice/face library: rotate, hear, copy, and generate faces.' },
+  { href: '/command/branding', label: 'BRANDING', icon: Palette, tip: 'A logo for every show: it reads the show and draws 3 options, pick one or upload your own.' },
   { href: '/command/producer', label: 'PRODUCER', icon: Clapperboard, tip: 'Assemble and run a full show from the day’s story.' },
   { href: '/command/tape', label: 'TAPE', icon: PlayCircle, tip: 'Rendered shows and takes — listen back (and delete, soon).' },
   { href: '/command/janitor', label: 'JANITOR', icon: Wrench, tip: 'The maintenance crew: audits your sources (dead/squatter/silent) and proposes fixes to approve.' },

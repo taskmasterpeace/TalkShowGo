@@ -8,6 +8,7 @@ const BASES: Record<string, string> = {
   audio: path.join(ROOT, 'lab', 'engine', 'audio'),
   voices: path.join(ROOT, 'lab', 'cast', 'voices'),
   images: path.join(ROOT, 'lab', 'cast', 'images'),
+  logos: path.join(ROOT, 'lab', 'branding', 'logos'),
   shows: path.join(ROOT, 'lab', 'shows'),
   clips: path.join(ROOT, 'lab', 'clips'),
   takes: path.join(ROOT, 'lab', 'takes'),
