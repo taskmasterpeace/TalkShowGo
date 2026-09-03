@@ -176,7 +176,32 @@ function KV({ rows }: { rows: [string, any][] }) {
   return <div className="df-kv">{rows.filter(r => r[1] !== null && r[1] !== undefined && r[1] !== '').map(([k, v], i) => <Fragment key={i}><span className="k">{k}</span><span className="v">{String(v)}</span></Fragment>)}</div>
 }
 
-function Inspector({ node, byId, fwd, back, onPick, onClose }: { node: Node; byId: Map<string, Node>; fwd: Map<string, string[]>; back: Map<string, string[]>; onPick: (id: string) => void; onClose: () => void }) {
+// RESEARCH a lead right here (Robert 2026-09-03: he couldn't find how to approve a lead for research).
+// Runs the lead through the Stringer (POST /api/command/expand) into a cited dossier, no trip to Discovery.
+function ResearchLead({ m, onDone }: { m: any; onDone?: () => void }) {
+  const [st, setSt] = useState<'idle' | 'busy' | 'done' | 'err'>('idle')
+  const [msg, setMsg] = useState('')
+  const run = async () => {
+    setSt('busy'); setMsg('')
+    const lead = { value: m.query, query: m.query, destination: m.destination, type: m.type, id: m.id ?? null, score: m.score ?? null, window: m.window ?? null }
+    try {
+      const r = await fetch('/api/command/expand', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lead }) })
+      const j = await r.json().catch(() => ({ error: 'bad response' }))
+      if (j.ok) { setSt('done'); setMsg(`dossier ${j.expanded?.dossier_id || j.dossier?.id || ''} · ${(j.dossier?.evidence || []).length} evidence · ${j.expanded?.mode || ''}`); onDone?.() }
+      else { setSt('err'); setMsg(j.error || 'research failed') }
+    } catch (e: any) { setSt('err'); setMsg(String(e?.message || e).slice(0, 160)) }
+  }
+  return (
+    <div style={{ marginTop: 8 }}>
+      <button className="cmd-btn" disabled={st === 'busy'} onClick={run} title="Run this lead through the Stringer into a cited dossier">
+        {st === 'busy' ? 'RESEARCHING… (up to ~1 min)' : '→ RESEARCH THIS LEAD'}
+      </button>
+      {msg && <div className="cmd-kbd" style={{ marginTop: 4, color: st === 'done' ? 'var(--cmd-green)' : 'var(--cmd-amber)' }}>{st === 'done' ? '✓ ' : ''}{msg}</div>}
+    </div>
+  )
+}
+
+function Inspector({ node, byId, fwd, back, onPick, onClose, onResearched }: { node: Node; byId: Map<string, Node>; fwd: Map<string, string[]>; back: Map<string, string[]>; onPick: (id: string) => void; onClose: () => void; onResearched?: () => void }) {
   const { s, stage } = node
   const m = s.meta || {}
   const up = back.get(s.id) || [], down = fwd.get(s.id) || []
@@ -217,7 +242,9 @@ function Inspector({ node, byId, fwd, back, onPick, onClose }: { node: Node; byI
         <>
           <KV rows={[['type', m.type], ['destination', m.destination], ['score', `${m.score} · ${String(m.band || '').toUpperCase()}`], ['archive window', m.window], ['why', m.why]]} />
           <div className="df-box" style={{ maxHeight: 90 }}><h4>THE SEARCH IT WOULD RUN</h4><div className="df-pre" style={{ color: 'var(--cmd-amber)' }}>{m.query}</div></div>
-          <div className="cmd-kbd">{down.length ? 'this lead was expanded into the dossier(s) below' : 'not expanded yet: EXPAND → on DISCOVERY turns it into a cited dossier'}</div>
+          {down.length
+            ? <div className="cmd-kbd">this lead was expanded into the dossier(s) below</div>
+            : <><div className="cmd-kbd">not expanded yet — hit RESEARCH to run it into a cited dossier</div><ResearchLead m={m} onDone={onResearched} /></>}
         </>)
       case 'rank': return (
         <>
@@ -441,7 +468,7 @@ export default function Dataflow() {
       {/* the inspector */}
       <div id="df-inspector">
         {node
-          ? <Inspector node={node} byId={byId} fwd={fwd} back={back} onPick={pickNode} onClose={() => setSelected(null)} />
+          ? <Inspector node={node} byId={byId} fwd={fwd} back={back} onPick={pickNode} onClose={() => setSelected(null)} onResearched={() => setTick(t => t + 1)} />
           : journey?.pull ? <section className="cmd-panel p-3"><span className="cmd-kbd">click any item in a card: a feed post, a cluster, a lead, a ranked story, a dossier, a briefing, a voice, a show. Its lineage lights up in amber across the strip and the detail opens here.</span></section> : null}
       </div>
 

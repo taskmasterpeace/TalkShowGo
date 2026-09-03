@@ -68,8 +68,21 @@ async function callOpenRouter(payload: any): Promise<any> {
 // cite-everything architecture there is no way to keep the good half without risking the outlet's
 // name or a misattributed claim. We have YouTube + other queries to fall back on.
 export async function webResearch(query: string, cfg: any): Promise<{ answer: string; citations: WebCitation[]; provider: string; usage?: any }> {
-  if (!OR_KEY) throw new Error('OPENROUTER_API_KEY missing')
   const terms = excludedTerms(cfg)
+
+  // 0) FREE path FIRST — SearXNG (self-hosted) + optional local synthesis. Zero API cost, so it's the
+  // default (Robert is wary of API spend). On by default; set web.searxng=false to force the paid path.
+  // SearXNG down / no usable results just falls through to the paid providers below.
+  if (cfg.web?.searxng !== false) {
+    try {
+      const { searxngResearch } = await import('./searxng-web')
+      const free = await searxngResearch(query, cfg)
+      if (free?.citations?.length) return free
+    } catch { /* SearXNG unreachable or empty -> paid fallback */ }
+  }
+
+  // Paid fallbacks need the OpenRouter key. If it's absent, the free path was our only shot.
+  if (!OR_KEY) return { answer: '', citations: [], provider: 'web' }
   const messages = [{ role: 'system', content: WEB_SYS }, { role: 'user', content: query }]
   const clean = (m: any, j: any, provider: string) => {
     const answer = m?.content || ''

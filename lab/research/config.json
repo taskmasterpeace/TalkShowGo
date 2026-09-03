@@ -10,7 +10,12 @@
     "cache_ttl_hours": 168
   },
   "web": {
-    "default_provider": "openrouter",
+    "default_provider": "searxng",
+    "searxng": true,
+    "searxng_url": "http://localhost:8888",
+    "local_llm_url": "",
+    "local_llm_model": "qwen3.5",
+    "searxng_note": "FREE web supplement (the Perplexica substance). searxng=true tries the self-hosted SearXNG (docker compose up -d searxng, :8888) FIRST at $0, then falls back to the paid OpenRouter/Perplexity providers below only if it's down or empty. local_llm_url is OPTIONAL neutral synthesis on a free OpenAI-compatible box (Mac Mini Ollama http://192.168.1.217:11434 or cupcake) — blank means use the raw snippet digest (still free, zero LLM dependency). Set searxng=false to force the paid path.",
     "max_results": 6,
     "openrouter_model": "google/gemini-2.5-flash-lite",
     "perplexity_model": "perplexity/sonar"
