@@ -125,3 +125,9 @@ lab/scout/
 *.flac
 lab/cast/voices/candidates/*.wav
 lab/cast/voices/candidates/*.mp3
+
+# CHARACTER PORTRAIT RENDERS (Robert 2026-09-02) — regenerate from lab/cast/images/portraits.json via
+# gen_portraits_krea.mjs (cupcake Krea). Heavy binaries, kept on disk, out of git like the audio.
+lab/cast/images/*.png
+lab/cast/images/*.jpg
+lab/cast/images/sheets/

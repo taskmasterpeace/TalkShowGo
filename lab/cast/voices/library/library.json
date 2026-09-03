@@ -1,0 +1,248 @@
+{
+  "_law": "The reusable voice LIBRARY. Every entry is a named, tagged voice recipe (Breeze design, cfg 4.0). Names are PROPOSALS for Robert to keep/rename. Render + audition: node lab/engine/render_breeze.mjs library -> library/LIBRARY_LINEUP.mp3. Lock a pick by copying library/<id>.wav(+.ref.txt) to wherever it's used and recording it on the CASTING_BOARD. Seed ledger continues from cast (500+ block).",
+  "voices": [
+    {
+      "id": "sonny-cash",
+      "name": "Sonny Cash",
+      "seed": 500,
+      "tags": [
+        "gossip",
+        "urban-news",
+        "battle-rap"
+      ],
+      "note": "Robert's explicit ask: Black female early-20s gossip podcaster.",
+      "design": "Feminine, Black American woman in her early twenties, gossip-podcast host, bright quick higher-register voice with light vocal fry on the ends, playful and animated, general American with urban inflection, fast conversational pace that rushes when she is excited, messy-fun energy, laughs mid-sentence, close-mic bedroom-studio clarity, clear crisp",
+      "ref_text": "Okay, so nobody in this room wanted to say it, but I will, because that is literally my whole job. He liked the post, unliked it, THEN blocked her? Baby. We are not okay."
+    },
+    {
+      "id": "unc-ray",
+      "name": "Unc Ray",
+      "seed": 510,
+      "tags": [
+        "hip-hop-elder",
+        "battle-rap"
+      ],
+      "note": "Replacement archetype for the retired 'Knowledge' name/voice: a HIP-HOP culture elder, not a distinguished anchor. Robert: 'make them sound more hip hop.'",
+      "design": "Masculine, Black American man in his late fifties, hip-hop culture elder, warm mid-low baritone with lived-in gravel, real barbershop-and-block cadence, general American with Northeast urban inflection, unhurried but rhythmic, drops effortless slang across eras, wise and playful, close-mic warm, clear full-bodied studio quality",
+      "ref_text": "See, y'all too young to remember, but I was in that room. Different names, same movie. Sit back, let Unc put you on game real quick."
+    },
+    {
+      "id": "renee-vaughn",
+      "name": "Renee Vaughn",
+      "seed": 520,
+      "tags": [
+        "urban-news",
+        "news-anchor"
+      ],
+      "note": "Polished female urban-news anchor. Pairs with the repurposed Knowledge-candidates-as-news-reporter idea.",
+      "design": "Feminine, Black American woman in her late thirties, polished urban-news anchor, warm authoritative mid-alto, smooth clear texture, general American with crisp diction, measured broadcast pace, composed and credible, close-mic studio, clear full-bodied",
+      "ref_text": "Good evening. Our top story tonight: a feud that started online has spilled into the culture at large, and the questions are only getting louder. We break it down."
+    },
+    {
+      "id": "deuce-carter",
+      "name": "Deuce Carter",
+      "seed": 530,
+      "tags": [
+        "street",
+        "battle-rap",
+        "urban-news"
+      ],
+      "note": "Young street correspondent, on-the-ground energy.",
+      "design": "Masculine, Black American man in his mid twenties, street correspondent, higher-energy tenor with a raspy edge, quick clipped cadence, general American with heavy urban inflection, fast and animated, hungry and sharp, close-mic, clear crisp",
+      "ref_text": "I'm out here where it actually happened, and I'ma tell you what the blogs won't. The people on this block already know how this end. Watch."
+    },
+    {
+      "id": "marlon-pierce",
+      "name": "Marlon Pierce",
+      "seed": 540,
+      "tags": [
+        "satire",
+        "comedy",
+        "urban-news"
+      ],
+      "note": "Dry satirist, the Jon-Stewart-of-the-culture lane.",
+      "design": "Masculine, Black American man in his late thirties, satirical late-night commentator, warm mid baritone with an audible smirk, relaxed articulate cadence, general American, easy conversational pace with comic timing and deliberate pauses, wry and deadpan, close-mic, clear full-bodied",
+      "ref_text": "So let me get this straight. He made a whole song about staying out the drama, and then dropped it, at the drama's birthday party. Bold. Very bold."
+    },
+    {
+      "id": "big-mike-vega",
+      "name": "Big Mike Vega",
+      "seed": 550,
+      "tags": [
+        "hype",
+        "battle-rap",
+        "sports-desk"
+      ],
+      "note": "Ring-announcer / hype-man play-by-play energy.",
+      "design": "Masculine, Black American man in his forties, battle-rap ring announcer and hype man, huge chest-resonant baritone, explosive projection, general American, fast building cadence that peaks on the payoff, electric arena energy, close-mic but big, clear full-bodied studio quality",
+      "ref_text": "LADIES and gentlemen, we have been WAITING for this one! Two of the best to ever touch a stage, no beat, no net, RIGHT NOW. Make some NOISE!"
+    },
+    {
+      "id": "quincy-banks",
+      "name": "Quincy Banks",
+      "seed": 560,
+      "tags": [
+        "hot-take",
+        "battle-rap",
+        "urban-news"
+      ],
+      "note": "Robert's ask: a BLACK MALE version of Sonny's energy - young, fast, alive, sharp, NOT gossipy, NOT slow.",
+      "design": "Masculine, Black American man in his mid twenties, quick-witted culture commentator, bright energetic mid-tenor, crisp and punchy, general American with urban inflection, fast conversational pace with sharp emphasis, confident and charismatic, quick to laugh, never slow, close-mic studio, clear crisp",
+      "ref_text": "Nah nah nah, run that back, because everybody scrolled right past the realest part. He didn't lose the argument, he lost his COMPOSURE, and the internet has receipts. Let's get into it."
+    },
+    {
+      "id": "cee-rah",
+      "name": "Cee Rah",
+      "seed": 570,
+      "tags": [
+        "hip-hop-analyst",
+        "battle-rap"
+      ],
+      "note": "Younger culture analyst - Unc Ray read too OLD. Hip-hop-fluent, sharp, mid-thirties/forties, not elderly.",
+      "design": "Masculine, Black American man in his late thirties, hip-hop culture analyst, warm confident baritone, smooth and articulate with a little rasp, general American with urban cadence, measured but rhythmic pace, sharp and knowledgeable, calm authority without sounding old, close-mic studio, clear full-bodied",
+      "ref_text": "People act like this is new. It's not new, it's just louder. The pattern's been the same for twenty years, and if you know the pattern, you already know how this plays out."
+    },
+    {
+      "id": "nia-foster",
+      "name": "Nia Foster",
+      "seed": 580,
+      "tags": [
+        "advocate",
+        "battle-rap",
+        "urban-news"
+      ],
+      "note": "Fiery female advocate - passionate and convicted, NOT dry like Tasha, NOT gossip like Sonny. A new female lane.",
+      "design": "Feminine, Black American woman in her early thirties, passionate advocate and debater, warm rich mid-alto that rises with conviction, full and resonant, general American, builds momentum and gets faster and stronger when she's right, fierce and sincere, close-mic studio, clear full-bodied",
+      "ref_text": "See, that's exactly what I'm not gonna let you do - rewrite it while it's still happening. She EARNED that moment. Nobody handed it to her, and I will say that as loud as I need to."
+    },
+    {
+      "id": "august-reed",
+      "name": "August Reed",
+      "seed": 590,
+      "tags": [
+        "narrator",
+        "documentary"
+      ],
+      "note": "Deep cinematic documentary narrator - the story/doc lane (Algorithm-Institute style). We have no narrator voice.",
+      "design": "Masculine, American man in his fifties, cinematic documentary narrator, deep smooth resonant bass-baritone, rich velvet texture, general American, slow deliberate storyteller pace with weight on every phrase, calm gravitas and quiet drama, close-mic film-trailer intimacy, clear full-bodied studio quality",
+      "ref_text": "Every story in this culture starts the same way. A room, a name, and something to prove. What happened next is the reason we are still talking about it today."
+    },
+    {
+      "id": "rico-delgado",
+      "name": "Rico Delgado",
+      "seed": 600,
+      "tags": [
+        "urban-news",
+        "street",
+        "battle-rap"
+      ],
+      "note": "Energetic urban Latino male - a lane we don't have.",
+      "design": "Masculine, Latino American man in his early thirties, high-energy urban host, bright animated mid-baritone, warm and lively, general American with a light Latin inflection, quick expressive pace with rhythmic emphasis, charismatic and fast, close-mic studio, clear crisp",
+      "ref_text": "Listen, listen, I been saying this all week and nobody wanted to hear me - this whole thing was over before it started. You just gotta know where to look. Let me show you."
+    },
+    {
+      "id": "imani-cole",
+      "name": "Imani Cole",
+      "seed": 610,
+      "tags": [
+        "analysis",
+        "urban-news"
+      ],
+      "note": "Measured intellectual female analyst - the thoughtful one, contrast to fiery Nia and dry Tasha.",
+      "design": "Feminine, Black American woman in her forties, measured cultural analyst and professor, calm low warm alto, smooth even texture, general American with precise diction, unhurried thoughtful pace with air after the key point, composed and insightful, close-mic studio, clear full-bodied",
+      "ref_text": "I think we're asking the wrong question. It was never about who won the night. It's about what the reaction to it tells us, and that's the part worth sitting with."
+    },
+    {
+      "id": "kid-malik",
+      "name": "Malik, age 9",
+      "seed": 620,
+      "tags": [
+        "kids",
+        "storytelling",
+        "family"
+      ],
+      "note": "Robert's ask: Black male kid, for storytelling.",
+      "design": "A young Black American boy, about nine years old, bright and enthusiastic, light high child voice, energetic and curious, general American, quick excited pace, playful and sweet, clear close-mic studio",
+      "ref_text": "And THEN the dragon looked down, and guess what? He wasn't even scary! He just wanted somebody to play with. That's my favorite part of the whole story."
+    },
+    {
+      "id": "kid-zaya",
+      "name": "Zaya, age 8",
+      "seed": 630,
+      "tags": [
+        "kids",
+        "storytelling",
+        "family"
+      ],
+      "note": "Robert's ask: Black female kid, for storytelling.",
+      "design": "A young Black American girl, about eight years old, sweet and animated, light bright child voice, cheerful and expressive, general American, lively pace, giggly and warm, clear close-mic studio",
+      "ref_text": "Once upon a time, there was a little girl who wasn't scared of anything. Not the dark, not spiders, not even the broccoli. Okay, maybe a little scared of the broccoli."
+    },
+    {
+      "id": "kid-tyler",
+      "name": "Tyler, age 9",
+      "seed": 641,
+      "tags": [
+        "kids",
+        "storytelling",
+        "family"
+      ],
+      "note": "Robert's ask: white male kid, for storytelling. RE-ROLL (seed 640 had faint room tone; 641 + dry-studio descriptor for a clean take).",
+      "design": "A young white American boy, about nine years old, bright and eager, light high child voice, excitable and friendly, general American, quick pace, wholesome and playful, completely dry close-mic studio recording, zero background noise, no room tone, clean isolated vocal",
+      "ref_text": "Wait, wait, you gotta hear this part! The robot learned how to feel happy, and it was all because of the kid. I think that's the coolest thing I ever heard."
+    },
+    {
+      "id": "kid-emma",
+      "name": "Emma, age 8",
+      "seed": 650,
+      "tags": [
+        "kids",
+        "storytelling",
+        "family"
+      ],
+      "note": "Robert's ask: white female kid, for storytelling.",
+      "design": "A young white American girl, about eight years old, sweet and gentle, light bright child voice, cheerful and imaginative, general American, lively pace, warm and giggly, clear close-mic studio",
+      "ref_text": "And the little star didn't know how to shine yet. But all her friends believed in her, so she tried one more time. And that time, she lit up the whole entire sky."
+    },
+    {
+      "id": "gran-pearl",
+      "name": "Grandma Pearl, 78",
+      "seed": 660,
+      "tags": [
+        "elderly",
+        "storytelling",
+        "family"
+      ],
+      "note": "Robert's ask: 78 years old, storytelling. Warm grandmother, bedtime-story lane.",
+      "design": "An elderly Black American woman, about seventy-eight years old, warm grandmother storyteller, soft low gentle aged voice with a slight tremble, tender and cozy, general American with older-generation Southern warmth, slow unhurried bedtime pace, loving and wise, clear close-mic warmth",
+      "ref_text": "Come here, baby, come sit by Grandma. Now let me tell you a story from a long, long time ago. Back before any of y'all was even a thought."
+    },
+    {
+      "id": "pop-earl",
+      "name": "Pop Earl, 78",
+      "seed": 670,
+      "tags": [
+        "elderly",
+        "storytelling",
+        "family"
+      ],
+      "note": "Robert's ask: 78 years old, storytelling. Front-porch grandfather, the other elder option.",
+      "design": "An elderly American man, about seventy-eight years old, front-porch grandfather storyteller, warm low weathered voice with gentle gravel and age, unhurried and easy, general American with country warmth, slow storytelling pace with a chuckle underneath, wise and gentle, clear close-mic",
+      "ref_text": "Ha. Now that right there reminds me of a story. Pull up a chair. Back in my day, we didn't have none of these little phones. We had time, and we had each other. That was plenty."
+    },
+    {
+      "id": "cassius-wynn",
+      "name": "Cassius Wynn",
+      "seed": 680,
+      "tags": [
+        "hip-hop",
+        "urban-news",
+        "news-anchor",
+        "battle-rap"
+      ],
+      "note": "Robert 2026-09-02: black male, NEW YORK accent, hip-hop aesthetic - the culture's news host we didn't have.",
+      "design": "Masculine, Black American man in his mid thirties, New York City hip-hop radio and culture-news host, warm confident baritone with a little rasp, authentic thick New York City borough accent, quick rhythmic hip-hop cadence with effortless slang and swagger, sharp charismatic and current, close-mic radio-booth warmth, clear full-bodied studio quality",
+      "ref_text": "Ayo, it's your man Cassius, and if you been anywhere but here you missed it, so pull up. We got the headlines, we got the receipts, and we got the takes nobody else is brave enough to say. Let's get into it."
+    }
+  ]
+}

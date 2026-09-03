@@ -225,6 +225,58 @@ const main = async () => {
     try { concatToMp3(files, path.join(CDIR, 'LINEUP.mp3'), tmp, who, 0.6) } finally { fs.rmSync(tmp, { recursive: true, force: true }) }
     return
   }
+  if (mode === 'library') {
+    // the reusable voice LIBRARY (lab/cast/voices/library/library.json): design each named voice not yet on disk
+    // (cfg 4.0) -> library/<id>.wav + .ref.txt, then build library/LIBRARY_LINEUP.mp3. Each voice slates its own
+    // name, then reads its own character line. Existing wavs are kept (interrupted run resumes; delete one to re-roll).
+    const LIBDIR = path.join(VDIR, 'library')
+    let lib; try { lib = JSON.parse(fs.readFileSync(path.join(LIBDIR, 'library.json'), 'utf8')) } catch { console.error('no lab/cast/voices/library/library.json'); process.exit(1) }
+    const only = a1 ? new Set(a1.split(',').map(s => s.trim()).filter(Boolean)) : null   // optional: one or more ids (comma list) -> render + reel just those
+    fs.mkdirSync(LIBDIR, { recursive: true })
+    const files = [], who = []
+    for (const v of (lib.voices || [])) {
+      if (only && !only.has(v.id)) continue
+      const wavP = path.join(LIBDIR, `${v.id}.wav`), txtP = path.join(LIBDIR, `${v.id}.ref.txt`)
+      const text = `${v.name}. ${v.ref_text}`
+      if (!fs.existsSync(wavP)) {
+        console.error(`designing ${v.id} (${(v.tags || []).join('/')}, seed ${v.seed})...`)
+        const wav = await post('/v1/audio/breeze-design', { text, design: v.design, cfg_scale: 4.0, seed: v.seed })
+        fs.writeFileSync(wavP, wav); fs.writeFileSync(txtP, text)
+        console.error(`  ${v.id}.wav ${(wav.length / 1024).toFixed(0)}KB  ${fmtLu(lufs(wavP))} LUFS raw`)
+      }
+      if (fs.existsSync(wavP)) { files.push(wavP); who.push(v.id) }
+    }
+    if (!files.length) { console.error('no library wavs on disk'); process.exit(1) }
+    const tmp = fs.mkdtempSync(path.join(LIBDIR, 'brz_'))
+    try { concatToMp3(files, path.join(LIBDIR, 'LIBRARY_LINEUP.mp3'), tmp, who, 0.6) } finally { fs.rmSync(tmp, { recursive: true, force: true }) }
+    return
+  }
+  if (mode === 'perform') {
+    // demo a LIBRARY voice performing a script: node render_breeze.mjs perform <libId> <scriptFile> <out.mp3>
+    // each non-empty line is "(delivery): text" (directed, cfg 4.0) or bare "text" (plain read, cfg 1.0); cloned from library/<libId>.wav
+    const libId = a1, scriptFile = a2, out = process.argv.slice(2)[3]
+    if (!libId || !scriptFile || !out) { console.error('usage: perform <libId> <scriptFile> <out.mp3>'); process.exit(1) }
+    const LIBDIR = path.join(VDIR, 'library')
+    const wavP = path.join(LIBDIR, `${libId}.wav`), txtP = path.join(LIBDIR, `${libId}.ref.txt`)
+    if (!fs.existsSync(wavP) || !fs.existsSync(txtP)) { console.error(`no library voice "${libId}" - render it first: library ${libId}`); process.exit(1) }
+    const refB64 = fs.readFileSync(wavP).toString('base64'), refText = fs.readFileSync(txtP, 'utf8').trim()
+    let meta = {}; try { meta = (JSON.parse(fs.readFileSync(path.join(LIBDIR, 'library.json'), 'utf8')).voices || []).find(v => v.id === libId) || {} } catch {}
+    const seed = meta.seed || 500
+    const rawLines = fs.readFileSync(scriptFile, 'utf8').split('\n').map(s => s.trim()).filter(Boolean)
+    const tmp = fs.mkdtempSync(path.join(LIBDIR, 'brz_'))
+    try {
+      const parts = [], who = []
+      for (let i = 0; i < rawLines.length; i++) {
+        const m = rawLines[i].match(/^\(([^)]*)\)\s*:?\s*(.+)$/)
+        const instruction = m ? m[1].trim() : '', text = m ? m[2].trim() : rawLines[i]
+        const wav = await post('/v1/audio/breeze-clone', { text, ref_audio_b64: refB64, ref_text: refText, instruction, cfg_scale: instruction ? 4.0 : 1.0, seed })
+        const f = path.join(tmp, `p${i}.wav`); fs.writeFileSync(f, wav); parts.push(f); who.push(libId)
+        console.error(`  ${i + 1}/${rawLines.length} [${instruction.slice(0, 34)}] ${text.slice(0, 46)}`)
+      }
+      concatToMp3(parts, out, tmp, who, 0.35)
+    } finally { fs.rmSync(tmp, { recursive: true, force: true }) }
+    return
+  }
   if (mode === 'reel') {
     const out = a1 || path.join(ROOT, 'lab', 'engine', 'audio', 'nonverbal_test_reel.mp3')
     const tmp = fs.mkdtempSync(path.join(path.dirname(path.resolve(out)), 'brz_'))

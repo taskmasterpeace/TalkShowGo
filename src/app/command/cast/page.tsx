@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useCmdState, Flash } from '../lib'
 
 async function saveCast(cast: any) {
@@ -8,6 +8,120 @@ async function saveCast(cast: any) {
 }
 
 const KNOBS = ['verbosity', 'filler_rate', 'interruption_rate', 'backchannel_rate'] as const
+
+const rotStyle = (side: 'left' | 'right') => ({ position: 'absolute' as const, top: '50%', [side]: 4, transform: 'translateY(-50%)', width: 26, height: 26, borderRadius: 4, background: 'rgba(0,0,0,0.55)', color: '#fff', border: '1px solid var(--cmd-line)', cursor: 'pointer', fontSize: 16, lineHeight: '22px', zIndex: 2 })
+
+// THE ROSTER — every character with a portrait: rotate the 3 Krea shots, copy the face, hear the voice, lock a pick.
+function RosterPicker() {
+  const [roster, setRoster] = useState<any[] | null>(null)
+  const [idx, setIdx] = useState<Record<string, number>>({})
+  const [copied, setCopied] = useState<string | null>(null)
+  const [busy, setBusy] = useState<string | null>(null)
+  const load = () => fetch('/api/command/cast', { cache: 'no-store' }).then(r => r.json()).then(j => {
+    const rs = j.roster || []
+    setRoster(rs)
+    const start: Record<string, number> = {}
+    for (const c of rs) start[c.id] = Math.max(0, c.variants.findIndex((v: any) => v.v === c.locked))
+    setIdx(start)
+  }).catch(() => setRoster([]))
+  useEffect(() => { load() }, [])
+  const cur = (c: any) => c.variants[idx[c.id] ?? 0] || c.variants[0]
+  const rotate = (c: any, dir: number) => setIdx(m => ({ ...m, [c.id]: (((m[c.id] ?? 0) + dir) % c.variants.length + c.variants.length) % c.variants.length }))
+  const copyFace = async (c: any) => {
+    const url = cur(c).url
+    try {
+      const blob = await (await fetch(url)).blob()
+      // @ts-ignore ClipboardItem is browser-global
+      await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })])
+      setCopied(c.id); setTimeout(() => setCopied(null), 1400)
+    } catch {
+      try { await navigator.clipboard.writeText(location.origin + url); setCopied(c.id); setTimeout(() => setCopied(null), 1400) } catch {}
+    }
+  }
+  const lock = async (c: any) => {
+    setBusy(c.id)
+    try {
+      await fetch('/api/command/cast', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'lockPortrait', id: c.id, variant: cur(c).v }) })
+      await load()
+    } finally { setBusy(null) }
+  }
+  // self-serve: edit the image prompt, regenerate 3 fresh shots through cupcake Krea (the template = shared style + cinematic LoRA baked in)
+  const regen = async (c: any) => {
+    const subj = window.prompt(`Image prompt for ${c.name} — edit to change the look, then OK to generate 3 fresh shots through cupcake (~2-3 min):`, c.subject || '')
+    if (subj === null) return
+    setBusy(c.id + ':gen')
+    try {
+      const r = await fetch('/api/command/cast', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'genPortrait', id: c.id, subject: subj }) })
+      const j = await r.json().catch(() => ({ error: 'bad response' }))
+      if (j.error) alert('Generate failed: ' + j.error)
+      await load()
+    } finally { setBusy(null) }
+  }
+  const newFace = async () => {
+    const name = window.prompt('New character name (e.g. "Marcus Vale"):')
+    if (!name || !name.trim()) return
+    const id = name.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+    if (!id) return
+    const subj = window.prompt(`Image prompt for ${name} — describe the person (the cinematic style + white studio background are added automatically). OK to generate 3 shots via cupcake (~2-3 min):`, '')
+    if (subj === null || !subj.trim()) return
+    setBusy(id + ':gen')
+    try {
+      const r = await fetch('/api/command/cast', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'genPortrait', id, name: name.trim(), subject: subj }) })
+      const j = await r.json().catch(() => ({ error: 'bad response' }))
+      if (j.error) alert('Generate failed: ' + j.error)
+      await load()
+    } finally { setBusy(null) }
+  }
+  if (!roster) return <div className="p-4 cmd-kbd">LOADING ROSTER…</div>
+  return (
+    <section className="cmd-panel">
+      <div className="cmd-h justify-between">
+        <div className="flex items-center gap-3"><div className="vu"><i /><i /><i /><i /></div><h2>THE ROSTER — {roster.length} FACES · ROTATE · COPY · HEAR · GEN</h2>{(() => { const p = roster.filter((c: any) => c.hasPersonality).length; return <span className={`chip ${p === roster.length ? 'ok' : 'warn'}`}>{p}/{roster.length} WITH A PERSONALITY</span> })()}</div>
+        <div className="flex items-center gap-2">
+          <button className="cmd-btn" disabled={!!busy} onClick={newFace} title="create a new character face from a prompt via cupcake">+ NEW FACE</button>
+          <span className="cmd-kbd">CINEMATIC LORA · CUPCAKE KREA</span>
+        </div>
+      </div>
+      <div className="p-4 grid grid-cols-4 gap-3">
+        {roster.map((c: any) => {
+          const v = cur(c); const isLocked = v.v === c.locked
+          return (
+            <div key={c.id} className="border flex flex-col" style={{ borderColor: 'var(--cmd-line)' }}>
+              <div className="relative" style={{ aspectRatio: '1/1', background: 'var(--cmd-bg)' }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={v.url} alt={c.name} className="w-full h-full object-cover" />
+                {c.variants.length > 1 && (
+                  <>
+                    <button style={rotStyle('left')} onClick={() => rotate(c, -1)} aria-label="previous shot">‹</button>
+                    <button style={rotStyle('right')} onClick={() => rotate(c, 1)} aria-label="next shot">›</button>
+                    <span className="chip" style={{ position: 'absolute', bottom: 4, left: '50%', transform: 'translateX(-50%)' }}>{(idx[c.id] ?? 0) + 1}/{c.variants.length}</span>
+                  </>
+                )}
+                <span className={`chip ${isLocked ? 'ok' : ''}`} style={{ position: 'absolute', top: 4, right: 4 }}>{isLocked ? '★ PICK' : `SHOT ${v.v}`}</span>
+              </div>
+              <div className="p-2 flex flex-col gap-2 flex-1">
+                <div>
+                  <div className="flex items-center gap-1 justify-between">
+                    <div className="cmd-display" style={{ letterSpacing: '0.03em' }}>{c.name.toUpperCase()}</div>
+                    <span className={`chip ${c.hasPersonality ? 'ok' : 'err'}`} title={c.hasPersonality ? 'has a Personality Print' : "no personality yet — can't ship until it has one"}>{c.hasPersonality ? '✓ PRINT' : '⚠ NO PERSONALITY'}</span>
+                  </div>
+                  {c.lane && <div className="cmd-kbd truncate" title={c.lane}>{c.lane}</div>}
+                </div>
+                {(c.tags || []).length > 0 && <div className="flex gap-1 flex-wrap">{c.tags.slice(0, 3).map((t: string) => <span key={t} className="chip info">{t}</span>)}</div>}
+                {c.voice ? <audio controls preload="none" src={`${c.voice}?t=${c.id}`} style={{ width: '100%', height: 30 }} /> : <span className="chip warn">NO VOICE YET</span>}
+                <div className="flex gap-1 mt-auto">
+                  <button className="cmd-btn ghost flex-1" onClick={() => copyFace(c)}>{copied === c.id ? '✓ COPIED' : '⧉ COPY'}</button>
+                  <button className="cmd-btn ghost" disabled={busy === c.id + ':gen'} onClick={() => regen(c)} title="edit the prompt and generate 3 new shots via cupcake">{busy === c.id + ':gen' ? 'GEN…' : '⟳ GEN'}</button>
+                  {!isLocked && <button className="cmd-btn ghost" disabled={busy === c.id} onClick={() => lock(c)}>{busy === c.id ? '…' : '★ LOCK'}</button>}
+                </div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </section>
+  )
+}
 
 export default function CastPage() {
   const { state, reload } = useCmdState()
@@ -69,6 +183,8 @@ export default function CastPage() {
         <Flash msg={flash} />
         <span className="cmd-kbd">MODEL + TEMP + PERSONA + REF VOICE + PORTRAIT = ONE HOST</span>
       </div>
+
+      <RosterPicker />
 
       {/* GUESTS — generated personalities for show types that seat them */}
       <section className="cmd-panel">

@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /**
- * Generate cast portraits via Directors Palette API (nano-banana-2).
+ * Generate cast/library portraits via Directors Palette API (nano-banana-2), photorealistic studio white-background.
+ * Prompts are DATA: lab/cast/images/portraits.json ({ _style, subjects: { id: { name, subject } } }); prompt = subject + _style.
  * Law (aiobr DP playbook): NEVER set reference_tag/reference_category on scene gens.
- * Usage: node lab/engine/gen_portraits.mjs [hostId]   (default: all missing)
+ * Usage: node lab/engine/gen_portraits.mjs [id]     (no id = every subject missing on disk; an id = force that one)
  */
 import fs from 'node:fs'
 import path from 'node:path'
@@ -15,12 +16,9 @@ if (!KEY || !BASE) { console.error('no DP creds in aiobr .env'); process.exit(1)
 const IMGDIR = path.join(ROOT, 'lab', 'cast', 'images')
 fs.mkdirSync(IMGDIR, { recursive: true })
 
-const STYLE = 'Bold animated broadcast portrait, cel-shaded, thick confident outlines, dramatic studio key light, dark charcoal control-room backdrop with deep red ON-AIR glow, head-and-shoulders, facing camera with attitude, rich warm skin tones, NO text, NO logos, no purple anywhere'
-const PROMPTS = {
-  'marcus-blaze': `Animated talk-show host portrait: big charismatic Black American man in his thirties, athletic build, short beard, mid-shout with a huge grin and pointed finger, wearing a sharp open-collar blazer, explosive sports-debate energy. ${STYLE}`,
-  'tasha-raw': `Animated talk-show host portrait: effortlessly cool Black American woman in her late twenties, sleek hair, knowing smirk, one eyebrow raised, hoop earrings, stylish streetwear jacket, holding court with quiet menace. ${STYLE}`,
-  'king-knowledge': `Animated talk-show host portrait: distinguished older Black American man in his late fifties, gray-flecked beard, calm heavy-lidded wise eyes, flat cap and cardigan, barbershop-elder gravitas, slight knowing smile. ${STYLE}`,
-}
+const spec = JSON.parse(fs.readFileSync(path.join(IMGDIR, 'portraits.json'), 'utf8'))
+const STYLE = spec._style
+const SUBJECTS = spec.subjects || {}
 
 const api = (p, opts = {}) => fetch(BASE + '/api/v2' + p, { ...opts, headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + KEY, ...(opts.headers || {}) } }).then(r => r.json())
 const findUrl = o => { let hit = null; JSON.stringify(o, (k, v) => { if (!hit && typeof v === 'string' && /^https?:\/\/.*\.(png|jpg|jpeg|webp)/i.test(v)) hit = v; return v }); return hit }
@@ -39,11 +37,14 @@ async function poll(jobId) {
 
 const only = process.argv[2]
 const main = async () => {
-  for (const [id, prompt] of Object.entries(PROMPTS)) {
-    if (only && id !== only) continue
+  const ids = only ? [only] : Object.keys(SUBJECTS)
+  for (const id of ids) {
+    const s = SUBJECTS[id]
+    if (!s) { console.error(`${id}: not in portraits.json`); continue }
     const out = path.join(IMGDIR, id + '.png')
     if (!only && fs.existsSync(out)) { console.error(`${id}: exists, skip`); continue }
-    console.error(`generating ${id}...`)
+    const prompt = `${s.subject}. ${STYLE}`
+    console.error(`generating ${id} (${s.name})...`)
     const r = await api('/images/generate', { method: 'POST', body: JSON.stringify({ model: 'nano-banana-2', prompt, aspect_ratio: '1:1' }) })
     if (!r?.success) { console.error(`${id} FAIL: ${JSON.stringify(r).slice(0, 200)}`); continue }
     const url = findUrl(r) || await poll(r.data.job_id)
