@@ -147,10 +147,36 @@ function parseMined(content: string): any {
   }
 }
 
-export async function parseMaterial(assignment: Assignment, withText: { id: string }[], material: string, cfg: any) {
+// The evidence-mining LLM. Free-first: a local Ollama box (Mac Mini / cupcake — the same qwen the
+// topic miner uses) costs nothing, so we try it FIRST, then fall back to the cheap cloud model only
+// if the local box is off. A 3s liveness probe means a DOWN box fails fast instead of hanging the
+// full parse timeout. Provider order comes from cfg.parser.provider, split on '+' (e.g.
+// "local + openrouter" = free first, paid fallback). Robert is wary of API spend — this makes a
+// research run $0 whenever a home box is on.
+const OLLAMA_DEFAULT = process.env.PARSER_LOCAL_URL || 'http://192.168.1.217:11434' // Mac Mini (GPU-independent)
+
+async function parserLocal(user: string, cfg: any): Promise<{ content: string; usage: any }> {
+  const base = String(cfg.parser?.local_url || OLLAMA_DEFAULT).replace(/\/$/, '')
+  const model = cfg.parser?.local_model || 'qwen3.5'
+  // fast liveness probe so an OFF box fails in ~3s, not after the long parse timeout
+  await fetch(base + '/api/tags', { signal: AbortSignal.timeout(3000) }).then(r => { if (!r.ok) throw 0 }).catch(() => { throw new Error('parser-local unreachable') })
+  const r = await fetch(base + '/api/chat', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model, stream: false, think: false, format: 'json',
+      messages: [{ role: 'system', content: PARSE_SYS + '\n/no_think' }, { role: 'user', content: user }],
+      options: { temperature: cfg.parser?.temperature ?? 0.1, num_predict: cfg.parser?.max_output_tokens || 5000, num_ctx: cfg.parser?.local_num_ctx || 32768 },
+    }),
+    signal: AbortSignal.timeout(cfg.parser?.local_timeout_ms || 120000),
+  })
+  if (!r.ok) throw new Error('parser-local http ' + r.status)
+  const j = await r.json()
+  const content = String(j.message?.content || '').replace(/<think>[\s\S]*?<\/think>/gi, '').trim() || '{}'
+  return { content, usage: { free: true, provider: 'local', prompt_tokens: j.prompt_eval_count ?? null, completion_tokens: j.eval_count ?? null } }
+}
+
+async function parserOpenRouter(user: string, cfg: any): Promise<{ content: string; usage: any }> {
   if (!OR_KEY) throw new Error('OPENROUTER_API_KEY missing')
-  const t0 = Date.now()
-  const user = `ASSIGNMENT (${assignment.kind}): ${assignment.text}\nQUESTIONS TO ANSWER:\n${(assignment.questions.length ? assignment.questions : ['(none posed - propose candidate questions)']).map((q, i) => (i + 1) + '. ' + q).join('\n')}\n\nMATERIAL (${withText.length} sources):\n${material}`
   const r = await fetch('https://openrouter.ai/api/v1/chat/completions', {
     method: 'POST', headers: { Authorization: 'Bearer ' + OR_KEY, 'Content-Type': 'application/json' },
     body: JSON.stringify({ model: cfg.parser?.model || 'google/gemini-2.5-flash-lite', temperature: cfg.parser?.temperature ?? 0.1, max_tokens: cfg.parser?.max_output_tokens || 5000, response_format: { type: 'json_object' }, messages: [{ role: 'system', content: PARSE_SYS }, { role: 'user', content: user }] }),
@@ -158,9 +184,24 @@ export async function parseMaterial(assignment: Assignment, withText: { id: stri
   })
   const j = await r.json()
   if (!r.ok || j.error) throw new Error(j.error?.message || ('parser http ' + r.status))
-  const content = j.choices?.[0]?.message?.content || '{}'
+  return { content: j.choices?.[0]?.message?.content || '{}', usage: j.usage }
+}
+
+export async function parseMaterial(assignment: Assignment, withText: { id: string }[], material: string, cfg: any) {
+  const t0 = Date.now()
+  const user = `ASSIGNMENT (${assignment.kind}): ${assignment.text}\nQUESTIONS TO ANSWER:\n${(assignment.questions.length ? assignment.questions : ['(none posed - propose candidate questions)']).map((q, i) => (i + 1) + '. ' + q).join('\n')}\n\nMATERIAL (${withText.length} sources):\n${material}`
+  const callers: Record<string, () => Promise<{ content: string; usage: any }>> = {
+    openrouter: () => parserOpenRouter(user, cfg), local: () => parserLocal(user, cfg), cupcake: () => parserLocal(user, cfg), ollama: () => parserLocal(user, cfg),
+  }
+  const order = String(cfg.parser?.provider || 'openrouter').split('+').map(s => s.trim().toLowerCase()).filter(s => callers[s])
+  if (!order.length) order.push('openrouter')
+  let content = '{}', usage: any = null, lastErr: any = null
+  for (const p of order) {
+    try { const out = await callers[p](); if (out.content && out.content.trim()) { content = out.content; usage = out.usage; break } } catch (e) { lastErr = e }
+  }
+  if (usage === null && lastErr) throw lastErr // every provider failed
   const mined = parseMined(content)
-  return { mined, ms: Date.now() - t0, usage: j.usage }
+  return { mined, ms: Date.now() - t0, usage }
 }
 
 export async function runStringer(assignment: Assignment, trusted: { channel_id: string; name: string }[], opts: { mode?: YtMode; dual?: boolean } = {}) {

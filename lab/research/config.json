@@ -21,10 +21,13 @@
     "perplexity_model": "perplexity/sonar"
   },
   "parser": {
-    "provider": "openrouter",
+    "provider": "local + openrouter",
+    "local_url": "http://192.168.1.217:11434",
+    "local_model": "qwen3.5",
     "model": "google/gemini-2.5-flash-lite",
     "temperature": 0.1,
-    "max_output_tokens": 5000
+    "max_output_tokens": 5000,
+    "parser_note": "FREE-first evidence mining. 'local + openrouter' tries the local Ollama box (local_url = Mac Mini, GPU-independent; cupcake http://192.168.1.249:11434 is the alt) at $0, then falls back to the cheap cloud model only if the box is OFF. A 3s liveness probe means an off box fails fast instead of hanging. Set provider to 'openrouter' to force cloud, or 'openrouter + local' to prefer cloud with a local fallback."
   },
   "impartiality": {
     "min_distinct_publishers": 2,
