@@ -1,0 +1,15 @@
+{
+  "_law": "Talk-show logos via KREA 2 on the cupcake mk-gateway (free, in-house - same engine that made the cast; NOT Director's Palette). One show, 3 candidates -> Robert picks one into _picks. Names are kept SHORT and BOLD so the lettering stays legible; if Krea garbles the text, switch that show to emblem-only + composite the name as real vector text (roadmap). No brand logos in prompts (Krea leaks real marks). NO purple, ever.",
+  "_style": "professional broadcast talk-show logo, bold modern emblem, clean flat vector look, strong legible heavy lettering, high contrast, centered on a solid flat background, iconic and memorable, crisp sharp edges, graphic-design quality, no photo, no clutter",
+  "_seeds": [7001, 7002, 7003],
+  "_neg": "photorealistic, photograph, 3d render, cluttered, busy, noisy, gradient mess, watermark, signature, gibberish text, misspelled words, distorted warped letters, extra letters, low quality, blurry, jpeg artifacts, purple, violet, magenta, lavender, indigo",
+  "_picks": {},
+  "shows": {
+    "the-huddle": {
+      "name": "THE HUDDLE",
+      "tagline": "Your team, every day",
+      "beat": "atlanta-falcons",
+      "prompt": "a bold modern LOGO for a daily sports talk show named \"THE HUDDLE\", the two words THE HUDDLE set in big clean heavy condensed uppercase sans-serif lettering, a simple strong emblem worked in (a broadcast microphone or a football), athletic sports-network branding, warm gold and deep charcoal with a single punch of red, flat vector, very high contrast, centered, confident and iconic"
+    }
+  }
+}

@@ -19,4 +19,4 @@ Law (Robert, 2026-08-31): every rendered audio file gets a row here the moment i
 - Cast reference voices live in `lab/cast/voices/` (designed once, seed-locked, cloned per line = consistency).
 
 | tay-roc-battle-rapper-6ct7fw.mp3 | 2026-09-02 | 10 lines · Which of Tay Roc's battles is the greatest of his career? | breeze via make_show (openrouter floor, seed 7) |
-| tay-roc-battle-rapper-6ct7fw.mp3 | 2026-09-02 | 29 lines · Which of Tay Roc's battles is the greatest of his career? | breeze via make_show (openrouter floor, seed 7) |
+| tay-roc-battle-rapper-6ct7fw.mp3 | 2026-09-02 | 29 lines · Which of Tay Roc's battles is the greatest of his career? | breeze via make_show (openrouter floor, seed 7) || how-talkshowgo-works.mp3 | 2026-09-03 | 15 beats · How TalkShowGo works (narrative explainer, no jargon) | breeze perform mode, voice august-reed, cfg 1.0 |

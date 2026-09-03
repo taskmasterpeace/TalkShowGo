@@ -135,3 +135,6 @@ lab/cast/images/sheets/
 # talking-head reels + montages (regenerate via casting_reel.mjs / ltx_lipsync.mjs) - media, out of git
 *.mp4
 lab/cast/reels/*.png
+
+# generated logos (regenerate from lab/branding/logos.json)
+lab/branding/logos/*.png
