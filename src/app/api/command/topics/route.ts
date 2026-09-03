@@ -8,6 +8,81 @@ export const maxDuration = 300
 const ROOT = process.cwd()
 const OLLAMA = process.env.ENGINE_OLLAMA_URL || 'http://192.168.1.249:11434'
 
+/** Slice out the OUTERMOST balanced open..close pair, string-literal aware (so braces inside a
+ *  string, or trailing prose after the JSON, don't throw the count off). Returns null if no
+ *  complete balanced pair is found. */
+function sliceBalanced(s: string, open: string, close: string): string | null {
+  const start = s.indexOf(open)
+  if (start < 0) return null
+  let depth = 0, inStr = false, esc = false
+  for (let i = start; i < s.length; i++) {
+    const ch = s[i]
+    if (inStr) {
+      if (esc) esc = false
+      else if (ch === '\\') esc = true
+      else if (ch === '"') inStr = false
+    } else if (ch === '"') inStr = true
+    else if (ch === open) depth++
+    else if (ch === close && --depth === 0) return s.slice(start, i + 1)
+  }
+  return null
+}
+
+/** Light, string-aware repair for the malformed JSON LLMs emit: drop trailing commas and insert
+ *  the obviously-missing comma between two adjacent values (`}{`, `][`, `""`, `}[`...). Only touches
+ *  characters OUTSIDE string literals, so it can't corrupt content that merely looks like JSON. */
+function repairJson(s: string): string {
+  let out = '', inStr = false, esc = false
+  for (let i = 0; i < s.length; i++) {
+    const ch = s[i]
+    let valueEnded = false // true once this char completed a value (closing quote, closer, or a digit)
+    if (inStr) {
+      out += ch
+      if (esc) esc = false
+      else if (ch === '\\') esc = true
+      else if (ch === '"') { inStr = false; valueEnded = true } // the string value just closed
+      if (!valueEnded) continue
+    } else if (ch === '"') {
+      inStr = true; out += ch; continue // opening quote
+    } else if (ch === ',') {
+      let j = i + 1
+      while (j < s.length && /\s/.test(s[j])) j++
+      if (s[j] === '}' || s[j] === ']') continue // drop a trailing comma
+      out += ch; continue
+    } else {
+      out += ch
+      if (ch === '}' || ch === ']' || /[0-9]/.test(ch)) valueEnded = true
+    }
+    if (!valueEnded) continue
+    // a value just ended: insert the missing comma if the next value starts with no delimiter
+    // (the "Expected ',' or ']' after array element" case).
+    let j = i + 1
+    while (j < s.length && /\s/.test(s[j])) j++
+    const nxt = s[j] || ''
+    const nextIsValue = nxt === '{' || nxt === '[' || nxt === '"' || /[0-9]/.test(nxt)
+    if (!nextIsValue) continue
+    if (ch === '"' || ch === '}' || ch === ']') out += ','
+    else if (/[0-9]/.test(nxt) ? j > i + 1 : true) out += ',' // number: only split when whitespace separates two digits
+  }
+  return out
+}
+
+/** Robustly parse the JSON an LLM produced: strip ``` fences, try the whole thing and the outermost
+ *  balanced {..}/[..] as-is (so valid JSON is untouched), and only if all of those throw fall back to
+ *  a light repair pass. Returns null when nothing parses. `onRepair` fires when a repaired candidate
+ *  is what finally parsed, so the caller can warn. */
+function robustJsonParse(raw: string, onRepair?: () => void): any {
+  const unfenced = String(raw || '').replace(/```(?:json)?/gi, '```').split('```').join(' ').trim()
+  const text = /[{[]/.test(unfenced) ? unfenced : String(raw || '').trim()
+  const candidates = [text, sliceBalanced(text, '{', '}'), sliceBalanced(text, '[', ']')].filter(Boolean) as string[]
+  for (const c of candidates) { try { return JSON.parse(c) } catch { /* try next */ } }
+  for (const c of candidates) {
+    const fixed = repairJson(c)
+    if (fixed !== c) { try { const v = JSON.parse(fixed); onRepair?.(); return v } catch { /* give up on this one */ } }
+  }
+  return null
+}
+
 /** POST {file?} — THE TOPIC MINER (stage 2 of PROCESS), PER SHOW.
  *  Mines the latest pull report FOR THE GIVEN BEAT ONLY (no cross-show bleed):
  *  cross-source OVERLAP = the story; non-overlap = follow-ups/smalltalk. Free, cupcake qwen3:30b. */
@@ -54,7 +129,9 @@ Output STRICT JSON only: {"topics":[{"title":"...","overlap_sources":n,"kind":"s
     })
     if (!r.ok) throw new Error('ollama ' + r.status)
     let content = (await r.json()).message.content.replace(/<think>[\s\S]*?<\/think>/g, '').replace(/^[\s\S]*?<\/think>\s*/, '')
-    const mined = JSON.parse(content.match(/\{[\s\S]*\}/)?.[0] || '{}')
+    let mined = robustJsonParse(content, () => console.warn('[topics] miner JSON was malformed; recovered via light repair'))
+    if (Array.isArray(mined)) mined = { topics: mined } // model returned the bare topics array
+    if (!mined || typeof mined !== 'object') throw new Error('miner returned unparseable JSON')
     // join item texts back in for the UI
     for (const t of mined.topics || []) t.evidence = (t.items || []).map((i: number) => material[i]).filter(Boolean)
     const out = { pulled_from: pulls[0], beat: report.beat, mined_at: new Date().toISOString(), feed_count: material.length, ...mined }

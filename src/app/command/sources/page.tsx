@@ -30,8 +30,12 @@ export default function Sources() {
   const { beat, beats, pick } = useBeat(state)
   if (!state) return <div className="p-8 cmd-kbd">LOADING SOURCES...</div>
   if (!beat) return <div className="p-8 cmd-kbd">NO BEAT LOADED</div>
-  const tw = beat.sources.twitter || []
-  const yt = beat.sources.youtube || []
+  const tw = beat.sources?.twitter || []
+  const yt = beat.sources?.youtube || []
+  // handles never keep an '@' (typed OR pasted); strip every one (leading or embedded)
+  const stripAt = (v: string) => (v || '').replace(/@/g, '')
+  // a hand-edited beat may be missing sources or a sub-array; never deref undefined on a click
+  const withSources = (b: any) => { if (!b.sources || typeof b.sources !== 'object') b.sources = {}; if (!Array.isArray(b.sources.twitter)) b.sources.twitter = []; if (!Array.isArray(b.sources.youtube)) b.sources.youtube = []; return b }
 
   const save = async (next: any, msg = 'SAVED') => {
     await saveBeat(beat.file, next)
@@ -39,19 +43,21 @@ export default function Sources() {
     reload()
   }
   const patchTw = (i: number, patch: any) => {
-    const next = structuredClone(beat); Object.assign(next.sources.twitter[i], patch)
+    const next = withSources(structuredClone(beat)); if (!next.sources.twitter[i]) return
+    Object.assign(next.sources.twitter[i], patch)
     if (patch.handle !== undefined) { next.sources.twitter[i].status = 'unverified (edited)'; delete next.sources.twitter[i].userId }
     save(next)
   }
-  const removeTw = (i: number) => { const next = structuredClone(beat); next.sources.twitter.splice(i, 1); save(next, 'REMOVED') }
-  const addTw = () => { const next = structuredClone(beat); next.sources.twitter.push({ handle: '', label: '', type: 'blogger', priority: 2, status: 'unverified (new)' }); save(next, 'ADDED') }
+  const removeTw = (i: number) => { const next = withSources(structuredClone(beat)); next.sources.twitter.splice(i, 1); save(next, 'REMOVED') }
+  const addTw = () => { const next = withSources(structuredClone(beat)); next.sources.twitter.push({ handle: '', label: '', type: 'blogger', priority: 2, status: 'unverified (new)' }); save(next, 'ADDED') }
   const patchYt = (i: number, patch: any) => {
-    const next = structuredClone(beat); Object.assign(next.sources.youtube[i], patch)
+    const next = withSources(structuredClone(beat)); if (!next.sources.youtube[i]) return
+    Object.assign(next.sources.youtube[i], patch)
     if (patch.channel_name !== undefined) { next.sources.youtube[i].status = 'unverified (edited)'; delete next.sources.youtube[i].channel_id }
     save(next)
   }
-  const removeYt = (i: number) => { const next = structuredClone(beat); next.sources.youtube.splice(i, 1); save(next, 'REMOVED') }
-  const addYt = () => { const next = structuredClone(beat); next.sources.youtube.push({ channel_name: '', type: 'blogger', priority: 2, status: 'unverified (new)' }); save(next, 'ADDED') }
+  const removeYt = (i: number) => { const next = withSources(structuredClone(beat)); next.sources.youtube.splice(i, 1); save(next, 'REMOVED') }
+  const addYt = () => { const next = withSources(structuredClone(beat)); next.sources.youtube.push({ channel_name: '', type: 'blogger', priority: 2, status: 'unverified (new)' }); save(next, 'ADDED') }
 
   const runVerify = async () => {
     setBusy('tw'); setLog([])
@@ -403,7 +409,10 @@ export default function Sources() {
               {tw.map((s: any, i: number) => (
                 <tr key={`${beat.file}:tw:${i}:${s.handle}`}>
                   <td style={{ minWidth: 150 }}><div className="flex items-center gap-1"><span style={{ color: 'var(--cmd-faint)' }}>@</span>
-                    <input className="cmd-input" style={{ border: 'none', padding: '2px 4px', background: 'transparent' }} defaultValue={s.handle} onBlur={e => e.target.value !== s.handle && patchTw(i, { handle: e.target.value })} /></div></td>
+                    <input className="cmd-input" style={{ border: 'none', padding: '2px 4px', background: 'transparent' }} defaultValue={s.handle}
+                      onChange={e => { const v = stripAt(e.currentTarget.value); if (v !== e.currentTarget.value) e.currentTarget.value = v }}
+                      onPaste={e => { e.preventDefault(); const el = e.currentTarget; const t = stripAt(e.clipboardData.getData('text')); const a = el.selectionStart ?? el.value.length, b = el.selectionEnd ?? el.value.length; el.value = stripAt(el.value.slice(0, a) + t + el.value.slice(b)); const p = a + t.length; el.setSelectionRange(p, p) }}
+                      onBlur={e => { const v = stripAt(e.currentTarget.value); if (v !== s.handle) patchTw(i, { handle: v }) }} /></div></td>
                   <td>{s.handle && <a href={`https://x.com/${s.handle}`} target="_blank" rel="noreferrer" className="chip info" style={{ textDecoration: 'none' }} title={`open x.com/${s.handle} - eyeball it's the right account`}>↗</a>}</td>
                   <td style={{ minWidth: 150 }}><input className="cmd-input" style={{ border: 'none', padding: '2px 4px', background: 'transparent' }} defaultValue={s.label || ''} onBlur={e => e.target.value !== s.label && patchTw(i, { label: e.target.value })} /></td>
                   <td>

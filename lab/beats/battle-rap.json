@@ -54,13 +54,6 @@
         "display_name": "BIG TRAP‼️😎"
       },
       {
-        "handle": "RBE_studios",
-        "label": "Rare Breed Entertainment",
-        "type": "league",
-        "priority": 1,
-        "status": "NOT FOUND 2026-08-31 - needs a human to find the current handle"
-      },
-      {
         "handle": "JayBlac1615",
         "label": "Jay Blac (Champion)",
         "type": "blogger",
@@ -71,98 +64,121 @@
         "display_name": "Blac Kellerman"
       },
       {
-        "handle": "15MOFE",
-        "label": "15 Minutes of Fame",
-        "type": "league",
-        "priority": 2,
-        "status": "VERIFIED 2026-08-31",
-        "userId": "282291050",
-        "followers": 1721,
-        "display_name": "15 MinutesOfFame Ent"
-      },
-      {
-        "handle": "HipHopIsReal",
-        "label": "HHIR",
+        "handle": "15MofeRadio",
+        "label": "15MofeRadio",
         "type": "media",
         "priority": 2,
-        "status": "SUSPECT 2026-09-02: 4 followers (label says media: HHIR); display name \"HipHop IsReal\" shares no word with the label \"HHIR\"",
-        "userId": "165942201",
+        "status": "unverified (edited)",
         "followers": 4,
         "display_name": "HipHop IsReal"
-      },
-      {
-        "handle": "AngryFan007",
-        "label": "Angry Fan",
-        "type": "blogger",
-        "priority": 2,
-        "status": "NOT FOUND 2026-08-31 - needs a human to find the current handle"
       },
       {
         "handle": "islandgodverb",
         "label": "Aye Verb",
         "type": "battler",
-        "priority": 2,
+        "priority": 3,
         "status": "VERIFIED 2026-08-31",
         "userId": "1465697795558440978",
         "followers": 31936,
         "display_name": "VEEZY"
+      },
+      {
+        "handle": "battlerapdose",
+        "label": "",
+        "type": "blogger",
+        "priority": 2,
+        "status": "unverified (edited)"
       }
     ],
     "youtube": [
       {
-        "channel_name": "URLTV",
-        "type": "league",
-        "priority": 1,
-        "status": "RESOLVED 2026-08-31",
-        "channel_id": "UCflIAeM03JFL9ml03LwYF-g",
-        "resolved_title": "Ultimate Rap League",
-        "subscribers": "@theUrltv"
-      },
-      {
-        "channel_name": "King Of The Dot Entertainment",
-        "type": "league",
-        "priority": 1,
-        "status": "RESOLVED 2026-08-31",
-        "channel_id": "UCIuFtIO8i_XqA8lM7q4B1FQ",
-        "resolved_title": "King Of The Dot Entertainment",
-        "subscribers": "@KingOfTheDot"
-      },
-      {
-        "channel_name": "Rare Breed Entertainment",
-        "type": "league",
-        "priority": 1,
-        "status": "RESOLVED 2026-08-31",
-        "channel_id": "UCVsYff7Yb4k_5v5iW5KouHA",
-        "resolved_title": "Rare Breed Ent",
-        "subscribers": "@RBE"
-      },
-      {
-        "channel_name": "Jayblac1615",
-        "type": "blogger",
-        "priority": 1,
-        "status": "RESOLVED 2026-08-31",
-        "channel_id": "UCdXzXtwGpGfpkQLejc4GMiQ",
-        "resolved_title": "Jayblac1615",
-        "subscribers": "@Jayblac1615"
-      },
-      {
         "channel_name": "HipHopIsReal",
         "type": "interviews",
         "priority": 2,
-        "status": "RESOLVED 2026-08-31",
+        "status": "RESOLVED 2026-09-03",
         "channel_id": "UCqf8wnnmpZz1EPZjEV3od4w",
         "resolved_title": "hiphopisreal.com",
         "subscribers": "@HipHopIsRealUniverse"
       },
       {
-        "channel_name": "VladTV",
-        "type": "interviews",
-        "priority": 3,
-        "status": "RESOLVED 2026-08-31",
-        "note": "battle-rap content only",
-        "channel_id": "UCg7lal8IC-xPyKfgH4rdUcA",
-        "resolved_title": "djvlad",
-        "subscribers": "@vladtv"
+        "channel_name": "Battle Rap Trap",
+        "type": "media",
+        "priority": 2,
+        "status": "RESOLVED 2026-09-03",
+        "resolved_title": "BATTLE RAP TRAP",
+        "subscribers": "@BATTLERAPTRAP",
+        "channel_id": "UCgNiE38EsCU_sfVfvaaG3bg"
+      },
+      {
+        "channel_name": "Chris Unbias",
+        "type": "blogger",
+        "priority": 2,
+        "status": "RESOLVED 2026-09-03",
+        "resolved_title": "ChrisUnbias-2",
+        "subscribers": "@CUBackup",
+        "channel_id": "UCKfxnCpHTMtENbY6NcY2fWA"
+      },
+      {
+        "channel_name": "VadaFly",
+        "type": "blogger",
+        "priority": 2,
+        "status": "unverified (edited)",
+        "resolved_title": "Vada Fly",
+        "subscribers": "@VadaFly"
+      },
+      {
+        "channel_name": "Matter of Factz - Content & Media",
+        "type": "blogger",
+        "priority": 2,
+        "status": "RESOLVED 2026-09-03 (scout)",
+        "channel_id": "UCF0DvCud17ItsQNQ4xCujTg",
+        "resolved_title": "Matter of Factz - Content & Media",
+        "subscribers": "@MatterofFactz6"
+      },
+      {
+        "channel_name": "PSA RELOADED",
+        "type": "blogger",
+        "priority": 2,
+        "status": "RESOLVED 2026-09-03 (scout)",
+        "channel_id": "UC-LMWhArifB6zQBVqC9f7Qw",
+        "resolved_title": "PSA RELOADED",
+        "subscribers": "@psareloaded2969"
+      },
+      {
+        "channel_name": "Ultimate Rap League",
+        "type": "blogger",
+        "priority": 2,
+        "status": "RESOLVED 2026-09-03 (scout)",
+        "channel_id": "UCflIAeM03JFL9ml03LwYF-g",
+        "resolved_title": "Ultimate Rap League",
+        "subscribers": "@theUrltv"
+      },
+      {
+        "channel_name": "ANGRYFAN007",
+        "type": "blogger",
+        "priority": 2,
+        "status": "RESOLVED 2026-09-03 (scout)",
+        "channel_id": "UCbmdXB3-xXt2bhe-Jz79qnw",
+        "resolved_title": "ANGRYFAN007",
+        "subscribers": "@ANGRYFAN007backuppage"
+      },
+      {
+        "channel_name": "POLOWORLD",
+        "type": "blogger",
+        "priority": 2,
+        "status": "RESOLVED 2026-09-03 (scout)",
+        "channel_id": "UCj1NtGtE2QiKNbx6qhG7swQ",
+        "resolved_title": "POLOWORLD",
+        "subscribers": "@POLOWORLD2K"
+      },
+      {
+        "channel_name": "FrozenbergTv",
+        "type": "blogger",
+        "priority": 2,
+        "status": "RESOLVED 2026-09-03 (scout)",
+        "channel_id": "UCNcYsiXn7jkncpp-JzHaFDQ",
+        "resolved_title": "FrozenbergTv",
+        "subscribers": "@FrozenbergTV"
       }
     ],
     "rss": [],

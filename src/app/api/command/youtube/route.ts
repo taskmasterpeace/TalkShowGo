@@ -112,6 +112,10 @@ export async function POST(req: Request) {
       const subs = first.subscriber_count?.text || first.subscribers?.text || null
       ch.channel_id = id
       ch.resolved_title = title
+      // B3: if the user pasted a URL/handle as the name, replace it with the real channel title.
+      // Only overwrite URL-looking values so a name the user actually typed is left alone.
+      const nm = String(ch.channel_name).trim()
+      if (title && (nm.includes('youtube.com') || nm.includes('/') || nm.startsWith('@') || nm.startsWith('http'))) ch.channel_name = title
       if (subs) ch.subscribers = subs
       // latest upload
       try {
