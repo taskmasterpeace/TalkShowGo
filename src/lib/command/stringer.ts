@@ -153,7 +153,7 @@ function parseMined(content: string): any {
 // full parse timeout. Provider order comes from cfg.parser.provider, split on '+' (e.g.
 // "local + openrouter" = free first, paid fallback). Robert is wary of API spend — this makes a
 // research run $0 whenever a home box is on.
-const OLLAMA_DEFAULT = process.env.PARSER_LOCAL_URL || 'http://192.168.1.217:11434' // Mac Mini (GPU-independent)
+const OLLAMA_DEFAULT = process.env.PARSER_LOCAL_URL || 'http://192.168.1.238:11434' // Mac Mini (GPU-independent; IP was .217, now .238 - needs a router DHCP reservation)
 
 async function parserLocal(user: string, cfg: any): Promise<{ content: string; usage: any }> {
   const base = String(cfg.parser?.local_url || OLLAMA_DEFAULT).replace(/\/$/, '')
