@@ -1,0 +1,72 @@
+#!/usr/bin/env node
+/**
+ * MAKE EPISODE (P2 segments) — stitch several finished segment floors into ONE multi-story episode:
+ *   moderator COLD OPEN naming tonight's slate -> segment 1 -> moderator TRANSITION -> segment 2 -> ... -> SIGN-OFF.
+ * Each segment is an already-built show (its lab/shows/<slug>/floor/segment_final.md). The show's MODERATOR
+ * (the anchor-lane host) writes the intro/transitions/outro via a cheap model. Output: one episode.md that the
+ * voice stage can render as a single leveled mp3 later. This is the seam that turns single-story cuts into a SHOW.
+ *
+ * Usage: node lab/engine/make_episode.mjs --beat=<id> --segments=<slug1,slug2,...> [--topics="a|b|c"] [--out=<path>] [--model=<id>]
+ */
+import fs from 'node:fs'
+import path from 'node:path'
+const ARG = Object.fromEntries(process.argv.slice(2).map(a => { const m = a.match(/^--([^=]+)=?(.*)$/); return m ? [m[1], m[2] || true] : [a, true] }))
+const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '..', '..')
+const J = p => JSON.parse(fs.readFileSync(p, 'utf8'))
+const readEnvKey = name => { const e = process.env[name]; if (e && e.trim()) return e.trim(); try { const m = fs.readFileSync(path.join(ROOT, '.env'), 'utf8').match(new RegExp('^' + name + '=(.+)$', 'm')); if (m) return m[1].trim() } catch { /* no .env */ } return null }
+const OR = readEnvKey('OPENROUTER_API_KEY')
+
+async function line(model, sys, user) {
+  if (!OR) return ''
+  // reasoning models would burn the budget; transitions are cheap one-liners on a fast model, so no reasoning + a real token ceiling
+  const body = { model, temperature: 0.7, max_tokens: 220, messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] }
+  if (/gpt-5|o1|o3|sonnet-5|deepseek-r1|thinking/i.test(model)) body.reasoning = { effort: 'low' }
+  const r = await fetch('https://openrouter.ai/api/v1/chat/completions', { method: 'POST', headers: { Authorization: 'Bearer ' + OR, 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(60000) })
+  const j = await r.json()
+  return String(j.choices?.[0]?.message?.content || '').replace(/[—]/g, '...').replace(/^["']|["']$/g, '').replace(/\s+/g, ' ').trim()
+}
+
+async function main() {
+  if (!ARG.beat || !ARG.segments) { console.error('need --beat=<id> --segments=<slug1,slug2,...>'); process.exit(1) }
+  const beat = J(path.join(ROOT, 'lab', 'beats', ARG.beat + '.json'))
+  const cast = J(path.join(ROOT, 'lab', 'cast', 'cast.json'))
+  const show = beat.show || {}
+  const slugs = String(ARG.segments).split(',').map(s => s.trim()).filter(Boolean)
+  if (slugs.length < 2) { console.error('need >= 2 segments'); process.exit(1) }
+  // MODERATOR = an anchor/moderator/framing host, else a desk host, else the first host
+  const laneOf = id => { const h = (cast.hosts || []).find(x => x.id === id); return h ? String(h.lane || h.role || '').toLowerCase() : '' }
+  const modId = (show.hosts || []).find(id => /anchor|moderat|framing|referee/.test(laneOf(id))) || (show.hosts || []).find(id => /desk/.test(laneOf(id))) || (show.hosts || [])[0]
+  const modName = String((cast.hosts || []).find(h => h.id === modId)?.name || 'HOST').toUpperCase()
+  const MODEL = (typeof ARG.model === 'string' && ARG.model) || 'google/gemini-2.5-flash-lite'
+  const topicOverride = typeof ARG.topics === 'string' ? ARG.topics.split('|').map(s => s.trim()) : null
+
+  const segs = slugs.map((slug, i) => {
+    const dir = path.join(ROOT, 'lab', 'shows', slug)
+    const md = fs.readFileSync(path.join(dir, 'floor', 'segment_final.md'), 'utf8').replace(/^#[^\n]*\n\n?/, '').trim()
+    let topic = slug; try { topic = J(path.join(dir, 'status.json')).question || slug } catch { /* no status */ }
+    if (topicOverride && topicOverride[i]) topic = topicOverride[i]
+    return { slug, md, topic }
+  })
+  const topics = segs.map(s => s.topic)
+  const showName = show.name || beat.id
+
+  const intro = await line(MODEL, `You are ${modName}, host/moderator of "${showName}". Write the COLD OPEN: greet the audience and name tonight's lineup of ${segs.length} stories in order. One or two spoken sentences, energetic but clean, no stage directions, no em-dashes.`, `Tonight, in order:\n${topics.map((t, i) => (i + 1) + '. ' + t).join('\n')}`)
+  const trans = []
+  for (let i = 0; i < segs.length - 1; i++) trans.push(await line(MODEL, `You are ${modName} moderating "${showName}". Write ONE spoken transition (1-2 sentences) that buttons the segment just finished and pivots to the next. Natural broadcast handoff, no stage directions, no em-dashes.`, `Just finished: ${segs[i].topic}\nUp next: ${segs[i + 1].topic}`))
+  const outro = await line(MODEL, `You are ${modName} closing "${showName}". Write the SIGN-OFF: one spoken sentence that thanks the audience and buttons the whole episode. No em-dashes.`, `Tonight covered: ${topics.join('; ')}`)
+
+  const parts = [`# EPISODE - ${showName} - ${segs.length} segments`, '', `${modName} (cold open): ${intro}`, '']
+  segs.forEach((s, i) => {
+    parts.push(`<!-- SEGMENT ${i + 1}: ${s.topic} -->`, '', s.md, '')
+    if (i < segs.length - 1) parts.push(`${modName} (transition): ${trans[i]}`, '')
+  })
+  parts.push(`${modName} (sign-off): ${outro}`, '')
+  const out = (typeof ARG.out === 'string' && ARG.out) || path.join(ROOT, 'lab', 'shows', slugs[0], 'episode.md')
+  fs.writeFileSync(out, parts.join('\n'))
+  console.log('EPISODE ->', out)
+  console.log(segs.length, 'segments ·', modName, 'moderating (' + modId + ')')
+  console.log('COLD OPEN:', intro)
+  trans.forEach((t, i) => console.log(`TRANSITION ${i + 1}->${i + 2}:`, t))
+  console.log('SIGN-OFF:', outro)
+}
+main().catch(e => { console.error('FATAL:', e.message); process.exit(1) })
