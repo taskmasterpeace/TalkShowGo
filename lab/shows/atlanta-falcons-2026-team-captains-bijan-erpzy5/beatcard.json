@@ -1,0 +1,168 @@
+{
+  "id": "atlanta-falcons-2026-team-captains-bijan",
+  "show": "atlanta-falcons-2026-team-captains-bijan",
+  "question": "Did the Falcons pick the right captains for this season, or not?",
+  "target_spoken_words": 368,
+  "max_turns": 27,
+  "stances": {
+    "tasha-raw": "The Falcons failed to appoint a clear offensive leader, making the captaincy choices incomplete and raising questions about decisive leadership.",
+    "king-knowledge": "The selection of seven captains covering every unit with respected veterans is a solid, traditional move that represents the team's identity."
+  },
+  "allowed_evidence": {
+    "tasha-raw": [
+      "E001",
+      "E004",
+      "E005"
+    ],
+    "king-knowledge": [
+      "E001",
+      "E002",
+      "E003",
+      "E007"
+    ]
+  },
+  "participants": [
+    {
+      "id": "tasha-raw",
+      "name": "Tasha Raw",
+      "kind": "host"
+    },
+    {
+      "id": "king-knowledge",
+      "name": "King Knowledge",
+      "kind": "host"
+    },
+    {
+      "id": "delegate:api-test",
+      "name": "Api Test",
+      "kind": "human",
+      "voice": {
+        "sample_wav": "D:\\git\\talkshowgo\\lab\\takes\\atlanta-falcons\\api-test\\take-1.wav",
+        "ref_text": "Look, I'm not on TV. I'm just a fan who actually watches and I'm telling you, this one's different. I've been saying that for a long time.",
+        "seconds": 7.76
+      }
+    }
+  ],
+  "delegates": {
+    "ai": [],
+    "human": [
+      {
+        "id": "delegate:api-test",
+        "name": "Api Test",
+        "kind": "human",
+        "verbatim_turns": [
+          {
+            "text": "Look, I'm not on TV. I'm just a fan who actually watches and I'm telling you, this one's different. I've been saying that for a long time.",
+            "asked": "What's your initial reaction to the 53-man roster?"
+          },
+          {
+            "text": "typed only take",
+            "asked": "x"
+          },
+          {
+            "text": "Honestly I would need to see it again, with fresh eyes.",
+            "asked": "verdict"
+          }
+        ],
+        "voice": {
+          "sample_wav": "D:\\git\\talkshowgo\\lab\\takes\\atlanta-falcons\\api-test\\take-1.wav",
+          "ref_text": "Look, I'm not on TV. I'm just a fan who actually watches and I'm telling you, this one's different. I've been saying that for a long time.",
+          "seconds": 7.76
+        },
+        "persona_note": "cousin"
+      }
+    ]
+  },
+  "human_slots": [
+    {
+      "key": "delegate:api-test#0",
+      "host": "delegate:api-test",
+      "name": "Api Test",
+      "after_words": 81,
+      "text": "Look, I'm not on TV. I'm just a fan who actually watches and I'm telling you, this one's different. I've been saying that for a long time.",
+      "asked": "What's your initial reaction to the 53-man roster?"
+    },
+    {
+      "key": "delegate:api-test#1",
+      "host": "delegate:api-test",
+      "name": "Api Test",
+      "after_words": 184,
+      "text": "typed only take",
+      "asked": "x"
+    },
+    {
+      "key": "delegate:api-test#2",
+      "host": "delegate:api-test",
+      "name": "Api Test",
+      "after_words": 294,
+      "text": "Honestly I would need to see it again, with fresh eyes.",
+      "asked": "verdict"
+    }
+  ],
+  "withheld": [
+    {
+      "host": "king-knowledge",
+      "evidence": "E006",
+      "turn": 7,
+      "instruction": "Head Coach Kevin Stefanski announced the team captains."
+    }
+  ],
+  "anaphora_exempt": [
+    "captains",
+    "atlanta falcons",
+    "season"
+  ],
+  "protected_facts": [],
+  "waypoints": [
+    {
+      "after_words": 25,
+      "host": "king-knowledge",
+      "note": "Challenge Tasha's 'incomplete' framing by highlighting the breadth of coverage."
+    },
+    {
+      "after_words": 75,
+      "host": "tasha-raw",
+      "note": "Introduce the idea that specific unit representation doesn't equal overall leadership."
+    },
+    {
+      "after_words": 150,
+      "host": "king-knowledge",
+      "note": "Pivot to the 'identity' argument and the nature of leadership."
+    },
+    {
+      "after_words": 225,
+      "host": "tasha-raw",
+      "note": "Directly question the 'proven, respected veterans' claim for the offensive captain."
+    }
+  ],
+  "attribution": {
+    "mode": "A",
+    "label": "SOURCED & COMMITTED",
+    "law": "When a receipt is an ATTRIBUTED_CLAIM, name who said it and where (person/outlet + platform), then COMMIT to your read of it - never hedge it into mush. A FACT you state plainly. Never present an unproven claim as settled fact; never bury a real fact under \"allegedly\"."
+  },
+  "detonation_react": {
+    "host": "tasha-raw",
+    "instruction": "So Stefanski himself made the call? That just reinforces my point about the lack of a clear offensive leader being a deliberate choice, not an oversight."
+  },
+  "kk_drop": {
+    "host": "king-knowledge",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "tasha-raw",
+    "instruction": "The Falcons named seven captains for the 2026 season."
+  },
+  "exit": {
+    "host": "king-knowledge",
+    "alt_host": "tasha-raw",
+    "instruction": "Ultimately, these choices reflect the team's current strategy, and we'll see how it plays out on the field."
+  },
+  "_compiled_from": {
+    "stringer": "str_ilppbi7w",
+    "briefing": "brf_erpzy52v",
+    "delegates_surfaced": [
+      "Api Test"
+    ]
+  }
+}

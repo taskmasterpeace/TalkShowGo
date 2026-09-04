@@ -1,0 +1,112 @@
+{
+  "id": "summer-madness-xvi-atlanta-showdown-batt",
+  "show": "summer-madness-xvi-atlanta-showdown-batt",
+  "question": "What do the Summer Madness XVI accusations - Hollow Da Don vs Nu Jerzey Twork, Calicoe on Brizz Rawsteen - say about accountability and respect in battle rap right now?",
+  "target_spoken_words": 368,
+  "max_turns": 27,
+  "stances": {
+    "marcus-blaze": "Battle rap's accountability is in the gutter, with serious criminal accusations against top battlers and claims of evasion showing a complete lack of respect for the culture.",
+    "tasha-raw": "Accountability in battle rap is transactional and respect is performative, used as an excuse for ducking or avoiding consequences."
+  },
+  "allowed_evidence": {
+    "marcus-blaze": [
+      "E001",
+      "E002",
+      "E003",
+      "E009",
+      "E014"
+    ],
+    "tasha-raw": [
+      "E004",
+      "E005",
+      "E006",
+      "E015",
+      "E011",
+      "E019",
+      "E021",
+      "E022",
+      "E023"
+    ]
+  },
+  "participants": [
+    {
+      "id": "marcus-blaze",
+      "name": "Marcus Blaze",
+      "kind": "host"
+    },
+    {
+      "id": "tasha-raw",
+      "name": "Tasha Raw",
+      "kind": "host"
+    }
+  ],
+  "delegates": {
+    "ai": [],
+    "human": []
+  },
+  "human_slots": [],
+  "withheld": [
+    {
+      "host": "tasha-raw",
+      "evidence": "E011",
+      "turn": 7,
+      "instruction": "The credibility of Brizz Rawsteen's threats, specifically regarding a machete, is questioned due to him allegedly running away."
+    }
+  ],
+  "anaphora_exempt": [
+    "accountability",
+    "respect",
+    "battle rap"
+  ],
+  "protected_facts": [],
+  "waypoints": [
+    {
+      "after_words": 25,
+      "host": "tasha-raw",
+      "note": "challenge Marcus's 'gutter' take by framing accountability as transactional"
+    },
+    {
+      "after_words": 75,
+      "host": "marcus-blaze",
+      "note": "push back on Tasha's framing by highlighting the severity of the criminal charges"
+    },
+    {
+      "after_words": 150,
+      "host": "tasha-raw",
+      "note": "introduce the idea of respect being performative using the Calicoe/Brizz dynamic"
+    },
+    {
+      "after_words": 225,
+      "host": "marcus-blaze",
+      "note": "counter Tasha's 'trauma' angle by questioning Brizz's credibility"
+    }
+  ],
+  "attribution": {
+    "mode": "A",
+    "label": "SOURCED & COMMITTED",
+    "law": "When a receipt is an ATTRIBUTED_CLAIM, name who said it and where (person/outlet + platform), then COMMIT to your read of it - never hedge it into mush. A FACT you state plainly. Never present an unproven claim as settled fact; never bury a real fact under \"allegedly\"."
+  },
+  "detonation_react": {
+    "host": "marcus-blaze",
+    "instruction": "You're telling me Brizz is running away from battles, but also making threats? That doesn't track."
+  },
+  "kk_drop": {
+    "host": "marcus-blaze",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "marcus-blaze",
+    "instruction": "Hollow Da Don accused Nu Jerzey Twork of charges including panhandling, grand larceny, and destruction of property."
+  },
+  "exit": {
+    "host": "marcus-blaze",
+    "alt_host": "tasha-raw",
+    "instruction": "This is a cultural crisis, and we're only scratching the surface of who's really showing up and who's just making noise."
+  },
+  "_compiled_from": {
+    "stringer": "str_1bia3o73",
+    "briefing": "brf_2mldj4qs",
+    "delegates_surfaced": []
+  }
+}

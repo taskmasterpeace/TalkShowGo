@@ -1,0 +1,125 @@
+{
+  "id": "summer-madness-xvi-atlanta-showdown-batt",
+  "show": "summer-madness-xvi-atlanta-showdown-batt",
+  "question": "Is Brizz Rawsteen genuinely traumatized and done with battling, or not?",
+  "target_spoken_words": 368,
+  "max_turns": 27,
+  "stances": {
+    "marcus-blaze": "Brizz Rawsteen is using the 'trauma' narrative as a calculated excuse to avoid the grind of battling while still profiting from the culture.",
+    "tasha-raw": "Brizz Rawsteen's 'trauma' is a performance, a convenient exit strategy that allows him to remain relevant without the risk of actual competition.",
+    "king-knowledge": "While something in 2019 may have spooked Brizz Rawsteen, he's not 'done' with battling; he's strategically positioned himself for financial comfort and cultural relevance without stepping back into the ring."
+  },
+  "allowed_evidence": {
+    "marcus-blaze": [
+      "E015",
+      "E003",
+      "E014",
+      "E009",
+      "E011"
+    ],
+    "tasha-raw": [
+      "E010",
+      "E005",
+      "E013",
+      "E012"
+    ],
+    "king-knowledge": [
+      "E004",
+      "E006",
+      "E007",
+      "E008",
+      "E016"
+    ]
+  },
+  "participants": [
+    {
+      "id": "marcus-blaze",
+      "name": "Marcus Blaze",
+      "kind": "host"
+    },
+    {
+      "id": "tasha-raw",
+      "name": "Tasha Raw",
+      "kind": "host"
+    },
+    {
+      "id": "king-knowledge",
+      "name": "King Knowledge",
+      "kind": "host"
+    }
+  ],
+  "delegates": {
+    "ai": [],
+    "human": []
+  },
+  "human_slots": [],
+  "withheld": [
+    {
+      "host": "tasha-raw",
+      "evidence": "E010",
+      "turn": 7,
+      "instruction": "Brizz Rawsteen is described as traumatized and is easing back into the battle rap culture by hosting events."
+    }
+  ],
+  "anaphora_exempt": [
+    "brizz rawsteen",
+    "traumatized",
+    "battling"
+  ],
+  "protected_facts": [],
+  "waypoints": [
+    {
+      "after_words": 25,
+      "host": "tasha-raw",
+      "note": "Challenge Marcus's 'hustle' angle by focusing on Brizz's continued presence in the culture."
+    },
+    {
+      "after_words": 75,
+      "host": "king-knowledge",
+      "note": "Introduce the 2019 incident as a potential turning point, but pivot to Brizz's current calculated choices."
+    },
+    {
+      "after_words": 150,
+      "host": "marcus-blaze",
+      "note": "Directly counter Tasha's 'performance' claim by highlighting Brizz's alleged cowardice."
+    },
+    {
+      "after_words": 225,
+      "host": "tasha-raw",
+      "note": "Reframe King Knowledge's 'calculated' point as a direct refutation of genuine trauma."
+    },
+    {
+      "after_words": 300,
+      "host": "king-knowledge",
+      "note": "Challenge Marcus's interpretation of Brizz's actions as purely financial."
+    }
+  ],
+  "attribution": {
+    "mode": "A",
+    "label": "SOURCED & COMMITTED",
+    "law": "When a receipt is an ATTRIBUTED_CLAIM, name who said it and where (person/outlet + platform), then COMMIT to your read of it - never hedge it into mush. A FACT you state plainly. Never present an unproven claim as settled fact; never bury a real fact under \"allegedly\"."
+  },
+  "detonation_react": {
+    "host": "marcus-blaze",
+    "instruction": "Hosting events doesn't negate the hustle; it's part of the business model."
+  },
+  "kk_drop": {
+    "host": "king-knowledge",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "marcus-blaze",
+    "instruction": "Brizz Rawsteen claims trauma has him done with battling, but the receipts show a pattern of selective engagement."
+  },
+  "exit": {
+    "host": "king-knowledge",
+    "alt_host": "marcus-blaze",
+    "instruction": "Whether it's trauma or strategy, the culture is still waiting for a definitive answer, and the stakes are only getting higher."
+  },
+  "_compiled_from": {
+    "stringer": "str_1bia3o73",
+    "briefing": "brf_k538dj61",
+    "delegates_surfaced": []
+  }
+}

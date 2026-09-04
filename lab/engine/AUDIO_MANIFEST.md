@@ -20,3 +20,5 @@ Law (Robert, 2026-08-31): every rendered audio file gets a row here the moment i
 
 | tay-roc-battle-rapper-6ct7fw.mp3 | 2026-09-02 | 10 lines · Which of Tay Roc's battles is the greatest of his career? | breeze via make_show (openrouter floor, seed 7) |
 | tay-roc-battle-rapper-6ct7fw.mp3 | 2026-09-02 | 29 lines · Which of Tay Roc's battles is the greatest of his career? | breeze via make_show (openrouter floor, seed 7) || how-talkshowgo-works.mp3 | 2026-09-03 | 15 beats · How TalkShowGo works (narrative explainer, no jargon) | breeze perform mode, voice august-reed, cfg 1.0 |
+
+| atlanta-falcons-2026-team-captains-bijan.mp3 | 3:01 | make_show floor on openrouter (seed 7, 42 lines) · Did the Falcons pick the right captains for this season, or not? | Breeze clone on cupcake (mk-gateway) | tasha-raw, king-knowledge | briefing brf_erpzy52v · attribution A · 2026-09-04 |
