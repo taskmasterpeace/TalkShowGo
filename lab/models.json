@@ -195,6 +195,24 @@
         "hero close",
         "the most sensitive care-line beats"
       ]
+    },
+    {
+      "id": "google/gemini-2.5-flash",
+      "provider": "openrouter",
+      "attribute": "The Quick Read",
+      "quirk": "fast, fluent, keeps up",
+      "as_a_host": "a live anchor who reads the room and hands off clean",
+      "context_tokens": 1048576,
+      "internet": "web tool (tools:yes)",
+      "cost_per_turn": "~$0.0002",
+      "speed_s": 1.2,
+      "uncensored": false,
+      "best_for": [
+        "anchor",
+        "booth",
+        "news-desk",
+        "fast panel"
+      ]
     }
   ],
   "research_engines": [

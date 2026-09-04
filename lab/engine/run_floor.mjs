@@ -140,7 +140,7 @@ async function callOpenRouter(model, system, user, temperature, max_tokens = 200
 }
 const call = (hostId, system, user, temperature, n, jsonFormat = true) =>
   PROVIDER === 'requesty' ? callRequesty(system, user, temperature, n)
-    : PROVIDER === 'openrouter' ? callOpenRouter(DNA[hostId] || DNA._mix, system, user, temperature, n, jsonFormat)
+    : PROVIDER === 'openrouter' ? callOpenRouter(DNA[hostId] || DNA._mix, system, user, temperature, n, jsonFormat, { effort: 'low' })
       : callOllama(MODELS[hostId] || MODELS['_mix'], system, user, temperature, n, jsonFormat)
 
 // ---------- prompt assembly ----------

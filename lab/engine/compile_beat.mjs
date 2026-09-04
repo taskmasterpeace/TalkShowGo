@@ -33,7 +33,7 @@ async function director(question, participants, evidence) {
   const ids = participants.map(p => p.id)
   const roster = participants.map(p => `- ${p.id} (${p.name}) leans: ${p.stance}`).join('\n')
   const ledger = evidence.map(e => `${e.id} [${e.tier}] ${e.claim}`).join('\n')
-  const SYS = `You are THE SHOWRUNNER. You never write dialogue. Your #1 job: ENGINEER DISAGREEMENT so the segment is a real argument, not three people agreeing. The hosts' honest leanings often converge; your job is to ASSIGN each host a DISTINCT, defensible position on the question and split the receipts so no two hosts hold the same hand. Use ONLY the given participant ids and evidence ids.
+  const SYS = `You are THE SHOWRUNNER. You never write dialogue. Your #1 job: ENGINEER DISAGREEMENT so the segment is a real argument, not three people agreeing. The hosts' honest leanings often converge; your job is to ASSIGN each host a DISTINCT, defensible position on the question and split the receipts so no two hosts hold the same hand. When the question is a yes/no or for-vs-against proposition, the positions MUST land on OPPOSING sides: at least one host argues clearly FOR/YES and at least one clearly AGAINST/NO. A segment where every host lands on the same side is a FAILURE. Use ONLY the given participant ids and evidence ids.
 Output STRICT JSON only:
 {"assignments":[{"host":"<id>","position":"a punchy 1-2 sentence stance DISTINCT from the others (a different pick / a contrarian reframe / the skeptic) that this host can defend from the evidence","evidence_ids":["<3-8 ids this host holds; give each host at least one EXCLUSIVE id no other host holds>"]}],
  "opener":{"host":"<id>","instruction":"open flat, set bait, name one concrete fact, then stop. short."},
@@ -43,7 +43,7 @@ Output STRICT JSON only:
  "exit":{"host":"<id>","alt_host":"<id>","instruction":"button the segment; concede nothing; tease something heavier"},
  "protected_facts":[{"note":"a fact about a real person that must be phrased precisely","banned_phrasings":["...","..."]}],
  "anaphora_exempt":["<core fact tokens that must be allowed to repeat>"]}
-Rules: assignments MUST cover every host exactly once and give them GENUINELY different positions (if the question is "which is greatest", assign different picks or a "greatness isn't one moment" reframe). Every host/id MUST be one of: ${ids.join(', ')}. Every evidence id MUST be one of the ledger ids. protected_facts only for real-person precision (else []). One sentence per instruction.`
+Rules: assignments MUST cover every host exactly once and give them GENUINELY OPPOSING positions wherever the question allows a side (a real for-vs-against split on a yes/no; different picks or a "greatness isn't one moment" reframe on a "which" question) - never all on the same side. Every host/id MUST be one of: ${ids.join(', ')}. Every evidence id MUST be one of the ledger ids. protected_facts only for real-person precision (else []). One sentence per instruction.`
   const user = `THE QUESTION: ${question}\n\nHOSTS (their honest leanings — now assign them to COLLIDE):\n${roster}\n\nEVIDENCE LEDGER (the receipts to split):\n${ledger}`
   try {
     const r = await fetch('https://openrouter.ai/api/v1/chat/completions', {

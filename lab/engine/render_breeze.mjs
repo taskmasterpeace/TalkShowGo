@@ -89,6 +89,8 @@ const whoOf = n => {
   const s = n.toLowerCase()
   if (s.includes('tasha')) return 'tasha'; if (s.includes('blaze') || s.includes('marcus')) return 'blaze'; if (s.includes('knowledge') || s.includes('king')) return 'knowledge'
   if (s.includes('dwayne') || s.includes('champagne')) return 'dwayne'
+  // any cast host, matched by display name, so a show's OWN lineup resolves (Andrew Hammond, Renee Vaughn, Big Mike Vega, Cassius Wynn...)
+  for (const [key, x] of Object.entries(CAST)) if (x.name && s.includes(String(x.name).toLowerCase())) return key
   for (const [id, x] of Object.entries(EXTRA)) if (x.name && s.includes(String(x.name).toLowerCase())) return id   // a delegate, by name
   return null
 }

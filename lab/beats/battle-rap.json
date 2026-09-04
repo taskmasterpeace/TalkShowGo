@@ -15,7 +15,13 @@
     "outro": {
       "enabled": true,
       "template": "The verdict lands, one prediction, one challenge to the comments, tease tomorrow. No fade-outs."
-    }
+    },
+    "hosts": [
+      "marcus-blaze",
+      "tasha-raw",
+      "king-knowledge",
+      "champagne-dwayne"
+    ]
   },
   "_law": "Handles rot, userIds don't. Source-verify resolves each handle via user/info BEFORE first ingest and monthly after, and STORES the userId - all polling runs on userId, never userName. Never assume a seed handle is current.",
   "sources": {

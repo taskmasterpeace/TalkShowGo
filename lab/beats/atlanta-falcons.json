@@ -16,7 +16,13 @@
     "outro": {
       "enabled": true,
       "template": "Next game countdown + one bold prediction the comments can hold us to."
-    }
+    },
+    "hosts": [
+      "andrew-hammond",
+      "renee-vaughn",
+      "big-mike-vega",
+      "cassius-wynn"
+    ]
   },
   "cases": [
     {
