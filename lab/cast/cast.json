@@ -910,9 +910,9 @@
       "note": "Ring announcer and hype man. Blind spot is load-bearing: he hypes everything to a ten so he can't calibrate what actually matters. Kept OFF Blaze's fight-mechanics turf (rounds, scorecards) on purpose, Mike sells the spectacle, Blaze scores it. guards.style:false. Voice recipe from lab/cast/voices/library/library.json (seed 550).",
       "model": {
         "provider": "openrouter",
-        "id": "deepseek/deepseek-v3.2-exp",
-        "temperature": 0.95,
-        "dna_id": "deepseek/deepseek-v3.2-exp"
+        "id": "openai/gpt-4.1-mini",
+        "temperature": 0.85,
+        "dna_id": "openai/gpt-4.1-mini"
       },
       "behavior": {
         "verbosity": 0.5,

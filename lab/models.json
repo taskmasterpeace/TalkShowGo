@@ -213,6 +213,25 @@
         "news-desk",
         "fast panel"
       ]
+    },
+    {
+      "id": "openai/gpt-4.1-mini",
+      "provider": "openrouter",
+      "attribute": "The Fast Closer",
+      "quirk": "quick, disciplined, follows the assignment and lands the point",
+      "as_a_host": "a sharp panelist who commits to a verdict and backs it with a reason, fast - no wind-up, no rambling",
+      "context_tokens": 1047576,
+      "internet": "web tool (tools:yes)",
+      "cost_per_turn": "~$0.0002",
+      "speed_s": 2.5,
+      "uncensored": false,
+      "tested": "swapped in for big-mike-vega (iter 13) - deepseek-v3.2 was slow (45-265s/turn) and timed out briefs",
+      "best_for": [
+        "debater",
+        "announcer",
+        "fast panel",
+        "argue-a-verdict"
+      ]
     }
   ],
   "research_engines": [
