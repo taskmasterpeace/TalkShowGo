@@ -44,9 +44,9 @@
       "persona_version": 4,
       "model": {
         "provider": "openrouter",
-        "id": "google/gemini-2.5-flash-lite",
+        "id": "moonshotai/kimi-k2",
         "temperature": 0.9,
-        "dna_id": "google/gemini-2.5-flash-lite"
+        "dna_id": "moonshotai/kimi-k2"
       },
       "behavior": {
         "verbosity": 0.5,
@@ -462,9 +462,9 @@
       "persona_version": 1,
       "model": {
         "provider": "openrouter",
-        "id": "nousresearch/hermes-4-70b",
+        "id": "nousresearch/hermes-4-405b",
         "temperature": 0.95,
-        "dna_id": "nousresearch/hermes-4-70b"
+        "dna_id": "nousresearch/hermes-4-405b"
       },
       "behavior": {
         "verbosity": 0.45,

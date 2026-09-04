@@ -9,6 +9,8 @@ const ROOT = process.cwd()
 const OR_KEY = process.env.OPENROUTER_API_KEY
 const OR_URL = 'https://openrouter.ai/api/v1/chat/completions'
 const CUPCAKE_URL = 'http://192.168.1.249:11434/api/chat'
+// mirror run_floor.mjs FLOOR_SUB: a reasoner's chain-of-thought breaks a strict-JSON stance call, so brief on its fast sibling
+const FLOOR_SUB: Record<string, string> = { 'deepseek/deepseek-r1': 'deepseek/deepseek-v3.2-exp' }
 
 const estTokens = (s: string) => Math.ceil(Buffer.byteLength(s, 'utf8') / 3.5)
 
@@ -29,16 +31,26 @@ async function callModel(dna: any, sys: string, user: string, o: { temperature: 
   const t0 = Date.now()
   const tryOR = async () => {
     if (!OR_KEY) throw new Error('OPENROUTER_API_KEY missing')
-    const r = await fetch(OR_URL, { method: 'POST', headers: { Authorization: 'Bearer ' + OR_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ model: dna.id, temperature: o.temperature, max_tokens: o.maxTokens, response_format: { type: 'json_object' }, messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] }), signal: AbortSignal.timeout(90000) })
-    const j = await r.json()
-    if (!r.ok || j.error) throw new Error(j.error?.message || ('openrouter ' + r.status))
-    const text = (j.choices?.[0]?.message?.content || '').trim()
-    if (!text) throw new Error('empty')
-    return { text, usage: { prompt_tokens: j.usage?.prompt_tokens ?? null, completion_tokens: j.usage?.completion_tokens ?? null, total_tokens: j.usage?.total_tokens ?? null }, ms: Date.now() - t0, provider: 'openrouter' }
+    const body: any = { model: dna.id, temperature: o.temperature, max_tokens: o.maxTokens, response_format: { type: 'json_object' }, messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] }
+    // some routes (e.g. Hermes) return empty or 400 under forced json mode; the prompt already demands strict JSON, so drop it and retry once
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const r = await fetch(OR_URL, { method: 'POST', headers: { Authorization: 'Bearer ' + OR_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(dna.timeout_ms || 90000) })   // big models (405b) need more than 90s on a packed briefing
+      const j = await r.json()
+      if (!r.ok || j.error) {
+        const msg = j.error?.message || ('openrouter ' + r.status)
+        if (body.response_format && (r.status === 400 || /response_format|json/i.test(msg))) { delete body.response_format; continue }
+        throw new Error(msg)
+      }
+      const text = (j.choices?.[0]?.message?.content || '').trim()
+      // empty content: drop json mode first, then allow ONE plain retry (kimi's route flakes empty occasionally)
+      if (!text) { if (body.response_format) { delete body.response_format; continue } if (attempt < 2) continue; throw new Error('empty') }
+      return { text, usage: { prompt_tokens: j.usage?.prompt_tokens ?? null, completion_tokens: j.usage?.completion_tokens ?? null, total_tokens: j.usage?.total_tokens ?? null }, ms: Date.now() - t0, provider: 'openrouter' }
+    }
+    throw new Error('empty after json-mode fallback')
   }
   const tryCupcake = async () => {
     const model = dna.cupcake_model || String(dna.id).replace(/^cupcake\//, '')
-    const r = await fetch(CUPCAKE_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model, stream: false, think: false, format: 'json', messages: [{ role: 'system', content: sys + '\n/no_think' }, { role: 'user', content: user }], options: { temperature: o.temperature, num_predict: o.maxTokens, num_ctx: dna.cupcake_num_ctx || 32768 } }), signal: AbortSignal.timeout(120000) })
+    const r = await fetch(CUPCAKE_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model, stream: false, think: false, format: 'json', messages: [{ role: 'system', content: sys + '\n/no_think' }, { role: 'user', content: user }], options: { temperature: o.temperature, num_predict: o.maxTokens, num_ctx: dna.cupcake_num_ctx || 32768 } }), signal: AbortSignal.timeout(Math.max(120000, dna.timeout_ms || 0)) })
     const j = await r.json()
     const text = String(j.message?.content || '').replace(/<think>[\s\S]*?<\/think>/g, '').replace(/^[\s\S]*?<\/think>\s*/, '').trim()
     if (!text) throw new Error('empty')
@@ -144,7 +156,8 @@ export async function briefAgents(briefing: any, castIds: string[], delegates: a
   const oneHost = async (cid: string) => {
     const host = hosts.find((h: any) => h.id === cid)
     if (!host) return { cast_id: cid, ok: false, error: 'host not found' }
-    const dna = dnaById[host.model?.dna_id]
+    let dna = dnaById[host.model?.dna_id]
+    if (dna && FLOOR_SUB[dna.id]) dna = dnaById[FLOOR_SUB[dna.id]] || dna   // mirror run_floor: swap a reasoner for its fast sibling for the JSON stance call
     if (!dna) return { cast_id: cid, name: host.name, kind: 'host', ok: false, error: 'no dna_id / dna not found: ' + host.model?.dna_id }
     try { return await briefOne({ id: host.id, name: host.name, kind: 'host', printText: renderPrint(host), temperature: host.model?.temperature }, dna, briefing, evidenceById) }
     catch (e: any) { return { cast_id: cid, name: host.name, kind: 'host', ok: false, error: 'brief error: ' + String(e?.message || e).slice(0, 100) } }

@@ -36,6 +36,7 @@ export async function POST(req: Request) {
   const t = logTimer()
   try {
     const briefing = await buildBriefing(stringer, String(b.final_question).slice(0, 300), moveCount)
+    if ((stringer as any).beat) (briefing as any).beat = (stringer as any).beat   // inherit the dossier's beat stamp
     saveBriefing(briefing)
     t.done(() => ({
       kind: 'briefing', stage: 'briefing', ok: true, ref: briefing.id,
