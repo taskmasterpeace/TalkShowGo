@@ -397,6 +397,14 @@ async function main() {
     // waypoints: the director's progression notes - momentum comes from the beat sheet, not model willpower
     const wp = (beat.waypoints || [])[wpIdx]
     if (wp && spoken >= wp.after_words && wp.host !== (last && last.id)) { wpIdx++; return { id: wp.host, instruction: wp.note, tag: null } } // defer, never drop
+    // the neutral MODERATOR drives: a First Take anchor punctuates regularly (press the weak point, force a new
+    // angle) instead of vanishing after the open - the judge's recurring "moderator disappears / debate circles"
+    // knock. Cut them in when they've been silent for >=3 real turns; never right after they just spoke.
+    const modId = Object.keys(beat.stances || {}).find(id => isMod(id))
+    if (modId && last && last.id !== modId) {
+      const sinceMod = turns.filter(t => !t.bc).reverse().findIndex(t => t.id === modId)
+      if (sinceMod === -1 || sinceMod >= 3) return { id: modId, instruction: 'You are the neutral MODERATOR. Cut in now: either press the LAST speaker on the weakest part of their case with a pointed, specific question, or put a NEW angle on the table that neither debater has raised. Never take a side or argue a verdict.' }
+    }
     if (last && last.addressed_to && hosts[last.addressed_to] && hosts[last.addressed_to].kind !== 'human' && last.addressed_to !== last.id && shareOf(last.addressed_to) <= 0.45 && rand() < 0.75) return { id: last.addressed_to }
     let cands = speakers.filter(h => h.id !== (last && last.id) && !(h.id === beat.kk_drop.host && !kkDropped))
     // never deadlock: in a 2-hander the only free voice can be the held drop-host - relax the hold, then
