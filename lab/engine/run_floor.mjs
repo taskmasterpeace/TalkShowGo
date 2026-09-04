@@ -255,6 +255,9 @@ async function main() {
   let spoken = 0, turnNo = 0, kkDropped = false, detonated = new Set()
   // model-facing transcript: backchannels are texture, not content - hosts must never see or argue with them
   const transcript = () => turns.filter(t => !t.bc).map(t => `${t.name}${t.tag ? ' [' + t.tag + ']' : ''} (${t.delivery}): ${t.line}`).join('\n')
+  // the neutral moderator drives, never murmurs: a desk anchor going "Mm"/"Right" reads as passive filler (the
+  // judge's moderator knock). Debaters may still backchannel - it's realistic texture for a reacting arguer.
+  const isMod = id => /^MODERATOR\b/i.test((beat.stances && beat.stances[id]) || '')
 
   const jaccard = (a, b) => { const A = new Set(a.toLowerCase().match(/[a-z']+/g) || []), B = new Set(b.toLowerCase().match(/[a-z']+/g) || []); if (!A.size || !B.size) return 0; let i = 0; for (const w of A) if (B.has(w)) i++; return i / (A.size + B.size - i) }
   const SPELLED = { one: '1', two: '2', three: '3', four: '4', five: '5', six: '6', seven: '7', eight: '8', nine: '9', ten: '10' }
@@ -415,10 +418,10 @@ async function main() {
     if (slot) { seatHuman(slot); continue }
     const pick = pickNext()
     // quiet host emits backchannel instead of a turn while holding
-    if (pick.id === beat.kk_drop.host && !kkDropped && rand() < hosts[pick.id].behavior.backchannel_rate) { backchannel(pick.id); continue }
+    if (pick.id === beat.kk_drop.host && !kkDropped && !isMod(pick.id) && rand() < hosts[pick.id].behavior.backchannel_rate) { backchannel(pick.id); continue }
     await speak(pick.id, pick.instruction, pick.tag)
-    // losing bidder backchannels occasionally
-    if (rand() < 0.3) { const others = speakers.filter(h => h.id !== turns[turns.length - 1].id); const b = others[Math.floor(rand() * others.length)]; if (b && rand() < b.behavior.backchannel_rate) backchannel(b.id) }
+    // losing bidder backchannels occasionally - but never the moderator (a desk anchor doesn't murmur)
+    if (rand() < 0.3) { const others = speakers.filter(h => h.id !== turns[turns.length - 1].id && !isMod(h.id)); const b = others[Math.floor(rand() * others.length)]; if (b && rand() < b.behavior.backchannel_rate) backchannel(b.id) }
   }
   // any human turn the floor never reached still gets said before the close (their verdict matters)
   for (const s of (beat.human_slots || [])) if (!usedSlots.has(s.key)) { seatHuman(s); if (pendingReact) { const p = pendingReact; pendingReact = null; await speak(p.id, p.instruction, p.tag) } }
