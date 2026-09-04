@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import fs from 'node:fs'
 import path from 'node:path'
 import { personByToken } from '@/lib/command/people'
-import { promptsFor, contextFor } from '@/lib/command/prompts'
+import { promptsFor, contextFor, latestBriefingFor } from '@/lib/command/prompts'
 import { askFollowups } from '@/lib/command/followups'
 import { decodeAudio, nextTake, saveClip, ownedWav, cleanSpeech, trimWav } from '@/lib/command/audio-intake'
 import { transcribeWav, wavSeconds } from '@/lib/command/stt'
@@ -35,13 +35,29 @@ const takeDone = (dir: string, n: number) => fs.existsSync(path.join(dir, `take-
 // the take number a visit keeps across a re-record and its final save; a stale or finished number falls through to the next free one
 const takeNumber = (dir: string, wanted: unknown) => Number.isInteger(wanted) && (wanted as number) >= 1 && clipExists(dir, wanted as number) && !takeDone(dir, wanted as number) ? (wanted as number) : nextTake(dir)
 
+// THE BRIEF — inform the person BEFORE asking. A cold "what's your take on the captains?" is useless if
+// they don't know who the captains are. The beat's latest briefing is already impartial + neutrality-audited,
+// so its event/stat/fact/context moves ARE the briefing to read them. Null when the beat has nothing yet.
+function briefFor(beat: any): { headline: string; points: { headline: string; detail: string }[]; question: string | null } | null {
+  const brf = latestBriefingFor(beat)
+  const moves = brf && Array.isArray(brf.moves) ? brf.moves : []
+  const points = moves
+    .filter((m: any) => ['event', 'stat', 'fact', 'larger_context', 'context'].includes(m.kind))
+    .slice(0, 6)
+    .map((m: any) => ({ headline: String(m.headline || '').slice(0, 120), detail: String(m.body || '').slice(0, 260) }))
+    .filter((p: any) => p.detail)
+  if (!points.length) return null
+  return { headline: String(brf.title || brf.question?.text || 'Here is what is going on').slice(0, 160), points, question: brf.question?.text ? String(brf.question.text).slice(0, 200) : null }
+}
+
 export async function GET(req: Request, { params }: { params: { token: string } }) {
   const hit = personByToken(params.token)
   if (!hit) { appendLog({ kind: 'take', stage: 'denied', ok: false, summary: 'take link opened with an unknown token', error: 'unknown token' }); return nope() }
   const { beat, person } = hit
   const p = await promptsFor(beat, person)
-  appendLog({ kind: 'take', stage: 'open', ok: true, beat: beat.id, ref: person.slug, ms: p.ms, summary: `${person.name} opened their take link · ${p.prompts.length} prompts (${p.source})`, error: p.error || null, meta: { source: p.source, has_context: !!p.context } })
-  return NextResponse.json({ ok: true, show: showOf(beat), person: { name: person.name, slug: person.slug, relation: person.relation }, beat: beat.id, prompts: p.prompts, prompts_source: p.source, max_seconds: MAX_STT_SECONDS })
+  const brief = briefFor(beat)
+  appendLog({ kind: 'take', stage: 'open', ok: true, beat: beat.id, ref: person.slug, ms: p.ms, summary: `${person.name} opened their take link · ${p.prompts.length} prompts (${p.source})${brief ? ' · briefed' : ''}`, error: p.error || null, meta: { source: p.source, has_context: !!p.context, has_brief: !!brief } })
+  return NextResponse.json({ ok: true, show: showOf(beat), person: { name: person.name, slug: person.slug, relation: person.relation }, beat: beat.id, prompts: p.prompts, prompts_source: p.source, brief, max_seconds: MAX_STT_SECONDS })
 }
 
 export async function POST(req: Request, { params }: { params: { token: string } }) {
@@ -51,6 +67,28 @@ export async function POST(req: Request, { params }: { params: { token: string }
   const b = (await req.json().catch(() => ({} as any))) || {}
   const dir = takeDir(beat.id, person.slug)
   const ref = person.slug
+
+  // ---- ASK: the person, being informed, has a question -> IMPARTIAL web lookup (SearXNG-first, free).
+  //      This is the "look it up on the internet" step: name the captains, the pros/cons, then answer follow-ups. ----
+  if (typeof b.ask === 'string' && b.ask.trim()) {
+    const q = b.ask.trim().slice(0, 300); const t0 = Date.now()
+    try {
+      const { webResearch } = await import('@/lib/command/openrouter-web')
+      const { loadConfig } = await import('@/lib/command/stringer')
+      const res = await webResearch(q, loadConfig())
+      const raw = String(res.answer || '').trim()
+      // the web result is dossier-formatted ("(1) [nytimes.com]..."); turn it into a plain spoken catch-up for a fan
+      let answer = raw
+      if (raw && process.env.OPENROUTER_API_KEY) {
+        try {
+          const rr = await fetch('https://openrouter.ai/api/v1/chat/completions', { method: 'POST', headers: { Authorization: 'Bearer ' + process.env.OPENROUTER_API_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify({ model: 'google/gemini-2.5-flash-lite', temperature: 0.4, max_tokens: 240, messages: [{ role: 'system', content: 'A fan asked a question while getting caught up on a sports/culture story. Turn the web findings into a direct, impartial answer in 2 to 3 plain spoken sentences, like a knowledgeable friend catching them up. No citations, no numbered lists, no "web reporting" preamble, no em-dashes. If the findings do not actually answer it, say so plainly in one sentence.' }, { role: 'user', content: `Question: ${q}\n\nWeb findings:\n${raw.slice(0, 2200)}` }] }), signal: AbortSignal.timeout(30000) })
+          const jj = await rr.json(); const t = String(jj.choices?.[0]?.message?.content || '').trim(); if (t) answer = t
+        } catch { /* synthesis is gravy; fall back to the raw web text */ }
+      }
+      appendLog({ kind: 'take', stage: 'ask', ok: !!answer, beat: beat.id, ref, ms: Date.now() - t0, summary: `${person.name} asked: "${q.slice(0, 60)}"${answer ? '' : ' (no answer found)'}`, meta: { provider: res.provider, sources: (res.citations || []).length } })
+      return NextResponse.json({ ok: true, answer: answer || "I could not pin that down from the sources right now. Try asking another way, or go with what you have.", sources: (res.citations || []).slice(0, 4).map((c: any) => ({ title: c.title, url: c.url, publisher: c.publisher })) })
+    } catch (e: any) { return bad('lookup failed: ' + String(e?.message || e).slice(0, 120), 'ask', 502, true) }
+  }
 
   // ---- ONE CLIP: raw -> 24kHz mono wav -> verbatim transcript (capped at 3 minutes of speech) ----
   if (typeof b.audio_b64 === 'string') {

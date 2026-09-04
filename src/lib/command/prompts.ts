@@ -55,17 +55,20 @@ export function latestBriefingFor(beat: any, root = process.cwd(), maxAgeDays = 
   const dir = path.join(root, 'lab', 'briefings')
   if (!fs.existsSync(dir)) return null
   const cutoff = Date.now() - maxAgeDays * 86400e3
-  let best: any = null
+  let best: any = null, bestLoose: any = null
   for (const f of fs.readdirSync(dir)) {
     if (!/^brf_[a-z0-9]+\.json$/.test(f)) continue
     const b = readJson(path.join(dir, f))
     if (!b || !b.id) continue
     const ts = Date.parse(b.created_at || '')
     if (!Number.isFinite(ts) || ts < cutoff) continue
+    // a stamped briefing belongs to exactly one beat; word-overlap is legacy-only (it once handed a
+    // Falcons person a battle-rap question because both titles said "Atlanta")
+    if (b.beat) { if (b.beat === beat?.id && (!best || ts > Date.parse(best.created_at))) best = b; continue }
     if (!beatMentioned(`${b.title || ''} ${b.question?.text || ''}`, beat)) continue
-    if (!best || ts > Date.parse(best.created_at)) best = b
+    if (!bestLoose || ts > Date.parse(bestLoose.created_at)) bestLoose = b
   }
-  return best
+  return best || bestLoose
 }
 
 /** Newest lab/runs/clusters_* for the beat (by filename suffix, else the `beat` field inside) -> story titles. */
