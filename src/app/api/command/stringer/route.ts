@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server'
 import fs from 'node:fs'
 import path from 'node:path'
-import { runStringer, saveStringer, listStringers, type Assignment } from '@/lib/command/stringer'
+import { runStringer, saveStringer, listStringers, loadConfig, type Assignment } from '@/lib/command/stringer'
+import { supplementDossierWithWeb } from '@/lib/command/web-supplement'
 import { logTimer } from '@/lib/command/log'
 
 export const runtime = 'nodejs'
@@ -43,12 +44,26 @@ export async function POST(req: Request) {
   const t = logTimer()
   try {
     const result = await runStringer(assignment, trusted, opts)
+    // WEB SUPPLEMENT (iter 17): YouTube transcripts are qualitative + stat-light, which caps debate DEPTH (see
+    // SELF_IMPROVE_LOG ceiling note). Merge impartial WEB reporting (OpenRouter web plugin -> Perplexity, free
+    // SearXNG first when up) so the dossier gains hard facts/records/dates the debate can escalate on. Gated
+    // (cfg.stringer.web_supplement, default on); best-effort - a web hiccup must never sink the YouTube dossier.
+    const scfg = loadConfig()
+    let webAdded = 0
+    // OPT-IN (default OFF). The web pass enriches the dossier with AUTHORITATIVE sourcing (AP, the local paper,
+    // the team site) - a real research-quality win for credibility/the producer package. But iter-17 verified it
+    // does NOT raise the debate FLOOR (both test floors 4 vs ~5): the floor ceiling is the HYPE-ANNOUNCER persona,
+    // not the source, and richer facts one debater won't use just widen the imbalance. So it's on-demand
+    // (per-request `web:true` or cfg.stringer.web_supplement:true), never a silent floor regression.
+    if (scfg.stringer?.web_supplement === true || body.web === true || inp.web === true) {
+      try { const w = await supplementDossierWithWeb(result, undefined, scfg); webAdded = w.added; (result as any).web_supplement = w } catch { /* web is best-effort */ }
+    }
     if (beatId) (result as any).beat = beatId   // stamp the dossier with its beat: downstream matching must never guess from words
     saveStringer(result)
     t.done(() => ({
       kind: 'research', stage: 'stringer', ok: true, beat: beatId, ref: result.id,
-      summary: `${result.evidence.length} evidence · ${result.audit.distinct_publishers} publishers · ${result.assignment.mode}${opts.dual ? ' · dual' : ''} · ${result.status} · ${assignment.text}`,
-      meta: { kind: assignment.kind, questions: assignment.questions.length, sources: result.sources.length, transcripts: result.usage.transcripts, transcript_words: result.usage.transcript_words, audit: result.audit.status, needs_web: result.audit.needs_web, trusted_channels: trusted.length },
+      summary: `${result.evidence.length} evidence · ${result.audit.distinct_publishers} publishers${webAdded ? ' · +' + webAdded + ' web' : ''} · ${result.assignment.mode}${opts.dual ? ' · dual' : ''} · ${result.status} · ${assignment.text}`,
+      meta: { kind: assignment.kind, questions: assignment.questions.length, sources: result.sources.length, transcripts: result.usage.transcripts, transcript_words: result.usage.transcript_words, web_added: webAdded, audit: result.audit.status, needs_web: result.audit.needs_web, trusted_channels: trusted.length },
     }))
     return NextResponse.json({ ok: true, ...result })
   } catch (e: any) {
