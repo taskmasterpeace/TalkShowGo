@@ -27,13 +27,17 @@ const readEnvKey = name => {
   return null
 }
 
-async function director(question, participants, evidence) {
+async function director(question, participants, evidence, showType) {
   const OR = readEnvKey('OPENROUTER_API_KEY')
   if (!OR) return null
   const ids = participants.map(p => p.id)
-  const roster = participants.map(p => `- ${p.id} (${p.name}) leans: ${p.stance}`).join('\n')
+  const roster = participants.map(p => `- ${p.id} (${p.name}${p.lane ? ', lane: ' + p.lane : ''}) leans: ${p.stance}`).join('\n')
   const ledger = evidence.map(e => `${e.id} [${e.tier}] ${e.claim}`).join('\n')
-  const SYS = `You are THE SHOWRUNNER. You never write dialogue. Your #1 job: ENGINEER DISAGREEMENT so the segment is a real argument, not three people agreeing. The hosts' honest leanings often converge; your job is to ASSIGN each host a DISTINCT, defensible position on the question and split the receipts so no two hosts hold the same hand. When the question is a yes/no or for-vs-against proposition, the positions MUST land on OPPOSING sides: at least one host argues clearly FOR/YES and at least one clearly AGAINST/NO. A segment where every host lands on the same side is a FAILURE. Use ONLY the given participant ids and evidence ids.
+  // MODERATED COLLISION (First Take): one NEUTRAL moderator + two adversaries on OPPOSING sides (role-aware)
+  const roleRule = /moderat/i.test(showType || '') && participants.length >= 3
+    ? ` FORMAT = MODERATED COLLISION (First Take): pick the ONE participant whose lane best fits a neutral anchor/desk/moderator and give them the position "MODERATOR: take NO side; referee, press BOTH debaters to answer, never argue a side yourself." Assign the OTHER TWO strictly OPPOSING positions on the question - one argues clearly FOR/YES, the other clearly AGAINST/NO - and split the receipts between those two (the moderator may cite any).`
+    : ''
+  const SYS = `You are THE SHOWRUNNER. You never write dialogue. Your #1 job: ENGINEER DISAGREEMENT so the segment is a real argument, not three people agreeing. The hosts' honest leanings often converge; your job is to ASSIGN each host a DISTINCT, defensible position on the question and split the receipts so no two hosts hold the same hand. When the question is a yes/no or for-vs-against proposition, the positions MUST land on OPPOSING sides: at least one host argues clearly FOR/YES and at least one clearly AGAINST/NO. A segment where every host lands on the same side is a FAILURE. Use ONLY the given participant ids and evidence ids.${roleRule}
 Output STRICT JSON only:
 {"assignments":[{"host":"<id>","position":"a punchy 1-2 sentence stance DISTINCT from the others (a different pick / a contrarian reframe / the skeptic) that this host can defend from the evidence","evidence_ids":["<3-8 ids this host holds; give each host at least one EXCLUSIVE id no other host holds>"]}],
  "opener":{"host":"<id>","instruction":"open flat, set bait, name one concrete fact, then stop. short."},
@@ -67,6 +71,9 @@ async function main() {
   const agents = J(agentsPath)
   const cast = J(path.join(ROOT, 'lab', 'cast', 'cast.json'))
   const castIds = new Set((cast.hosts || []).map(h => h.id))
+  // the show's format + each host's lane drive role-aware collision (moderator vs debaters)
+  let showType = null; try { if (briefing.beat) showType = (J(path.join(ROOT, 'lab', 'beats', briefing.beat + '.json')).show || {}).show_type || null } catch {}
+  const laneOf = id => { const h = (cast.hosts || []).find(x => x.id === id); return h ? String(h.lane || h.role || (h.print && h.print.essence) || '').slice(0, 100) : '' }
 
   // 1) evidence.json — the cited ledger the floor joins by id
   const evEntries = (dossier.evidence || []).filter(e => e.valid_source).map(e => ({
@@ -84,7 +91,7 @@ async function main() {
   if (floorParts.length < 2) { console.error('need >=2 briefed HOUSE HOSTS to run a floor (got ' + floorParts.length + ')'); process.exit(1) }
 
   const stanceOf = d => [d.stance.answer, d.stance.thesis].filter(Boolean).join(' ').replace(/\s+/g, ' ').trim().slice(0, 400)
-  const participants = floorParts.map(d => ({ id: d.cast_id, name: d.name, kind: 'host', stance: stanceOf(d), allowed: (d.allowed_evidence_ids || []).filter(id => evIds.has(id)) }))
+  const participants = floorParts.map(d => ({ id: d.cast_id, name: d.name, kind: 'host', lane: laneOf(d.cast_id), stance: stanceOf(d), allowed: (d.allowed_evidence_ids || []).filter(id => evIds.has(id)) }))
   // AI delegates join the director's collision (a position + receipts, like a host); max 2 seats
   const aiDelegates = delegateParts.filter(d => !d.human).slice(0, 2).map(d => ({ id: d.cast_id, name: d.name, kind: 'delegate', stance: stanceOf(d), allowed: (d.allowed_evidence_ids || []).filter(id => evIds.has(id)), dna_id: d.dna_id || 'google/gemini-2.5-flash-lite', persona_note: d.persona_note || null }))
   participants.push(...aiDelegates)
@@ -103,7 +110,7 @@ async function main() {
   const poolIds = [...new Set(participants.flatMap(p => p.allowed))]
   for (const e of evEntries) { if (poolIds.length >= 18) break; if (!poolIds.includes(e.id)) poolIds.push(e.id) }
   const poolEntries = poolIds.map(id => evEntries.find(e => e.id === id)).filter(Boolean)
-  const dir = await director(evidence.question, participants, poolEntries) || {}
+  const dir = await director(evidence.question, participants, poolEntries, showType) || {}
   let collided = 0
   if (Array.isArray(dir.assignments)) {
     for (const a of dir.assignments) {
