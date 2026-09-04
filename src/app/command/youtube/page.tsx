@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { useCmdState, useBeat, BeatPicker, ago } from '../lib'
+import { useCmdState, useBeat, ago } from '../lib'
 
 // YOUTUBE — Robert, 2026-09-02: "That YouTube thing, that is the most important thing... We need to
 // have that displayed. Can you get the transcript? The timestamp? Because certain shows might even be
@@ -202,7 +202,7 @@ function ChannelCard({ c }: { c: ChannelView }) {
 
 export default function YoutubePage() {
   const { state } = useCmdState()
-  const { beat, beats, pick } = useBeat(state)
+  const { beat } = useBeat(state)
   const [view, setView] = useState<YoutubeView | null>(null)
   const [loading, setLoading] = useState(true)
   const [err, setErr] = useState<string | null>(null)
@@ -242,7 +242,7 @@ export default function YoutubePage() {
       <style>{CSS}</style>
       <div className="flex items-center gap-4 flex-wrap">
         <span className="cmd-display text-lg" style={{ letterSpacing: '0.1em' }}>YOUTUBE — {(view?.beat_name || beat.name || beat.id || '').toUpperCase()}</span>
-        <BeatPicker beats={beats} beat={beat} pick={pick} />
+        {/* show switching lives in the master bar at the top of every page */}
         <button className="cmd-btn ghost ml-auto" disabled={loading} onClick={() => setTick(t => t + 1)}>{loading ? 'READING…' : '↻ REFRESH'}</button>
       </div>
 

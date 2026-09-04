@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
-import { useCmdState, useBeat, BeatPicker, ago } from '../lib'
+import { useCmdState, useBeat, ago } from '../lib'
 
 const TL: Record<string, string> = { FACT: 'ok', ATTRIBUTED_CLAIM: 'info', ANALYSIS: 'warn' }
 // per-medium provenance badge (on-brand tokens only, no new colors): YouTube / Web / X
@@ -31,8 +31,9 @@ const blobToB64 = (blob: Blob) => new Promise<string>((res, rej) => { const fr =
 export default function Stringer() {
   const { state } = useCmdState()
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { beat, beats, pick } = useBeat(state)
+  const { beat, beats } = useBeat(state)
   const [kind, setKind] = useState<'subject' | 'question'>('subject')
+  const [scopeAll, setScopeAll] = useState(false)   // Research Desk: default to THIS show only (no cross-show mix); toggle for ALL
   const [text, setText] = useState('')
   const [qs, setQs] = useState('')
   const [busy, setBusy] = useState(false)
@@ -234,7 +235,7 @@ export default function Stringer() {
       <section className="cmd-panel p-4 space-y-3">
         <div className="flex items-center gap-3 flex-wrap">
           {(['subject', 'question'] as const).map(k => <button key={k} className={`chip ${kind === k ? 'err' : ''}`} style={{ cursor: 'pointer' }} onClick={() => setKind(k)}>{k.toUpperCase()}</button>)}
-          <BeatPicker beats={beats} beat={beat} pick={pick} />
+          {/* show switching lives in the master bar at the top of every page */}
           <span className="cmd-kbd">{beat ? `trusted: ${(beat.show?.name || beat.name || beat.id)}` : 'global YouTube'}</span>
         </div>
         <input className="cmd-input" spellCheck={false} placeholder={kind === 'subject' ? 'a subject or person to dig on (e.g. Tay Roc, the Lil Durk case)' : 'a specific question to answer'} value={text} onChange={e => setText(e.target.value)} />
@@ -631,19 +632,32 @@ export default function Stringer() {
         </section>
       </>}
 
-      {/* RECENT DOSSIERS */}
-      {recent.length > 0 && !d && (
-        <section className="cmd-panel p-4 space-y-2">
-          <div className="cmd-label">RECENT DOSSIERS</div>
-          {recent.map((r: any) => (
-            <button key={r.id} className="flex items-center gap-3 text-left w-full" style={{ cursor: 'pointer', background: 'none', border: 'none', padding: '4px 0' }} onClick={() => { setRes(r); setBrief(null) }}>
-              <span className={`chip ${r.audit?.status === 'pass' ? 'ok' : 'warn'}`}>{r.assignment?.kind}</span>
-              <span style={{ color: 'var(--cmd-ink)', fontSize: 13 }}>{r.assignment?.text}</span>
-              <span className="cmd-kbd ml-auto">{r.evidence?.length} evidence · {ago(r.created_at).text}</span>
-            </button>
-          ))}
-        </section>
-      )}
+      {/* RECENT DOSSIERS — scoped to the selected show by default (kills the cross-show mix); toggle to see ALL */}
+      {recent.length > 0 && !d && (() => {
+        const showName = (bid?: string) => { const b = beats.find((x: any) => x.id === bid); return b ? (b.show?.name || b.name || bid) : null }
+        const mineN = recent.filter((r: any) => r.beat === beat?.id).length
+        const scoped = scopeAll ? recent : recent.filter((r: any) => r.beat === beat?.id)
+        return (
+          <section className="cmd-panel p-4 space-y-2">
+            <div className="flex items-center gap-3">
+              <div className="cmd-label">RECENT DOSSIERS</div>
+              <div className="flex gap-1 ml-auto">
+                <button className={`chip ${!scopeAll ? 'err' : ''}`} style={{ cursor: 'pointer' }} onClick={() => setScopeAll(false)}>THIS SHOW ({mineN})</button>
+                <button className={`chip ${scopeAll ? 'err' : ''}`} style={{ cursor: 'pointer' }} onClick={() => setScopeAll(true)}>ALL ({recent.length})</button>
+              </div>
+            </div>
+            {scoped.length === 0 && <div className="cmd-kbd" style={{ opacity: 0.7 }}>No research yet for this show. Run one above, or tap ALL.</div>}
+            {scoped.map((r: any) => (
+              <button key={r.id} className="flex items-center gap-3 text-left w-full" style={{ cursor: 'pointer', background: 'none', border: 'none', padding: '4px 0' }} onClick={() => { setRes(r); setBrief(null) }}>
+                <span className={`chip ${r.audit?.status === 'pass' ? 'ok' : 'warn'}`}>{r.assignment?.kind}</span>
+                <span style={{ color: 'var(--cmd-ink)', fontSize: 13 }}>{r.assignment?.text}</span>
+                {scopeAll && (r.beat ? <span className="chip info" title="show">{showName(r.beat)}</span> : <span className="chip warn" title="not tagged to a show">unfiled</span>)}
+                <span className="cmd-kbd ml-auto">{r.evidence?.length} evidence · {ago(r.created_at).text}</span>
+              </button>
+            ))}
+          </section>
+        )
+      })()}
     </div>
   )
 }

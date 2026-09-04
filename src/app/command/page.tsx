@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useCmdState, saveBeat, Flash, useBeat, BeatPicker, ago } from './lib'
+import { useCmdState, saveBeat, Flash, useBeat, ago } from './lib'
 
 // old show_types ids -> new format ids (so beats saved before the migration still resolve)
 const FORMAT_MIGRATE: Record<string, string> = { 'the-panel': 'open-panel', 'head-to-head': 'moderated-collision', 'the-desk': 'news-desk', 'the-take': 'opinion-single', 'hot-wire': 'rapid-wire' }
@@ -92,7 +92,7 @@ export default function Desk() {
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { beat, beats, pick } = useBeat(state)
+  const { beat } = useBeat(state)
   // NO BLEED: local pull/topics results are per-show; clear them when the show switches
   useEffect(() => { setReport(null); setTopics2(null) }, [beat?.id])
   if (!state) return <div className="p-8 cmd-kbd">BOOTING DESK...</div>
@@ -139,12 +139,12 @@ export default function Desk() {
           <span className={`lamp ${state.health.breeze_refs ? 'on' : 'warn'}`}><i />BREEZE CAST</span>
         </div>
         <div className="flex items-center gap-3">
-          <BeatPicker beats={beats} beat={beat} pick={pick} />
           <div className="onair"><i />{(beat?.name || '').toUpperCase()} · MANUAL</div>
         </div>
       </div>
 
-      <div className="p-6 grid grid-cols-12 gap-4">
+      {/* key on the show swaps every uncontrolled (defaultValue) field to the new show instead of leaving it stale */}
+      <div key={beat?.file} className="p-6 grid grid-cols-12 gap-4">
         {/* SHOW IDENTITY */}
         <section className="cmd-panel col-span-5">
           <div className="cmd-h"><div className="vu"><i /><i /><i /><i /></div><h2>SHOW IDENTITY</h2><Flash msg={flash} /></div>

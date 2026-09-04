@@ -43,6 +43,7 @@ export async function POST(req: Request) {
   const t = logTimer()
   try {
     const result = await runStringer(assignment, trusted, opts)
+    if (beatId) (result as any).beat = beatId   // stamp the dossier with its beat: downstream matching must never guess from words
     saveStringer(result)
     t.done(() => ({
       kind: 'research', stage: 'stringer', ok: true, beat: beatId, ref: result.id,

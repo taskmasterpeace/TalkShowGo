@@ -1,6 +1,6 @@
 'use client'
 import { useCallback, useEffect, useState } from 'react'
-import { useCmdState, useBeat, BeatPicker, Flash } from '../lib'
+import { useCmdState, useBeat, Flash } from '../lib'
 
 // PEOPLE ON A BEAT — the delegates attached to a coverage area (Dad on the Falcons, a neighbor on Orangeburg).
 // Each carries a private /take link; whatever they drop lands in the beat's take inbox to be seated on the next
@@ -9,7 +9,7 @@ import { useCmdState, useBeat, BeatPicker, Flash } from '../lib'
 export default function People() {
   const { state } = useCmdState()
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { beat, beats, pick } = useBeat(state)
+  const { beat } = useBeat(state)
   const [data, setData] = useState<any>(null)
   const [err, setErr] = useState<string | null>(null)
   const [busy, setBusy] = useState<string | null>(null)
@@ -73,7 +73,7 @@ export default function People() {
     <div className="p-6 space-y-5">
       <div className="flex items-center gap-4">
         <span className="cmd-display text-lg" style={{ letterSpacing: '0.1em' }}>PEOPLE — {beat.name?.toUpperCase() || beatId.toUpperCase()}</span>
-        <BeatPicker beats={beats} beat={beat} pick={pick} />
+        {/* show switching lives in the master bar at the top of every page */}
         <span className="chip">{people.length} ON THIS BEAT</span>
         <Flash msg={flash} />
       </div>

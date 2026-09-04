@@ -1,7 +1,7 @@
 'use client'
 import { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { useCmdState, useBeat, BeatPicker, Flash, ago } from '../lib'
+import { useCmdState, useBeat, Flash, ago } from '../lib'
 
 // THE JANITOR — the beat's maintenance crew. Five positions each make their own decisions over the beat's
 // evidence; the safe ones are applied on the spot (green), the rest wait here for a human (APPLY / DISMISS).
@@ -37,7 +37,7 @@ export default function Janitor() {
   const toggleHow = () => { const n = !showHow; setShowHow(n); try { localStorage.setItem('tsg_janitor_how', n ? '1' : '0') } catch {} }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { beat, beats, pick } = useBeat(state)
+  const { beat } = useBeat(state)
   const beatId: string | null = beat ? (beat.id || String(beat.file || '').replace(/\.json$/, '')) : null
 
   const load = useCallback(async (file?: string | null) => {
@@ -121,7 +121,7 @@ export default function Janitor() {
     <div className="p-6 space-y-5">
       <div className="flex items-center gap-4 flex-wrap">
         <span className="cmd-display text-lg" style={{ letterSpacing: '0.1em' }}>THE JANITOR — {String(beat.show?.name || beat.name || beat.id).toUpperCase()}</span>
-        <BeatPicker beats={beats} beat={beat} pick={pick} />
+        {/* show switching lives in the master bar at the top of every page */}
         {loaded && <span className={`chip ${report ? ranAgo.cls : 'err'}`}>{report ? `LAST SWEEP: ${ranAgo.text.toUpperCase()}` : 'NEVER SWEPT'}</span>}
         <Flash msg={flash} />
         <span className="ml-auto flex items-center gap-3">
