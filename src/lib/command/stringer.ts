@@ -100,6 +100,7 @@ const PARSE_SYS = `You are an IMPARTIAL research analyst for a talk show. From t
 - Cite every factual claim to a source id that appears in the material. NEVER invent a fact, a quote, or a source id.
 - Label each claim: FACT (stated as fact by the source), ATTRIBUTED_CLAIM (someone's claim/opinion, reported), or ANALYSIS (an interpretation).
 - Do NOT lean, argue, or editorialize. Present what the sources say, including where they DISAGREE.
+- CAPTURE THE DISAGREEMENT AS EVIDENCE: when sources hold DIFFERENT opinions, criticisms, or alternative views on the assignment, extract EACH competing view as its OWN separate ATTRIBUTED_CLAIM entry in "evidence" (who argues what, and their reason) - a talk show debates from these receipts, so both sides need real ammunition. Never collapse opposing opinions into one claim, and never drop the minority/critical view. If the material is entirely one-sided, say so in context.unknowns rather than inventing an opposing view.
 - Quotes must be short and verbatim from the material.
 Output STRICT JSON only:
 {"evidence":[{"claim":"...","truth_label":"FACT|ATTRIBUTED_CLAIM|ANALYSIS","source_id":"S001","quote":"..."}],
@@ -208,8 +209,36 @@ export async function runStringer(assignment: Assignment, trusted: { channel_id:
   const cfg = loadConfig()
   const id = 'str_' + Math.random().toString(36).slice(2, 10)
   const now = new Date().toISOString()
-  // 1) search YouTube (mode-aware: current/context/legacy/original/reaction; dual = freshness+relevance)
-  const sources = await ytSearch(assignment.text + (assignment.questions[0] ? ' ' + assignment.questions[0] : ''), trusted, cfg, opts)
+  // 1) search YouTube (mode-aware: current/context/legacy/original/reaction; dual = freshness+relevance).
+  //    Beyond the neutral query, run a CONTROVERSY/REACTION pass so the transcripts contain the DISAGREEMENT a
+  //    debate show needs - a one-sided factual ledger yields a one-sided "debate" (see engine SELF_IMPROVE_LOG
+  //    root-cause). INTERLEAVE the two result sets so reaction sources reach the transcribed top-N, not just
+  //    appended after the facts. Controllable via cfg.stringer.controversy_pass (default on).
+  const baseQ = assignment.text + (assignment.questions[0] ? ' ' + assignment.questions[0] : '')
+  const primary = await ytSearch(baseQ, trusted, cfg, opts)
+  let sources = primary
+  if (cfg.stringer?.controversy_pass !== false) {
+    try {
+      const angleTerms = cfg.stringer?.controversy_terms || 'reaction analysis debate'
+      const angleQ = `${assignment.text.replace(/\?+\s*$/, '').slice(0, 90)} ${angleTerms}`
+      const angle = await ytSearch(angleQ, trusted, cfg, opts)
+      const seen = new Set<string>(); const merged: Src[] = []
+      for (let i = 0; i < Math.max(primary.length, angle.length); i++) {
+        for (const s of [primary[i], angle[i]]) if (s && !seen.has(s.video_id)) { seen.add(s.video_id); merged.push(s) }
+      }
+      sources = merged
+      // RELEVANCE filter: a controversy query attracts off-topic clickbait/AI-slop/foreign fiction whose titles
+      // merely share a word ("reaction", "secret"). Keep only sources whose title shares a DISCRIMINATING subject
+      // token (real "Falcons/captains" content will; spam won't). Only trims when it leaves >= 3 sources, so a
+      // thinly-covered real topic is never filtered down to nothing.
+      const generic = new Set('does did will what when were with from have they their team this that then than best good this year time week game show talk news full live 2026 2025 reaction analysis debate should about right pick season'.split(/\s+/))
+      const subjTokens = (assignment.text.toLowerCase().match(/[a-z]{4,}/g) || []).filter(w => !generic.has(w))
+      if (subjTokens.length) {
+        const kept = sources.filter(s => subjTokens.some(w => (s.title || '').toLowerCase().includes(w)))
+        if (kept.length >= 3) sources = kept
+      }
+    } catch { /* angle pass is best-effort; the neutral results stand on their own */ }
+  }
   // 2) transcripts for the top N
   const capWords = cfg.youtube?.transcript_words_per_video || 12000
   let totalWords = 0
