@@ -23,7 +23,20 @@ async function line(model, sys, user) {
   if (/gpt-5|o1|o3|sonnet-5|deepseek-r1|thinking/i.test(model)) body.reasoning = { effort: 'low' }
   const r = await fetch('https://openrouter.ai/api/v1/chat/completions', { method: 'POST', headers: { Authorization: 'Bearer ' + OR, 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(60000) })
   const j = await r.json()
-  return String(j.choices?.[0]?.message?.content || '').replace(/[—]/g, '...').replace(/^["']|["']$/g, '').replace(/\s+/g, ' ').trim()
+  return clean(String(j.choices?.[0]?.message?.content || '')).replace(/^["']|["']$/g, '').replace(/\s+/g, ' ').trim()
+}
+
+// tidy text artifacts so the episode reads clean: common UTF-8 mojibake (â€™ from mixed encodings) + smart
+// quotes/dashes that read as "visibly generated" on the page (the judge's knock).
+function clean(s) {
+  return String(s || '')
+    .replace(/â€™/g, "'").replace(/â€˜/g, "'").replace(/â€œ/g, '"').replace(/â€/g, '"').replace(/â€"/g, '...').replace(/â€"/g, '...').replace(/Â/g, '')
+    .replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/[—–]/g, '...')
+}
+// the last substantive spoken line of a segment (its resolution), so a transition/sign-off can reference where it LANDED
+function lastLineOf(md) {
+  const ls = md.split(/\n/).map(l => l.replace(/^[A-Z][A-Z .'\-]*(\[[^\]]*\])?\s*(\([^)]*\))?\s*:/, '').replace(/\[E\d+\]/g, '').trim()).filter(Boolean)
+  return (ls[ls.length - 1] || '').slice(0, 220)
 }
 
 // trim a segment's OWN greeting + sign-off so the stitched episode has one cold open and one close (no resets between segments)
@@ -51,7 +64,7 @@ async function main() {
 
   const segs = slugs.map((slug, i) => {
     const dir = path.join(ROOT, 'lab', 'shows', slug)
-    const md = trimSeg(fs.readFileSync(path.join(dir, 'floor', 'segment_final.md'), 'utf8').replace(/^#[^\n]*\n\n?/, '').trim())
+    const md = clean(trimSeg(fs.readFileSync(path.join(dir, 'floor', 'segment_final.md'), 'utf8').replace(/^#[^\n]*\n\n?/, '').trim()))
     let topic = slug; try { topic = J(path.join(dir, 'status.json')).question || slug } catch { /* no status */ }
     if (topicOverride && topicOverride[i]) topic = topicOverride[i]
     return { slug, md, topic }
@@ -61,8 +74,8 @@ async function main() {
 
   const intro = await line(MODEL, `You are ${modName}, host/moderator of "${showName}". Write the COLD OPEN: greet the audience and name tonight's lineup of ${segs.length} stories in order. One or two spoken sentences, energetic but clean, no stage directions, no em-dashes.`, `Tonight, in order:\n${topics.map((t, i) => (i + 1) + '. ' + t).join('\n')}`)
   const trans = []
-  for (let i = 0; i < segs.length - 1; i++) trans.push(await line(MODEL, `You are ${modName} moderating "${showName}". Write ONE spoken transition (1-2 sentences) that buttons the segment just finished and pivots to the next. Natural broadcast handoff, no stage directions, no em-dashes.`, `Just finished: ${segs[i].topic}\nUp next: ${segs[i + 1].topic}`))
-  const outro = await line(MODEL, `You are ${modName} closing "${showName}". Write the SIGN-OFF: one spoken sentence that thanks the audience and buttons the whole episode. No em-dashes.`, `Tonight covered: ${topics.join('; ')}`)
+  for (let i = 0; i < segs.length - 1; i++) trans.push(await line(MODEL, `You are ${modName} moderating "${showName}". Write ONE spoken transition (1-2 sentences): first nod to the SPECIFIC takeaway the segment just finished landed on (use a real detail from it), THEN pivot to the next story with a hook. A natural broadcast handoff. Do NOT open with a generic "that's a big question"; no stage directions, no em-dashes.`, `Segment just finished: ${segs[i].topic}\nWhere it landed: "${lastLineOf(segs[i].md)}"\nUp next: ${segs[i + 1].topic}`))
+  const outro = await line(MODEL, `You are ${modName} closing "${showName}". Write the SIGN-OFF (1-2 spoken sentences): recap where BOTH of tonight's stories landed - name each specifically - and leave ONE forward hook for next time. No generic "thanks for watching" on its own, no em-dashes.`, segs.map((s, i) => `Story ${i + 1} (${s.topic}) landed on: "${lastLineOf(s.md)}"`).join('\n'))
 
   const parts = [`# EPISODE - ${showName} - ${segs.length} segments`, '', `${modName} (cold open): ${intro}`, '']
   segs.forEach((s, i) => {
