@@ -121,26 +121,41 @@ async function briefOne(participant: any, dna: any, briefing: any, evidenceById:
   if (!pack.fits || !pack.allowed_evidence_ids.length) return { ...base, ok: false, error: 'briefing_too_large_or_uncited' }
   const sys = participant.printText + '\n\n' + RULES + '\nALLOWED_EVIDENCE_IDS: ' + pack.allowed_evidence_ids.join(', ')
   const user = `THE BRIEFING (your entire factual world):\n${pack.contextText}\n\nTHE QUESTION: ${briefing.question?.text}\n\nForm your stance now, in character, as JSON.`
-  let out
-  try { out = await callModel(dna, sys, user, { temperature: participant.temperature ?? 0.8, maxTokens: 900 }) }
-  catch (e: any) { return { ...base, ok: false, error: 'provider: ' + String(e?.message || e).slice(0, 100) } }
-  try {
-    const stance = parseJsonLoose(out.text)
-    if (!stance || typeof stance !== 'object') return { ...base, ok: false, error: 'malformed stance', raw: out.text.slice(0, 160) }
-    const allowed = new Set(pack.allowed_evidence_ids)
-    const reasons = Array.isArray(stance.reasons) ? stance.reasons : []
-    const reasonsOk = reasons.length > 0 && reasons.every((r: any) => r && strOk(r.text) && Array.isArray(r.evidence_ids) && r.evidence_ids.length > 0 && r.evidence_ids.every((id: any) => typeof id === 'string' && allowed.has(id)))
-    // closed evidence extends to FREE TEXT: no urls, and no evidence-id token outside the allowed set
-    const freeText = [stance.answer, stance.thesis, stance.concession, stance.uncertainty, ...reasons.map((r: any) => r && r.text)].filter((x: any) => typeof x === 'string').join('  ')
-    const strayId = (freeText.match(/\bE\d{2,}\b/g) || []).some((id: string) => !allowed.has(id))
-    const badInline = /https?:\/\//i.test(freeText) || strayId
-    if (!strOk(stance.answer) || !strOk(stance.thesis) || !reasonsOk || badInline) {
-      return { ...base, ok: false, error: 'stance failed validation (empty / uncited / out-of-set / inline url|id)', raw: out.text.slice(0, 200) }
+  // ONE stance attempt (call -> parse -> validate). Every failure here is TRANSIENT/stochastic - a provider
+  // timeout, a malformed-JSON emit, or a one-off uncited id - so briefOne RETRIES below instead of sinking the
+  // whole build on a single flake (iter 13: builds hit 2/3 three times from deepseek timeouts + gemini
+  // "malformed stance"). packBriefing is deterministic, so only the flaky model call re-runs.
+  const attempt = async () => {
+    let out
+    try { out = await callModel(dna, sys, user, { temperature: participant.temperature ?? 0.8, maxTokens: 900 }) }
+    catch (e: any) { return { ...base, ok: false, error: 'provider: ' + String(e?.message || e).slice(0, 100) } }
+    try {
+      const stance = parseJsonLoose(out.text)
+      if (!stance || typeof stance !== 'object') return { ...base, ok: false, error: 'malformed stance', raw: out.text.slice(0, 160) }
+      const allowed = new Set(pack.allowed_evidence_ids)
+      const reasons = Array.isArray(stance.reasons) ? stance.reasons : []
+      const reasonsOk = reasons.length > 0 && reasons.every((r: any) => r && strOk(r.text) && Array.isArray(r.evidence_ids) && r.evidence_ids.length > 0 && r.evidence_ids.every((id: any) => typeof id === 'string' && allowed.has(id)))
+      // closed evidence extends to FREE TEXT: no urls, and no evidence-id token outside the allowed set
+      const freeText = [stance.answer, stance.thesis, stance.concession, stance.uncertainty, ...reasons.map((r: any) => r && r.text)].filter((x: any) => typeof x === 'string').join('  ')
+      const strayId = (freeText.match(/\bE\d{2,}\b/g) || []).some((id: string) => !allowed.has(id))
+      const badInline = /https?:\/\//i.test(freeText) || strayId
+      if (!strOk(stance.answer) || !strOk(stance.thesis) || !reasonsOk || badInline) {
+        return { ...base, ok: false, error: 'stance failed validation (empty / uncited / out-of-set / inline url|id)', raw: out.text.slice(0, 200) }
+      }
+      return { ...base, ok: true, provider: out.provider, allowed_evidence_ids: pack.allowed_evidence_ids, stance, ms: out.ms }
+    } catch (e: any) {
+      return { ...base, ok: false, error: 'validation error: ' + String(e?.message || e).slice(0, 80), raw: out.text.slice(0, 160) }
     }
-    return { ...base, ok: true, provider: out.provider, allowed_evidence_ids: pack.allowed_evidence_ids, stance, ms: out.ms }
-  } catch (e: any) {
-    return { ...base, ok: false, error: 'validation error: ' + String(e?.message || e).slice(0, 80), raw: out.text.slice(0, 160) }
   }
+  // retry transient failures up to 3x; a fresh call usually lands. Return on first success, else the last failure
+  // (same shape callers already handle). Successful hosts pay no extra cost (they land on attempt 1).
+  let last: any
+  for (let i = 0; i < 3; i++) {
+    last = await attempt()
+    if (last.ok) { if (i > 0) last.brief_retries = i; return last }
+    if (i < 2) console.error(`  brief retry ${i + 1} (${participant.id}): ${last.error}`)
+  }
+  return last
 }
 
 const DEFAULT_DELEGATE_DNA = 'google/gemini-2.5-flash-lite'
