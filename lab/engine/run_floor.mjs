@@ -403,7 +403,18 @@ async function main() {
     const modId = Object.keys(beat.stances || {}).find(id => isMod(id))
     if (modId && last && last.id !== modId) {
       const sinceMod = turns.filter(t => !t.bc).reverse().findIndex(t => t.id === modId)
-      if (sinceMod === -1 || sinceMod >= 3) return { id: modId, instruction: 'You are the neutral MODERATOR. Cut in now: either press the LAST speaker on the weakest part of their case with a pointed, specific question, or put a NEW angle on the table that neither debater has raised. Never take a side or argue a verdict.' }
+      if (sinceMod === -1 || sinceMod >= 3) {
+        // BALANCE the scrutiny: press the debater the moderator has grilled LESS so far, by name (the judge's
+        // recurring "presses only B / sides with C" tilt - the old rule pressed the LAST speaker, usually the
+        // floor-hog). Count prior moderator turns addressed to each debater; target the under-pressed one.
+        const debaters = speakers.filter(h => h.id !== modId).map(h => h.id)
+        const pressed = Object.fromEntries(debaters.map(d => [d, 0]))
+        for (const t of turns) if (t.id === modId && t.addressed_to && pressed[t.addressed_to] !== undefined) pressed[t.addressed_to]++
+        const target = debaters.slice().sort((a, b) => pressed[a] - pressed[b])[0]
+        const tname = target && hosts[target] ? hosts[target].name : null
+        const press = tname ? `press ${tname} specifically - put a pointed question to THEM on the weakest part of THEIR case` : 'press the last speaker on the weakest part of their case'
+        return { id: modId, instruction: `You are the neutral MODERATOR. Cut in now: ${press}, or put a NEW angle on the table that neither debater has raised. Balance your scrutiny across BOTH debaters - never let one side off easy. Never take a side or argue a verdict.` }
+      }
     }
     if (last && last.addressed_to && hosts[last.addressed_to] && hosts[last.addressed_to].kind !== 'human' && last.addressed_to !== last.id && shareOf(last.addressed_to) <= 0.45 && rand() < 0.75) return { id: last.addressed_to }
     let cands = speakers.filter(h => h.id !== (last && last.id) && !(h.id === beat.kk_drop.host && !kkDropped))
