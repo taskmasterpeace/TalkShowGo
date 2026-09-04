@@ -26,6 +26,15 @@ async function line(model, sys, user) {
   return String(j.choices?.[0]?.message?.content || '').replace(/[—]/g, '...').replace(/^["']|["']$/g, '').replace(/\s+/g, ' ').trim()
 }
 
+// trim a segment's OWN greeting + sign-off so the stitched episode has one cold open and one close (no resets between segments)
+function trimSeg(md) {
+  let lines = md.split(/\n/).filter(l => l.trim())
+  if (lines[0]) lines[0] = lines[0].replace(/(:\s*)(good evening|good afternoon|good morning|welcome back|welcome|hey|hi|what's up[^.!?]*)(,?\s*(everyone|folks|y'?all|guys|fans|and welcome[^.!?]*))?[,.!]?\s*/i, '$1')
+  const li = lines.length - 1
+  if (li > 0 && /thanks for (joining|watching|tuning|being)|see you (next|tomorrow|then|soon)|that's (all|our show|the show|it for)|good ?night|signing off|until next|catch you/i.test(lines[li])) lines = lines.slice(0, -1)
+  return lines.join('\n')
+}
+
 async function main() {
   if (!ARG.beat || !ARG.segments) { console.error('need --beat=<id> --segments=<slug1,slug2,...>'); process.exit(1) }
   const beat = J(path.join(ROOT, 'lab', 'beats', ARG.beat + '.json'))
@@ -42,7 +51,7 @@ async function main() {
 
   const segs = slugs.map((slug, i) => {
     const dir = path.join(ROOT, 'lab', 'shows', slug)
-    const md = fs.readFileSync(path.join(dir, 'floor', 'segment_final.md'), 'utf8').replace(/^#[^\n]*\n\n?/, '').trim()
+    const md = trimSeg(fs.readFileSync(path.join(dir, 'floor', 'segment_final.md'), 'utf8').replace(/^#[^\n]*\n\n?/, '').trim())
     let topic = slug; try { topic = J(path.join(dir, 'status.json')).question || slug } catch { /* no status */ }
     if (topicOverride && topicOverride[i]) topic = topicOverride[i]
     return { slug, md, topic }
