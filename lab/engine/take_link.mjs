@@ -82,9 +82,11 @@ if (ARG.public) {
       links.unshift(['PUBLIC (anyone, until you close it)', `${pub}/take/${hit.person.token}`])
       // warm-keeper: localhost.run drops tunnels on HTTP inactivity ("tunnel inactivity timeout" -
       // learned the hard way when Robert's link died mid-take). One ping through the edge every 45s.
+      // Ping a STATIC asset only: the take API logs every GET as "<person> opened their take link",
+      // and keeper pings once flooded the activity log with phantom visits.
       if (pub.includes('.lhr.life')) {
         const { spawn } = await import('node:child_process')
-        const keeper = spawn(process.execPath, ['-e', `setInterval(()=>fetch(${JSON.stringify(pub + '/api/take/' + hit.person.token)}).catch(()=>{}),45000)`], { detached: true, stdio: 'ignore' })
+        const keeper = spawn(process.execPath, ['-e', `setInterval(()=>fetch(${JSON.stringify(pub + '/logo.svg')}).catch(()=>{}),45000)`], { detached: true, stdio: 'ignore' })
         keeper.unref()
         fs.writeFileSync(KEEPF, String(keeper.pid))
       }
