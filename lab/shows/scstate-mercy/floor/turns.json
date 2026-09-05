@@ -1,0 +1,222 @@
+[
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "87 to nothing. Highest scoring output in that program's history. So which is it, a statement win or a beatdown that ran too long?",
+    "delivery": "flat, level, baiting",
+    "addressed_to": "null",
+    "evidence": [
+      "E002"
+    ],
+    "tag": null,
+    "ms": 3443,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Well, Renee, when you look at that box score, clutchpoints.com said it best: it was a significant mismatch in skill and preparation. That's a tough look.",
+    "delivery": "warm, slightly concerned",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 1402,
+    "noMerge": false
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, this ain’t just a mismatch, it’s a masterclass in prep and execution. Coach Berry’s 'Go 1-0' ain’t about mercy, it’s about mastery. That scoreboard? Pure dominance, no cap.",
+    "delivery": "confident and assertive",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E005",
+      "E006"
+    ],
+    "tag": null,
+    "ms": 1552,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Look, Cassius, I hear you on the execution, but when clutchpoints.com points out the mismatch in scholarship allocation, it really makes you wonder about the schedule, you know?",
+    "delivery": "warm, thoughtful, questioning",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E009"
+    ],
+    "tag": null,
+    "ms": 1867,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, Coach Berry’s whole playbook is 'Go 1-0'...that means treat every game like the final. When prep’s the edge, you don’t dial down the heat, you lock in tighter.",
+    "delivery": "firm, explanatory, rhythmic",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E005",
+      "E006"
+    ],
+    "tag": null,
+    "ms": 2081,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Cassius, if it's about mastery, does that mastery excuse three fumbles forced and 42 passing yards allowed? That's not preparation, that's a total collapse on the other side. Where's the ceiling on 'locking in'?",
+    "delivery": "pointed, pressing, level",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E011",
+      "E012"
+    ],
+    "tag": null,
+    "ms": 3369,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Gosh, Renee, that's a fair question, and when you look at the historical context, that 87-point margin is the largest in FCS since 2025. You just don't see those numbers without a real imbalance.",
+    "delivery": "warm, thoughtful, concerned",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E004"
+    ],
+    "tag": null,
+    "ms": 1382,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "And folks, to put that 87-0 in perspective, that's the biggest FCS shutout since Idaho State took down Lincoln 90-0 way back in 2025. You just don't see that kind of spread often.",
+    "delivery": "warm, thoughtful, factual",
+    "addressed_to": null,
+    "evidence": [
+      "E004"
+    ],
+    "tag": "interrupting",
+    "ms": 1569,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, you drop that 87-0 stat like it’s just a freak show, but nah...",
+    "delivery": "surprised then commanding",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E001",
+      "E002",
+      "E006"
+    ],
+    "tag": null,
+    "ms": 1793,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Andrew, if the schedule's the real problem, that's on the athletic department, not Berry. So does that let the coach off the hook for running it up, or not?",
+    "delivery": "pointed, pressing, level",
+    "addressed_to": "andrew-hammond",
+    "evidence": [],
+    "tag": null,
+    "ms": 2997,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, Coach Berry’s job ain’t to babysit the weak links, it’s to set the tone for the whole HBCU scene. Showing that dominance? That’s power talk. No mercy, just respect for the culture’s grind.",
+    "delivery": "confident, assertive, cultural",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E005",
+      "E006"
+    ],
+    "tag": null,
+    "ms": 1512,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Here's the thing nobody's answered: nobody's actually arguing Berry pulled starters or kept passing deep in the fourth. So the real question isn't culture versus mercy, it's whether he tried to stop it at all.",
+    "delivery": "level, cutting through noise",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E011"
+    ],
+    "tag": null,
+    "ms": 7023,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, pulling starters in a statement game? That’s playing checkers when the culture demands chess. Berry’s message was clear: no shortcuts, no charity ... that’s how you build legacy.",
+    "delivery": "confident, decisive, rhythmic",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E006"
+    ],
+    "tag": null,
+    "ms": 1481,
+    "noMerge": false
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Cassius calls it legacy, Andrew calls it a mismatch, and Berry himself just says he's finding a way to win. That gap between the quote and the score is where we're headed next.",
+    "delivery": "level, pointed, closing the segment",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E013",
+      "E007"
+    ],
+    "tag": null,
+    "ms": 3110,
+    "noMerge": true
+  }
+]

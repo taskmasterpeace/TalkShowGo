@@ -1,0 +1,267 @@
+[
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Good evening. Seven captains, every unit covered, Stefanski confirmed it himself. Mike, Andrew, tell me why that structure equals identity and not just paperwork.",
+    "delivery": "even, pressing, handing off",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E001",
+      "E006"
+    ],
+    "tag": null,
+    "ms": 3951,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Renee, Stefanski didn't just fill slots...he launched the ENTRANCE! The Falcons' own words: captains represent the identity. This roster IS that identity, walking out loud!",
+    "delivery": "booming, triumphant, arms wide",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 43073,
+    "noMerge": false
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Look, Mike, I hear you, and the Falcons themselves say leadership comes in many forms. So while these seven are great, it's a big roster, and folks are wondering if the net was cast wide enough.",
+    "delivery": "warm, questioning but firm",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E008"
+    ],
+    "tag": null,
+    "ms": 2826,
+    "noMerge": false
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Andrew, a wide net? This is the TITLE TEAM walkout! Folk on special teams, Bates and Deablo on D, Lindstrom on O...that coverage IS the championship energy, announced!",
+    "delivery": "booming, defiant, pointing",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E002",
+      "E003",
+      "E004"
+    ],
+    "tag": null,
+    "ms": 46386,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Mike, the Falcons themselves said leadership comes in many forms, not just the seven names on that list. That's straight from the source, and it tells you something.",
+    "delivery": "firm, grounded",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E008"
+    ],
+    "tag": null,
+    "ms": 1475,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Renee, that 'mm' is the quiet before the STADIUM EXPLODES! The Falcons say captains represent the identity – and with Folk, Bates, Deablo, Lindstrom, that identity is COVERED AND CONFIRMED!",
+    "delivery": "booming, defiant, pointing",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E002",
+      "E003",
+      "E004",
+      "E007"
+    ],
+    "tag": null,
+    "ms": 56565,
+    "noMerge": false
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mike, coverage isn't the same as consensus. Andrew's point stands: the team's own words leave room for leaders outside that list, so what's your answer to that, not the volume?",
+    "delivery": "level, pressing, sharp",
+    "addressed_to": "big-mike-vega",
+    "evidence": [],
+    "tag": null,
+    "ms": 3448,
+    "noMerge": false
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Renee’s right, Mike. The team themselves has said leadership isn't just about the guys wearing the C. You need to account for more than just seven names.",
+    "delivery": "firm, grounded",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E008"
+    ],
+    "tag": "interrupting",
+    "ms": 4317,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Renee, Andrew – 'many forms'? In a title fight, you don't need a committee! The Falcons said captains REPRESENT the identity – this is that identity, ANNOUNCED!",
+    "delivery": "booming, defiant, arms wide",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 97266,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mike, you keep announcing it louder instead of naming who got left off. If the net's wide enough, give me the name that proves it.",
+    "delivery": "level, pressing, unmoved",
+    "addressed_to": "big-mike-vega",
+    "evidence": [],
+    "tag": null,
+    "ms": 3551,
+    "noMerge": false
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Renee, the missing name doesn't matter! With Folk, Bates, Deablo, Lindstrom, every unit is represented – that's the identity, LOUD AND CLEAR!",
+    "delivery": "booming, defiant, arms wide",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E002",
+      "E003",
+      "E004",
+      "E007"
+    ],
+    "tag": null,
+    "ms": 50421,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "So the missing name doesn't matter, but the wide net does. You can't have it both ways, Mike.",
+    "delivery": "level, slowing, deliberate",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E001",
+      "E006"
+    ],
+    "tag": null,
+    "ms": 3401,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Renee, last show you called the coverage clean! Now you question it? That coverage IS the Falcon identity, and identity wins rings!",
+    "delivery": "booming, defiant, arms wide",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 48358,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Look, Renee's got a point. When the organization itself states that leadership takes many forms, you can't just limit it to a handful of guys, no matter how good they are.",
+    "delivery": "firm, grounded, agreeable",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E008"
+    ],
+    "tag": null,
+    "ms": 2459,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "That's fair, and I'll say it plainly: structure is confirmed, consensus on 'best' isn't. We'll see who leads once the games start counting.",
+    "delivery": "even, closing, final",
+    "addressed_to": "andrew-hammond",
+    "evidence": [],
+    "tag": null,
+    "ms": 3167,
+    "noMerge": true
+  }
+]

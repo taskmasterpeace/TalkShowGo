@@ -1,0 +1,319 @@
+[
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Good evening. Kevin Stefanski named seven captains, and they cover offense, defense, and special teams. That's the structure of a right decision, so where's the argument against it?",
+    "delivery": "level, measured, opening",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E001",
+      "E006",
+      "E002",
+      "E003",
+      "E004"
+    ],
+    "tag": null,
+    "ms": 2921,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Renee, a blueprint isn't a heartbeat! Covering units is the MINIMUM. EMBODYING the identity? That's the championship walkout!",
+    "delivery": "BOOMING, corrective, arena-scale",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 37457,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Well, Mike, I hear you, and it's a great point about embodying the identity.",
+    "delivery": "thoughtful, questioning consensus",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E003",
+      "E005"
+    ],
+    "tag": null,
+    "ms": 1207,
+    "noMerge": false
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "ANDREW, RIGHT ON! The Falcons' statement: captains REPRESENT the identity. Stefanski's announcement? That's the spotlight hitting the marquee...UNDISPUTED!",
+    "delivery": "BOOMING, triumphant, escalating",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E007",
+      "E006"
+    ],
+    "tag": null,
+    "ms": 75907,
+    "noMerge": false
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Look, Mike, I get the marquee, but if Divine Deablo is representing both offense and defense, does that really give us a full picture of the locker room?",
+    "delivery": "thoughtful, gently questioning",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E003",
+      "E004",
+      "E005"
+    ],
+    "tag": null,
+    "ms": 1407,
+    "noMerge": true
+  },
+  {
+    "id": "delegate:api-test",
+    "name": "API TEST",
+    "line": "Look, I'm not on TV. I'm just a fan who actually watches and I'm telling you, this one's different. I've been saying that for a long time.",
+    "delivery": "in their own voice",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": "delegate",
+    "ms": 0,
+    "noMerge": true,
+    "verbatim": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "It's tough to say you're covering all your bases when one guy is playing both sides of the ball for captaincy.",
+    "delivery": "thoughtful, gently skeptical",
+    "addressed_to": "renee-vaughn",
+    "evidence": [],
+    "tag": null,
+    "ms": 2455,
+    "noMerge": false
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "And folks, the box score confirms it: Divine Deablo is indeed listed as a captain for both defense and offense. That's a unique play call.",
+    "delivery": "thoughtful, slightly amused",
+    "addressed_to": null,
+    "evidence": [
+      "E003",
+      "E004"
+    ],
+    "tag": "interrupting",
+    "ms": 1255,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Andrew, wait...a captain covering BOTH units? That's not a hole in the roster, that's a FLEX! This group EMBODIES the identity, start to finish!",
+    "delivery": "booming, surprised, defiant",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 82673,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "delegate:api-test",
+    "name": "API TEST",
+    "line": "typed only take",
+    "delivery": "in their own voice",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": "delegate",
+    "ms": 0,
+    "noMerge": true,
+    "verbatim": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Renee, I hear you, but with one player covering both sides, it just feels like we're not getting a full squad in the huddle, you know?",
+    "delivery": "thoughtful, gently questioning",
+    "addressed_to": "renee-vaughn",
+    "evidence": [],
+    "tag": null,
+    "ms": 2589,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Andrew, Jessie Bates covers defense alone, Chris Lindstrom covers offense alone, Nick Folk covers special teams alone.",
+    "delivery": "level, cutting through noise",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E002",
+      "E003",
+      "E004"
+    ],
+    "tag": null,
+    "ms": 7264,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Andrew, checklists don't win titles! EMBODYING the identity from every angle? That's a championship-caliber announcement, and Coach Stefanski just MADE IT!",
+    "delivery": "BOOMING, defiant, arena-scale",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 35587,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mike, seven names on the record is the story. Andrew, one overlap doesn't erase Bates, Lindstrom, and Folk holding their lanes clean.",
+    "delivery": "level, closing the gap",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E001",
+      "E002",
+      "E003",
+      "E004"
+    ],
+    "tag": null,
+    "ms": 6027,
+    "noMerge": false
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "You're right, Renee, those guys are holding their lanes, and that's good work. But when one name pulls double duty, it does make you wonder if the full roster really got a voice in that huddle.",
+    "delivery": "thoughtful, gently questioning",
+    "addressed_to": "renee-vaughn",
+    "evidence": [],
+    "tag": null,
+    "ms": 1186,
+    "noMerge": false
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "delegate:api-test",
+    "name": "API TEST",
+    "line": "Honestly I would need to see it again, with fresh eyes.",
+    "delivery": "in their own voice",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": "delegate",
+    "ms": 0,
+    "noMerge": true,
+    "verbatim": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Api, fresh eyes are fair, but the seven names Stefanski put on record don't change on a second look.",
+    "delivery": "level, closing gently",
+    "addressed_to": "delegate:api-test",
+    "evidence": [
+      "E001",
+      "E006"
+    ],
+    "tag": null,
+    "ms": 6317,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Renee, SEVEN NAMES on record? That's the WALKOUT! A legacy roster that COVERS every unit and BEATS with the team's heart!",
+    "delivery": "booming, triumphant, escalating",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E001"
+    ],
+    "tag": null,
+    "ms": 57232,
+    "noMerge": false
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Look, Mike, seven captains on the field is a strong starting lineup, and when the dust settles, that's what folks will remember. But the real box score gets written when they hit the gridiron.",
+    "delivery": "warm, upbeat, concluding",
+    "addressed_to": "big-mike-vega",
+    "evidence": [],
+    "tag": null,
+    "ms": 1398,
+    "noMerge": true
+  }
+]

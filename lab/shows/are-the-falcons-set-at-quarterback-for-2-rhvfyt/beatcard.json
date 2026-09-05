@@ -1,0 +1,127 @@
+{
+  "id": "are-the-falcons-set-at-quarterback-for-2",
+  "show": "are-the-falcons-set-at-quarterback-for-2",
+  "question": "Are the Falcons set at quarterback for 2026, or is it still a problem?",
+  "target_spoken_words": 368,
+  "max_turns": 27,
+  "stances": {
+    "renee-vaughn": "The Falcons are not set at quarterback for 2026; the organization is in a holding pattern and has not answered who will win the job or if they are the long-term solution.",
+    "big-mike-vega": "The Falcons' quarterback situation is the UNRESOLVED MAIN EVENT for 2026, a high-stakes evaluation year where the outcome is STILL UP FOR GRABS under the new coach.",
+    "andrew-hammond": "While the Falcons have options like Tua Tagovailoa and Michael Penix Jr., the quarterback position remains a central concern, not a settled one, for 2026."
+  },
+  "allowed_evidence": {
+    "renee-vaughn": [
+      "E001",
+      "E003",
+      "E016",
+      "E018"
+    ],
+    "big-mike-vega": [
+      "E002",
+      "E019",
+      "E010",
+      "E015"
+    ],
+    "andrew-hammond": [
+      "E006",
+      "E011",
+      "E007",
+      "E008"
+    ]
+  },
+  "participants": [
+    {
+      "id": "renee-vaughn",
+      "name": "Renee Vaughn",
+      "kind": "host"
+    },
+    {
+      "id": "big-mike-vega",
+      "name": "Big Mike Vega",
+      "kind": "host"
+    },
+    {
+      "id": "andrew-hammond",
+      "name": "Andrew Hammond",
+      "kind": "host"
+    }
+  ],
+  "delegates": {
+    "ai": [],
+    "human": []
+  },
+  "human_slots": [],
+  "withheld": [
+    {
+      "host": "andrew-hammond",
+      "evidence": "E011",
+      "turn": 7,
+      "instruction": "Michael Penix Jr. is ahead of schedule in his recovery; he is practicing without a knee brace."
+    }
+  ],
+  "anaphora_exempt": [
+    "falcons",
+    "quarterback"
+  ],
+  "protected_facts": [],
+  "waypoints": [
+    {
+      "after_words": 25,
+      "host": "big-mike-vega",
+      "note": "You say it's an evaluation year; how does the new coach Stefanski's proven track record factor into that evaluation?"
+    },
+    {
+      "after_words": 60,
+      "host": "andrew-hammond",
+      "note": "You mention Tua and Penix Jr. as options; what's the real advantage Tua has in this competition?"
+    },
+    {
+      "after_words": 100,
+      "host": "renee-vaughn",
+      "note": "You say the organization is in a holding pattern; is that a strategic move to clear cap space and acquire picks, or a sign of indecision?"
+    },
+    {
+      "after_words": 150,
+      "host": "big-mike-vega",
+      "note": "You called the NFC South weak; does that division's weakness actually put MORE pressure on the Falcons to settle the QB position?"
+    },
+    {
+      "after_words": 200,
+      "host": "andrew-hammond",
+      "note": "You brought up Tua's issues in Miami; how much of that was on him versus the coaching staff and personnel?"
+    },
+    {
+      "after_words": 250,
+      "host": "renee-vaughn",
+      "note": "You've highlighted the uncertainty; what's the biggest risk the Falcons face if they don't resolve this quarterback situation by 2026?"
+    }
+  ],
+  "attribution": {
+    "mode": "A",
+    "label": "SOURCED & COMMITTED",
+    "law": "When a receipt is an ATTRIBUTED_CLAIM, name who said it and where (person/outlet + platform), then COMMIT to your read of it - never hedge it into mush. A FACT you state plainly. Never present an unproven claim as settled fact; never bury a real fact under \"allegedly\"."
+  },
+  "detonation_react": {
+    "host": "big-mike-vega",
+    "instruction": "Ahead of schedule? So the competition is tighter than we thought, but does that mean he's truly ready for the pressure cooker of 2026?"
+  },
+  "kk_drop": {
+    "host": "renee-vaughn",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "renee-vaughn",
+    "instruction": "The Falcons' 2026 season hinges on the quarterback position, and that question has not been answered."
+  },
+  "exit": {
+    "host": "renee-vaughn",
+    "alt_host": "big-mike-vega",
+    "instruction": "We've debated the uncertainty versus the potential, but the real question is whether this team is built to win *anything* significant, quarterback or not. We'll tackle that next."
+  },
+  "_compiled_from": {
+    "stringer": "str_ke9msurq",
+    "briefing": "brf_rhvfytbf",
+    "delegates_surfaced": []
+  }
+}

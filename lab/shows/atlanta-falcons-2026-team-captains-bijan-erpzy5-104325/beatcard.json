@@ -1,0 +1,123 @@
+{
+  "id": "atlanta-falcons-2026-team-captains-bijan",
+  "show": "atlanta-falcons-2026-team-captains-bijan",
+  "question": "Did the Falcons pick the right captains for this season, or not?",
+  "target_spoken_words": 368,
+  "max_turns": 27,
+  "stances": {
+    "renee-vaughn": "MODERATOR: I will not take a side, but press both of you to defend your picks with the facts and explain how these selections represent the team's identity.",
+    "big-mike-vega": "YES, these are the right captains! This is a championship-caliber leadership squad representing every unit, built to dominate.",
+    "andrew-hammond": "NO, this selection is flawed because while it covers units, it fails to acknowledge that leadership comes in many forms beyond just these seven."
+  },
+  "allowed_evidence": {
+    "renee-vaughn": [
+      "E001",
+      "E006"
+    ],
+    "big-mike-vega": [
+      "E002",
+      "E003",
+      "E004",
+      "E007"
+    ],
+    "andrew-hammond": [
+      "E005",
+      "E008"
+    ]
+  },
+  "participants": [
+    {
+      "id": "renee-vaughn",
+      "name": "Renee Vaughn",
+      "kind": "host"
+    },
+    {
+      "id": "big-mike-vega",
+      "name": "Big Mike Vega",
+      "kind": "host"
+    },
+    {
+      "id": "andrew-hammond",
+      "name": "Andrew Hammond",
+      "kind": "host"
+    }
+  ],
+  "delegates": {
+    "ai": [],
+    "human": []
+  },
+  "human_slots": [],
+  "withheld": [
+    {
+      "host": "andrew-hammond",
+      "evidence": "E008",
+      "turn": 7,
+      "instruction": "Leadership within the team comes in many forms."
+    }
+  ],
+  "anaphora_exempt": [
+    "seven captains",
+    "atlanta falcons"
+  ],
+  "protected_facts": [],
+  "waypoints": [
+    {
+      "after_words": 25,
+      "host": "big-mike-vega",
+      "note": "Big Mike, Renee laid out the facts: seven captains, covering units. How does that translate to 'championship energy'?"
+    },
+    {
+      "after_words": 50,
+      "host": "andrew-hammond",
+      "note": "Andrew, you're saying this is flawed. What specific evidence suggests these aren't the 'right' captains, beyond the general idea of leadership?"
+    },
+    {
+      "after_words": 100,
+      "host": "renee-vaughn",
+      "note": "Big Mike, you cited E007 that a captain represents the team's identity. How do these specific seven, like Folk on special teams, embody that identity?"
+    },
+    {
+      "after_words": 150,
+      "host": "big-mike-vega",
+      "note": "Andrew, you're leaning NO. You've got E005 and E008. How does E005, listing Bates and Deablo, support your argument against the selection?"
+    },
+    {
+      "after_words": 200,
+      "host": "andrew-hammond",
+      "note": "Renee, you've reported the selection as sound structure. But is structure enough if the right leaders aren't chosen?"
+    },
+    {
+      "after_words": 250,
+      "host": "renee-vaughn",
+      "note": "Big Mike, you're all in on YES. But the coach announced it, not the players. Does that distinction matter for 'championship energy'?"
+    }
+  ],
+  "attribution": {
+    "mode": "A",
+    "label": "SOURCED & COMMITTED",
+    "law": "When a receipt is an ATTRIBUTED_CLAIM, name who said it and where (person/outlet + platform), then COMMIT to your read of it - never hedge it into mush. A FACT you state plainly. Never present an unproven claim as settled fact; never bury a real fact under \"allegedly\"."
+  },
+  "detonation_react": {
+    "host": "big-mike-vega",
+    "instruction": "Wait, 'many forms'? That's the problem! We need clear, designated leaders, not just a general vibe."
+  },
+  "kk_drop": {
+    "host": "renee-vaughn",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "renee-vaughn",
+    "instruction": "The Falcons named seven captains covering every major unit, which is sound structure."
+  },
+  "exit": {
+    "host": "renee-vaughn",
+    "alt_host": "big-mike-vega",
+    "instruction": "We've heard arguments for and against the Falcons' captain picks. Whether these seven truly embody the team's identity or if other leadership forms were overlooked, we'll have to see how the season unfolds."
+  },
+  "_compiled_from": {
+    "stringer": "str_ilppbi7w",
+    "briefing": "brf_erpzy52v",
+    "delegates_surfaced": []
+  }
+}

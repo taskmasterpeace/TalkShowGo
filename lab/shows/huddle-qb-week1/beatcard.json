@@ -1,0 +1,133 @@
+{
+  "id": "should-tua-tagovailoa-or-michael-penix-s",
+  "show": "huddle-qb-week1",
+  "question": "Should Tua Tagovailoa or Michael Penix start Week 1 for the Falcons?",
+  "target_spoken_words": 368,
+  "max_turns": 27,
+  "stances": {
+    "renee-vaughn": "MODERATOR: take NO side; referee and press both debaters on the facts and claims about the Falcons' Week 1 QB decision without endorsing either Tua or Penix.",
+    "big-mike-vega": "YES: Tua Tagovailoa should start Week 1 because Michael Penix Jr. is not cleared for full practice and Tua has real game experience in the preseason, making him the only viable immediate option.",
+    "andrew-hammond": "NO: Michael Penix Jr. should not start Week 1 due to his incomplete recovery and lack of readiness, so the Falcons should hold off on naming a starter or consider alternatives rather than rushing Tua Tagovailoa as a placeholder."
+  },
+  "allowed_evidence": {
+    "renee-vaughn": [
+      "E013",
+      "E016",
+      "E017",
+      "E021"
+    ],
+    "big-mike-vega": [
+      "E014",
+      "E015",
+      "E018",
+      "E019",
+      "E020"
+    ],
+    "andrew-hammond": [
+      "E012",
+      "E002",
+      "E005",
+      "E003",
+      "E004",
+      "E006",
+      "E007"
+    ]
+  },
+  "participants": [
+    {
+      "id": "renee-vaughn",
+      "name": "Renee Vaughn",
+      "kind": "host"
+    },
+    {
+      "id": "big-mike-vega",
+      "name": "Big Mike Vega",
+      "kind": "host"
+    },
+    {
+      "id": "andrew-hammond",
+      "name": "Andrew Hammond",
+      "kind": "host"
+    }
+  ],
+  "delegates": {
+    "ai": [],
+    "human": []
+  },
+  "human_slots": [],
+  "withheld": [
+    {
+      "host": "andrew-hammond",
+      "evidence": "E003",
+      "turn": 7,
+      "instruction": "NOW detonate this receipt, flat, let it sit"
+    }
+  ],
+  "anaphora_exempt": [
+    "tua tagovailoa",
+    "michael penix jr.",
+    "week 1",
+    "falcons"
+  ],
+  "protected_facts": [],
+  "waypoints": [
+    {
+      "after_words": 30,
+      "host": "big-mike-vega",
+      "note": "highlight Tua's actual game reps and why that matters over Penix's limited practice."
+    },
+    {
+      "after_words": 60,
+      "host": "andrew-hammond",
+      "note": "challenge the idea that Tua is truly ready given his preseason struggles and fumbles."
+    },
+    {
+      "after_words": 100,
+      "host": "big-mike-vega",
+      "note": "push back by emphasizing Penix's injury status and lack of full clearance."
+    },
+    {
+      "after_words": 150,
+      "host": "andrew-hammond",
+      "note": "introduce the risk of forcing a starter prematurely and mention fan excitement for alternatives like Jack Stroud."
+    },
+    {
+      "after_words": 200,
+      "host": "big-mike-vega",
+      "note": "counter that the Falcons need a proven, available starter now, not a developmental project."
+    },
+    {
+      "after_words": 250,
+      "host": "andrew-hammond",
+      "note": "argue the Falcons should be patient and not rush the QB decision just to fill Week 1."
+    }
+  ],
+  "attribution": {
+    "mode": "A",
+    "label": "SOURCED & COMMITTED",
+    "law": "When a receipt is an ATTRIBUTED_CLAIM, name who said it and where (person/outlet + platform), then COMMIT to your read of it - never hedge it into mush. A FACT you state plainly. Never present an unproven claim as settled fact; never bury a real fact under \"allegedly\"."
+  },
+  "detonation_react": {
+    "host": "big-mike-vega",
+    "instruction": "you didn't see it coming; react, then defend without dismissing it"
+  },
+  "kk_drop": {
+    "host": "renee-vaughn",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "renee-vaughn",
+    "instruction": "open flat, set bait, name one concrete fact, then stop. short."
+  },
+  "exit": {
+    "host": "renee-vaughn",
+    "alt_host": "big-mike-vega",
+    "instruction": "button the segment; concede nothing; tease something heavier"
+  },
+  "_compiled_from": {
+    "stringer": "str_o3b6pts9",
+    "briefing": "brf_s9xz3sgj",
+    "delegates_surfaced": []
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "beat": "are-the-falcons-built-to-win-the-nfc-sou",
+  "provider": "openrouter",
+  "models": {
+    "renee-vaughn": "anthropic/claude-sonnet-5",
+    "big-mike-vega": "deepseek/deepseek-v3.2-exp",
+    "andrew-hammond": "google/gemini-2.5-flash",
+    "_mix": "google/gemini-2.5-flash-lite"
+  },
+  "dna": {
+    "renee-vaughn": "anthropic/claude-sonnet-5",
+    "big-mike-vega": "deepseek/deepseek-v3.2-exp",
+    "andrew-hammond": "google/gemini-2.5-flash"
+  },
+  "guards": {
+    "renee-vaughn": {
+      "style": true
+    },
+    "big-mike-vega": {
+      "style": false
+    },
+    "andrew-hammond": {
+      "style": true
+    }
+  },
+  "seed": 42,
+  "turns": 19,
+  "spoken_words": 415,
+  "final_pass": "mixed",
+  "producer": null,
+  "finished": "2026-09-04T14:45:45.025Z"
+}

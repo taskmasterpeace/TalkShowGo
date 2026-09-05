@@ -1,0 +1,16 @@
+{
+  "stage": "done",
+  "pct": 100,
+  "message": "script ready (no audio requested)",
+  "show": "atlanta-falcons-2026-team-captains-bijan",
+  "showDir": "D:\\git\\talkshowgo\\lab\\shows\\atlanta-falcons-2026-team-captains-bijan-pfjoz9",
+  "briefing": "brf_pfjoz9t6",
+  "stringer": "str_ilppbi7w",
+  "pid": 58028,
+  "started": "2026-09-04T11:29:02.455Z",
+  "updated": "2026-09-04T11:38:26.119Z",
+  "question": "Is Bijan Robinson ready to be a Falcons captain, or is it too soon?",
+  "segment": "D:\\git\\talkshowgo\\lab\\shows\\atlanta-falcons-2026-team-captains-bijan-pfjoz9\\floor\\segment_final.md",
+  "lines": 19,
+  "elapsed_s": 564
+}

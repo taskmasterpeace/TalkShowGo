@@ -1,0 +1,127 @@
+{
+  "id": "atlanta-falcons-2026-team-captains-bijan",
+  "show": "atlanta-falcons-2026-team-captains-bijan",
+  "question": "Is Bijan Robinson ready to be a Falcons captain, or is it too soon?",
+  "target_spoken_words": 368,
+  "max_turns": 27,
+  "stances": {
+    "renee-vaughn": "MODERATOR: take NO side; referee, press BOTH debaters to answer, never argue a side yourself.",
+    "big-mike-vega": "Bijan Robinson is unequivocally ready to be a Falcons captain; the official announcement from Head Coach Kevin Stefanski is the definitive, decisive proof that it is not too soon.",
+    "andrew-hammond": "While Bijan Robinson's selection is official, the true measure of readiness for captaincy is about more than just a title; leadership manifests in diverse ways beyond the initial announcement."
+  },
+  "allowed_evidence": {
+    "renee-vaughn": [
+      "E001",
+      "E006"
+    ],
+    "big-mike-vega": [
+      "E005",
+      "E007"
+    ],
+    "andrew-hammond": [
+      "E008",
+      "E004"
+    ]
+  },
+  "participants": [
+    {
+      "id": "renee-vaughn",
+      "name": "Renee Vaughn",
+      "kind": "host"
+    },
+    {
+      "id": "big-mike-vega",
+      "name": "Big Mike Vega",
+      "kind": "host"
+    },
+    {
+      "id": "andrew-hammond",
+      "name": "Andrew Hammond",
+      "kind": "host"
+    }
+  ],
+  "delegates": {
+    "ai": [],
+    "human": []
+  },
+  "human_slots": [],
+  "withheld": [
+    {
+      "host": "andrew-hammond",
+      "evidence": "E008",
+      "turn": 7,
+      "instruction": "NOW detonate this receipt, flat, let it sit"
+    }
+  ],
+  "anaphora_exempt": [
+    "bijan robinson",
+    "captain",
+    "atlanta falcons",
+    "2026 season",
+    "kevin stefanski"
+  ],
+  "protected_facts": [
+    {
+      "note": "The Atlanta Falcons selected seven team captains for the 2026 season.",
+      "banned_phrasings": [
+        "The Falcons picked seven captains in 2026",
+        "Seven captains were chosen by the Falcons for 2026"
+      ]
+    }
+  ],
+  "waypoints": [
+    {
+      "after_words": 25,
+      "host": "big-mike-vega",
+      "note": "Mike, Renee laid out the facts. You say this announcement is 'BOOMING.' What does that mean for Bijan's readiness?"
+    },
+    {
+      "after_words": 60,
+      "host": "andrew-hammond",
+      "note": "Andrew, you're suggesting there's more to captaincy than just the selection. How does E008 challenge Mike's 'BOOMING' assessment?"
+    },
+    {
+      "after_words": 100,
+      "host": "renee-vaughn",
+      "note": "Mike, you cited E007 that a captain represents the team's identity. Andrew, you brought up E008 about leadership in many forms. How do those two facts interact regarding Bijan's specific role?"
+    },
+    {
+      "after_words": 150,
+      "host": "big-mike-vega",
+      "note": "Renee, you've got E005 that Bijan is a captain. Mike, you've got E004 that Lindstrom is also an offensive captain. How does that split responsibility on offense?"
+    },
+    {
+      "after_words": 200,
+      "host": "andrew-hammond",
+      "note": "Mike, you're leaning into the 'BOOMING' announcement. But E008 states leadership comes in many forms. Is it possible Bijan is ready for *a* leadership role, but not necessarily the *captaincy* yet?"
+    }
+  ],
+  "attribution": {
+    "mode": "A",
+    "label": "SOURCED & COMMITTED",
+    "law": "When a receipt is an ATTRIBUTED_CLAIM, name who said it and where (person/outlet + platform), then COMMIT to your read of it - never hedge it into mush. A FACT you state plainly. Never present an unproven claim as settled fact; never bury a real fact under \"allegedly\"."
+  },
+  "detonation_react": {
+    "host": "big-mike-vega",
+    "instruction": "Mike, Andrew just dropped that leadership comes in many forms. How does that affect your 'BOOMING' assessment of Bijan's captaincy?"
+  },
+  "kk_drop": {
+    "host": "renee-vaughn",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "renee-vaughn",
+    "instruction": "The Atlanta Falcons have named their captains for the 2026 season, with Head Coach Kevin Stefanski making the announcement."
+  },
+  "exit": {
+    "host": "renee-vaughn",
+    "alt_host": "big-mike-vega",
+    "instruction": "We've heard the facts of the selection and the arguments about what it means. The Falcons have made their choice, but the debate over readiness continues."
+  },
+  "_compiled_from": {
+    "stringer": "str_ilppbi7w",
+    "briefing": "brf_pfjoz9t6",
+    "delegates_surfaced": []
+  }
+}

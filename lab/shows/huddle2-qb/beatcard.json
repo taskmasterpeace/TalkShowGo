@@ -1,0 +1,137 @@
+{
+  "id": "should-tua-tagovailoa-or-michael-penix-s",
+  "show": "huddle2-qb",
+  "question": "Should Tua Tagovailoa or Michael Penix start Week 1 for the Falcons?",
+  "target_spoken_words": 368,
+  "max_turns": 27,
+  "stances": {
+    "renee-vaughn": "MODERATOR: take NO side; referee and press both debaters on the readiness and risks of starting either quarterback given their current status.",
+    "cassius-wynn": "YES: Tua Tagovailoa should start Week 1 because Penix is not fully cleared for contact and the Falcons need a ready QB to handle a tough early schedule.",
+    "andrew-hammond": "NO: Michael Penix Jr. should not start Week 1 because he is still recovering and not fully ready, making Tagovailoa the safer and more prepared choice."
+  },
+  "allowed_evidence": {
+    "renee-vaughn": [
+      "E015",
+      "E013"
+    ],
+    "cassius-wynn": [
+      "E016",
+      "E023",
+      "E020",
+      "E021",
+      "E013"
+    ],
+    "andrew-hammond": [
+      "E019",
+      "E006",
+      "E017",
+      "E022",
+      "E018"
+    ]
+  },
+  "participants": [
+    {
+      "id": "renee-vaughn",
+      "name": "Renee Vaughn",
+      "kind": "host"
+    },
+    {
+      "id": "cassius-wynn",
+      "name": "Cassius Wynn",
+      "kind": "host"
+    },
+    {
+      "id": "andrew-hammond",
+      "name": "Andrew Hammond",
+      "kind": "host"
+    }
+  ],
+  "delegates": {
+    "ai": [],
+    "human": []
+  },
+  "human_slots": [],
+  "withheld": [
+    {
+      "host": "andrew-hammond",
+      "evidence": "E024",
+      "turn": 7,
+      "instruction": "NOW detonate this receipt, flat, let it sit"
+    }
+  ],
+  "anaphora_exempt": [
+    "tua tagovailoa",
+    "michael penix jr.",
+    "week 1",
+    "falcons"
+  ],
+  "protected_facts": [
+    {
+      "note": "The Falcons' 2026 schedule includes primetime matchups and divisional games early in the season.",
+      "banned_phrasings": [
+        "early tough schedule",
+        "early season challenges"
+      ]
+    }
+  ],
+  "waypoints": [
+    {
+      "after_words": 25,
+      "host": "cassius-wynn",
+      "note": "challenge Penix's readiness and emphasize the risk of starting an unprepared QB in Week 1."
+    },
+    {
+      "after_words": 60,
+      "host": "andrew-hammond",
+      "note": "highlight Penix's progress in practice and argue why patience with him is justified."
+    },
+    {
+      "after_words": 110,
+      "host": "cassius-wynn",
+      "note": "push back on Penix's practice status, citing incomplete clearance and the need for a proven starter."
+    },
+    {
+      "after_words": 160,
+      "host": "andrew-hammond",
+      "note": "introduce Falcons' long-term plan to evaluate Penix as a franchise QB and why that matters now."
+    },
+    {
+      "after_words": 210,
+      "host": "cassius-wynn",
+      "note": "counter with Tagovailoa's preseason mistakes and question if he is truly ready despite availability."
+    },
+    {
+      "after_words": 260,
+      "host": "andrew-hammond",
+      "note": "respond by emphasizing Penix's strong stats last season and potential upside."
+    }
+  ],
+  "attribution": {
+    "mode": "A",
+    "label": "SOURCED & COMMITTED",
+    "law": "When a receipt is an ATTRIBUTED_CLAIM, name who said it and where (person/outlet + platform), then COMMIT to your read of it - never hedge it into mush. A FACT you state plainly. Never present an unproven claim as settled fact; never bury a real fact under \"allegedly\"."
+  },
+  "detonation_react": {
+    "host": "cassius-wynn",
+    "instruction": "you didn't see it coming; react, then defend without dismissing it"
+  },
+  "kk_drop": {
+    "host": "renee-vaughn",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "renee-vaughn",
+    "instruction": "open flat, set bait, name one concrete fact, then stop. short."
+  },
+  "exit": {
+    "host": "renee-vaughn",
+    "alt_host": "cassius-wynn",
+    "instruction": "button the segment; concede nothing; tease something heavier"
+  },
+  "_compiled_from": {
+    "stringer": "str_j792aa7w",
+    "briefing": "brf_6i0pq5cu",
+    "delegates_surfaced": []
+  }
+}

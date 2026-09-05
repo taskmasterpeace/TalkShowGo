@@ -1,0 +1,248 @@
+[
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Good evening. The Falcons have not named a Week 1 starter between Tagovailoa and Penix, full stop. So let's argue with what's actually out there.",
+    "delivery": "flat, setting the table",
+    "addressed_to": "null",
+    "evidence": [
+      "E013"
+    ],
+    "tag": null,
+    "ms": 2982,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Well, Renee, good evening. And look, if Penix isn't ready after three weeks, that tells me the Falcons are in a real tough spot, trying to force a hand they didn't want to play.",
+    "delivery": "warm, concerned, rhythmic",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E012",
+      "E005"
+    ],
+    "tag": null,
+    "ms": 1471,
+    "noMerge": false
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Tua’s on-field snaps in preseason are gold right now...Penix hasn’t even hit full 11-on-11 practice sessions yet. Game reps mean readiness, and Tua’s got the only real reps to show.",
+    "delivery": "booming assertive",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E015",
+      "E018"
+    ],
+    "tag": null,
+    "ms": 1718,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Now, Mike, you're right, reps are key. But when we look at the tape, Tua's preseason hasn't exactly been a highlight reel, has it?",
+    "delivery": "warm, questioning",
+    "addressed_to": "big-mike-vega",
+    "evidence": [],
+    "tag": null,
+    "ms": 1470,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Listen, no full clearance, no full practice means Penix isn’t ready to throw down Week 1. Tua’s the only quarterback on that field with real battle-tested reps right now.",
+    "delivery": "booming assertive",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E014",
+      "E015"
+    ],
+    "tag": null,
+    "ms": 1648,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mike, ESPN's reporting says Penix's recovery timeline is the issue, not his readiness to compete. Isn't that a different problem than Tua winning the job?",
+    "delivery": "pointed, level",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E017"
+    ],
+    "tag": null,
+    "ms": 2801,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Renee, that's a fair point on the recovery timeline, but it still puts the Falcons in a bind.",
+    "delivery": "warm, concerned, rhythmic",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E004",
+      "E007"
+    ],
+    "tag": null,
+    "ms": 2933,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "And look, if the Falcons are truly in a bind with Penix not fully ready, then some folks are saying Jack Stroud should at least be on the active roster, not just the practice squad.",
+    "delivery": "warmly suggesting, thoughtful",
+    "addressed_to": "null",
+    "evidence": [
+      "E003"
+    ],
+    "tag": "interrupting",
+    "ms": 2600,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Wait...Jack Stroud on the active roster? That’s a curveball! But here’s the thing: Tua’s the only one with actual GAME TIME under his belt right now.",
+    "delivery": "surprised then confident",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E014",
+      "E018"
+    ],
+    "tag": null,
+    "ms": 1532,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Andrew, Stroud's a practice squad name, not a source telling us the Falcons are shopping backups. Who's actually saying that?",
+    "delivery": "pointed, level, pressing",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E013"
+    ],
+    "tag": null,
+    "ms": 3075,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Falcons don’t need a project, they need a starter who can step in and move the offense NOW. Penix ain’t there yet. Tua’s the one with the only ready-to-fight credentials on that field.",
+    "delivery": "booming, commanding",
+    "addressed_to": "renee-vaughn|andrew-hammond",
+    "evidence": [
+      "E014",
+      "E015"
+    ],
+    "tag": null,
+    "ms": 1474,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Here's what nobody's said yet: readiness and recovery aren't the same question. Mike's arguing performance, Andrew's arguing health, and the Falcons haven't told us which one decides this.",
+    "delivery": "calm, deliberate, unhurried",
+    "addressed_to": "null",
+    "evidence": [
+      "E013",
+      "E017"
+    ],
+    "tag": null,
+    "ms": 9278,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Well, Renee, it's not about health or performance, it's about the Falcons being forced into a spot they didn't want to be in, if Penix isn't ready.",
+    "delivery": "warm, concerned, rhythmic",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E012"
+    ],
+    "tag": null,
+    "ms": 1449,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "That's a framing choice, Andrew, not a fact. Nobody at the Falcons has said 'forced.' That's your word, not theirs.",
+    "delivery": "level, pressing",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E013"
+    ],
+    "tag": null,
+    "ms": 2639,
+    "noMerge": false
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Andrew, you’re hinting at a crisis, and I’m saying the Falcons have a contender ready to step into the ring Week 1!",
+    "delivery": "building, teasing, confident",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E014",
+      "E015",
+      "E018"
+    ],
+    "tag": null,
+    "ms": 1655,
+    "noMerge": true
+  }
+]

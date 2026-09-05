@@ -1,0 +1,219 @@
+[
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Good evening. The Falcons still haven't named a Week 1 starter between Tua and Penix, and that schedule opens with primetime and division games. So who wants to argue readiness first?",
+    "delivery": "flat, setting the trap",
+    "addressed_to": "null",
+    "evidence": [
+      "E015",
+      "E013"
+    ],
+    "tag": null,
+    "ms": 2895,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, starting Penix not fully cleared for contact? That’s a gamble the Falcons can’t afford early in the season when every play counts. Risking the QB slot is risking the whole season.",
+    "delivery": "firm, cautionary",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E023",
+      "E013"
+    ],
+    "tag": null,
+    "ms": 1354,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Now Cassius, I hear you, but 92.9 The Game is saying Penix needs about three weeks to be truly ready for Week 1, and that's just good football sense.",
+    "delivery": "warmly agreeing",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E006"
+    ],
+    "tag": null,
+    "ms": 3754,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, three weeks to ready Penix means early losses on a primetime-heavy Falcons’ slate. Tua’s the plug to keep the hood on fire. Falcons can't wait for 'maybe' when schedule says 'definitely now.'",
+    "delivery": "quick, assertive, no-nonsense",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E023",
+      "E013"
+    ],
+    "tag": "interrupting",
+    "ms": 1311,
+    "noMerge": false
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Cassius, that three-week timeline is Andrew's source, not yours. Where's your evidence Tua's actually the safer bet right now, on the record?",
+    "delivery": "pointed, level, pressing",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E015"
+    ],
+    "tag": null,
+    "ms": 2370,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Look, ESPN's report straight up says Penix ain't cleared for full contact yet...that's a no-go for starting in primetime. Falcons gotta roll with Tua, who's got live reps and can handle the heat now.",
+    "delivery": "confident, decisive",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E023"
+    ],
+    "tag": null,
+    "ms": 1389,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "And Cassius, you hit on it, because USA Today reported the Falcons see Tua as a placeholder to get Penix evaluated before the 2027 draft. You can't rush that process.",
+    "delivery": "earnest and steady",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E018"
+    ],
+    "tag": null,
+    "ms": 1732,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Exactly, Cassius, and it's not like Penix is a rookie; he had nine starts last season with a 9-to-3 touchdown-to-interception ratio. He's a pro.",
+    "delivery": "upbeat, affirming, smooth",
+    "addressed_to": "cassius-wynn",
+    "evidence": [],
+    "tag": "interrupting",
+    "ms": 1234,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, respect Penix's stats, but stats don’t mean a lick if your knee's not battle-ready. Tua’s reps in preseason got him dialed to lead when primetime lights hit.",
+    "delivery": "surprised then firm",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E013"
+    ],
+    "tag": null,
+    "ms": 1488,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Andrew, USA Today calling Tua a placeholder is one thing. But the team hasn't confirmed that framing themselves, have they?",
+    "delivery": "level, pressing follow-up",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E015"
+    ],
+    "tag": null,
+    "ms": 4211,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, Renee, that’s exactly right...last show you flagged the Falcons haven’t said if Penix is ready or just healing. Now Andrew’s leaning on hope, not Falcons’ word. That silence?",
+    "delivery": "sharp, confident, pressing",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E023"
+    ],
+    "tag": null,
+    "ms": 1761,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Fair, Cassius. But notice what both of you are doing: you're each treating outside reporting as if it's the Falcons' own decision. It isn't.",
+    "delivery": "level, slowing, deliberate",
+    "addressed_to": "cassius-wynn",
+    "evidence": [],
+    "tag": null,
+    "ms": 3066,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, we gotta be real: Tua ain't flawless either...he fumbled a snap in preseason and joint practices. Availability ain't readiness; mistakes on live reps matter, especially Week 1.",
+    "delivery": "measured, cautionary",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E021",
+      "E020"
+    ],
+    "tag": null,
+    "ms": 1890,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Look, Penix has shown he can sling it, folks. ESPN says he's already looking 'really good' in 7-on-7s, and that's a positive sign for his eventual return.",
+    "delivery": "upbeat, affirming, smooth",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E022"
+    ],
+    "tag": null,
+    "ms": 1093,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Looking good in 7-on-7s isn't the same as clearing contact, Andrew. Nobody at that podium has said Penix is starting anything.",
+    "delivery": "level, cutting through",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E015"
+    ],
+    "tag": null,
+    "ms": 3104,
+    "noMerge": true
+  }
+]

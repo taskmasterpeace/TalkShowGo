@@ -1,0 +1,297 @@
+[
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Good evening, folks. Seven captains, every unit covered, that's confirmed and it's sound structure.",
+    "delivery": "level, measured, pressing",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E001",
+      "E006",
+      "E005"
+    ],
+    "tag": null,
+    "ms": 3331,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Look, Renee, when you've got seven captains, covering offense, defense, and special teams, that's just good football sense.",
+    "delivery": "smooth, affirming",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E001",
+      "E002",
+      "E003",
+      "E004"
+    ],
+    "tag": null,
+    "ms": 989,
+    "noMerge": false
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Renee, the facts ARE the verdict! Seven captains embodying the identity...that's not a question, that's the ANSWER announced to the whole stadium!",
+    "delivery": "booming, direct challenge",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 32766,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "And Mike, that's exactly it! You see offense, defense, and special teams all represented, which is how you build a cohesive unit. That's fostering team identity, plain and simple.",
+    "delivery": "upbeat, affirming",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E001",
+      "E002",
+      "E003",
+      "E004",
+      "E008"
+    ],
+    "tag": null,
+    "ms": 1918,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "YES! That's the MOMENT! You don't just build a unit, you ANNOUNCE it to the league! This isn't a roster, it's the main event walkout!",
+    "delivery": "BOOMING, triumphant, arms wide",
+    "addressed_to": "andrew-hammond",
+    "evidence": [],
+    "tag": null,
+    "ms": 9666,
+    "noMerge": false
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "And Renee, when you look at the tape, that's exactly what the Falcons are saying: leadership comes in all forms, across every unit.",
+    "delivery": "smoothly affirming",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E008"
+    ],
+    "tag": null,
+    "ms": 994,
+    "noMerge": false
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mike, structure isn't the same as best. Stefanski named seven names, but naming isn't ranking them against every option he passed over.",
+    "delivery": "level, pressing back",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E001",
+      "E006"
+    ],
+    "tag": null,
+    "ms": 3087,
+    "noMerge": false
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Stefanski made the call, and that's confirmed. But his reasoning for each name isn't on the record, so 'correct' is still your opinion, not a fact.",
+    "delivery": "level, pressing, unmoved",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E006"
+    ],
+    "tag": "interrupting",
+    "ms": 3319,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "LADIES AND GENTLEMEN, the selection IS the statement! Seven captains covering every unit...that's a championship blueprint, not a debate!",
+    "delivery": "BOOMING, triumphant, arms raised",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E001",
+      "E003"
+    ],
+    "tag": null,
+    "ms": 53264,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mike, a blueprint still needs an inspection. Nobody at that podium said these seven beat out better options, and until someone does, that's your read, not the record.",
+    "delivery": "level, unmoved, pressing",
+    "addressed_to": "big-mike-vega",
+    "evidence": [],
+    "tag": null,
+    "ms": 3397,
+    "noMerge": false
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Andrew, 'sound'? That's the undercard! Bates and Deablo anchoring defense, Lindstrom leading the offense...the Falcons announced their identity to the entire league!",
+    "delivery": "BOOMING, confrontational, pointing",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E003",
+      "E004",
+      "E007"
+    ],
+    "tag": null,
+    "ms": 48280,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Here's what nobody's circled yet: identity and quality aren't the same test. You can announce a locker room's spirit and still have left a better leader off that list.",
+    "delivery": "level, unhurried, reframing",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E006"
+    ],
+    "tag": null,
+    "ms": 7851,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Renee, last show you SAID the structure was the right decision! The Falcons' identity IS the quality...this leadership group is built to DOMINATE!",
+    "delivery": "BOOMING, confrontational",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 41722,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Well, Mike, you're right, Renee did say that the structure was sound, and when you've got leaders like Jessie Bates and Chris Lindstrom in place, that's just good coverage.",
+    "delivery": "upbeat, affirming, smooth",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E003",
+      "E004"
+    ],
+    "tag": null,
+    "ms": 1558,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Andrew, the Falcons themselves declare a captain represents their identity! This group? That's the championship core, not just coverage!",
+    "delivery": "BOOMING, insistent, pointing",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 59171,
+    "noMerge": false
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Mike, you hit the nail on the head: the Falcons themselves stated that leadership within the team comes in many forms, and that's precisely what this diverse group shows.",
+    "delivery": "warm, agreeable, broadcaster",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E008"
+    ],
+    "tag": null,
+    "ms": 1326,
+    "noMerge": false
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Diverse leadership is a nice phrase, Andrew, but the real grade on this list comes in January, when we see who actually led.",
+    "delivery": "level, cool, unmoved",
+    "addressed_to": "andrew-hammond",
+    "evidence": [],
+    "tag": null,
+    "ms": 6015,
+    "noMerge": true
+  }
+]

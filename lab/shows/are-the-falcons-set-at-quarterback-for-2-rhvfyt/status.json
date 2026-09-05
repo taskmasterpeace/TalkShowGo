@@ -1,0 +1,16 @@
+{
+  "stage": "done",
+  "pct": 100,
+  "message": "script ready (no audio requested)",
+  "show": "are-the-falcons-set-at-quarterback-for-2",
+  "showDir": "D:\\git\\talkshowgo\\lab\\shows\\are-the-falcons-set-at-quarterback-for-2-rhvfyt",
+  "briefing": "brf_rhvfytbf",
+  "stringer": "str_ke9msurq",
+  "pid": 62208,
+  "started": "2026-09-04T12:50:51.782Z",
+  "updated": "2026-09-04T12:56:15.447Z",
+  "question": "Are the Falcons set at quarterback for 2026, or is it still a problem?",
+  "segment": "D:\\git\\talkshowgo\\lab\\shows\\are-the-falcons-set-at-quarterback-for-2-rhvfyt\\floor\\segment_final.md",
+  "lines": 21,
+  "elapsed_s": 324
+}

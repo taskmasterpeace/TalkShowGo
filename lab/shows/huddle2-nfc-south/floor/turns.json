@@ -1,0 +1,246 @@
+[
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Good evening. ESPN says Tua's the presumptive Week 1 starter, but Locked On Falcons has Penix debuting by Week 5. So which quarterback actually wins you this division?",
+    "delivery": "flat, setting the trap",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E038",
+      "E018"
+    ],
+    "tag": null,
+    "ms": 2827,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, let me break it down...",
+    "delivery": "confident and assertive",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E031",
+      "E032",
+      "E033"
+    ],
+    "tag": null,
+    "ms": 1281,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Look, Cassius, you can't build a playoff contender when your quarterback situation is being called 'terrible' by sharpmodels.com, and your presumed starter is coming off his third ACL injury.",
+    "delivery": "friendly, slightly concerned",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E036",
+      "E037"
+    ],
+    "tag": null,
+    "ms": 1262,
+    "noMerge": false
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, injury's part of the game but Stefanski's offense don't just survive...it thrive with Bijan, London, and Pitts making magic. You relying on shaky QBs? That’s fear, not fact.",
+    "delivery": "fast, fiery, confident",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E032",
+      "E033"
+    ],
+    "tag": null,
+    "ms": 1445,
+    "noMerge": false
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Gosh, Cassius, I hear you on the talent, but when sharpmodels.com calls the QB situation 'terrible' and Penix Jr.",
+    "delivery": "warm, concerned, rhythmic",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E036",
+      "E037"
+    ],
+    "tag": null,
+    "ms": 1377,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, you gotta credit Kevin Stefanski...the man’s an offensive maestro, no cap. With Bijan Robinson and the crew, they’re built to outscore any QB drama. This Falcons squad?",
+    "delivery": "confident and assertive",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E031",
+      "E032",
+      "E033"
+    ],
+    "tag": null,
+    "ms": 1476,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Cassius, VSiN's reporting the pass rush is losing several key contributors to injury or departure. Does Stefanski's offense outscore teams if the defense can't get off the field?",
+    "delivery": "level, pressing, precise",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E039"
+    ],
+    "tag": null,
+    "ms": 2996,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Renee's hitting it square, Cassius. VSiN is saying their defensive pressure is thinning, and that's a huge problem. You can't win when you can't get off the field and your QB room is 'terrible', plain and simple.",
+    "delivery": "concerned, firm, broadcast-smooth",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E039",
+      "E036"
+    ],
+    "tag": "interrupting",
+    "ms": 1706,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, defense down ain't ideal, but Stefanski's system and that offensive line ain’t just competent...they create plays that eat clock and keep pressure off the D. That’s how you win tight games in the South.",
+    "delivery": "sharp and confident",
+    "addressed_to": "andrew-hammond|renee-vaughn",
+    "evidence": [
+      "E034"
+    ],
+    "tag": null,
+    "ms": 1455,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Well, Cassius, that clock-eating strategy is gonna get a real test with three primetime games in a row against playoff-caliber teams like the Packers and Ravens, you know? That's a gauntlet.",
+    "delivery": "concerned, rhythmic, firm",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E013",
+      "E016"
+    ],
+    "tag": null,
+    "ms": 1150,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, Renee called it last show...a rebuild from a mess. One offseason? Not enough. But Stefanski’s playbook plus Bijan and the crew ain’t just a patch, it’s a new blueprint.",
+    "delivery": "calm authority, confident push",
+    "addressed_to": "andrew-hammond|renee-vaughn",
+    "evidence": [
+      "E031",
+      "E032",
+      "E033"
+    ],
+    "tag": null,
+    "ms": 1485,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Here's the thing nobody's landed on: you're both arguing scheme when the question is personnel.",
+    "delivery": "level, unhurried, cutting through",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E028",
+      "E038"
+    ],
+    "tag": null,
+    "ms": 3297,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, personnel talk gotta respect the Falcons’ depth...Bijan, London, and Pitts ain't just starters, they’re game-changers. Stefanski builds around that, no question, even with a tough schedule ahead.",
+    "delivery": "firm, confident, rhythmic",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E031",
+      "E032",
+      "E033"
+    ],
+    "tag": null,
+    "ms": 1290,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Cassius, you keep naming skill players, but nobody's said which quarterback is throwing them the ball come Week 12. That's not a detail, that's the ballgame.",
+    "delivery": "level, pressing, unmoved",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E028"
+    ],
+    "tag": null,
+    "ms": 2623,
+    "noMerge": false
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, you want the quarterback name? It’s less about the arm, more about the system. Stefanski’s offense is designed so the plays don’t wait for perfection...they make their own.",
+    "delivery": "confident, teasing, assertive",
+    "addressed_to": "renee-vaughn|andrew-hammond",
+    "evidence": [
+      "E031",
+      "E032"
+    ],
+    "tag": null,
+    "ms": 2066,
+    "noMerge": true
+  }
+]

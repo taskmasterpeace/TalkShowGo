@@ -1,0 +1,32 @@
+{
+  "beat": "atlanta-falcons-2026-team-captains-bijan",
+  "provider": "openrouter",
+  "models": {
+    "andrew-hammond": "google/gemini-2.5-flash",
+    "renee-vaughn": "anthropic/claude-sonnet-5",
+    "big-mike-vega": "deepseek/deepseek-v3.2-exp",
+    "_mix": "google/gemini-2.5-flash-lite"
+  },
+  "dna": {
+    "andrew-hammond": "google/gemini-2.5-flash",
+    "renee-vaughn": "anthropic/claude-sonnet-5",
+    "big-mike-vega": "deepseek/deepseek-v3.2-exp"
+  },
+  "guards": {
+    "andrew-hammond": {
+      "style": true
+    },
+    "renee-vaughn": {
+      "style": true
+    },
+    "big-mike-vega": {
+      "style": false
+    }
+  },
+  "seed": 7,
+  "turns": 25,
+  "spoken_words": 413,
+  "final_pass": "mixed",
+  "producer": null,
+  "finished": "2026-09-04T07:45:13.507Z"
+}

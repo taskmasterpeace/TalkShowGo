@@ -1,0 +1,137 @@
+{
+  "id": "are-the-falcons-built-to-win-the-nfc-sou",
+  "show": "ep-seg-div",
+  "question": "Are the Falcons built to win the NFC South in 2026, or not?",
+  "target_spoken_words": 368,
+  "max_turns": 27,
+  "stances": {
+    "renee-vaughn": "MODERATOR: I will not take a side but will press both sides on how the Falcons’ schedule and divisional matchups realistically impact their chances to win the NFC South in 2026.",
+    "big-mike-vega": "YES, the Falcons are built to win the NFC South in 2026, with a favorable schedule ranked fifth easiest in the NFL and key early primetime games that will build momentum and toughness.",
+    "andrew-hammond": "NO, the Falcons are not built to win the NFC South in 2026 because they face a brutal early schedule with five of their first seven opponents being playoff teams last year, which will likely derail their chances."
+  },
+  "allowed_evidence": {
+    "renee-vaughn": [
+      "E003",
+      "E004",
+      "E005",
+      "E011",
+      "E014",
+      "E016",
+      "E020",
+      "E031",
+      "E034",
+      "E045"
+    ],
+    "big-mike-vega": [
+      "E001",
+      "E006",
+      "E007",
+      "E012"
+    ],
+    "andrew-hammond": [
+      "E002",
+      "E008",
+      "E009",
+      "E010"
+    ]
+  },
+  "participants": [
+    {
+      "id": "renee-vaughn",
+      "name": "Renee Vaughn",
+      "kind": "host"
+    },
+    {
+      "id": "big-mike-vega",
+      "name": "Big Mike Vega",
+      "kind": "host"
+    },
+    {
+      "id": "andrew-hammond",
+      "name": "Andrew Hammond",
+      "kind": "host"
+    }
+  ],
+  "delegates": {
+    "ai": [],
+    "human": []
+  },
+  "human_slots": [],
+  "withheld": [
+    {
+      "host": "andrew-hammond",
+      "evidence": "E008",
+      "turn": 7,
+      "instruction": "NOW detonate this receipt, flat, let it sit."
+    }
+  ],
+  "anaphora_exempt": [
+    "falcons",
+    "2026",
+    "nfc south",
+    "schedule",
+    "primetime",
+    "playoff teams"
+  ],
+  "protected_facts": [],
+  "waypoints": [
+    {
+      "after_words": 30,
+      "host": "big-mike-vega",
+      "note": "The Falcons’ primetime games early in the season, especially the home primetime against the Ravens, are perfect opportunities to build confidence and prove they can dominate the division."
+    },
+    {
+      "after_words": 60,
+      "host": "andrew-hammond",
+      "note": "But facing five playoff teams in the first seven weeks is a brutal gauntlet that will likely expose the Falcons’ weaknesses and limit their win total."
+    },
+    {
+      "after_words": 100,
+      "host": "big-mike-vega",
+      "note": "A schedule ranked fifth easiest overall means the Falcons have a clear path to rack up wins outside that early tough stretch, setting them up to take the division late."
+    },
+    {
+      "after_words": 140,
+      "host": "andrew-hammond",
+      "note": "Still, the early losses from that tough start could kill their playoff hopes before the late-season divisional games even matter."
+    },
+    {
+      "after_words": 180,
+      "host": "big-mike-vega",
+      "note": "The Falcons’ ability to handle primetime pressure and bounce back from early challenges shows they are built for the NFC South crown."
+    },
+    {
+      "after_words": 220,
+      "host": "andrew-hammond",
+      "note": "But the evidence points to a team not yet ready to overcome such a difficult early schedule, making a division title unlikely."
+    }
+  ],
+  "attribution": {
+    "mode": "A",
+    "label": "SOURCED & COMMITTED",
+    "law": "When a receipt is an ATTRIBUTED_CLAIM, name who said it and where (person/outlet + platform), then COMMIT to your read of it - never hedge it into mush. A FACT you state plainly. Never present an unproven claim as settled fact; never bury a real fact under \"allegedly\"."
+  },
+  "detonation_react": {
+    "host": "big-mike-vega",
+    "instruction": "You didn’t see that coming; I get it, but even with five playoff teams early, the Falcons’ overall schedule ease and primetime tests will forge a winning team."
+  },
+  "kk_drop": {
+    "host": "renee-vaughn",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "renee-vaughn",
+    "instruction": "The Falcons open their 2026 season on the road against the Steelers, a tough start that sets the tone for their campaign."
+  },
+  "exit": {
+    "host": "renee-vaughn",
+    "alt_host": "big-mike-vega",
+    "instruction": "Let’s button this up: Falcons’ schedule is a double-edged sword, and while the path is tough, the real test will be how they respond under pressure; next time we’ll dive deeper into their roster moves shaping 2026."
+  },
+  "_compiled_from": {
+    "stringer": "str_gj46zv83",
+    "briefing": "brf_07i9iqdq",
+    "delegates_surfaced": []
+  }
+}

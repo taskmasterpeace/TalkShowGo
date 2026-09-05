@@ -1,0 +1,207 @@
+[
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Good evening, folks. Miami rolled Stanford, Sayin hit his deep shots, and stateoftheu.com says this locker room is already talking championship. So, legit playoff team or just a good day against bad competition, Dale?",
+    "delivery": "even, opening the floor",
+    "addressed_to": "dale-ruttman",
+    "evidence": [
+      "E067",
+      "E008"
+    ],
+    "tag": null,
+    "ms": 6321,
+    "noMerge": true
+  },
+  {
+    "id": "dale-ruttman",
+    "name": "DALE RUTTMAN",
+    "line": "You put on the film from the Cotton Bowl...Miami didn't just win, they physically dominated Ohio State, a program that’s no stranger to playoff caliber teams. That’s proof, son.",
+    "delivery": "steady confidence",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E001",
+      "E002",
+      "E003",
+      "E004"
+    ],
+    "tag": null,
+    "ms": 1512,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, Dale, proof? Miami’s O-line stumbled hard...no cap, they couldn’t seal the run or protect Sayin, and that linebacker crew? Question marks wide open. Playoff teams don’t get gifted that slack.",
+    "delivery": "sharp, challenging",
+    "addressed_to": "dale-ruttman",
+    "evidence": [
+      "E061",
+      "E062"
+    ],
+    "tag": null,
+    "ms": 1589,
+    "noMerge": true
+  },
+  {
+    "id": "dale-ruttman",
+    "name": "DALE RUTTMAN",
+    "line": "Now here's the thing about that young man...when the blitz came, Miami's defense tightened knots around the quarterback. That's a habit, not a fluke. That kind of grit wins playoff nights.",
+    "delivery": "steady, confident",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E003",
+      "E004"
+    ],
+    "tag": null,
+    "ms": 1448,
+    "noMerge": false
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Cassius, North Carolina's leading the ACC in yards and scoring right now. If that O-line and linebacker corps are really that shaky, how do the Hurricanes survive an offense like that in the playoffs?",
+    "delivery": "pointed, level",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E017"
+    ],
+    "tag": null,
+    "ms": 3072,
+    "noMerge": true
+  },
+  {
+    "id": "dale-ruttman",
+    "name": "DALE RUTTMAN",
+    "line": "Look, son, it’s not about being flawless. Miami’s defense brought the fight, hit hard, and kept Ohio State’s offense guessing all game. That’s playoff grit right there.",
+    "delivery": "firm, steady confidence",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E001",
+      "E002",
+      "E003",
+      "E004"
+    ],
+    "tag": null,
+    "ms": 1545,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, playoff grit? Stateoftheu.com and others flag Miami's defense as out of sync and the schedule soft. You can’t flex on weak foes and call it ready for the mecca.",
+    "delivery": "firm, skeptical, assertive",
+    "addressed_to": "dale-ruttman",
+    "evidence": [
+      "E061",
+      "E063",
+      "E064"
+    ],
+    "tag": null,
+    "ms": 1494,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, analysts don’t just whisper, they shout...Miami's defense got shaky against real heat, not the soft stuff. That’s the real test, and they ain't cleared it yet.",
+    "delivery": "firm, conclusive",
+    "addressed_to": "dale-ruttman",
+    "evidence": [
+      "E063"
+    ],
+    "tag": "interrupting",
+    "ms": 1656,
+    "noMerge": true
+  },
+  {
+    "id": "dale-ruttman",
+    "name": "DALE RUTTMAN",
+    "line": "I wasn't expecting that. But here’s the honest truth: Miami showed they could reset and bounce back. Even when things got rough, they made plays that matter, and that’s crucial in the playoffs.",
+    "delivery": "steady, sober, sincere",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E001"
+    ],
+    "tag": null,
+    "ms": 4995,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Dale, ESPN's own model gives Miami a real edge over Clemson. Does that projection square with the shaky O-line Cassius keeps pointing to?",
+    "delivery": "pointed, even, pressing",
+    "addressed_to": "dale-ruttman",
+    "evidence": [
+      "E065"
+    ],
+    "tag": null,
+    "ms": 6165,
+    "noMerge": true
+  },
+  {
+    "id": "dale-ruttman",
+    "name": "DALE RUTTMAN",
+    "line": "Models can’t see what a strong arm and a sure read do on the field. Sayin connecting deep, 27 of 30, shows real poise under pressure...those throws set a playoff tone.",
+    "delivery": "confident, calm, persuasive",
+    "addressed_to": "renee-vaughn",
+    "evidence": [],
+    "tag": null,
+    "ms": 1574,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Here's what neither of you is naming: an arm can bail out a bad night, but it can't fix what happens up front snap after snap.",
+    "delivery": "even, weight-dropping, unhurried",
+    "addressed_to": "dale-ruttman",
+    "evidence": [
+      "E008"
+    ],
+    "tag": null,
+    "ms": 9162,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Pull up...run game still sputters, defense leaks big plays. Until Miami locks those down, they’re just a playoff hope not a team built for playoff weight.",
+    "delivery": "firm, rhythmic, authoritative",
+    "addressed_to": "renee-vaughn|dale-ruttman",
+    "evidence": [
+      "E062",
+      "E061",
+      "E063",
+      "E025"
+    ],
+    "tag": null,
+    "ms": 1601,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "So that's where we sit: a live projection favoring Miami, a defense still finding itself. The next few weeks settle which story wins.",
+    "delivery": "even, closing, forward-looking",
+    "addressed_to": "null",
+    "evidence": [
+      "E065"
+    ],
+    "tag": null,
+    "ms": 3130,
+    "noMerge": true
+  }
+]

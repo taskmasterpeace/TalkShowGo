@@ -1,0 +1,32 @@
+{
+  "beat": "after-the-stanford-blowout-are-the-hurri",
+  "provider": "openrouter",
+  "models": {
+    "renee-vaughn": "anthropic/claude-sonnet-5",
+    "dale-ruttman": "openai/gpt-4.1-mini",
+    "cassius-wynn": "openai/gpt-4.1-mini",
+    "_mix": "google/gemini-2.5-flash-lite"
+  },
+  "dna": {
+    "renee-vaughn": "anthropic/claude-sonnet-5",
+    "dale-ruttman": "openai/gpt-4.1-mini",
+    "cassius-wynn": "openai/gpt-4.1-mini"
+  },
+  "guards": {
+    "renee-vaughn": {
+      "style": true
+    },
+    "dale-ruttman": {
+      "style": true
+    },
+    "cassius-wynn": {
+      "style": false
+    }
+  },
+  "seed": 42,
+  "turns": 15,
+  "spoken_words": 405,
+  "final_pass": "mixed",
+  "producer": null,
+  "finished": "2026-09-05T16:08:04.028Z"
+}
