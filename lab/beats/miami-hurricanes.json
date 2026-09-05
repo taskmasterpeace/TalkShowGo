@@ -1,0 +1,106 @@
+{
+  "id": "miami-hurricanes",
+  "name": "Miami Hurricanes",
+  "status": "bootstrapped",
+  "description": "Miami Hurricanes (college football) - auto-bootstrapped 2026-09-05; validate + let the producer prune sources before shipping",
+  "show": {
+    "name": "MIAMI HURRICANES DAILY",
+    "tagline": "Your Miami Hurricanes desk, every day",
+    "timespan_hours": 48,
+    "format_bias": "auto",
+    "show_type": "moderated-collision",
+    "intro": {
+      "enabled": true,
+      "template": "State of the program in one breath, then the day's biggest storyline as a topic card."
+    },
+    "outro": {
+      "enabled": true,
+      "template": "Next game countdown + one bold prediction the comments can hold us to."
+    },
+    "hosts": [
+      "renee-vaughn",
+      "cassius-wynn",
+      "andrew-hammond"
+    ],
+    "rotation": [
+      "dale-ruttman"
+    ],
+    "hosts_note": "the house desk until Robert casts a dedicated crew for this show"
+  },
+  "sources": {
+    "youtube": [
+      {
+        "channel_name": "CanesInSight",
+        "label": "auto-discovered (score 48.0, 8 hits)",
+        "type": "media",
+        "priority": 1,
+        "status": "RESOLVED 2026-09-05 (auto)",
+        "channel_id": "UCmyJkW9fUwhgmsAgspcXzJQ",
+        "resolved_title": "CanesInSight"
+      },
+      {
+        "channel_name": "ESPN College Football",
+        "label": "auto-discovered (score 48.0, 8 hits)",
+        "type": "media",
+        "priority": 1,
+        "status": "RESOLVED 2026-09-05 (auto)",
+        "channel_id": "UCzRWWsFjqHk1an4OnVPsl9g",
+        "resolved_title": "ESPN College Football"
+      },
+      {
+        "channel_name": "ACC Digital Network",
+        "label": "auto-discovered (score 24.0, 4 hits)",
+        "type": "media",
+        "priority": 1,
+        "status": "RESOLVED 2026-09-05 (auto)",
+        "channel_id": "UC0hy7TcR1gGD8nQBqrF2FaA",
+        "resolved_title": "ACC Digital Network"
+      },
+      {
+        "channel_name": "Coach Coop",
+        "label": "auto-discovered (score 24.0, 4 hits)",
+        "type": "media",
+        "priority": 2,
+        "status": "RESOLVED 2026-09-05 (auto)",
+        "channel_id": "UCkZKoiEdWYLVPIF1xC8i7ZA",
+        "resolved_title": "Coach Coop"
+      },
+      {
+        "channel_name": "ACC Football Addiction (Atlantic Coast Conference)",
+        "label": "auto-discovered (score 24.0, 4 hits)",
+        "type": "media",
+        "priority": 2,
+        "status": "RESOLVED 2026-09-05 (auto)",
+        "channel_id": "UCrZfTzLVUeFiYL65Q2ohGGQ",
+        "resolved_title": "ACC Football Addiction (Atlantic Coast Conference)"
+      },
+      {
+        "channel_name": "Locked On Canes",
+        "label": "auto-discovered (score 24.0, 4 hits)",
+        "type": "media",
+        "priority": 2,
+        "status": "RESOLVED 2026-09-05 (auto)",
+        "channel_id": "UC0DApVLAlrU8WJDY67AmMdA",
+        "resolved_title": "Locked On Canes"
+      }
+    ],
+    "twitter": [
+      {
+        "handle": "MiamiHurricanes",
+        "label": "Miami Hurricanes (official) - SUGGESTED, unverified",
+        "type": "media",
+        "priority": 1,
+        "status": "UNVERIFIED - producer must verify the real handle"
+      }
+    ],
+    "rss": [
+      {
+        "label": "Google News - Miami Hurricanes",
+        "url": "https://news.google.com/rss/search?q=%22Miami%20Hurricanes%22&hl=en-US&gl=US&ceid=US:en",
+        "note": "legal published feed; never hostile-crawl"
+      }
+    ],
+    "web": []
+  },
+  "people": []
+}
