@@ -280,6 +280,13 @@ async function main() {
     const allowedNums = new Set(allowedText.toLowerCase().replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b/g, m => SPELLED[m]).match(/\d+/g) || [])
     const lineNums = (line.toLowerCase().replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b/g, m => SPELLED[m]).match(/\d+/g) || [])
     for (const n of lineNums) if (!allowedNums.has(n)) return `the number ${n} is not in your receipts; you invented it - drop the number or use a fact you actually hold`
+    // "last show" CALLBACK CAP (every host - Robert 2026-09-05): show-memory callbacks are good continuity but
+    // Cassius used two in one episode and "twice seems like a lot - we can NEVER do it a third time". Hard cap:
+    // the ROOM gets at most 2 last-show references per episode; the 3rd+ is rejected.
+    const isCallback = s => /\blast (show|episode|week|time)\b|\b(said|mentioned|told us|called it) last\b|\bon the last show\b/i.test(s)
+    if (isCallback(line) && turns.filter(t => !t.bc && isCallback(t.line)).length >= 2) {
+      return 'the "last show" callback has already been used twice this episode - that is the cap; make this point fresh, no callback'
+    }
     // ---- STYLE guards: the per-host dial (cast.json guards.style; false = an unfiltered host, no tic policing) ----
     if (styleGuards(hostId)) {
       // anaphora guard: a 3-word phrase said 2x is dead; a 2-word phrase said 3x is dead (kills short-volley tennis)
