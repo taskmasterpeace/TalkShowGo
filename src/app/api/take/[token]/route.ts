@@ -68,6 +68,14 @@ export async function POST(req: Request, { params }: { params: { token: string }
   const dir = takeDir(beat.id, person.slug)
   const ref = person.slug
 
+  // ---- FAN DEPTH (Robert 2026-09-05): the page asks HOW they keep up (behavioral, never "are you a superfan")
+  //      and this regenerates their questions for that level - casual gets big-feel, diehard gets the insider debate. ----
+  if (typeof b.depth === 'string' && ['casual', 'regular', 'diehard'].includes(b.depth)) {
+    const p = await promptsFor(beat, person, process.cwd(), b.depth as 'casual' | 'regular' | 'diehard')
+    appendLog({ kind: 'take', stage: 'depth', ok: true, beat: beat.id, ref, summary: `${person.name} follows "${b.depth}" · ${p.prompts.length} prompts retuned (${p.source})`, meta: { depth: b.depth, source: p.source } })
+    return NextResponse.json({ ok: true, prompts: p.prompts, source: p.source })
+  }
+
   // ---- ASK: the person, being informed, has a question -> IMPARTIAL web lookup (SearXNG-first, free).
   //      This is the "look it up on the internet" step: name the captains, the pros/cons, then answer follow-ups. ----
   if (typeof b.ask === 'string' && b.ask.trim()) {
@@ -174,7 +182,7 @@ export async function POST(req: Request, { params }: { params: { token: string }
     const take = saveTake(beat.id, { slug: person.slug, name: person.name }, {
       take: n, prompt: String(b.prompt || prompts?.[0] || main.q || '').slice(0, 240), prompts, transcript: main.a, answers,
       seconds: main.wav ? wavSeconds(main.wav) : null, wav: main.wav || voice?.full_wav || voice?.sample_wav || null, mime: typeof b.mime === 'string' ? b.mime.slice(0, 40) : null,
-      voice, capped: b.capped === true, via: VIA.has(String(b.via)) ? String(b.via) : 'link',
+      voice, capped: b.capped === true, via: VIA.has(String(b.via)) ? String(b.via) : 'link', ...(typeof b.depth === 'string' && ['casual','regular','diehard'].includes(b.depth) ? { depth: b.depth } : {}),
     })
     const by = (s: string) => answers.filter(x => x.source === s).length
     appendLog({ kind: 'take', stage: 'take', ok: true, beat: beat.id, ref, ms: Date.now() - t0, summary: `${person.name} dropped take ${n} · ${answers.length} answer${answers.length === 1 ? '' : 's'} (${by('voice')} voice · ${by('typed')} typed · ${by('choice')} choice)${voice ? ` · voice ref ${Math.round(voice.seconds)}s${voice.trimmed ? ' (cut from ' + Math.round(wavSeconds(voice.full_wav!)) + 's)' : ''}` : ''} · in the inbox`, meta: { take: n, words: main.a.split(/\s+/).length, voice: !!voice, via: take.via, path: take.path } })

@@ -12,7 +12,7 @@ export type TakeVoice = { sample_wav: string; ref_text: string; seconds: number 
 export type Take = {
   beat: string; person: { slug: string; name: string }; take: number
   prompt: string; prompts?: string[]; transcript: string; answers: TakeAnswer[]
-  seconds: number | null; wav: string | null; mime: string | null; voice?: TakeVoice | null; capped?: boolean
+  seconds: number | null; wav: string | null; mime: string | null; voice?: TakeVoice | null; capped?: boolean; depth?: string
   via?: string; created_at: string; used_in: string | null; used_at?: string; path: string
 }
 export type TakeInput = Partial<Omit<Take, 'beat' | 'person' | 'path' | 'used_in'>>
@@ -35,7 +35,7 @@ export function saveTake(beatId: string, person: { slug: string; name: string },
     prompt: String(data.prompt || '').slice(0, 240), ...(Array.isArray(data.prompts) ? { prompts: data.prompts.map(String) } : {}),
     transcript: String(data.transcript || ''), answers,
     seconds: Number.isFinite(Number(data.seconds)) ? Number(data.seconds) : null, wav: data.wav || null, mime: data.mime || null,
-    voice: data.voice || null, ...(data.capped ? { capped: true } : {}), ...(data.via ? { via: data.via } : {}),
+    voice: data.voice || null, ...(data.capped ? { capped: true } : {}), ...(data.depth ? { depth: String(data.depth) } : {}), ...(data.via ? { via: data.via } : {}),
     created_at: data.created_at && Number.isFinite(Date.parse(data.created_at)) ? data.created_at : new Date().toISOString(),
     used_in: null as string | null,
   }

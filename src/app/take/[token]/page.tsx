@@ -18,7 +18,8 @@ const fmt = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).p
 
 export default function TakePage({ params }: { params: { token: string } }) {
   const api = `/api/take/${params.token}`
-  const [phase, setPhase] = useState<'loading' | 'dead' | 'brief' | 'ready' | 'recording' | 'transcribing' | 'review' | 'typing' | 'followups' | 'sending' | 'done' | 'error'>('loading')
+  const [phase, setPhase] = useState<'loading' | 'dead' | 'brief' | 'follow' | 'ready' | 'recording' | 'transcribing' | 'review' | 'typing' | 'followups' | 'sending' | 'done' | 'error'>('loading')
+  const [depth, setDepth] = useState<string | null>(null)
   const [info, setInfo] = useState<Info | null>(null)
   const [err, setErr] = useState('')
   const [secs, setSecs] = useState(0)
@@ -39,7 +40,7 @@ export default function TakePage({ params }: { params: { token: string } }) {
   const timer = useRef<ReturnType<typeof setInterval> | null>(null)
 
   useEffect(() => {
-    fetch(api).then(r => (r.ok ? r.json() : Promise.reject(new Error(String(r.status))))).then((j: Info) => { setInfo(j); setPhase(j.brief && j.brief.points?.length ? 'brief' : 'ready') }).catch(() => setPhase('dead'))
+    fetch(api).then(r => (r.ok ? r.json() : Promise.reject(new Error(String(r.status))))).then((j: Info) => { setInfo(j); setPhase(j.brief && j.brief.points?.length ? 'brief' : 'follow') }).catch(() => setPhase('dead'))
     return () => { if (timer.current) clearInterval(timer.current); try { rec.current?.stream.getTracks().forEach(t => t.stop()) } catch { /* leaving */ } }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -56,6 +57,16 @@ export default function TakePage({ params }: { params: { token: string } }) {
       setAskThread(t => t.map((x, i) => i === t.length - 1 ? { ...x, a: j.answer || '(no answer)', sources: j.sources || [] } : x))
     } catch { setAskThread(t => t.map((x, i) => i === t.length - 1 ? { ...x, a: "Couldn't look that up right now. Try again, or go with what you've got." } : x)) }
     setAsking(false)
+  }
+
+  // FAN DEPTH: worded as HOW they keep up (never "are you a superfan"); retunes the questions for their level.
+  // Optimistic: move on immediately, swap the prompts in when the retuned set arrives; any failure keeps the defaults.
+  async function pickDepth(d: string) {
+    setDepth(d); setPhase('ready')
+    try {
+      const j = await (await fetch(api, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ depth: d }) })).json()
+      if (j?.ok && Array.isArray(j.prompts) && j.prompts.length) setInfo(prev => (prev ? { ...prev, prompts: j.prompts } : prev))
+    } catch { /* keep the default prompts */ }
   }
 
   async function startRecording() {
@@ -101,7 +112,7 @@ export default function TakePage({ params }: { params: { token: string } }) {
     const main: Answer = wavName ? { q: prompt, a: transcript, source: 'voice', wav: wavName } : { q: prompt, a: transcript, source: 'typed' }
     const extras: Answer[] = fups.map((f, i) => (fupAns[i] ? { q: f.q, a: fupAns[i].a, source: fupAns[i].source } : null)).filter(Boolean) as Answer[]
     try {
-      const j = await (await fetch(api, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ answers: [main, ...extras], ...(takeNo ? { take: takeNo } : {}), prompt, prompts: info.prompts, capped, via: 'link' }) })).json()
+      const j = await (await fetch(api, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ answers: [main, ...extras], ...(takeNo ? { take: takeNo } : {}), ...(depth ? { depth } : {}), prompt, prompts: info.prompts, capped, via: 'link' }) })).json()
       if (!j.ok) throw new Error(j.error || 'save failed')
       setPhase('done')
     } catch (e: any) { setErr('Could not send it: ' + String(e?.message || e).slice(0, 120)); setPhase('followups') }
@@ -149,7 +160,24 @@ export default function TakePage({ params }: { params: { token: string } }) {
             <button style={S.askBtn} onClick={ask} disabled={asking || !askInput.trim()}>Ask</button>
           </div>
 
-          <button style={S.mainBtn} onClick={() => setPhase('ready')}>I&apos;M CAUGHT UP — GIVE MY TAKE →</button>
+          <button style={S.mainBtn} onClick={() => setPhase(depth ? 'ready' : 'follow')}>I&apos;M CAUGHT UP — GIVE MY TAKE →</button>
+        </section>
+      )}
+
+      {phase === 'follow' && (
+        <section style={S.card}>
+          <p style={S.hello}>Real quick, {info?.person.name} — how do you keep up with the team?</p>
+          <p style={S.dimSmall}>So the questions fit how you actually watch. No wrong answer.</p>
+          <div style={S.chips}>
+            {([
+              ['Every snap. I don’t miss a game.', 'diehard'],
+              ['Most games, and I follow the storylines.', 'regular'],
+              ['Highlights and headlines mostly.', 'casual'],
+              ['I check in when something big happens.', 'casual'],
+            ] as [string, string][]).map(([label, d], i) => (
+              <button key={i} style={{ ...S.chip, ...(depth === d ? S.chipOn : {}) }} onClick={() => pickDepth(d)}>{label}</button>
+            ))}
+          </div>
         </section>
       )}
 
