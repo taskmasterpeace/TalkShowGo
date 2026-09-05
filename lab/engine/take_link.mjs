@@ -18,10 +18,13 @@ const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace
 const sh = (c) => { try { return execSync(c, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim() } catch (e) { return '' } }
 
 const PIDF = path.join(ROOT, 'lab', 'takes', '.tunnel.pid')
+const KEEPF = path.join(ROOT, 'lab', 'takes', '.keeper.pid')
 if (ARG.off) {
   sh('tailscale funnel reset')
-  try { const pid = parseInt(fs.readFileSync(PIDF, 'utf8'), 10); if (pid) sh(`taskkill /PID ${pid} /T /F`); fs.unlinkSync(PIDF) } catch { /* no ssh tunnel */ }
-  console.log('public tunnels CLOSED (funnel reset + ssh tunnel killed)')
+  for (const f of [PIDF, KEEPF]) {
+    try { const pid = parseInt(fs.readFileSync(f, 'utf8'), 10); if (pid) sh(`taskkill /PID ${pid} /T /F`); fs.unlinkSync(f) } catch { /* not running */ }
+  }
+  console.log('public tunnels CLOSED (funnel reset + ssh tunnel + warm-keeper killed)')
   process.exit(0)
 }
 const who = String(ARG.person || '').trim()
@@ -77,6 +80,14 @@ if (ARG.public) {
     try { ok = (await fetch(`${pub}/api/take/${hit.person.token}`, { signal: AbortSignal.timeout(20000) })).ok } catch { /* dead */ }
     if (ok) {
       links.unshift(['PUBLIC (anyone, until you close it)', `${pub}/take/${hit.person.token}`])
+      // warm-keeper: localhost.run drops tunnels on HTTP inactivity ("tunnel inactivity timeout" -
+      // learned the hard way when Robert's link died mid-take). One ping through the edge every 45s.
+      if (pub.includes('.lhr.life')) {
+        const { spawn } = await import('node:child_process')
+        const keeper = spawn(process.execPath, ['-e', `setInterval(()=>fetch(${JSON.stringify(pub + '/api/take/' + hit.person.token)}).catch(()=>{}),45000)`], { detached: true, stdio: 'ignore' })
+        keeper.unref()
+        fs.writeFileSync(KEEPF, String(keeper.pid))
+      }
       console.log('⚠️  PUBLIC TUNNEL IS OPEN: the whole dev app is reachable from the internet while this is up.')
       console.log('    Close it when the takes are in:  node lab/engine/take_link.mjs --off\n')
     } else console.log(`(tunnel ${pub} came up but did not serve the take page - not handing it out)\n`)
