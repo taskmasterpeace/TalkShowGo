@@ -70,7 +70,8 @@ export async function POST(req: Request, { params }: { params: { token: string }
 
   // ---- FAN DEPTH (Robert 2026-09-05): the page asks HOW they keep up (behavioral, never "are you a superfan")
   //      and this regenerates their questions for that level - casual gets big-feel, diehard gets the insider debate. ----
-  if (typeof b.depth === 'string' && ['casual', 'regular', 'diehard'].includes(b.depth)) {
+  // (guard: a final SAVE also carries depth for persistence - only a PURE depth request retunes; never swallow a save)
+  if (typeof b.depth === 'string' && ['casual', 'regular', 'diehard'].includes(b.depth) && !Array.isArray(b.answers) && !b.audio_b64 && !b.ask && !b.followups) {
     const p = await promptsFor(beat, person, process.cwd(), b.depth as 'casual' | 'regular' | 'diehard')
     appendLog({ kind: 'take', stage: 'depth', ok: true, beat: beat.id, ref, summary: `${person.name} follows "${b.depth}" · ${p.prompts.length} prompts retuned (${p.source})`, meta: { depth: b.depth, source: p.source } })
     return NextResponse.json({ ok: true, prompts: p.prompts, source: p.source })

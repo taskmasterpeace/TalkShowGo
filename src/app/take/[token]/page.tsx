@@ -111,11 +111,24 @@ export default function TakePage({ params }: { params: { token: string } }) {
     setPhase('sending'); setErr('')
     const main: Answer = wavName ? { q: prompt, a: transcript, source: 'voice', wav: wavName } : { q: prompt, a: transcript, source: 'typed' }
     const extras: Answer[] = fups.map((f, i) => (fupAns[i] ? { q: f.q, a: fupAns[i].a, source: fupAns[i].source } : null)).filter(Boolean) as Answer[]
-    try {
-      const j = await (await fetch(api, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ answers: [main, ...extras], ...(takeNo ? { take: takeNo } : {}), ...(depth ? { depth } : {}), prompt, prompts: info.prompts, capped, via: 'link' }) })).json()
-      if (!j.ok) throw new Error(j.error || 'save failed')
-      setPhase('done')
-    } catch (e: any) { setErr('Could not send it: ' + String(e?.message || e).slice(0, 120)); setPhase('followups') }
+    const body = JSON.stringify({ answers: [main, ...extras], ...(takeNo ? { take: takeNo } : {}), ...(depth ? { depth } : {}), prompt, prompts: info.prompts, capped, via: 'link' })
+    // two attempts with a beat between: a tunnel/link blip shouldn't cost the person their take. And a non-JSON
+    // body (a tunnel's HTML error page) gets a HUMAN message, not a browser riddle.
+    let lastErr = ''
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      try {
+        const res = await fetch(api, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body })
+        const text = await res.text()
+        let j: any = null
+        try { j = JSON.parse(text) } catch { throw new Error(`the line to the studio hiccuped (HTTP ${res.status}). Your words are still right here.`) }
+        if (!j.ok) throw new Error(j.error || 'save failed')
+        setPhase('done'); return
+      } catch (e: any) {
+        lastErr = String(e?.message || e).slice(0, 140)
+        if (attempt === 1) await new Promise(r => setTimeout(r, 1500))
+      }
+    }
+    setErr('Could not send it: ' + lastErr + ' — tap SEND again in a few seconds.'); setPhase('followups')
   }
 
   function reset() { setTranscript(''); setWavName(null); setTakeNo(null); setCapped(false); setTyped(''); setFups([]); setFupAns({}); setFupTyping({}); setErr(''); setPhase(info?.brief?.points?.length ? 'brief' : 'ready') }
