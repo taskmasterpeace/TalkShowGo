@@ -18,11 +18,14 @@
       "template": "Next game countdown + one bold prediction the comments can hold us to."
     },
     "hosts": [
-      "andrew-hammond",
       "renee-vaughn",
-      "big-mike-vega",
-      "cassius-wynn"
-    ]
+      "cassius-wynn",
+      "andrew-hammond"
+    ],
+    "rotation": [
+      "dale-ruttman"
+    ],
+    "rotation_note": "Robert 2026-09-04: Dale Ruttman comes on sometimes as the rotating third analyst; Rico Delgado available for the comedy break."
   },
   "cases": [
     {
