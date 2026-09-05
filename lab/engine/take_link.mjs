@@ -17,9 +17,11 @@ const ARG = Object.fromEntries(process.argv.slice(2).map(a => { const m = a.matc
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '..', '..')
 const sh = (c) => { try { return execSync(c, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim() } catch (e) { return '' } }
 
+const PIDF = path.join(ROOT, 'lab', 'takes', '.tunnel.pid')
 if (ARG.off) {
   sh('tailscale funnel reset')
-  console.log('public funnel CLOSED (tailscale funnel reset)')
+  try { const pid = parseInt(fs.readFileSync(PIDF, 'utf8'), 10); if (pid) sh(`taskkill /PID ${pid} /T /F`); fs.unlinkSync(PIDF) } catch { /* no ssh tunnel */ }
+  console.log('public tunnels CLOSED (funnel reset + ssh tunnel killed)')
   process.exit(0)
 }
 const who = String(ARG.person || '').trim()
@@ -45,14 +47,40 @@ if (lan) links.push(['same wifi', `http://${lan}:3000/take/${hit.person.token}`]
 if (tsIp) links.push(['tailnet (their phone runs Tailscale)', `http://${tsIp}:3000/take/${hit.person.token}`])
 
 if (ARG.public) {
-  sh('tailscale funnel --bg 3000')
-  const st = sh('tailscale funnel status')
-  const m = st.match(/https:\/\/[^\s/]+/)
-  if (m) {
-    links.unshift(['PUBLIC (anyone, until you close it)', `${m[0]}/take/${hit.person.token}`])
-    console.log('⚠️  PUBLIC FUNNEL IS OPEN: the whole dev app is reachable from the internet while this is up.')
-    console.log('    Close it when the takes are in:  node lab/engine/take_link.mjs --off\n')
-  } else console.log('(funnel did not report a URL - check `tailscale funnel status`; HTTPS may need enabling on the tailnet)\n')
+  // 1) Tailscale Funnel (the durable path - needs a ONE-TIME enable on the tailnet)
+  let pub = null
+  const fun = sh('timeout 12 tailscale funnel --bg 3000') + '\n' + sh('tailscale funnel status')
+  const fm = fun.match(/https:\/\/[^\s/]+\.ts\.net[^\s/]*/)
+  if (fm) pub = fm[0]
+  else if (/not enabled/i.test(fun)) {
+    const em = fun.match(/https:\/\/login\.tailscale\.com[^\s]+/)
+    console.log(`(Tailscale Funnel needs a one-time enable${em ? ': ' + em[0] : ''} - falling back to localhost.run)`)
+  }
+  // 2) fallback: localhost.run over ssh (free, no enable) - spawned detached so it outlives this script
+  if (!pub) {
+    const { spawn } = await import('node:child_process')
+    const logf = path.join(ROOT, 'lab', 'takes', '.tunnel.log')
+    fs.mkdirSync(path.dirname(logf), { recursive: true })
+    const out = fs.openSync(logf, 'w')
+    const child = spawn('ssh', ['-o', 'StrictHostKeyChecking=accept-new', '-o', 'ExitOnForwardFailure=yes', '-R', '80:localhost:3000', 'nokey@localhost.run'], { detached: true, stdio: ['ignore', out, out] })
+    child.unref()
+    fs.writeFileSync(PIDF, String(child.pid))
+    for (let i = 0; i < 15 && !pub; i++) {
+      await new Promise(r => setTimeout(r, 2000))
+      const lm = fs.readFileSync(logf, 'utf8').match(/https:\/\/[a-z0-9]+\.lhr\.life/)
+      if (lm) pub = lm[0]
+    }
+  }
+  if (pub) {
+    // verify before handing it out - a tunnel that 404s is worse than no tunnel
+    let ok = false
+    try { ok = (await fetch(`${pub}/api/take/${hit.person.token}`, { signal: AbortSignal.timeout(20000) })).ok } catch { /* dead */ }
+    if (ok) {
+      links.unshift(['PUBLIC (anyone, until you close it)', `${pub}/take/${hit.person.token}`])
+      console.log('⚠️  PUBLIC TUNNEL IS OPEN: the whole dev app is reachable from the internet while this is up.')
+      console.log('    Close it when the takes are in:  node lab/engine/take_link.mjs --off\n')
+    } else console.log(`(tunnel ${pub} came up but did not serve the take page - not handing it out)\n`)
+  } else console.log('(no public tunnel available right now - use the wifi/tailnet links)\n')
 }
 
 console.log(`${hit.person.name} → ${hit.show} (${hit.beat})`)
