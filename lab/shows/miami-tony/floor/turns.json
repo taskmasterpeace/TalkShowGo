@@ -1,0 +1,219 @@
+[
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Good evening, folks. Here's the frame: a state champion and Florida's high school player of the year now leading the country in catches.",
+    "delivery": "even, orienting the room",
+    "addressed_to": "null",
+    "evidence": [
+      "E009",
+      "E041"
+    ],
+    "tag": null,
+    "ms": 3561,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, leading in catches don't crown you king; Jeremiah Smith owns the position with sharp accuracy and pro-level instincts. That's the real deal.",
+    "delivery": "fast, confident, cutting",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E002",
+      "E031",
+      "E039"
+    ],
+    "tag": null,
+    "ms": 1442,
+    "noMerge": false
+  },
+  {
+    "id": "dale-ruttman",
+    "name": "DALE RUTTMAN",
+    "line": "Look, son, you put Malachi on the tape, and it's not just his hands. His reads, his footwork, his knack for being right where the play is going ... that’s football smarts in action.",
+    "delivery": "warm, steady, confident",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E010",
+      "E011"
+    ],
+    "tag": null,
+    "ms": 1673,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Nah, but real talk, you praise the smarts, I respect that. Jeremiah’s precision under pressure? That’s next-level IQ on the field. It ain’t just catching; accuracy wins games.",
+    "delivery": "slow and deliberate, confident",
+    "addressed_to": "dale-ruttman",
+    "evidence": [
+      "E031",
+      "E032"
+    ],
+    "tag": null,
+    "ms": 1416,
+    "noMerge": true
+  },
+  {
+    "id": "dale-ruttman",
+    "name": "DALE RUTTMAN",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "dale-ruttman",
+    "name": "DALE RUTTMAN",
+    "line": "Malachi’s not just catching passes; he’s setting blocks, reading defenses, and making plays happen all over the field. That kind of versatility changes the whole game plan.",
+    "delivery": "warm, deliberate, confident",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E010",
+      "E011"
+    ],
+    "tag": null,
+    "ms": 1242,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Salute for versatility, but when the title’s best player on offense? It’s gotta be the guy who dominates his core position...wide receiver accuracy and route-running. Malachi’s skills don’t top that.",
+    "delivery": "firm, respectful, decisive",
+    "addressed_to": "dale-ruttman",
+    "evidence": [
+      "E003",
+      "E002",
+      "E039",
+      "E031"
+    ],
+    "tag": null,
+    "ms": 1446,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Dale, Pat McAfee floated Toney for the Heisman and Greg McElroy called him the better all-around player. But is 'all-around' actually beating a receiver at his own position, or dodging the question?",
+    "delivery": "level, pressing",
+    "addressed_to": "dale-ruttman",
+    "evidence": [
+      "E041",
+      "E038"
+    ],
+    "tag": null,
+    "ms": 3134,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Pat and Greg hype versatility like it's a trophy, but stats tell the story: Malachi leads in catches and yards, sure...but best? Jeremiah’s accuracy and elite receiving skill set silence the debate.",
+    "delivery": "firm, factual, dismissive",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E002",
+      "E039"
+    ],
+    "tag": "interrupting",
+    "ms": 2911,
+    "noMerge": true
+  },
+  {
+    "id": "dale-ruttman",
+    "name": "DALE RUTTMAN",
+    "line": "Now here’s the rub: best player ain’t just points or catches. It’s who makes the whole team better on every snap. Malachi’s football IQ and grit shift the tide before the ball’s even snapped.",
+    "delivery": "warm, steady, persuasive",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E010",
+      "E011"
+    ],
+    "tag": null,
+    "ms": 2937,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, respect the hustle, but best player? That’s gotta show in the prime metric...consistency where it counts. Jeremiah’s accuracy? Cutthroat, unshakable. It’s the fine print that wins rings.",
+    "delivery": "confident, brisk, decisive",
+    "addressed_to": "dale-ruttman",
+    "evidence": [
+      "E002",
+      "E031",
+      "E039"
+    ],
+    "tag": null,
+    "ms": 1893,
+    "noMerge": false
+  },
+  {
+    "id": "dale-ruttman",
+    "name": "DALE RUTTMAN",
+    "line": "You only win rings when a player lifts everyone around him, not just masters a route tree. The guy who broadens the offense and defense impact is the real difference maker.",
+    "delivery": "calm and measured",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E011",
+      "E010"
+    ],
+    "tag": null,
+    "ms": 3728,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Here's what neither of you has said out loud: this isn't really receiver versus receiver, it's whether impact can even be measured across positions at all.",
+    "delivery": "level, unhurried, reframing",
+    "addressed_to": "null",
+    "evidence": [],
+    "tag": null,
+    "ms": 6895,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, impact’s math, no cap ... experts & stats lock in Jeremiah Smith as the top dog. You can't crown a king without the kingdom's nod.",
+    "delivery": "confident, quick, dismissive",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E002",
+      "E039",
+      "E031"
+    ],
+    "tag": null,
+    "ms": 1490,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Cassius, no kingdom's crowned tonight, this stays split. We'll come back and dig into how each of them actually shapes their team's future.",
+    "delivery": "level, closing the segment",
+    "addressed_to": "cassius-wynn",
+    "evidence": [],
+    "tag": null,
+    "ms": 3106,
+    "noMerge": true
+  }
+]

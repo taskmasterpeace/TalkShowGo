@@ -1,0 +1,125 @@
+{
+  "id": "atlanta-falcons-2026-team-captains-bijan",
+  "show": "atlanta-falcons-2026-team-captains-bijan",
+  "question": "Did the Falcons pick the right captains for this season, or not?",
+  "target_spoken_words": 368,
+  "max_turns": 27,
+  "stances": {
+    "renee-vaughn": "While the Falcons selected a structurally sound slate of captains covering every unit, the confirmed facts don't tell us if they were the absolute best choices.",
+    "big-mike-vega": "The Falcons absolutely nailed it by picking captains who represent every unit and embody the championship energy needed to dominate.",
+    "andrew-hammond": "The Falcons made a textbook sound decision by appointing a diverse group of leaders across all key units to foster team identity."
+  },
+  "allowed_evidence": {
+    "renee-vaughn": [
+      "E001",
+      "E006",
+      "E002",
+      "E005"
+    ],
+    "big-mike-vega": [
+      "E001",
+      "E003",
+      "E004",
+      "E005",
+      "E007"
+    ],
+    "andrew-hammond": [
+      "E001",
+      "E002",
+      "E003",
+      "E004",
+      "E008"
+    ]
+  },
+  "participants": [
+    {
+      "id": "renee-vaughn",
+      "name": "Renee Vaughn",
+      "kind": "host"
+    },
+    {
+      "id": "big-mike-vega",
+      "name": "Big Mike Vega",
+      "kind": "host"
+    },
+    {
+      "id": "andrew-hammond",
+      "name": "Andrew Hammond",
+      "kind": "host"
+    }
+  ],
+  "delegates": {
+    "ai": [],
+    "human": []
+  },
+  "human_slots": [],
+  "withheld": [
+    {
+      "host": "renee-vaughn",
+      "evidence": "E006",
+      "turn": 7,
+      "instruction": "Head Coach Kevin Stefanski announced the team captains."
+    }
+  ],
+  "anaphora_exempt": [
+    "falcons",
+    "captains",
+    "season"
+  ],
+  "protected_facts": [],
+  "waypoints": [
+    {
+      "after_words": 25,
+      "host": "big-mike-vega",
+      "note": "Challenge Renee's 'can't call it' stance directly by asserting the facts ARE enough to call it."
+    },
+    {
+      "after_words": 50,
+      "host": "andrew-hammond",
+      "note": "Reframe Big Mike's 'championship energy' as 'fostering team identity' to introduce nuance."
+    },
+    {
+      "after_words": 100,
+      "host": "renee-vaughn",
+      "note": "Push back on Andrew's 'textbook approach' by highlighting the lack of comparative data."
+    },
+    {
+      "after_words": 150,
+      "host": "big-mike-vega",
+      "note": "Directly challenge Andrew's 'sound decision' by pointing to the specific unit representation."
+    },
+    {
+      "after_words": 200,
+      "host": "andrew-hammond",
+      "note": "Introduce the idea that leadership comes in different forms, subtly questioning the need for absolute 'best' choices."
+    }
+  ],
+  "attribution": {
+    "mode": "A",
+    "label": "SOURCED & COMMITTED",
+    "law": "When a receipt is an ATTRIBUTED_CLAIM, name who said it and where (person/outlet + platform), then COMMIT to your read of it - never hedge it into mush. A FACT you state plainly. Never present an unproven claim as settled fact; never bury a real fact under \"allegedly\"."
+  },
+  "detonation_react": {
+    "host": "big-mike-vega",
+    "instruction": "Wait, Stefanski announced them? That doesn't change the fact that the *selection* itself is what matters for leadership."
+  },
+  "kk_drop": {
+    "host": "renee-vaughn",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "renee-vaughn",
+    "instruction": "The Falcons named seven captains covering every major unit, which is sound structure, but whether it is the 'right' seven is not something we can call from the confirmed facts alone."
+  },
+  "exit": {
+    "host": "andrew-hammond",
+    "alt_host": "renee-vaughn",
+    "instruction": "The structure is sound, the representation is there, but the ultimate measure of 'right' is performance, which we won't know until the season plays out."
+  },
+  "_compiled_from": {
+    "stringer": "str_ilppbi7w",
+    "briefing": "brf_erpzy52v",
+    "delegates_surfaced": []
+  }
+}

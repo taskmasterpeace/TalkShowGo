@@ -1,0 +1,32 @@
+{
+  "beat": "after-hanging-87-points-on-savannah-stat",
+  "provider": "openrouter",
+  "models": {
+    "renee-vaughn": "anthropic/claude-sonnet-5",
+    "cassius-wynn": "openai/gpt-4.1-mini",
+    "andrew-hammond": "google/gemini-2.5-flash",
+    "_mix": "google/gemini-2.5-flash-lite"
+  },
+  "dna": {
+    "renee-vaughn": "anthropic/claude-sonnet-5",
+    "cassius-wynn": "openai/gpt-4.1-mini",
+    "andrew-hammond": "google/gemini-2.5-flash"
+  },
+  "guards": {
+    "renee-vaughn": {
+      "style": true
+    },
+    "cassius-wynn": {
+      "style": false
+    },
+    "andrew-hammond": {
+      "style": true
+    }
+  },
+  "seed": 42,
+  "turns": 18,
+  "spoken_words": 398,
+  "final_pass": "mixed",
+  "producer": null,
+  "finished": "2026-09-05T17:39:48.513Z"
+}

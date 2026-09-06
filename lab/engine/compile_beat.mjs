@@ -14,10 +14,11 @@
  * Usage: node lab/engine/compile_beat.mjs --stringer=<id> --briefing=<brf_id> [--out=<dir>] [--runtime=8]
  */
 import fs from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
 const ARG = Object.fromEntries(process.argv.slice(2).map(a => { const m = a.match(/^--([^=]+)=?(.*)$/); return m ? [m[1], m[2] || true] : [a, true] }))
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '..', '..')
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
 const J = p => JSON.parse(fs.readFileSync(p, 'utf8'))
 // key precedence: process env > .env > lab/settings/keys.json (a key pasted in the SETTINGS page); no .env is fine
 const readEnvKey = name => {
@@ -27,15 +28,22 @@ const readEnvKey = name => {
   return null
 }
 
-async function director(question, participants, evidence) {
+async function director(question, participants, evidence, showType, modId) {
   const OR = readEnvKey('OPENROUTER_API_KEY')
   if (!OR) return null
   const ids = participants.map(p => p.id)
-  const roster = participants.map(p => `- ${p.id} (${p.name}) leans: ${p.stance}`).join('\n')
+  const roster = participants.map(p => `- ${p.id} (${p.name}${p.lane ? ', lane: ' + p.lane : ''}) leans: ${p.stance}`).join('\n')
   const ledger = evidence.map(e => `${e.id} [${e.tier}] ${e.claim}`).join('\n')
-  const SYS = `You are THE SHOWRUNNER. You never write dialogue. Your #1 job: ENGINEER DISAGREEMENT so the segment is a real argument, not three people agreeing. The hosts' honest leanings often converge; your job is to ASSIGN each host a DISTINCT, defensible position on the question and split the receipts so no two hosts hold the same hand. Use ONLY the given participant ids and evidence ids.
+  // MODERATED COLLISION (First Take): ROLES ARE FIXED by the caller (modId = the pre-chosen neutral anchor) so the
+  // model can't collapse into 2-on-1 or drop the referee. Name the moderator + assign the OTHER TWO explicit
+  // opposing verdicts (YES vs NO) BY ID - the model only writes the words, never picks who takes which side.
+  const debaterIds = modId ? participants.filter(p => p.id !== modId).slice(0, 2).map(p => p.id) : []
+  const roleRule = modId && debaterIds.length === 2
+    ? ` FORMAT = MODERATED COLLISION (First Take). ROLES ARE FIXED - honor them EXACTLY:\n- ${modId} is the MODERATOR: give them the position "MODERATOR: take NO side; referee and press both debaters." NO verdict, ever.\n- ${debaterIds[0]} MUST argue the YES/affirmative verdict (the strongest case the answer to the question is YES).\n- ${debaterIds[1]} MUST argue the NO/negative verdict (the strongest case the answer is NO).\nEVEN IF a debater's honest lean is nuanced or both privately think "it's unsettled", they COMMIT to their assigned verdict; hedging to "it's complicated / open competition / too soon / time will tell" is a FAILURE (nuance is the moderator's job). Split the receipts so each debater HOLDS the evidence backing THEIR verdict (the moderator may cite any).`
+    : ''
+  const SYS = `You are THE SHOWRUNNER. You never write dialogue. Your #1 job: ENGINEER DISAGREEMENT so the segment is a real argument, not three people agreeing. The hosts' honest leanings often converge; your job is to ASSIGN each host a DISTINCT, defensible position on the question and split the receipts so no two hosts hold the same hand. When the question is a yes/no or for-vs-against proposition, the positions MUST land on OPPOSING sides: at least one host argues clearly FOR/YES and at least one clearly AGAINST/NO. A segment where every host lands on the same side is a FAILURE. Use ONLY the given participant ids and evidence ids.${roleRule}
 Output STRICT JSON only:
-{"assignments":[{"host":"<id>","position":"a punchy 1-2 sentence stance DISTINCT from the others (a different pick / a contrarian reframe / the skeptic) that this host can defend from the evidence","evidence_ids":["<3-8 ids this host holds; give each host at least one EXCLUSIVE id no other host holds>"]}],
+{"assignments":[{"host":"<id>","position":"a punchy 1-2 sentence stance that COMMITS to one clear verdict (on a yes/no: an unambiguous YES or NO - never 'it is unsettled / complicated / too soon'; the moderator, if any, is the sole exception) and that this host can defend from the evidence","evidence_ids":["<3-8 ids this host holds; give each host at least one EXCLUSIVE id no other host holds>"]}],
  "opener":{"host":"<id>","instruction":"open flat, set bait, name one concrete fact, then stop. short."},
  "waypoints":[{"after_words":25,"host":"<id>","note":"a NEW angle / a direct challenge to another host's pick"} ... 4 to 6, ascending after_words 25..300, alternating hosts],
  "withheld":[{"host":"<id>","evidence":"<an Eid EXCLUSIVE to that host>","turn":7,"instruction":"NOW detonate this receipt, flat, let it sit"}],
@@ -43,12 +51,14 @@ Output STRICT JSON only:
  "exit":{"host":"<id>","alt_host":"<id>","instruction":"button the segment; concede nothing; tease something heavier"},
  "protected_facts":[{"note":"a fact about a real person that must be phrased precisely","banned_phrasings":["...","..."]}],
  "anaphora_exempt":["<core fact tokens that must be allowed to repeat>"]}
-Rules: assignments MUST cover every host exactly once and give them GENUINELY different positions (if the question is "which is greatest", assign different picks or a "greatness isn't one moment" reframe). Every host/id MUST be one of: ${ids.join(', ')}. Every evidence id MUST be one of the ledger ids. protected_facts only for real-person precision (else []). One sentence per instruction.`
+Rules: assignments MUST cover every host exactly once and give them GENUINELY OPPOSING positions wherever the question allows a side (a real for-vs-against split on a yes/no; different picks or a "greatness isn't one moment" reframe on a "which" question) - never all on the same side. Every host/id MUST be one of: ${ids.join(', ')}. Every evidence id MUST be one of the ledger ids. protected_facts only for real-person precision (else []). One sentence per instruction.`
   const user = `THE QUESTION: ${question}\n\nHOSTS (their honest leanings — now assign them to COLLIDE):\n${roster}\n\nEVIDENCE LEDGER (the receipts to split):\n${ledger}`
   try {
     const r = await fetch('https://openrouter.ai/api/v1/chat/completions', {
       method: 'POST', headers: { Authorization: 'Bearer ' + OR, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: 'google/gemini-2.5-flash-lite', temperature: 0.4, max_tokens: 1600, response_format: { type: 'json_object' }, messages: [{ role: 'system', content: SYS }, { role: 'user', content: user }] }),
+      // gpt-4.1-mini (still cheap) follows the fixed-role / opposing-verdict instructions far more reliably than
+      // flash-lite, which kept collapsing the two debaters onto the same side (iter 9). Override via ARG.director_model.
+      body: JSON.stringify({ model: (typeof ARG.director_model === 'string' && ARG.director_model) || 'openai/gpt-4.1-mini', temperature: 0.4, max_tokens: 1600, response_format: { type: 'json_object' }, messages: [{ role: 'system', content: SYS }, { role: 'user', content: user }] }),
       signal: AbortSignal.timeout(60000),
     })
     const j = await r.json()
@@ -67,6 +77,9 @@ async function main() {
   const agents = J(agentsPath)
   const cast = J(path.join(ROOT, 'lab', 'cast', 'cast.json'))
   const castIds = new Set((cast.hosts || []).map(h => h.id))
+  // the show's format + each host's lane drive role-aware collision (moderator vs debaters)
+  let showType = null; try { if (briefing.beat) showType = (J(path.join(ROOT, 'lab', 'beats', briefing.beat + '.json')).show || {}).show_type || null } catch {}
+  const laneOf = id => { const h = (cast.hosts || []).find(x => x.id === id); return h ? String(h.lane || h.role || (h.print && h.print.essence) || '').slice(0, 100) : '' }
 
   // 1) evidence.json — the cited ledger the floor joins by id
   const evEntries = (dossier.evidence || []).filter(e => e.valid_source).map(e => ({
@@ -84,7 +97,7 @@ async function main() {
   if (floorParts.length < 2) { console.error('need >=2 briefed HOUSE HOSTS to run a floor (got ' + floorParts.length + ')'); process.exit(1) }
 
   const stanceOf = d => [d.stance.answer, d.stance.thesis].filter(Boolean).join(' ').replace(/\s+/g, ' ').trim().slice(0, 400)
-  const participants = floorParts.map(d => ({ id: d.cast_id, name: d.name, kind: 'host', stance: stanceOf(d), allowed: (d.allowed_evidence_ids || []).filter(id => evIds.has(id)) }))
+  const participants = floorParts.map(d => ({ id: d.cast_id, name: d.name, kind: 'host', lane: laneOf(d.cast_id), stance: stanceOf(d), allowed: (d.allowed_evidence_ids || []).filter(id => evIds.has(id)) }))
   // AI delegates join the director's collision (a position + receipts, like a host); max 2 seats
   const aiDelegates = delegateParts.filter(d => !d.human).slice(0, 2).map(d => ({ id: d.cast_id, name: d.name, kind: 'delegate', stance: stanceOf(d), allowed: (d.allowed_evidence_ids || []).filter(id => evIds.has(id)), dna_id: d.dna_id || 'google/gemini-2.5-flash-lite', persona_note: d.persona_note || null }))
   participants.push(...aiDelegates)
@@ -103,7 +116,10 @@ async function main() {
   const poolIds = [...new Set(participants.flatMap(p => p.allowed))]
   for (const e of evEntries) { if (poolIds.length >= 18) break; if (!poolIds.includes(e.id)) poolIds.push(e.id) }
   const poolEntries = poolIds.map(id => evEntries.find(e => e.id === id)).filter(Boolean)
-  const dir = await director(evidence.question, participants, poolEntries) || {}
+  // pre-choose the neutral moderator by lane (anchor/framing) so roles are fixed BEFORE the model writes stances
+  const modId = /moderat/i.test(showType || '') && participants.length >= 3
+    ? ((participants.find(p => /anchor|moderat|framing|referee/i.test(laneOf(p.id))) || {}).id || null) : null
+  const dir = await director(evidence.question, participants, poolEntries, showType, modId) || {}
   let collided = 0
   if (Array.isArray(dir.assignments)) {
     for (const a of dir.assignments) {
@@ -114,6 +130,17 @@ async function main() {
     }
   }
   console.error(collided >= 2 ? `showrunner engineered ${collided} colliding positions` : 'WARNING: hosts may converge (collision assignment weak) — argument could be flat')
+
+  // DETERMINISTIC MODERATOR (belt-and-suspenders): the roles were fixed for the director via modId, but the model
+  // can still slip and hand the anchor a verdict (iter 8/9: 2-on-1 tilt, no referee). Force the pre-chosen anchor
+  // to MODERATE (no verdict) so run_floor sees "MODERATOR:" and referees; the two debaters keep opposing verdicts.
+  if (modId) {
+    const modP = participants.find(p => p.id === modId)
+    if (modP && !/^MODERATOR\b/i.test(modP.stance)) {
+      modP.stance = 'MODERATOR: take NO side and never argue a verdict yourself; referee - press BOTH debaters with pointed, specific questions and make them answer.'
+      console.error(`moderator locked: ${modP.id} (anchor lane) referees; debaters keep opposing verdicts`)
+    }
+  }
 
   const opener = (dir.opener && isP(dir.opener.host)) ? dir.opener
     : { host: participants[0].id, instruction: 'Open the beat flat: name the single most concrete fact on the table, set the bait, and stop talking. Short.' }
@@ -140,7 +167,7 @@ async function main() {
   // kk_drop: the analyst hold-then-drop seat. Prefer king-knowledge; else the lowest-interruption host present.
   const behaviorOf = id => (cast.hosts.find(h => h.id === id)?.behavior?.interruption_rate ?? 1)
   const dropHost = pIds.includes('king-knowledge') ? 'king-knowledge' : [...pIds].sort((a, b) => behaviorOf(a) - behaviorOf(b))[0]
-  const kk_drop = { host: dropHost, after_turn: Math.max(8, Math.round((ARG.runtime ? +ARG.runtime : 8) * 1.4)), instruction: 'Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself.' }
+  const kk_drop = { host: dropHost, after_turn: Math.max(8, Math.round((Number.isFinite(+ARG.runtime) && +ARG.runtime >= 2 ? +ARG.runtime : 8) * 1.4)), instruction: 'Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself.' }
 
   const protected_facts = Array.isArray(dir.protected_facts) ? dir.protected_facts.filter(p => p && p.note && Array.isArray(p.banned_phrasings)).slice(0, 4) : []
   // exemptions are matched against lowercased n-grams in the floor guard, so lowercase them here
@@ -159,7 +186,9 @@ async function main() {
   }
   const amode = (ARG.attribution && ATTRIBUTION_MODES[String(ARG.attribution).toUpperCase()]) ? String(ARG.attribution).toUpperCase() : 'A'
 
-  const runtimeMin = ARG.runtime ? +ARG.runtime : 8
+  // guard the arithmetic: --runtime=abc -> NaN poisons target_spoken_words/max_turns into null and the
+  // floor exits after 3 turns with no error; bare --runtime -> +true = a 1-minute "show"
+  const runtimeMin = Number.isFinite(+ARG.runtime) && +ARG.runtime >= 2 && +ARG.runtime <= 60 ? +ARG.runtime : 8
   const targetWords = Math.round(runtimeMin * 46)
   // seat each human's verbatim turns at word marks across the floor (a fan's verdict lands late)
   const human_slots = []

@@ -11,6 +11,7 @@ export type Channel = 'link' | 'email' | 'phone'
 export type Person = {
   slug: string; name: string; relation: string; channel: Channel; address: string | null
   token: string; prompts_mode: 'auto' | 'custom'; custom_prompts: string[]; added: string
+  depth?: 'casual' | 'regular' | 'diehard' // how they follow the beat (from their last take) - returning fans skip the quiz
 }
 export type PersonInput = { name: string; relation?: string; channel?: string; address?: string | null; prompts_mode?: string; custom_prompts?: unknown }
 export type BeatHit = { file: string; beat: any; person: Person }
@@ -65,6 +66,7 @@ function normPerson(raw: any): Person | null {
     prompts_mode: raw.prompts_mode === 'custom' ? 'custom' : 'auto',
     custom_prompts: Array.isArray(raw.custom_prompts) ? raw.custom_prompts.filter((q: any) => typeof q === 'string' && q.trim()).map((q: string) => q.trim().slice(0, 240)).slice(0, 6) : [],
     added: typeof raw.added === 'string' ? raw.added : '',
+    ...(['casual', 'regular', 'diehard'].includes(raw.depth) ? { depth: raw.depth } : {}),
   }
 }
 const peopleOf = (beat: any): Person[] => (Array.isArray(beat?.people) ? beat.people : []).map(normPerson).filter((p: Person | null): p is Person => !!p)
@@ -132,6 +134,14 @@ export function removePerson(beatId: string, slug: string, root = process.cwd())
   let removed = false
   patchPeople(root, hit.file, people => { const next = people.filter(p => p.slug !== slug); removed = next.length !== people.length; return next })
   return removed
+}
+
+/** Remember how a person follows the beat (set when a saved take carries a fan depth). Silent no-op on a missing beat/person. */
+export function setPersonDepth(beatId: string, slug: string, depth: string, root = process.cwd()): void {
+  if (!['casual', 'regular', 'diehard'].includes(depth)) return
+  const hit = findBeat(beatId, root)
+  if (!hit) return
+  try { patchPeople(root, hit.file, people => people.map(p => (p.slug === slug ? { ...p, depth: depth as Person['depth'] } : p))) } catch { /* depth memory is a courtesy, never worth failing a save */ }
 }
 
 /** Anyone whose token went missing gets one (writes only when something was wrong). Returns the people. */

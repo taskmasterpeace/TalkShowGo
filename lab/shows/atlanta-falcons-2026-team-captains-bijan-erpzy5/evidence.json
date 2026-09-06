@@ -1,0 +1,71 @@
+{
+  "topic": "Atlanta Falcons 2026 team captains Bijan Robinson Divine Deablo leadership",
+  "compiled": "2026-09-04T01:54:46.816Z",
+  "question": "Did the Falcons pick the right captains for this season, or not?",
+  "entries": [
+    {
+      "id": "E001",
+      "claim": "The Atlanta Falcons selected seven team captains for the 2026 season.",
+      "source_name": "Atlanta Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=VaLqMr9suD0",
+      "tier": "FACT"
+    },
+    {
+      "id": "E002",
+      "claim": "Nick Folk is a captain representing Special Teams.",
+      "source_name": "Atlanta Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=VaLqMr9suD0",
+      "tier": "FACT"
+    },
+    {
+      "id": "E003",
+      "claim": "Jessie Bates and Divine Deablo are captains representing Defense.",
+      "source_name": "Atlanta Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=VaLqMr9suD0",
+      "tier": "FACT"
+    },
+    {
+      "id": "E004",
+      "claim": "Chris Lindstrom is a captain representing Offense.",
+      "source_name": "Atlanta Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=VaLqMr9suD0",
+      "tier": "FACT"
+    },
+    {
+      "id": "E005",
+      "claim": "Bijan Robinson and Divine Deablo are captains on the team (implied by listing).",
+      "source_name": "Atlanta Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=VaLqMr9suD0",
+      "tier": "FACT"
+    },
+    {
+      "id": "E006",
+      "claim": "Head Coach Kevin Stefanski announced the team captains.",
+      "source_name": "Atlanta Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=VaLqMr9suD0",
+      "tier": "FACT"
+    },
+    {
+      "id": "E007",
+      "claim": "The role of a captain is to represent the identity of the Atlanta Falcons.",
+      "source_name": "Atlanta Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=VaLqMr9suD0",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E008",
+      "claim": "Leadership within the team comes in many forms.",
+      "source_name": "Atlanta Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=VaLqMr9suD0",
+      "tier": "ATTRIBUTED_CLAIM"
+    }
+  ]
+}

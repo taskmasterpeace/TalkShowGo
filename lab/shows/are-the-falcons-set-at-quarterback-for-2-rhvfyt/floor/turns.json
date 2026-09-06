@@ -1,0 +1,267 @@
+[
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Good evening. Here's where the Falcons sit: Tua and Penix are still competing for that starting job, nothing's decided.",
+    "delivery": "level, setting the frame",
+    "addressed_to": "null",
+    "evidence": [
+      "E016"
+    ],
+    "tag": null,
+    "ms": 6632,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Renee, you're right...this isn't just a quarterback battle, it's the SEASON-LONG SHOWDOWN under a new head coach! The entire evaluation year rides on this decision!",
+    "delivery": "BOOMING, escalating to a peak",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E002",
+      "E019"
+    ],
+    "tag": "interrupting",
+    "ms": 58072,
+    "noMerge": false
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Well, look, Renee, it's still an open competition, right? Tua's got the practice edge because Penix isn't cleared for 11-on-11 just yet.",
+    "delivery": "friendly, matter-of-fact",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E006"
+    ],
+    "tag": null,
+    "ms": 2321,
+    "noMerge": false
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Andrew, you're right about the open competition, but with a proven coach like Kevin Stefanski calling the shots, this evaluation year is the ULTIMATE MARQUEE EVENT!",
+    "delivery": "BOOMING, escalating to peak",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E002"
+    ],
+    "tag": null,
+    "ms": 43896,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "And look, Renee, it’s not just the practice reps; DC Stewart Show Podcast folks are saying Tua’s a seasoned veteran, consistent out there. That's a real advantage.",
+    "delivery": "upbeat, confident",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E007",
+      "E006"
+    ],
+    "tag": null,
+    "ms": 1273,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Locked On Falcons calls the NFC South weak, and that makes this quarterback battle the CHAMPIONSHIP ROUND!",
+    "delivery": "BOOMING, escalating to peak",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E015"
+    ],
+    "tag": null,
+    "ms": 88724,
+    "noMerge": false
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mike, division strength doesn't answer the actual question. Locked On Falcons itself says the front office won't tip its hand on who wins this job.",
+    "delivery": "level, cutting through hype",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E003"
+    ],
+    "tag": null,
+    "ms": 6413,
+    "noMerge": false
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "And Renee, that's fair, but you gotta remember, Penix is actually ahead of schedule, practicing without that knee brace. That's a real curveball for the competition.",
+    "delivery": "upbeat, thoughtful",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E011"
+    ],
+    "tag": "interrupting",
+    "ms": 1110,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Ahead of schedule? That just turns up the heat! But walking into a proven Stefanski offense for a full evaluation year? That's the pressure cooker, and it's STILL boiling!",
+    "delivery": "BOOMING, building to a shout",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E002",
+      "E019"
+    ],
+    "tag": null,
+    "ms": 48228,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Look, Mike, even with that pressure, DC Stewart Show Podcast folks also point out Tua’s issues in Miami weren't all on him, so there's some grace there.",
+    "delivery": "warm, thoughtful",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E008"
+    ],
+    "tag": "interrupting",
+    "ms": 1437,
+    "noMerge": false
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Andrew, in a weak NFC South, grace is a luxury they can't afford! The door is WIDE OPEN, and not solving this QB riddle means another missed championship!",
+    "delivery": "BOOMING, emphatic rebuttal",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E015"
+    ],
+    "tag": null,
+    "ms": 38335,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Both of you are debating who wins a job the front office won't even confirm exists yet.",
+    "delivery": "level, quietly cutting through",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E018",
+      "E003"
+    ],
+    "tag": null,
+    "ms": 3818,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "No, Renee, it’s about 2026. If the coaching staff and personnel were part of Tua’s past issues, that means it’s not settled for the future, right?",
+    "delivery": "warm, seeking consensus",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E008"
+    ],
+    "tag": null,
+    "ms": 3729,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Fair question, and here's the risk: Locked On Falcons flags 2027 as the off-ramp, but they still don't know if Penix is the answer or if they draft again.",
+    "delivery": "level, pressing forward",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E018"
+    ],
+    "tag": null,
+    "ms": 2907,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Well, Renee, you're right, that's the whole ballgame. If they're still asking if Penix is the guy or if they're back in the draft pool, it tells you 2026 is still an open question.",
+    "delivery": "warm, seeking consensus",
+    "addressed_to": "renee-vaughn",
+    "evidence": [],
+    "tag": null,
+    "ms": 1168,
+    "noMerge": false
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "That's the through-line, Andrew, and it means the season itself hinges on a question nobody's answered yet.",
+    "delivery": "level, settling the frame",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E001"
+    ],
+    "tag": null,
+    "ms": 5707,
+    "noMerge": true
+  }
+]

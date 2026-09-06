@@ -1,0 +1,137 @@
+{
+  "id": "after-the-stanford-blowout-are-the-hurri",
+  "show": "miami-playoff",
+  "question": "After the Stanford blowout, are the Hurricanes a legit playoff team?",
+  "target_spoken_words": 368,
+  "max_turns": 27,
+  "stances": {
+    "renee-vaughn": "MODERATOR: I won’t take a side but will press both on what the Stanford blowout really means and how the team’s flaws might impact their playoff chances.",
+    "dale-ruttman": "YES, the Hurricanes are a legit playoff team because their dominant wins over Stanford and Ohio State prove they have the talent and physicality to compete at the highest level despite some rough edges.",
+    "cassius-wynn": "NO, the Hurricanes are not yet a legit playoff team because their offensive line struggles, linebacker weaknesses, and questions about their defense against top opponents expose critical flaws that playoff teams can't afford."
+  },
+  "allowed_evidence": {
+    "renee-vaughn": [
+      "E065",
+      "E067",
+      "E008",
+      "E017"
+    ],
+    "dale-ruttman": [
+      "E056",
+      "E058",
+      "E060",
+      "E001",
+      "E002",
+      "E003",
+      "E004"
+    ],
+    "cassius-wynn": [
+      "E061",
+      "E062",
+      "E006",
+      "E007",
+      "E063",
+      "E064",
+      "E025"
+    ]
+  },
+  "participants": [
+    {
+      "id": "renee-vaughn",
+      "name": "Renee Vaughn",
+      "kind": "host"
+    },
+    {
+      "id": "dale-ruttman",
+      "name": "Dale Ruttman",
+      "kind": "host"
+    },
+    {
+      "id": "cassius-wynn",
+      "name": "Cassius Wynn",
+      "kind": "host"
+    }
+  ],
+  "delegates": {
+    "ai": [],
+    "human": []
+  },
+  "human_slots": [],
+  "withheld": [
+    {
+      "host": "cassius-wynn",
+      "evidence": "E063",
+      "turn": 7,
+      "instruction": "NOW detonate this receipt, flat, let it sit"
+    }
+  ],
+  "anaphora_exempt": [
+    "miami",
+    "hurricanes",
+    "stanford",
+    "playoff",
+    "defense",
+    "offense"
+  ],
+  "protected_facts": [],
+  "waypoints": [
+    {
+      "after_words": 25,
+      "host": "dale-ruttman",
+      "note": "Highlight the historic Cotton Bowl win over Ohio State as proof of playoff legitimacy."
+    },
+    {
+      "after_words": 50,
+      "host": "cassius-wynn",
+      "note": "Challenge Dale by pointing out the offensive line and linebacker issues that could doom Miami in tougher playoff matchups."
+    },
+    {
+      "after_words": 100,
+      "host": "dale-ruttman",
+      "note": "Counter by emphasizing the physical, relentless defense that shut down Ohio State’s offense despite some mistakes."
+    },
+    {
+      "after_words": 150,
+      "host": "cassius-wynn",
+      "note": "Bring up the concerns about Miami’s defense consistency and the softness of their schedule as reasons to doubt."
+    },
+    {
+      "after_words": 200,
+      "host": "dale-ruttman",
+      "note": "Push back with Miami’s ability to connect on deep passes and their championship aspirations backed by their win likelihood against Clemson."
+    },
+    {
+      "after_words": 250,
+      "host": "cassius-wynn",
+      "note": "Reassert that until Miami fixes its run game and defensive lapses, they can’t be considered a finished playoff-caliber team."
+    }
+  ],
+  "attribution": {
+    "mode": "A",
+    "label": "SOURCED & COMMITTED",
+    "law": "When a receipt is an ATTRIBUTED_CLAIM, name who said it and where (person/outlet + platform), then COMMIT to your read of it - never hedge it into mush. A FACT you state plainly. Never present an unproven claim as settled fact; never bury a real fact under \"allegedly\"."
+  },
+  "detonation_react": {
+    "host": "dale-ruttman",
+    "instruction": "You didn’t see that coming; react with surprise but defend Miami’s resilience and ability to adjust despite defensive struggles."
+  },
+  "kk_drop": {
+    "host": "renee-vaughn",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "renee-vaughn",
+    "instruction": "The Hurricanes crushed Stanford 45-6 in their season opener, showing a dominant performance on both sides of the ball."
+  },
+  "exit": {
+    "host": "renee-vaughn",
+    "alt_host": "dale-ruttman",
+    "instruction": "Let’s close this with the reality that Miami’s playoff legitimacy is a high-stakes debate, and next week’s games will tell us more; stay tuned for deeper breakdowns."
+  },
+  "_compiled_from": {
+    "stringer": "str_afjc64xz",
+    "briefing": "brf_fvndgtrs",
+    "delegates_surfaced": []
+  }
+}

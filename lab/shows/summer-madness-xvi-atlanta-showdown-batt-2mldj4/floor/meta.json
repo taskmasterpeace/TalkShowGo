@@ -1,0 +1,25 @@
+{
+  "beat": "summer-madness-xvi-atlanta-showdown-batt",
+  "provider": "openrouter",
+  "models": {
+    "marcus-blaze": "google/gemini-2.5-flash-lite",
+    "tasha-raw": "deepseek/deepseek-v3.2-exp",
+    "_mix": "google/gemini-2.5-flash-lite"
+  },
+  "dna": {
+    "marcus-blaze": "google/gemini-2.5-flash-lite",
+    "tasha-raw": "deepseek/deepseek-v3.2-exp"
+  },
+  "guards": {
+    "marcus-blaze": {
+      "style": true
+    },
+    "tasha-raw": {
+      "style": true
+    }
+  },
+  "seed": 7,
+  "turns": 26,
+  "spoken_words": 392,
+  "finished": "2026-09-03T23:50:27.458Z"
+}

@@ -36,26 +36,21 @@ export function useCmdState() {
   return { state, err, reload }
 }
 
+// The selected show is shared app-wide via localStorage AND a live event, so the master switcher (in the
+// layout) and every page's body react to a pick from anywhere - not just on mount.
 export function useBeat(state: CmdState | null) {
   const [beatFile, setBeatFile] = useState<string | null>(null)
-  useEffect(() => { try { const s = localStorage.getItem('tsg_beat'); if (s) setBeatFile(s) } catch {} }, [])
+  useEffect(() => {
+    try { const s = localStorage.getItem('tsg_beat'); if (s) setBeatFile(s) } catch {}
+    const onChange = (e: any) => { const v = e?.detail ?? (() => { try { return localStorage.getItem('tsg_beat') } catch { return null } })(); setBeatFile(v) }
+    window.addEventListener('tsg_beat_change', onChange)
+    window.addEventListener('storage', onChange)
+    return () => { window.removeEventListener('tsg_beat_change', onChange); window.removeEventListener('storage', onChange) }
+  }, [])
   const beats = state?.beats || []
   const beat = beats.find(b => b.file === beatFile) || beats[0] || null
-  const pick = (f: string) => { setBeatFile(f); try { localStorage.setItem('tsg_beat', f) } catch {} }
+  const pick = (f: string) => { setBeatFile(f); try { localStorage.setItem('tsg_beat', f) } catch {}; try { window.dispatchEvent(new CustomEvent('tsg_beat_change', { detail: f })) } catch {} }
   return { beat, beats, pick }
-}
-
-export function BeatPicker({ beats, beat, pick }: { beats: any[]; beat: any; pick: (f: string) => void }) {
-  if (beats.length < 2) return null
-  return (
-    <div className="flex gap-1">
-      {beats.map(b => (
-        <button key={b.file} className={`chip ${beat?.file === b.file ? 'err' : ''}`} style={{ cursor: 'pointer' }} onClick={() => pick(b.file)}>
-          {(b.show?.name || b.name || b.id).toUpperCase()}
-        </button>
-      ))}
-    </div>
-  )
 }
 
 export async function saveBeat(file: string, beat: any) {

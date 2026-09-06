@@ -1,0 +1,138 @@
+{
+  "id": "are-the-falcons-built-to-win-the-nfc-sou",
+  "show": "huddle2-nfc-south",
+  "question": "Are the Falcons built to win the NFC South in 2026, or not?",
+  "target_spoken_words": 368,
+  "max_turns": 27,
+  "stances": {
+    "renee-vaughn": "MODERATOR: take NO side; referee and press both debaters on Falcons' readiness to win the NFC South in 2026, focusing on unsettled quarterback issues and defensive challenges.",
+    "cassius-wynn": "YES: The Falcons are built to win the NFC South in 2026 because they have elite playmakers like Bijan Robinson and a fresh, talented coaching staff led by Kevin Stefanski, who is an offensive mastermind ready to maximize their potential.",
+    "andrew-hammond": "NO: The Falcons are not built to win the NFC South in 2026 due to a terrible quarterback situation, injuries limiting key players like Michael Penix Jr., a thinning defensive pass rush, and a brutal early schedule against playoff-caliber teams."
+  },
+  "allowed_evidence": {
+    "renee-vaughn": [
+      "E005",
+      "E018",
+      "E028",
+      "E038",
+      "E039"
+    ],
+    "cassius-wynn": [
+      "E031",
+      "E032",
+      "E033",
+      "E034"
+    ],
+    "andrew-hammond": [
+      "E003",
+      "E013",
+      "E016",
+      "E019",
+      "E036",
+      "E037",
+      "E038",
+      "E039"
+    ]
+  },
+  "participants": [
+    {
+      "id": "renee-vaughn",
+      "name": "Renee Vaughn",
+      "kind": "host"
+    },
+    {
+      "id": "cassius-wynn",
+      "name": "Cassius Wynn",
+      "kind": "host"
+    },
+    {
+      "id": "andrew-hammond",
+      "name": "Andrew Hammond",
+      "kind": "host"
+    }
+  ],
+  "delegates": {
+    "ai": [],
+    "human": []
+  },
+  "human_slots": [],
+  "withheld": [
+    {
+      "host": "andrew-hammond",
+      "evidence": "E036",
+      "turn": 7,
+      "instruction": "NOW detonate this receipt, flat, let it sit"
+    }
+  ],
+  "anaphora_exempt": [
+    "falcons",
+    "quarterback",
+    "kevin stefanski",
+    "nfc south",
+    "2026"
+  ],
+  "protected_facts": [
+    {
+      "note": "Kevin Stefanski is the head coach of the Atlanta Falcons in 2026.",
+      "banned_phrasings": [
+        "Kevin Stefanski is a coach",
+        "Stefanski coaches the Falcons"
+      ]
+    }
+  ],
+  "waypoints": [
+    {
+      "after_words": 25,
+      "host": "cassius-wynn",
+      "note": "highlight the Falcons' top-tier offensive talent and new coaching staff as a foundation for winning the division"
+    },
+    {
+      "after_words": 50,
+      "host": "andrew-hammond",
+      "note": "challenge the quarterback situation and injury concerns as fatal flaws for the Falcons' 2026 hopes"
+    },
+    {
+      "after_words": 100,
+      "host": "cassius-wynn",
+      "note": "counter with Stefanski's offensive genius and the Falcons' proven playmakers overcoming those issues"
+    },
+    {
+      "after_words": 150,
+      "host": "andrew-hammond",
+      "note": "point to the tough early schedule and defensive weaknesses that will expose the Falcons"
+    },
+    {
+      "after_words": 200,
+      "host": "cassius-wynn",
+      "note": "reassert confidence in the Falcons' ability to rise to the challenge despite the schedule"
+    }
+  ],
+  "attribution": {
+    "mode": "A",
+    "label": "SOURCED & COMMITTED",
+    "law": "When a receipt is an ATTRIBUTED_CLAIM, name who said it and where (person/outlet + platform), then COMMIT to your read of it - never hedge it into mush. A FACT you state plainly. Never present an unproven claim as settled fact; never bury a real fact under \"allegedly\"."
+  },
+  "detonation_react": {
+    "host": "cassius-wynn",
+    "instruction": "you didn't see it coming; react, then defend without dismissing it"
+  },
+  "kk_drop": {
+    "host": "renee-vaughn",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "renee-vaughn",
+    "instruction": "open flat, set bait, name one concrete fact, then stop. short."
+  },
+  "exit": {
+    "host": "renee-vaughn",
+    "alt_host": "cassius-wynn",
+    "instruction": "button the segment; concede nothing; tease something heavier"
+  },
+  "_compiled_from": {
+    "stringer": "str_6yin9yyf",
+    "briefing": "brf_wz1hq8qh",
+    "delegates_surfaced": []
+  }
+}

@@ -2,7 +2,7 @@
 // publishers, this pulls an IMPARTIAL web summary + real citations so the dossier can be
 // re-parsed against fresh reporting. Every citation URL is taken from the provider's own
 // annotations, never invented. Primary: OpenRouter web plugin (Gemini). Fallback: Perplexity.
-const OR_KEY = process.env.OPENROUTER_API_KEY
+const OR_KEY = () => process.env.OPENROUTER_API_KEY // per-call: a key saved in SETTINGS works without a restart
 
 const WEB_SYS = `You are an IMPARTIAL research analyst for a talk show. Using current web sources, give a factual, neutral summary that answers the query. HARD RULES:
 - Report only what the sources say. Do NOT lean, argue, editorialize, or give an opinion.
@@ -56,7 +56,7 @@ function dropExcluded(citations: WebCitation[], terms: string[]): WebCitation[] 
 
 async function callOpenRouter(payload: any): Promise<any> {
   const r = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-    method: 'POST', headers: { Authorization: 'Bearer ' + OR_KEY, 'Content-Type': 'application/json' },
+    method: 'POST', headers: { Authorization: 'Bearer ' + OR_KEY(), 'Content-Type': 'application/json' },
     body: JSON.stringify(payload), signal: AbortSignal.timeout(60000),
   })
   const j = await r.json()
@@ -82,7 +82,7 @@ export async function webResearch(query: string, cfg: any): Promise<{ answer: st
   }
 
   // Paid fallbacks need the OpenRouter key. If it's absent, the free path was our only shot.
-  if (!OR_KEY) return { answer: '', citations: [], provider: 'web' }
+  if (!OR_KEY()) return { answer: '', citations: [], provider: 'web' }
   const messages = [{ role: 'system', content: WEB_SYS }, { role: 'user', content: query }]
   const clean = (m: any, j: any, provider: string) => {
     const answer = m?.content || ''

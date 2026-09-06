@@ -1,0 +1,246 @@
+[
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Good evening, let's orient the room. The Panthers come to Atlanta in week two, and Bryce Young has torched them there before. So who's ready to prove that's not a problem?",
+    "delivery": "level, opening the floor",
+    "addressed_to": "null",
+    "evidence": [
+      "E003",
+      "E004",
+      "E005"
+    ],
+    "tag": null,
+    "ms": 3374,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Renee, while you're locked on week two, the Falcons are walking into THREE PRIMETIME GAMES early! That home spotlight against the Ravens? That's where they BUILD the confidence to run this division!",
+    "delivery": "Booming, arena-scale intensity",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E006",
+      "E007"
+    ],
+    "tag": null,
+    "ms": 49879,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Mike, I hear ya on the primetime energy, but that early schedule is a real curveball. Five of their first seven opponents were playoff teams last year.",
+    "delivery": "friendly-skeptical",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E008"
+    ],
+    "tag": null,
+    "ms": 1540,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Andrew, pressure makes diamonds! Survive that early gauntlet, and with the fifth-easiest schedule in the league, they steamroll to the title!",
+    "delivery": "Booming, defiant, arms wide",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E012"
+    ],
+    "tag": "interrupting",
+    "ms": 39959,
+    "noMerge": false
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Steamroll, but their last three games are Tampa, New Orleans, and Carolina, all division. Analyst James on the roundtable says those games matter more to the opponents than to Atlanta. Why would that be?",
+    "delivery": "pointed, even, pressing",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E011",
+      "E016"
+    ],
+    "tag": null,
+    "ms": 3618,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Why would it matter more to them? By then, the Falcons have already banked wins on the fifth-easiest schedule in the league! This is their victory parade!",
+    "delivery": "Booming, dismissive, pointing",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E012"
+    ],
+    "tag": null,
+    "ms": 47783,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Look, Mike, that early gauntlet could put them in a hole they can't climb out of, making those late-season division games feel like extra innings.",
+    "delivery": "friendly-skeptical, firm",
+    "addressed_to": "big-mike-vega",
+    "evidence": [],
+    "tag": null,
+    "ms": 1241,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "And that's the thing, Mike: five of their first seven opponents were playoff teams last year. That’s a tough opening stretch for anyone.",
+    "delivery": "calmly emphatic",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E008"
+    ],
+    "tag": "interrupting",
+    "ms": 1356,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Andrew, those primetime fights forge a winner's heart! Then they face a schedule among the easiest and take the South!",
+    "delivery": "Booming, defiant, arms wide",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E006",
+      "E012"
+    ],
+    "tag": null,
+    "ms": 114162,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Both of you keep skipping the projection. James's own colleague on that roundtable pegs this team at six to eight wins, everything has to break right for nine.",
+    "delivery": "level, pointed, pressing",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E020"
+    ],
+    "tag": null,
+    "ms": 3657,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Renee, those roundtable guesses don't account for heart! Survive the early spotlight, and that fifth-easiest schedule is your red carpet to the title!",
+    "delivery": "Booming, defiant, pointing",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E012"
+    ],
+    "tag": null,
+    "ms": 48861,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Here's the thing nobody's saying out loud: heart doesn't show up in a projection, and a projection doesn't survive a home loss to Bryce Young.",
+    "delivery": "level, weighty, unhurried",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E020",
+      "E004"
+    ],
+    "tag": null,
+    "ms": 3553,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Renee's right, Mike, you can't just bank on heart when the schedule throws five playoff teams at you in the first seven weeks.",
+    "delivery": "friendly-firm",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E008"
+    ],
+    "tag": null,
+    "ms": 1264,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Andrew, that early crucible forges a contender! Then they feast on a schedule ranked fifth easiest and storm to the title!",
+    "delivery": "Booming, defiant, arms wide",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E012"
+    ],
+    "tag": null,
+    "ms": 69610,
+    "noMerge": false
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Mike, a tough start like that means you're already playing catch-up, and that’s a hard position to be in for the division title.",
+    "delivery": "friendly-firm, earnest",
+    "addressed_to": "big-mike-vega",
+    "evidence": [],
+    "tag": null,
+    "ms": 3451,
+    "noMerge": false
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "So here's where that leaves us: brutal opening, soft closing, and a division decided by whether they're still standing come November. We'll dig into the roster moves shaping that stretch next time.",
+    "delivery": "level, closing, handing off",
+    "addressed_to": "null",
+    "evidence": [
+      "E020",
+      "E031"
+    ],
+    "tag": null,
+    "ms": 8642,
+    "noMerge": true
+  }
+]

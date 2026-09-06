@@ -1,0 +1,188 @@
+{
+  "id": "atlanta-falcons-2026-team-captains-bijan",
+  "show": "atlanta-falcons-2026-team-captains-bijan",
+  "question": "Did the Falcons pick the right captains for this season, or not?",
+  "target_spoken_words": 368,
+  "max_turns": 27,
+  "stances": {
+    "andrew-hammond": "While the selection covers key units, the inclusion of players like Divine Deablo on both offense and defense raises questions about true representation.",
+    "renee-vaughn": "The Falcons passed the structural test for 'right' by naming seven captains covering offense, defense, and special teams, as announced by the head coach.",
+    "big-mike-vega": "This is a championship-level leadership group that embodies the team's identity and covers every unit, a main event roster announced by the head coach."
+  },
+  "allowed_evidence": {
+    "andrew-hammond": [
+      "E001",
+      "E005",
+      "E002",
+      "E003",
+      "E004"
+    ],
+    "renee-vaughn": [
+      "E001",
+      "E006",
+      "E002",
+      "E003",
+      "E004",
+      "E008"
+    ],
+    "big-mike-vega": [
+      "E001",
+      "E006",
+      "E002",
+      "E003",
+      "E004",
+      "E007"
+    ]
+  },
+  "participants": [
+    {
+      "id": "andrew-hammond",
+      "name": "Andrew Hammond",
+      "kind": "host"
+    },
+    {
+      "id": "renee-vaughn",
+      "name": "Renee Vaughn",
+      "kind": "host"
+    },
+    {
+      "id": "big-mike-vega",
+      "name": "Big Mike Vega",
+      "kind": "host"
+    },
+    {
+      "id": "delegate:api-test",
+      "name": "Api Test",
+      "kind": "human",
+      "voice": {
+        "sample_wav": "D:\\git\\talkshowgo\\lab\\takes\\atlanta-falcons\\api-test\\take-1.wav",
+        "ref_text": "Look, I'm not on TV. I'm just a fan who actually watches and I'm telling you, this one's different. I've been saying that for a long time.",
+        "seconds": 7.76
+      }
+    }
+  ],
+  "delegates": {
+    "ai": [],
+    "human": [
+      {
+        "id": "delegate:api-test",
+        "name": "Api Test",
+        "kind": "human",
+        "verbatim_turns": [
+          {
+            "text": "Look, I'm not on TV. I'm just a fan who actually watches and I'm telling you, this one's different. I've been saying that for a long time.",
+            "asked": "What's your initial reaction to the 53-man roster?"
+          },
+          {
+            "text": "typed only take",
+            "asked": "x"
+          },
+          {
+            "text": "Honestly I would need to see it again, with fresh eyes.",
+            "asked": "verdict"
+          }
+        ],
+        "voice": {
+          "sample_wav": "D:\\git\\talkshowgo\\lab\\takes\\atlanta-falcons\\api-test\\take-1.wav",
+          "ref_text": "Look, I'm not on TV. I'm just a fan who actually watches and I'm telling you, this one's different. I've been saying that for a long time.",
+          "seconds": 7.76
+        },
+        "persona_note": "cousin"
+      }
+    ]
+  },
+  "human_slots": [
+    {
+      "key": "delegate:api-test#0",
+      "host": "delegate:api-test",
+      "name": "Api Test",
+      "after_words": 81,
+      "text": "Look, I'm not on TV. I'm just a fan who actually watches and I'm telling you, this one's different. I've been saying that for a long time.",
+      "asked": "What's your initial reaction to the 53-man roster?"
+    },
+    {
+      "key": "delegate:api-test#1",
+      "host": "delegate:api-test",
+      "name": "Api Test",
+      "after_words": 184,
+      "text": "typed only take",
+      "asked": "x"
+    },
+    {
+      "key": "delegate:api-test#2",
+      "host": "delegate:api-test",
+      "name": "Api Test",
+      "after_words": 294,
+      "text": "Honestly I would need to see it again, with fresh eyes.",
+      "asked": "verdict"
+    }
+  ],
+  "withheld": [
+    {
+      "host": "andrew-hammond",
+      "evidence": "E005",
+      "turn": 7,
+      "instruction": "Detonate the receipt about Divine Deablo's dual captaincy."
+    }
+  ],
+  "anaphora_exempt": [
+    "atlanta falcons",
+    "captains",
+    "season",
+    "head coach kevin stefanski",
+    "seven"
+  ],
+  "protected_facts": [],
+  "waypoints": [
+    {
+      "after_words": 25,
+      "host": "big-mike-vega",
+      "note": "Challenge Renee's 'structural test' framing by emphasizing identity."
+    },
+    {
+      "after_words": 75,
+      "host": "andrew-hammond",
+      "note": "Introduce doubt about player representation based on E005."
+    },
+    {
+      "after_words": 150,
+      "host": "renee-vaughn",
+      "note": "Pivot to the 'leadership in many forms' angle to broaden the definition of 'right'."
+    },
+    {
+      "after_words": 225,
+      "host": "big-mike-vega",
+      "note": "Reiterate the championship-level claim, pushing back against Andrew's doubt."
+    }
+  ],
+  "attribution": {
+    "mode": "A",
+    "label": "SOURCED & COMMITTED",
+    "law": "When a receipt is an ATTRIBUTED_CLAIM, name who said it and where (person/outlet + platform), then COMMIT to your read of it - never hedge it into mush. A FACT you state plainly. Never present an unproven claim as settled fact; never bury a real fact under \"allegedly\"."
+  },
+  "detonation_react": {
+    "host": "big-mike-vega",
+    "instruction": "Express surprise at the E005 reveal, then defend the overall selection."
+  },
+  "kk_drop": {
+    "host": "renee-vaughn",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "renee-vaughn",
+    "instruction": "The Atlanta Falcons named seven captains for the 2026 season, announced by Head Coach Kevin Stefanski."
+  },
+  "exit": {
+    "host": "big-mike-vega",
+    "alt_host": "andrew-hammond",
+    "instruction": "Conclude that the captaincy is set, but the real test is on the field, teasing future performance analysis."
+  },
+  "_compiled_from": {
+    "stringer": "str_ilppbi7w",
+    "briefing": "brf_erpzy52v",
+    "delegates_surfaced": [
+      "Api Test"
+    ]
+  }
+}

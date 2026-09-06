@@ -1,0 +1,327 @@
+{
+  "topic": "Are the Falcons built to win the NFC South in 2026, or not?",
+  "compiled": "2026-09-05T02:41:50.620Z",
+  "question": "Are the Falcons built to win the NFC South in 2026, or not?",
+  "entries": [
+    {
+      "id": "E001",
+      "claim": "The Atlanta Falcons' 2026 schedule includes primetime matchups and divisional games early in the season.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "FACT"
+    },
+    {
+      "id": "E002",
+      "claim": "The Falcons will open the 2026 season on the road against the Steelers.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "FACT"
+    },
+    {
+      "id": "E003",
+      "claim": "The Steelers game will feature new coaches for both teams: Mike McCarthy for the Steelers and Kevin Stefanski for the Falcons.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "FACT"
+    },
+    {
+      "id": "E004",
+      "claim": "In a previous game against the Steelers, the Falcons spent money on Kirk Cousins while the Steelers did not spend on Russell Wilson, and the cheaper quarterback (Wilson) won.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E005",
+      "claim": "There is a question about whether Tua Tagovailoa will start at quarterback for the Falcons in 2026.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E006",
+      "claim": "The game plan from Zac Robinson against the Steelers in a past game was not good, specifically regarding how they handled T.J. Watt and the lack of play action.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E007",
+      "claim": "Tommy Reese will be tested in the Week 1 Steelers game to see if he can develop a better game plan, especially since he has seen the Steelers multiple times.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E008",
+      "claim": "Aaron Rodgers' future playing status is uncertain and affects the perception of the Week 1 Falcons game.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E009",
+      "claim": "The Falcons' defense was better in 2024, but the offense struggled to score enough points to win games.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E010",
+      "claim": "The Falcons face Bryce Young and the Panthers in Week 2 at home, which is an opportunity to break a streak of losses against him.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "FACT"
+    },
+    {
+      "id": "E011",
+      "claim": "Putting pressure on Bryce Young is a key strategy, as he tends to fold when pressured.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E012",
+      "claim": "Rushing four players and having Jessie Bates play around in coverage is suggested as a game plan against Bryce Young.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E013",
+      "claim": "The Falcons have three consecutive primetime games in weeks 3-5: at the Packers (Thursday), at the Saints (Monday), and vs. Ravens (Sunday).",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "FACT"
+    },
+    {
+      "id": "E014",
+      "claim": "Raheem Morris's Falcons teams played well in primetime, going 7-3 during his two-year stint.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "FACT"
+    },
+    {
+      "id": "E015",
+      "claim": "Kevin Stefanski has a winning record in primetime games from his time as head coach of the Browns.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "FACT"
+    },
+    {
+      "id": "E016",
+      "claim": "The three-game primetime stretch is seen as a measuring stick for the Falcons against playoff-caliber teams like the Packers, Ravens, and Saints.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "ANALYSIS"
+    },
+    {
+      "id": "E017",
+      "claim": "The Thursday night game provides a mini bye week, which can help teams with injuries.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E018",
+      "claim": "There is a question about whether Michael Penix Jr. will start at quarterback for the Falcons in 2026, potentially debuting in Week 5 against the Ravens.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E019",
+      "claim": "Kevin Stefanski's handling of quarterback situations in Cleveland was 'weird,' and there's hope it won't be repeated with the Falcons.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E020",
+      "claim": "The Browns have had a high number of starting quarterbacks since their return to Cleveland.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "FACT"
+    },
+    {
+      "id": "E021",
+      "claim": "The Ravens game in Week 5 starts a tough stretch of the Falcons' season.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "ANALYSIS"
+    },
+    {
+      "id": "E022",
+      "claim": "The Falcons' schedule includes a trip to Madrid, Spain, to play the Bengals in Week 9, followed by a home game against the Chiefs in Week 10, with the bye week occurring after the Chiefs game.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "FACT"
+    },
+    {
+      "id": "E023",
+      "claim": "The scheduling of the bye week after the overseas trip to Madrid is questioned as illogical.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E024",
+      "claim": "There is interest in seeing how Caleb Williams is playing by Week 9, as he had an up-and-down rookie season with some great moments in the playoffs.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E025",
+      "claim": "Raheem Morris will be returning to Atlanta as the defensive coordinator for the San Francisco 49ers, and he will likely be booed.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E026",
+      "claim": "One speaker believes the Chiefs game might be the easiest of the five tough opponents leading into the bye week, as they are not convinced the Chiefs are still the same dominant team.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E027",
+      "claim": "The other speaker strongly disagrees with the assessment of the Chiefs, citing Patrick Mahomes as a factor and warning about the danger if he has time to throw.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E028",
+      "claim": "There is a debate about whether Michael Penix Jr. will start at quarterback for the Falcons by Week 12 after the bye week, or if Tua Tagovailoa will still be the starter.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E029",
+      "claim": "If the Falcons have a 5-5 or 4-6 record by Week 12, Michael Penix Jr. should play to get an evaluation.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E030",
+      "claim": "If the Falcons are 8-2 by Week 12, they should stick with Tua Tagovailoa.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E031",
+      "claim": "Kevin Stefanski is described as an 'OC mastermind' who has found his groove.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E032",
+      "claim": "The Atlanta Falcons have potential due to a new coaching staff with Kevin Stefanski as head coach.",
+      "source_name": "theringer.com",
+      "source_type": "research",
+      "url": "https://www.theringer.com/2026/09/04/nfl/nfc-south-division-preview-tampa-bay-buccaneers-carolina-panthers-new-orleans-saints-atlanta-falcons",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E033",
+      "claim": "The Falcons roster features playmakers like running back Bijan Robinson, wide receiver Drake London, and tight end Kyle Pitts.",
+      "source_name": "espn.com",
+      "source_type": "research",
+      "url": "https://www.espn.com/espn/betting/story/_/id/49355434/atlanta-falcons-betting-outlook-2026",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E034",
+      "claim": "The Falcons' offensive line is considered competent.",
+      "source_name": "vsin.com",
+      "source_type": "research",
+      "url": "https://vsin.com/nfl/2026-nfc-south-nfl-team-previews-falcons-panthers-saints-buccaneers/",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E035",
+      "claim": "The defense was ranked 14th in EPA per drive in the previous season.",
+      "source_name": "bloggingdirty.com",
+      "source_type": "research",
+      "url": "https://bloggingdirty.com/falcons-may-be-pulling-away-from-a-pretty-lifeless-nfc-south-entering-2026-01krgr8tvkfm",
+      "tier": "FACT"
+    },
+    {
+      "id": "E036",
+      "claim": "The quarterback situation is described as 'terrible'.",
+      "source_name": "sharpmodels.com",
+      "source_type": "research",
+      "url": "https://sharpmodels.com/articles/2026-nfl-nfc-south-preview",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E037",
+      "claim": "Michael Penix Jr. has been limited in training camp due to recovering from his third ACL injury.",
+      "source_name": "tsn.ca",
+      "source_type": "research",
+      "url": "https://www.tsn.ca/betting/article/morning-coffee-are-the-falcons-closer-to-contenders-or-pretenders/",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E038",
+      "claim": "Tua Tagovailoa, signed in free agency, is the presumptive Week 1 starter due to Penix's health status.",
+      "source_name": "espn.com",
+      "source_type": "research",
+      "url": "https://www.espn.com/espn/betting/story/_/id/49355434/atlanta-falcons-betting-outlook-2026",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E039",
+      "claim": "Several defensive players with significant pressure contributions are not returning or are injured.",
+      "source_name": "vsin.com",
+      "source_type": "research",
+      "url": "https://vsin.com/nfl/2026-nfc-south-nfl-team-previews-falcons-panthers-saints-buccaneers/",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E040",
+      "claim": "The Falcons have faced salary cap constraints.",
+      "source_name": "bloggingdirty.com",
+      "source_type": "research",
+      "url": "https://bloggingdirty.com/falcons-may-be-pulling-away-from-a-pretty-lifeless-nfc-south-entering-2026-01krgr8tvkfm",
+      "tier": "ATTRIBUTED_CLAIM"
+    }
+  ]
+}

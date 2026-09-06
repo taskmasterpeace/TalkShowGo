@@ -3,7 +3,7 @@
  * Gets channel info and recent videos for each commentary channel
  */
 
-const API_KEY = 'AIzaSyCpoWGezKdv-NgirpijZPYdWf4eCjCCy-k'
+const API_KEY = process.env.YOUTUBE_API_KEY || '' // key was committed here once - REVOKED; env-only now
 
 const CHANNELS = [
   { id: 'UCPmsKnEd95aD2bKEm277aVw', name: 'PIPERBOY WILLIAMS' },

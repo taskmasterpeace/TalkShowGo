@@ -1,0 +1,543 @@
+{
+  "topic": "After the Stanford blowout, are the Hurricanes a legit playoff team?",
+  "compiled": "2026-09-05T16:06:52.480Z",
+  "question": "After the Stanford blowout, are the Hurricanes a legit playoff team?",
+  "entries": [
+    {
+      "id": "E001",
+      "claim": "The Miami Hurricanes won the Cotton Bowl against the Ohio State Buckeyes.",
+      "source_name": "ESPN College Football and 2 more",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=nQsOIn5h3rM",
+      "tier": "FACT"
+    },
+    {
+      "id": "E002",
+      "claim": "Miami's victory over Ohio State in the Cotton Bowl was their biggest win in 23 years.",
+      "source_name": "ESPN College Football and 2 more",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=nQsOIn5h3rM",
+      "tier": "FACT"
+    },
+    {
+      "id": "E003",
+      "claim": "Miami's defense was physical and brought the fight to Ohio State.",
+      "source_name": "ESPN College Football and 2 more",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=nQsOIn5h3rM",
+      "tier": "FACT"
+    },
+    {
+      "id": "E004",
+      "claim": "Miami's defensive line was relentless and got after Ohio State's quarterback.",
+      "source_name": "ESPN College Football and 2 more",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=nQsOIn5h3rM",
+      "tier": "FACT"
+    },
+    {
+      "id": "E005",
+      "claim": "Miami's win against Ohio State was a significant achievement, with some suggesting it signals 'the U is back'.",
+      "source_name": "ESPN College Football and 2 more",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=nQsOIn5h3rM",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E006",
+      "claim": "Miami's offense struggled with turnovers in the red zone against Ohio State.",
+      "source_name": "ESPN College Football and 2 more",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=nQsOIn5h3rM",
+      "tier": "FACT"
+    },
+    {
+      "id": "E007",
+      "claim": "Miami's quarterback, Julian Sayin, had protection issues against Ohio State's pass rush.",
+      "source_name": "ESPN College Football and 2 more",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=nQsOIn5h3rM",
+      "tier": "ANALYSIS"
+    },
+    {
+      "id": "E008",
+      "claim": "Miami's quarterback, Julian Sayin, was able to connect on deep passes when given time.",
+      "source_name": "ESPN College Football and 2 more",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=nQsOIn5h3rM",
+      "tier": "FACT"
+    },
+    {
+      "id": "E009",
+      "claim": "Miami's defense scored a touchdown via a 70-yard interception return.",
+      "source_name": "ESPN College Football and 2 more",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=nQsOIn5h3rM",
+      "tier": "FACT"
+    },
+    {
+      "id": "E010",
+      "claim": "Keante Scott is described as one of the best, smartest players on the Miami defense and a game-changer.",
+      "source_name": "ESPN College Football and 2 more",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=nQsOIn5h3rM",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E011",
+      "claim": "Miami's offense relies on a balanced attack, not necessarily a lot of vertical shots.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E012",
+      "claim": "Miami's running backs were injured or banged up after a game against MTSU.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "FACT"
+    },
+    {
+      "id": "E013",
+      "claim": "Miami's defense gave up too many explosive plays against MTSU.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E014",
+      "claim": "The speaker does not feel confident in Miami matching UNC's offense score-for-score and believes the defense needs to step up.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E015",
+      "claim": "North Carolina leads the series against Miami 14-11.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "FACT"
+    },
+    {
+      "id": "E016",
+      "claim": "North Carolina won the most recent matchup against Miami 45-42.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "FACT"
+    },
+    {
+      "id": "E017",
+      "claim": "North Carolina's offense is leading the ACC in total yards and average points per game.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "FACT"
+    },
+    {
+      "id": "E018",
+      "claim": "North Carolina's defense is allowing almost 34 points per game, ranking last in the ACC.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "FACT"
+    },
+    {
+      "id": "E019",
+      "claim": "North Carolina's defense is porous and has issues at almost every position group.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E020",
+      "claim": "Notre Dame rushed for 287 yards on North Carolina's defense.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "FACT"
+    },
+    {
+      "id": "E021",
+      "claim": "Miami's offensive identity was previously a strong physical run game, but now appears to be a balanced attack.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E022",
+      "claim": "Miami's average points per game is 35, but this is inflated by a 70-point game against Bethune-Cookman.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E023",
+      "claim": "Miami's average yards allowed per game is 336.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "FACT"
+    },
+    {
+      "id": "E024",
+      "claim": "A key to victory for Miami is controlling time of possession to keep UNC's offense off the field.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E025",
+      "claim": "Miami's defense must limit explosive plays against UNC.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E026",
+      "claim": "Tyler Van Dyke is identified as needing a comeback game against North Carolina.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E027",
+      "claim": "Drake May has thrown for over 1500 yards and 19 touchdowns, with an additional three rushing touchdowns.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "FACT"
+    },
+    {
+      "id": "E028",
+      "claim": "Drake May's total touchdowns are the most for any North Carolina player through any five-game stretch in program history.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "FACT"
+    },
+    {
+      "id": "E029",
+      "claim": "A key to victory for North Carolina is finding success running the ball on first down.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E030",
+      "claim": "North Carolina's defense has issues, but they shut out Virginia Tech in the second half of a game.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "FACT"
+    },
+    {
+      "id": "E031",
+      "claim": "A key to victory for North Carolina is to build an early lead against Miami.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E032",
+      "claim": "ESPN's matchup predictor gives Miami a 67.2% win probability against North Carolina.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "FACT"
+    },
+    {
+      "id": "E033",
+      "claim": "Miami is a four-point favorite against North Carolina.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "FACT"
+    },
+    {
+      "id": "E034",
+      "claim": "The speaker predicts Miami will lose to North Carolina 38-21.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E035",
+      "claim": "The speaker predicts Miami will lose to North Carolina 35-17.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E036",
+      "claim": "Miami lost to MTSU and then beat North Carolina after a bye week is a possibility.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E037",
+      "claim": "Miami's defense is not expected to be able to slow down North Carolina.",
+      "source_name": "Coach Coop",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=LQs3WM05bsE",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E038",
+      "claim": "Miami lost to Indiana in the national championship game.",
+      "source_name": "ESPN College Football",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=hxqQavWBRiA",
+      "tier": "FACT"
+    },
+    {
+      "id": "E039",
+      "claim": "Miami is considered a national title contender.",
+      "source_name": "ESPN College Football",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=hxqQavWBRiA",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E040",
+      "claim": "Stanford beat Hawaii 37-27, nearly giving away a lead.",
+      "source_name": "ESPN College Football",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=hxqQavWBRiA",
+      "tier": "FACT"
+    },
+    {
+      "id": "E041",
+      "claim": "Davis Warren, Stanford's quarterback, had a career-high 310 passing yards in his first big game in nearly 20 months.",
+      "source_name": "ESPN College Football",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=hxqQavWBRiA",
+      "tier": "FACT"
+    },
+    {
+      "id": "E042",
+      "claim": "Darian Mensah, Miami's quarterback, transferred from Duke where he led the ACC in passing yards and touchdown passes.",
+      "source_name": "ESPN College Football",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=hxqQavWBRiA",
+      "tier": "FACT"
+    },
+    {
+      "id": "E043",
+      "claim": "Miami has gone to the portal for a starting quarterback for three consecutive years.",
+      "source_name": "ESPN College Football",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=hxqQavWBRiA",
+      "tier": "FACT"
+    },
+    {
+      "id": "E044",
+      "claim": "Malachi Tony is considered one of the best players in America.",
+      "source_name": "ESPN College Football",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=hxqQavWBRiA",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E045",
+      "claim": "Mark Fletcher is a notable running back for Miami.",
+      "source_name": "ESPN College Football",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=hxqQavWBRiA",
+      "tier": "FACT"
+    },
+    {
+      "id": "E046",
+      "claim": "Stanford's defense ranked 97th nationally and returns 96% of its snaps.",
+      "source_name": "ESPN College Football",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=hxqQavWBRiA",
+      "tier": "FACT"
+    },
+    {
+      "id": "E047",
+      "claim": "Miami's front (defensive line) is a reason they won 13 games and is expected to give Stanford's offensive line a tough time.",
+      "source_name": "ESPN College Football",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=hxqQavWBRiA",
+      "tier": "ANALYSIS"
+    },
+    {
+      "id": "E048",
+      "claim": "Miami's defensive line is deep and talented, considered one of the best defenses in America at all three levels.",
+      "source_name": "ESPN College Football",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=hxqQavWBRiA",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E049",
+      "claim": "The speaker questions if Davis Warren's 310 yards against Hawaii was a sign of his ability or a product of the competition.",
+      "source_name": "ESPN College Football",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=hxqQavWBRiA",
+      "tier": "ANALYSIS"
+    },
+    {
+      "id": "E050",
+      "claim": "The speaker questions if Stanford's defense will hold up against a national title contender.",
+      "source_name": "ESPN College Football",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=hxqQavWBRiA",
+      "tier": "ANALYSIS"
+    },
+    {
+      "id": "E051",
+      "claim": "The speaker questions if Darian Mensah is an upgrade or downgrade from Carson Beck.",
+      "source_name": "ESPN College Football",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=hxqQavWBRiA",
+      "tier": "ANALYSIS"
+    },
+    {
+      "id": "E052",
+      "claim": "The speaker believes Miami's offensive line will still be good, but questions if it will be as elite as last year.",
+      "source_name": "ESPN College Football",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=hxqQavWBRiA",
+      "tier": "ANALYSIS"
+    },
+    {
+      "id": "E053",
+      "claim": "The speaker predicts Miami will win against Stanford 34-13.",
+      "source_name": "ESPN College Football",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=hxqQavWBRiA",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E054",
+      "claim": "The speaker believes Miami will be good but may not cover the 24.5-point spread against Stanford.",
+      "source_name": "ESPN College Football",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=hxqQavWBRiA",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E055",
+      "claim": "Stanford's offensive line is considered pretty good, with Nick Prongos being an NFL radar prospect.",
+      "source_name": "The Ruffino & Joe Show - Weekly College Football ",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=Pkx518sYWic",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E056",
+      "claim": "The No. 7-ranked Miami Hurricanes defeated Stanford 45-6 in their season opener.",
+      "source_name": "si.com",
+      "source_type": "research",
+      "url": "https://www.si.com/college/miami/football/no-7-miami-annihilates-stanford-in-season-opener-even-with-some-glaring-issues",
+      "tier": "FACT"
+    },
+    {
+      "id": "E057",
+      "claim": "The victory has led some to believe the team may be better than last year's squad.",
+      "source_name": "miamiherald.com",
+      "source_type": "research",
+      "url": "https://www.miamiherald.com/sports/college/acc/university-of-miami/article317119538.html",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E058",
+      "claim": "Quarterback Darian Mensah completed 27 of 30 passes for 401 yards and five touchdowns.",
+      "source_name": "miamiherald.com",
+      "source_type": "research",
+      "url": "https://www.miamiherald.com/sports/spt-columns-blogs/greg-cote/article317128839.html",
+      "tier": "FACT"
+    },
+    {
+      "id": "E059",
+      "claim": "Sophomore Malachi Toney caught 12 passes for 234 yards and three touchdowns.",
+      "source_name": "themiamihurricane.com",
+      "source_type": "research",
+      "url": "https://themiamihurricane.com/2026/09/05/toney-smashes-um-single-game-receiving-record-as-miami-blitzes-stanford-45-6-in-season-opener/",
+      "tier": "FACT"
+    },
+    {
+      "id": "E060",
+      "claim": "The defense held Stanford to six points and 299 yards.",
+      "source_name": "si.com",
+      "source_type": "research",
+      "url": "https://www.si.com/college/miami/football/no-7-miami-annihilates-stanford-in-season-opener-even-with-some-glaring-issues",
+      "tier": "FACT"
+    },
+    {
+      "id": "E061",
+      "claim": "The defense appeared out of sync at times, and the linebacker group is considered a potential weakness.",
+      "source_name": "si.com",
+      "source_type": "research",
+      "url": "https://www.si.com/college/miami/football/no-7-miami-annihilates-stanford-in-season-opener-even-with-some-glaring-issues",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E062",
+      "claim": "The offensive line also struggled initially, and the run game did not set the tone as it did in the previous year's playoff run.",
+      "source_name": "si.com",
+      "source_type": "research",
+      "url": "https://www.si.com/college/miami/football/no-7-miami-annihilates-stanford-in-season-opener-even-with-some-glaring-issues",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E063",
+      "claim": "Analysts question how Miami's defense will perform against stronger opponents given its struggles.",
+      "source_name": "stateoftheu.com",
+      "source_type": "research",
+      "url": "https://www.stateoftheu.com/miami-hurricanes-football/87657/the-good-the-bad-and-the-ugly-stanford-cardinal-2026-edition",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E064",
+      "claim": "Miami's schedule is considered soft.",
+      "source_name": "stateoftheu.com",
+      "source_type": "research",
+      "url": "https://www.stateoftheu.com/miami-hurricanes-football/87657/the-good-the-bad-and-the-ugly-stanford-cardinal-2026-edition",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E065",
+      "claim": "ESPN's Football Power Index gives Miami a 67.1% win likelihood against Clemson.",
+      "source_name": "stateoftheu.com",
+      "source_type": "research",
+      "url": "https://www.stateoftheu.com/miami-hurricanes-football/87657/the-good-the-bad-and-the-ugly-stanford-cardinal-2026-edition",
+      "tier": "FACT"
+    },
+    {
+      "id": "E066",
+      "claim": "Miami's win probability against No. 4 Notre Dame is 29.8%.",
+      "source_name": "stateoftheu.com",
+      "source_type": "research",
+      "url": "https://www.stateoftheu.com/miami-hurricanes-football/87657/the-good-the-bad-and-the-ugly-stanford-cardinal-2026-edition",
+      "tier": "FACT"
+    },
+    {
+      "id": "E067",
+      "claim": "Despite concerns, the team has championship aspirations.",
+      "source_name": "stateoftheu.com",
+      "source_type": "research",
+      "url": "https://www.stateoftheu.com/miami-hurricanes-football/87657/the-good-the-bad-and-the-ugly-stanford-cardinal-2026-edition",
+      "tier": "ATTRIBUTED_CLAIM"
+    }
+  ]
+}

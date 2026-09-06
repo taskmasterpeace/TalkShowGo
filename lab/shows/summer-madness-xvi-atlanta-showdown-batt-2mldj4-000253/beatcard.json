@@ -1,0 +1,129 @@
+{
+  "id": "summer-madness-xvi-atlanta-showdown-batt",
+  "show": "summer-madness-xvi-atlanta-showdown-batt",
+  "question": "What do the Summer Madness XVI accusations - Hollow Da Don vs Nu Jerzey Twork, Calicoe on Brizz Rawsteen - say about accountability and respect in battle rap right now?",
+  "target_spoken_words": 368,
+  "max_turns": 27,
+  "stances": {
+    "marcus-blaze": "Accountability in battle rap is a performance, not a policy, and respect is a variable that shifts based on who has the mic.",
+    "tasha-raw": "Battle rap's accountability is a press release, and respect is a currency that's devalued when on-stage personas clash with real-life actions.",
+    "king-knowledge": "Accountability is weaponized as a battle tactic, and respect is conditional on showing up and not showing fear."
+  },
+  "allowed_evidence": {
+    "marcus-blaze": [
+      "E001",
+      "E002",
+      "E003",
+      "E009",
+      "E015"
+    ],
+    "tasha-raw": [
+      "E004",
+      "E005",
+      "E006",
+      "E010",
+      "E011"
+    ],
+    "king-knowledge": [
+      "E007",
+      "E014",
+      "E012",
+      "E013",
+      "E019",
+      "E021",
+      "E022",
+      "E023"
+    ]
+  },
+  "participants": [
+    {
+      "id": "marcus-blaze",
+      "name": "Marcus Blaze",
+      "kind": "host"
+    },
+    {
+      "id": "tasha-raw",
+      "name": "Tasha Raw",
+      "kind": "host"
+    },
+    {
+      "id": "king-knowledge",
+      "name": "King Knowledge",
+      "kind": "host"
+    }
+  ],
+  "delegates": {
+    "ai": [],
+    "human": []
+  },
+  "human_slots": [],
+  "withheld": [
+    {
+      "host": "king-knowledge",
+      "evidence": "E023",
+      "turn": 7,
+      "instruction": "P.A.Y.N.E. claims to represent love and respect, but will not tolerate someone talking crazy to him."
+    }
+  ],
+  "anaphora_exempt": [
+    "accountability",
+    "respect",
+    "battle rap"
+  ],
+  "protected_facts": [],
+  "waypoints": [
+    {
+      "after_words": 25,
+      "host": "tasha-raw",
+      "note": "challenge Marcus's 'performance' idea with the idea of separate ledgers"
+    },
+    {
+      "after_words": 75,
+      "host": "king-knowledge",
+      "note": "introduce the idea of accountability as a weapon, not just a failing"
+    },
+    {
+      "after_words": 150,
+      "host": "marcus-blaze",
+      "note": "pivot to how respect is a currency that can be faked"
+    },
+    {
+      "after_words": 225,
+      "host": "tasha-raw",
+      "note": "connect the 'respect as currency' to the transactional nature of battle rap"
+    },
+    {
+      "after_words": 300,
+      "host": "king-knowledge",
+      "note": "reframe 'showing up' as the ultimate sign of respect"
+    }
+  ],
+  "attribution": {
+    "mode": "A",
+    "label": "SOURCED & COMMITTED",
+    "law": "When a receipt is an ATTRIBUTED_CLAIM, name who said it and where (person/outlet + platform), then COMMIT to your read of it - never hedge it into mush. A FACT you state plainly. Never present an unproven claim as settled fact; never bury a real fact under \"allegedly\"."
+  },
+  "detonation_react": {
+    "host": "tasha-raw",
+    "instruction": "Wait, P.A.Y.N.E. is saying he represents love and respect, but also that he won't tolerate someone talking crazy to him? That sounds like a contradiction."
+  },
+  "kk_drop": {
+    "host": "king-knowledge",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "marcus-blaze",
+    "instruction": "Summer Madness XVI brought up some serious accusations, and Hollow Da Don accused Nu Jerzey Twork of multiple charges including panhandling and grand larceny."
+  },
+  "exit": {
+    "host": "marcus-blaze",
+    "alt_host": "tasha-raw",
+    "instruction": "This is about more than just who showed up or who said what; we're talking about the foundation of the culture itself."
+  },
+  "_compiled_from": {
+    "stringer": "str_1bia3o73",
+    "briefing": "brf_2mldj4qs",
+    "delegates_surfaced": []
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "beat": "atlanta-falcons-2026-team-captains-bijan",
+  "provider": "openrouter",
+  "models": {
+    "tasha-raw": "deepseek/deepseek-v3.2-exp",
+    "king-knowledge": "deepseek/deepseek-v3.2-exp",
+    "_mix": "google/gemini-2.5-flash-lite"
+  },
+  "dna": {
+    "tasha-raw": "deepseek/deepseek-v3.2-exp",
+    "king-knowledge": "deepseek/deepseek-r1"
+  },
+  "guards": {
+    "tasha-raw": {
+      "style": true
+    },
+    "king-knowledge": {
+      "style": true
+    }
+  },
+  "seed": 7,
+  "turns": 36,
+  "spoken_words": 396,
+  "final_pass": "punched",
+  "producer": "anthropic/claude-sonnet-5",
+  "finished": "2026-09-04T02:37:14.147Z"
+}

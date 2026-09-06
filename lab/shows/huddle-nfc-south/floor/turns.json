@@ -1,0 +1,219 @@
+[
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Good evening, folks. What we know: this offensive line is stable, and the head coach's pedigree isn't in question.",
+    "delivery": "even, setting the frame",
+    "addressed_to": "big-mike-vega",
+    "evidence": [],
+    "tag": null,
+    "ms": 3302,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "LADIES and GENTLEMEN, continuity on the O-line under Bill Callahan? That’s the secret sauce turning potential into POWER ... the Falcons aren’t just stable, they’re UNSTOPPABLE!",
+    "delivery": "booming, confident, escalating",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E017",
+      "E019",
+      "E020"
+    ],
+    "tag": null,
+    "ms": 2265,
+    "noMerge": false
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Woah there, Mike, 'unstoppable' is a big word when TSN.ca is reporting significant uncertainty at quarterback with Penix Jr. recovering and Tua not impressing. That's a tough snap count to overcome.",
+    "delivery": "warm, friendly challenge",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E043"
+    ],
+    "tag": "interrupting",
+    "ms": 1621,
+    "noMerge": false
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Quarterback questions? Sure. But Bill Callahan’s technical mastery on that offensive line? That’s the rock this Falcons team is BUILT ON, fueling every play and every yard.",
+    "delivery": "booming, confident, escalating",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E017",
+      "E019",
+      "E020",
+      "E015",
+      "E016"
+    ],
+    "tag": null,
+    "ms": 1745,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Mike, even a rock-solid offensive line can't overcome the kind of hits this team is taking with injuries to Penix and those key defensive suspensions. That's a deep hole to dig out of.",
+    "delivery": "warmly but firmly challenging",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E043",
+      "E046"
+    ],
+    "tag": null,
+    "ms": 1774,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Injuries hit, yeah, but this coaching staff? Legends at adapting, turning setbacks into setups for breakout stars. That’s how contenders are made, not broken.",
+    "delivery": "Fiery, defiant, rallying",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E020",
+      "E016"
+    ],
+    "tag": null,
+    "ms": 1640,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Look, Mike, adapting is one thing, but when ESPN.com says they've missed the playoffs eight seasons straight and are under the cap, that's a tough rebuild. You can't just draft your way out of that.",
+    "delivery": "warmly challenging, grounded",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E047",
+      "E048"
+    ],
+    "tag": null,
+    "ms": 1443,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Mike, even the best coaching staff can't fix a defense that TSN.ca is reporting could be one of the league's worst front sevens, especially with James Pearce Jr. suspended for eight games and Jalon Walker out for the season.",
+    "delivery": "warmly challenging, grounded",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E046"
+    ],
+    "tag": "interrupting",
+    "ms": 2602,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Defensive struggles? Yeah, that’s the drama we expect in the fight for the crown! But it’s the Falcons’ ironclad offensive line, sculpted by Bill Callahan’s genius, that sets the pace...",
+    "delivery": "Surprised then fired up",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E017",
+      "E019",
+      "E020",
+      "E015",
+      "E016"
+    ],
+    "tag": null,
+    "ms": 3747,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Andrew, one line called this a rebuild from the last regime's mess. If that's true, is one offseason of adaptation actually enough to fix it?",
+    "delivery": "level, pressing directly",
+    "addressed_to": "andrew-hammond",
+    "evidence": [],
+    "tag": null,
+    "ms": 8071,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Renee, last show you pointed to that brutal finish in the division, and you KNOW those games are where legacies get made. The Falcons aren’t just showing up ...",
+    "delivery": "building, defiant, rallying",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E016"
+    ],
+    "tag": null,
+    "ms": 2921,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mike, you keep saying legacy, but a new playbook doesn't erase eight years of losing under a different regime overnight.",
+    "delivery": "level, unhurried, reframing",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E042"
+    ],
+    "tag": null,
+    "ms": 4117,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Eight years? That’s history, not prophecy! The Falcons are turning a corner...energy building, momentum rising, and that offense? Limitless potential ready to explode into the NFC South crown.",
+    "delivery": "booming, defiant, rallying",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E015",
+      "E016",
+      "E020"
+    ],
+    "tag": null,
+    "ms": 1518,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Mike, I hear the optimism, but ESPN.com tells us they've finished with seven or eight wins in seven of the last eight seasons, missing their win total in most of those.",
+    "delivery": "warmly challenging, grounded",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E049"
+    ],
+    "tag": null,
+    "ms": 4008,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "So here's where this leaves us: a coaching staff that's proven, a quarterback room that's unproven, and a defense that's undermanned.",
+    "delivery": "even, closing the frame",
+    "addressed_to": "null",
+    "evidence": [
+      "E010"
+    ],
+    "tag": null,
+    "ms": 6512,
+    "noMerge": true
+  }
+]

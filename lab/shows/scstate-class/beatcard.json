@@ -1,0 +1,132 @@
+{
+  "id": "after-hanging-87-points-on-savannah-stat",
+  "show": "scstate-class",
+  "question": "After hanging 87 points on Savannah State, are the Bulldogs the class of HBCU football right now?",
+  "target_spoken_words": 368,
+  "max_turns": 27,
+  "stances": {
+    "renee-vaughn": "MODERATOR: take NO side; referee and press both debaters on what the 87-0 win really means and how it compares to other contenders.",
+    "cassius-wynn": "YES, South Carolina State Bulldogs are the class of HBCU football right now because their historic 87-0 win sets a new standard and signals dominance unmatched since the 2025 Idaho State blowout.",
+    "andrew-hammond": "NO, despite the 87-0 win, it’s too soon to call the Bulldogs the class of HBCU football without seeing how they perform against stronger competition like Florida A&M."
+  },
+  "allowed_evidence": {
+    "renee-vaughn": [
+      "E001",
+      "E002",
+      "E004",
+      "E007"
+    ],
+    "cassius-wynn": [
+      "E005",
+      "E006",
+      "E003"
+    ],
+    "andrew-hammond": [
+      "E008"
+    ]
+  },
+  "participants": [
+    {
+      "id": "renee-vaughn",
+      "name": "Renee Vaughn",
+      "kind": "host"
+    },
+    {
+      "id": "cassius-wynn",
+      "name": "Cassius Wynn",
+      "kind": "host"
+    },
+    {
+      "id": "andrew-hammond",
+      "name": "Andrew Hammond",
+      "kind": "host"
+    }
+  ],
+  "delegates": {
+    "ai": [],
+    "human": []
+  },
+  "human_slots": [],
+  "withheld": [
+    {
+      "host": "cassius-wynn",
+      "evidence": "E006",
+      "turn": 7,
+      "instruction": "NOW detonate this receipt, flat, let it sit."
+    }
+  ],
+  "anaphora_exempt": [
+    "south carolina state bulldogs",
+    "87-0",
+    "class of hbcu football"
+  ],
+  "protected_facts": [
+    {
+      "note": "Head coach Chennis Berry is aiming to prove last season's Celebration Bowl championship was not a fluke.",
+      "banned_phrasings": [
+        "Coach Berry",
+        "Berry"
+      ]
+    }
+  ],
+  "waypoints": [
+    {
+      "after_words": 25,
+      "host": "cassius-wynn",
+      "note": "Highlight the historical significance of the 87-0 margin and challenge the notion that the opponent’s weakness diminishes the Bulldogs’ dominance."
+    },
+    {
+      "after_words": 60,
+      "host": "andrew-hammond",
+      "note": "Counter by emphasizing that the real test is upcoming against Florida A&M, so this win alone doesn’t crown them."
+    },
+    {
+      "after_words": 110,
+      "host": "cassius-wynn",
+      "note": "Push back by arguing that the Bulldogs’ No. 24 FCS ranking and record-breaking performance already place them atop HBCU football."
+    },
+    {
+      "after_words": 160,
+      "host": "andrew-hammond",
+      "note": "Respond with caution about rankings and remind that South Carolina State must prove consistency beyond one game."
+    },
+    {
+      "after_words": 220,
+      "host": "cassius-wynn",
+      "note": "Assert that the Bulldogs’ Celebration Bowl championship and this dominant start make them the clear class of HBCU football now."
+    },
+    {
+      "after_words": 280,
+      "host": "andrew-hammond",
+      "note": "Reiterate that until they face Florida A&M, the claim remains unproven and premature."
+    }
+  ],
+  "attribution": {
+    "mode": "A",
+    "label": "SOURCED & COMMITTED",
+    "law": "When a receipt is an ATTRIBUTED_CLAIM, name who said it and where (person/outlet + platform), then COMMIT to your read of it - never hedge it into mush. A FACT you state plainly. Never present an unproven claim as settled fact; never bury a real fact under \"allegedly\"."
+  },
+  "detonation_react": {
+    "host": "andrew-hammond",
+    "instruction": "You didn't see that historical margin coming; react with surprise, then argue that even historic wins don’t guarantee current supremacy."
+  },
+  "kk_drop": {
+    "host": "renee-vaughn",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "renee-vaughn",
+    "instruction": "State the Bulldogs scored 87 points in their season opener against Savannah State, setting a school record, then stop."
+  },
+  "exit": {
+    "host": "renee-vaughn",
+    "alt_host": "cassius-wynn",
+    "instruction": "Button the segment by acknowledging the Bulldogs’ statement game but concede the debate is wide open until Florida A&M; tease next week’s showdown."
+  },
+  "_compiled_from": {
+    "stringer": "str_rjm6peox",
+    "briefing": "brf_n4w3to4v",
+    "delegates_surfaced": []
+  }
+}

@@ -3,7 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { interviewQuestions, humanDelivery, mergeDelivery, delegateSlug } from '@/lib/command/agent-brief'
 import { transcribeWav, wavSeconds } from '@/lib/command/stt'
-import { decodeAudio, nextTake, saveClip, ownedWav } from '@/lib/command/audio-intake'
+import { decodeAudio, nextTake, saveClip, ownedWav, trimWav } from '@/lib/command/audio-intake'
 import { askFollowups } from '@/lib/command/followups'
 import { appendLog } from '@/lib/command/log'
 
@@ -55,7 +55,11 @@ export async function POST(req: Request) {
       return bad('could not convert the recording: ' + error, 'convert', 502, true)
     }
     try {
-      const { text, ms, seconds } = await transcribeWav(wav)
+      // same discipline as the take route: STT reads at most 3 minutes (the wav on disk stays whole) -
+      // an uncapped long answer ballooned to a hundreds-of-MB base64 STT request
+      let sttWav = wav
+      try { if (wavSeconds(wav) > 180) sttWav = trimWav(wav, wav.replace(/\.wav$/i, '.stt.wav'), 180) } catch { /* transcribe the whole thing */ }
+      const { text, ms, seconds } = await transcribeWav(sttWav)
       const words = text ? text.split(/\s+/).length : 0
       // sidecar so a take on disk is never anonymous: which question, what was heard, how long
       fs.writeFileSync(path.join(dir, `take-${n}.json`), JSON.stringify({ take: n, question: String(b.question || '').slice(0, 240), transcript: text, seconds, mime, bytes: buf.length, wav, created_at: new Date().toISOString() }, null, 2) + '\n')
@@ -89,7 +93,16 @@ export async function POST(req: Request) {
         if (!sample) return bad("voice.sample_wav must be one of this delegate's recorded takes", 'validate')
         const refText = String(b.voice.ref_text || '').trim()
         if (!refText) return bad('voice.ref_text required (the exact transcript of the sample)', 'validate')
-        voice = { sample_wav: sample, ref_text: refText, seconds: wavSeconds(sample) }
+        // Breeze clone spec is a 10-20s ref: cut a long sample down (and re-transcribe the cut) like the take route does
+        let refWav = sample, refSeconds = wavSeconds(sample), refT = refText
+        if (refSeconds > 22) {
+          try {
+            refWav = trimWav(sample, sample.replace(/\.wav$/i, '.ref.wav'), 20)
+            refSeconds = wavSeconds(refWav)
+            try { const cut = await transcribeWav(refWav); if (cut.text) refT = cut.text } catch { refT = refText.split(/\s+/).slice(0, 55).join(' ') }
+          } catch { refWav = sample; refSeconds = wavSeconds(sample) }
+        }
+        voice = { sample_wav: refWav, ref_text: refT, seconds: refSeconds }
       }
       const delivery = humanDelivery(briefing, delegate, answers, voice)
       if (!delivery) return NextResponse.json({ ok: false, error: 'no answers were given', stage: 'validate', retryable: false }, { status: 400 })

@@ -1,0 +1,416 @@
+{
+  "beat": "atlanta-falcons",
+  "timespan_hours": 24,
+  "pulled_at": "2026-09-03T23:34:03.831Z",
+  "twitter": [
+    {
+      "handle": "AtlantaFalcons",
+      "label": "Atlanta Falcons (official)",
+      "in_window": 11,
+      "top": [
+        {
+          "id": "2095549943725404556",
+          "text": "Our 2026 captains 🫡\n\nhttps://t.co/cP6pRdAvnq https://t.co/Dkv0CBlmx2",
+          "url": "https://x.com/AtlantaFalcons/status/2095549943725404556",
+          "created": "Thu Sep 03 16:30:14 +0000 2026",
+          "likes": 1520,
+          "rts": 212,
+          "replies": 56,
+          "views": 142735
+        },
+        {
+          "id": "2095542816025837777",
+          "text": "AV &amp; JBIII checking in ✅ https://t.co/m3x95Wc2bz",
+          "url": "https://x.com/AtlantaFalcons/status/2095542816025837777",
+          "created": "Thu Sep 03 16:01:55 +0000 2026",
+          "likes": 1006,
+          "rts": 81,
+          "replies": 5,
+          "views": 25386
+        },
+        {
+          "id": "2095530727123067037",
+          "text": "New digits 👀 https://t.co/8fLkdkG9ae",
+          "url": "https://x.com/AtlantaFalcons/status/2095530727123067037",
+          "created": "Thu Sep 03 15:13:53 +0000 2026",
+          "likes": 936,
+          "rts": 83,
+          "replies": 17,
+          "views": 48451
+        },
+        {
+          "id": "2095564214928568499",
+          "text": "Back at MBS 🔥 https://t.co/PPprZpaOOk",
+          "url": "https://x.com/AtlantaFalcons/status/2095564214928568499",
+          "created": "Thu Sep 03 17:26:57 +0000 2026",
+          "likes": 948,
+          "rts": 70,
+          "replies": 38,
+          "views": 114421
+        },
+        {
+          "id": "2095580082048045420",
+          "text": "Bates III\nDeablo\nFolk\nLindstrom\nRobinson\n\nInside the huddle for the captains announcement 🔥 https://t.co/j753PIptnx",
+          "url": "https://x.com/AtlantaFalcons/status/2095580082048045420",
+          "created": "Thu Sep 03 18:30:00 +0000 2026",
+          "likes": 912,
+          "rts": 83,
+          "replies": 13,
+          "views": 27301
+        }
+      ]
+    },
+    {
+      "handle": "ByDanielFlick",
+      "label": "Daniel Flick - Atlanta Journal-Constitution Falcons beat writer (took over the beat from D. Orlando Ledbetter)",
+      "in_window": 5,
+      "top": [
+        {
+          "id": "2095531152626811108",
+          "text": "Falcons practicing at Mercedes-Benz Stadium today. Believe that's the first time this offseason.",
+          "url": "https://x.com/ByDanielFlick/status/2095531152626811108",
+          "created": "Thu Sep 03 15:15:34 +0000 2026",
+          "likes": 332,
+          "rts": 20,
+          "replies": 5,
+          "views": 17412
+        },
+        {
+          "id": "2095575159826477551",
+          "text": "From the looks of it, Falcons DB Billy Bowman Jr. returned to practice today. https://t.co/qks8O1OK9a",
+          "url": "https://x.com/ByDanielFlick/status/2095575159826477551",
+          "created": "Thu Sep 03 18:10:26 +0000 2026",
+          "likes": 247,
+          "rts": 20,
+          "replies": 1,
+          "views": 11884
+        },
+        {
+          "id": "2095552351113253118",
+          "text": "Bijan Robinson and Divine Deablo are first-time team captains:",
+          "url": "https://x.com/ByDanielFlick/status/2095552351113253118",
+          "created": "Thu Sep 03 16:39:48 +0000 2026",
+          "likes": 102,
+          "rts": 7,
+          "replies": 0,
+          "views": 4691
+        },
+        {
+          "id": "2095530450173186073",
+          "text": "Ian Cunningham joked \"it feels like every player you look at is from Georgia,\" but his tallest — &amp; heaviest — defensive addition ties back to his Chicago roots.\n\nGervon Dexter Sr. is \"big, strong, powerful, explosive,\" &amp; fits the Fa",
+          "url": "https://x.com/ByDanielFlick/status/2095530450173186073",
+          "created": "Thu Sep 03 15:12:47 +0000 2026",
+          "likes": 44,
+          "rts": 4,
+          "replies": 1,
+          "views": 2683
+        },
+        {
+          "id": "2095592523901149345",
+          "text": "The Falcons named five captains. Kevin Stefanski said earlier in camp they have an abundance of good leaders.\n\n“You don’t need the ‘C’ on your chest in order to lead. You don’t. You can be yourself and give a great example to young players,",
+          "url": "https://x.com/ByDanielFlick/status/2095592523901149345",
+          "created": "Thu Sep 03 19:19:26 +0000 2026",
+          "likes": 43,
+          "rts": 3,
+          "replies": 0,
+          "views": 2448
+        }
+      ]
+    },
+    {
+      "handle": "JoshTheAthletic",
+      "label": "Josh Kendall - The Athletic's Falcons beat writer",
+      "in_window": 5,
+      "top": [
+        {
+          "id": "2095553824245055867",
+          "text": "The Falcons have named Bijan Robinson, Chris Lindstrom, Jessie Bates III,  Divine Deablo and Nick Folk as their captains. \n\nThis is the first time Bijan has been a captain in Atlanta.",
+          "url": "https://x.com/JoshTheAthletic/status/2095553824245055867",
+          "created": "Thu Sep 03 16:45:39 +0000 2026",
+          "likes": 89,
+          "rts": 12,
+          "replies": 2,
+          "views": 3069
+        },
+        {
+          "id": "2095503262577307915",
+          "text": "RT @zkeefer: \"I hope he's the quarterback as long as I'm still working,\" Jason Licht told me in December, before Baker Mayfield's play slip…",
+          "url": "https://x.com/JoshTheAthletic/status/2095503262577307915",
+          "created": "Thu Sep 03 13:24:45 +0000 2026",
+          "likes": 32,
+          "rts": 8,
+          "replies": 2,
+          "views": 18047
+        },
+        {
+          "id": "2095549791828652469",
+          "text": "Jessie Bates on the field for a practice today in Mercedes-Benz Stadium it seems",
+          "url": "https://x.com/JoshTheAthletic/status/2095549791828652469",
+          "created": "Thu Sep 03 16:29:38 +0000 2026",
+          "likes": 32,
+          "rts": 1,
+          "replies": 0,
+          "views": 2390
+        },
+        {
+          "id": "2095526647331979745",
+          "text": "RT @kfishbain: “It’s not often in life you get a chance to get a payoff. It’s not often you get a clear narrative. But sports gives you tha…",
+          "url": "https://x.com/JoshTheAthletic/status/2095526647331979745",
+          "created": "Thu Sep 03 14:57:40 +0000 2026",
+          "likes": 5,
+          "rts": 2,
+          "replies": 0,
+          "views": 4507
+        },
+        {
+          "id": "2095534396518346842",
+          "text": "Let's take a deep dive into Atlanta's decision to keep four quarterbacks, with the help of GM Ian Cunningham and AGM Jeff Scott.\n\nhttps://t.co/Dg9CkrkBE5",
+          "url": "https://x.com/JoshTheAthletic/status/2095534396518346842",
+          "created": "Thu Sep 03 15:28:27 +0000 2026",
+          "likes": 6,
+          "rts": 1,
+          "replies": 0,
+          "views": 1444
+        }
+      ]
+    },
+    {
+      "handle": "929TheGame",
+      "label": "92.9 The Game - Atlanta sports radio (Falcons flagship talk)",
+      "in_window": 5,
+      "top": [
+        {
+          "id": "2095586629771567228",
+          "text": "What's it like to be a diehard Falcons fan? Quavo answers. https://t.co/EdDzLjN0eH",
+          "url": "https://x.com/929TheGame/status/2095586629771567228",
+          "created": "Thu Sep 03 18:56:01 +0000 2026",
+          "likes": 8,
+          "rts": 0,
+          "replies": 0,
+          "views": 545
+        },
+        {
+          "id": "2095540540817256840",
+          "text": "Yesterday's Joe Patrick on Football revolved mainly around Ian Cunningham's comments to the media, and on The Midday Show w/ @TBM929 &amp; @Randy81mac. Head over to YouTube to listen to our Falcons pod from @JoePatrick 👇\n\nhttps://t.co/f2HE",
+          "url": "https://x.com/929TheGame/status/2095540540817256840",
+          "created": "Thu Sep 03 15:52:52 +0000 2026",
+          "likes": 4,
+          "rts": 2,
+          "replies": 1,
+          "views": 1741
+        },
+        {
+          "id": "2095594154948493468",
+          "text": "Who will Stefanski choose to start as QB1? https://t.co/JXypBjRRno",
+          "url": "https://x.com/929TheGame/status/2095594154948493468",
+          "created": "Thu Sep 03 19:25:55 +0000 2026",
+          "likes": 7,
+          "rts": 0,
+          "replies": 0,
+          "views": 1074
+        },
+        {
+          "id": "2095565379556803004",
+          "text": "Kennesaw State kicks off its season against local talent as West Georgia heads East. https://t.co/NbBjqzeXop",
+          "url": "https://x.com/929TheGame/status/2095565379556803004",
+          "created": "Thu Sep 03 17:31:34 +0000 2026",
+          "likes": 4,
+          "rts": 0,
+          "replies": 0,
+          "views": 699
+        },
+        {
+          "id": "2095649540544282837",
+          "text": "\"They’re not convinced that Georgia’s got the perimeter weapons to be explosive on offense,\" @MikeGriffith32 tells @putemupcdukes &amp; @atlbell929 as they discuss how #georgiabulldogs are viewed nationally in regards to winning a national ",
+          "url": "https://x.com/929TheGame/status/2095649540544282837",
+          "created": "Thu Sep 03 23:06:00 +0000 2026",
+          "likes": 1,
+          "rts": 0,
+          "replies": 0,
+          "views": 305
+        }
+      ]
+    },
+    {
+      "handle": "lockedonfalcons",
+      "label": "Locked On Falcons (Aaron Freeman) - daily Falcons podcast/insider",
+      "in_window": 3,
+      "top": [
+        {
+          "id": "2095554107801030754",
+          "text": "RT @AtlantaFalcons: Our 2026 captains 🫡\n\nhttps://t.co/cP6pRdAvnq https://t.co/Dkv0CBlmx2",
+          "url": "https://x.com/lockedonfalcons/status/2095554107801030754",
+          "created": "Thu Sep 03 16:46:47 +0000 2026",
+          "likes": 1520,
+          "rts": 212,
+          "replies": 56,
+          "views": 142717
+        },
+        {
+          "id": "2095513883104436494",
+          "text": "RT @FalcoholicKevin: The #Falcons put together an unusual 53-man roster, and still haven't named a starting QB. @lockedonfalcons joins me t…",
+          "url": "https://x.com/lockedonfalcons/status/2095513883104436494",
+          "created": "Thu Sep 03 14:06:57 +0000 2026",
+          "likes": 13,
+          "rts": 7,
+          "replies": 1,
+          "views": 7514
+        },
+        {
+          "id": "2095645999796461649",
+          "text": "Can Tommy Rees Be an ELITE Play Caller 🤔 #tommyrees #falcons #Nfl\n\n@5hourenergy\nGet 5-hour ENERGY® shots today – available online at https://t.co/OV0QYtEySN or Amazon. https://t.co/IG4K73653A",
+          "url": "https://x.com/lockedonfalcons/status/2095645999796461649",
+          "created": "Thu Sep 03 22:51:56 +0000 2026",
+          "likes": 1,
+          "rts": 0,
+          "replies": 0,
+          "views": 226
+        }
+      ]
+    }
+  ],
+  "youtube": [
+    {
+      "channel": "Atlanta Falcons",
+      "channel_id": "UCzjCfV3LHyarKbdb-2ScGZg",
+      "in_window": 7,
+      "videos": [
+        {
+          "title": "On The Rise | S6E6 | Training camp battles set the standard for the 2026 Atlanta Falcons roster",
+          "video_id": "jlfcDBr32Vo",
+          "published": "2026-09-03T22:00:06.000Z",
+          "url": "https://www.youtube.com/watch?v=jlfcDBr32Vo"
+        },
+        {
+          "title": "Head Coach Kevin Stefanski Announces the 2026 Atlanta Falcons Team Captains | NFL",
+          "video_id": "VaLqMr9suD0",
+          "published": "2026-09-03T18:30:24.000Z",
+          "url": "https://www.youtube.com/watch?v=VaLqMr9suD0"
+        },
+        {
+          "title": "Head Coach Kevin Stefanski announces our 2026 team captains after practice 🙌 #nfl",
+          "video_id": "dOWakShLel0",
+          "published": "2026-09-03T18:30:16.000Z",
+          "url": "https://www.youtube.com/shorts/dOWakShLel0"
+        },
+        {
+          "title": "Back at MBS 🔥 #mercedesbenz #falcons #nfl #celebration",
+          "video_id": "ikX7qb43eEU",
+          "published": "2026-09-03T17:25:13.000Z",
+          "url": "https://www.youtube.com/shorts/ikX7qb43eEU"
+        },
+        {
+          "title": "Chris Blair gets in the end zone for the TOUCHDOWN ‼️ #atlanta #nfl #atlantafalcons",
+          "video_id": "aYds-xkUAoA",
+          "published": "2026-09-03T16:52:35.000Z",
+          "url": "https://www.youtube.com/shorts/aYds-xkUAoA"
+        },
+        {
+          "title": "Za’Darius Smith as arrived in Mercedes-Benz Stadium 🙌 #football",
+          "video_id": "Sldv5gX-6ng",
+          "published": "2026-09-03T16:01:09.000Z",
+          "url": "https://www.youtube.com/shorts/Sldv5gX-6ng"
+        },
+        {
+          "title": "General Manager Ian Cunningham & Assistant GM Jeff Scott Initial 53-Man Roster Press Conference",
+          "video_id": "aq0m80TRdgQ",
+          "published": "2026-09-03T03:30:17.000Z",
+          "url": "https://www.youtube.com/watch?v=aq0m80TRdgQ"
+        }
+      ],
+      "via": "rss"
+    },
+    {
+      "channel": "92.9 The Game",
+      "channel_id": "UCQ9sMMYqrUJT2hLURPwEFzQ",
+      "in_window": 10,
+      "videos": [
+        {
+          "title": "Who will Stefanski choose to start as QB1?",
+          "video_id": "kOXnROtzZ-M",
+          "published": "2026-09-03T19:26:17.000Z",
+          "url": "https://www.youtube.com/shorts/kOXnROtzZ-M"
+        },
+        {
+          "title": "Quavo: Atlanta stays a trend-setting city | The Midday Show",
+          "video_id": "Vpjzu-PCysw",
+          "published": "2026-09-03T18:58:58.000Z",
+          "url": "https://www.youtube.com/watch?v=Vpjzu-PCysw"
+        },
+        {
+          "title": "What's it like to be a diehard Falcons fan? Quavo answers.",
+          "video_id": "3_16Oq0eSvc",
+          "published": "2026-09-03T18:56:10.000Z",
+          "url": "https://www.youtube.com/shorts/3_16Oq0eSvc"
+        },
+        {
+          "title": "Georgia Tech will 'want to establish running the ball' in 2026 | Dukes and Bell",
+          "video_id": "Sob78gwVQu4",
+          "published": "2026-09-03T18:20:13.000Z",
+          "url": "https://www.youtube.com/watch?v=Sob78gwVQu4"
+        },
+        {
+          "title": "92.9 The Game LIVE",
+          "video_id": "jkEAied2fF0",
+          "published": "2026-09-03T18:18:32.000Z",
+          "url": "https://www.youtube.com/watch?v=jkEAied2fF0"
+        },
+        {
+          "title": "Kennnesaw State gained national attention winning C-USA | Dukes and Bell",
+          "video_id": "WoN7h2cv1XY",
+          "published": "2026-09-03T17:36:35.000Z",
+          "url": "https://www.youtube.com/watch?v=WoN7h2cv1XY"
+        },
+        {
+          "title": "Kennesaw State kicks off its season against local talent as West Georgia heads East.",
+          "video_id": "J8Mg3FGt4w8",
+          "published": "2026-09-03T17:31:49.000Z",
+          "url": "https://www.youtube.com/shorts/J8Mg3FGt4w8"
+        },
+        {
+          "title": "Can Falcons win 9-11 games with average quarterback play?",
+          "video_id": "2khhLbP6y5U",
+          "published": "2026-09-03T17:00:11.000Z",
+          "url": "https://www.youtube.com/watch?v=2khhLbP6y5U"
+        }
+      ],
+      "via": "rss"
+    },
+    {
+      "channel": "Locked On Falcons",
+      "channel_id": "UCf0YzYctxDlpPgYXxTwn8hw",
+      "in_window": 4,
+      "videos": [
+        {
+          "title": "DEADLOCKED: Atlanta Falcons SPLIT Over Who Starts Week 1 | Michael Penix vs. Tua Tagovailoa",
+          "video_id": "xuedAUy7Ea8",
+          "published": "2026-09-03T23:00:06.000Z",
+          "url": "https://www.youtube.com/watch?v=xuedAUy7Ea8"
+        },
+        {
+          "title": "Can Tommy Rees Be an ELITE Play Caller 🤔 #tommyrees #falcons #Nfl",
+          "video_id": "Nj-5mdpS_Cs",
+          "published": "2026-09-03T22:50:40.000Z",
+          "url": "https://www.youtube.com/shorts/Nj-5mdpS_Cs"
+        },
+        {
+          "title": "FALCONS SQUAD SHOW: Ian Cunningham and the Atlanta Falcons still in the DARK about the QB",
+          "video_id": "tggXp_oGQOg",
+          "published": "2026-09-03T17:51:55.000Z",
+          "url": "https://www.youtube.com/watch?v=tggXp_oGQOg"
+        },
+        {
+          "title": "GAMEPLAN: Can Tommy Rees UNLOCK Elite Atlanta Falcons Offense with Bijan Robinson & Drake London?",
+          "video_id": "6q8rUIKjG1I",
+          "published": "2026-09-02T23:45:06.000Z",
+          "url": "https://www.youtube.com/watch?v=6q8rUIKjG1I"
+        }
+      ],
+      "via": "rss"
+    }
+  ],
+  "totals": {
+    "tweets": 29,
+    "videos": 21
+  }
+}

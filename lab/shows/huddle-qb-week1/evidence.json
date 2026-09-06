@@ -1,0 +1,199 @@
+{
+  "topic": "Should Tua Tagovailoa or Michael Penix start Week 1 for the Falcons?",
+  "compiled": "2026-09-04T21:51:34.082Z",
+  "question": "Should Tua Tagovailoa or Michael Penix start Week 1 for the Falcons?",
+  "entries": [
+    {
+      "id": "E001",
+      "claim": "There is uncertainty about whether Feathers Jr. has enough time to be named a week one starter for the Falcons.",
+      "source_name": "92.9 The Game",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=WTycrEoG2M8",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E002",
+      "claim": "The current quarterback competition for the Falcons has been described as 'wacky' because it hasn't truly been a competition.",
+      "source_name": "92.9 The Game",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=WTycrEoG2M8",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E003",
+      "claim": "Some believe Jack Stroud deserves to be QB3, not just on the practice squad, given his upside.",
+      "source_name": "92.9 The Game",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=WTycrEoG2M8",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E004",
+      "claim": "There is a segment of fans who want Jack Stroud to be the Week 1 starting quarterback for the Falcons, despite only having one preseason performance.",
+      "source_name": "92.9 The Game",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=WTycrEoG2M8",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E005",
+      "claim": "Michael Penix Jr. has had three weeks to get ready for Week 1.",
+      "source_name": "92.9 The Game",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=WTycrEoG2M8",
+      "tier": "FACT"
+    },
+    {
+      "id": "E006",
+      "claim": "The level of competition for Jack Stroud in the preseason is a factor to consider when evaluating his performance.",
+      "source_name": "92.9 The Game",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=WTycrEoG2M8",
+      "tier": "ANALYSIS"
+    },
+    {
+      "id": "E007",
+      "claim": "Some believe Jack Stroud has potential, but there's a risk of losing him to another team if he's not kept on the active roster.",
+      "source_name": "92.9 The Game",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=WTycrEoG2M8",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E008",
+      "claim": "Jack Stroud's size and mobility have excited Falcons fans, who have been wanting a player with those attributes.",
+      "source_name": "92.9 The Game",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=WTycrEoG2M8",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E009",
+      "claim": "Jack Stroud's performance in the preseason has led some to compare him to Brock Purdy, a comparison that is questioned.",
+      "source_name": "92.9 The Game",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=WTycrEoG2M8",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E010",
+      "claim": "There is a belief that the Falcons want Michael Penix to start, and they are preparing him for that possibility.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=m3RLxPLUz1o",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E011",
+      "claim": "The Falcons may not be able to tackle Michael Penix in practice due to his injury history, focusing instead on his movement and pocket presence.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=m3RLxPLUz1o",
+      "tier": "ANALYSIS"
+    },
+    {
+      "id": "E012",
+      "claim": "If Michael Penix does not show he is ready to start, it implies the Falcons are being forced to start a quarterback they did not want to.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=m3RLxPLUz1o",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E013",
+      "claim": "The Atlanta Falcons have not definitively named a Week 1 starting quarterback between Tua Tagovailoa and Michael Penix Jr.",
+      "source_name": "espn.com",
+      "source_type": "research",
+      "url": "https://www.espn.com/nfl/story/_/id/49673266/tua-tagovailoa-michael-penix-jr-nfl-season-opener-nears-atlanta-falcons-dont-qb1",
+      "tier": "FACT"
+    },
+    {
+      "id": "E014",
+      "claim": "Michael Penix Jr. is recovering from an ACL injury and has not yet been cleared for full practice.",
+      "source_name": "ftw.usatoday.com",
+      "source_type": "research",
+      "url": "https://ftw.usatoday.com/story/sports/nfl/2026/09/03/why-michael-penix-jr-has-won-the-falcons-qb-job-week-1-tua-tagovailoa/91592672007/",
+      "tier": "FACT"
+    },
+    {
+      "id": "E015",
+      "claim": "Michael Penix Jr. has participated in 7-on-7 drills but not full team 11-on-11 sessions.",
+      "source_name": "cbssports.com",
+      "source_type": "research",
+      "url": "https://www.cbssports.com/nfl/news/falcons-qb-battle-michael-penix-jr-tua-tagovailoa/",
+      "tier": "FACT"
+    },
+    {
+      "id": "E016",
+      "claim": "Some reports suggest the Falcons plan to eventually start Michael Penix Jr., viewing Tagovailoa as a placeholder.",
+      "source_name": "ftw.usatoday.com",
+      "source_type": "research",
+      "url": "https://ftw.usatoday.com/story/sports/nfl/2026/09/03/why-michael-penix-jr-has-won-the-falcons-qb-job-week-1-tua-tagovailoa/91592672007/",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E017",
+      "claim": "Other sources state that Penix's recovery timeline means he may not be ready for Week 1.",
+      "source_name": "espn.com",
+      "source_type": "research",
+      "url": "https://www.espn.com/nfl/story/_/id/49673266/tua-tagovailoa-michael-penix-jr-nfl-season-opener-nears-atlanta-falcons-dont-qb1",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E018",
+      "claim": "Tua Tagovailoa played in the Falcons' second preseason game against the Indianapolis Colts.",
+      "source_name": "espn.com",
+      "source_type": "research",
+      "url": "https://www.espn.com/nfl/story/_/id/49673266/tua-tagovailoa-michael-penix-jr-nfl-season-opener-nears-atlanta-falcons-dont-qb1",
+      "tier": "FACT"
+    },
+    {
+      "id": "E019",
+      "claim": "Tua Tagovailoa struggled in the preseason opener, completing 3 of 5 passes for 22 yards.",
+      "source_name": "ajc.com",
+      "source_type": "research",
+      "url": "https://www.ajc.com/sports/2026/08/opinion-tua-shows-why-he-should-start-for-falcons-in-season-opener/",
+      "tier": "FACT"
+    },
+    {
+      "id": "E020",
+      "claim": "Tua Tagovailoa fumbled a snap during joint practices and the Broncos game.",
+      "source_name": "espn.com",
+      "source_type": "research",
+      "url": "https://www.espn.com/nfl/story/_/id/49673266/tua-tagovailoa-michael-penix-jr-nfl-season-opener-nears-atlanta-falcons-dont-qb1",
+      "tier": "FACT"
+    },
+    {
+      "id": "E021",
+      "claim": "One opinion piece suggests Tagovailoa showed enough competency to warrant starting Week 1.",
+      "source_name": "ajc.com",
+      "source_type": "research",
+      "url": "https://www.ajc.com/sports/2026/08/opinion-tua-shows-why-he-should-start-for-falcons-in-season-opener/",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E022",
+      "claim": "Head coach Kevin Stefanski prefers to play starters in the first and third preseason games.",
+      "source_name": "espn.com",
+      "source_type": "research",
+      "url": "https://www.espn.com/nfl/story/_/id/49673266/tua-tagovailoa-michael-penix-jr-nfl-season-opener-nears-atlanta-falcons-dont-qb1",
+      "tier": "FACT"
+    },
+    {
+      "id": "E023",
+      "claim": "Quarterbacks coach Alex Van Pelt noted that Penix has looked 'really good' in 7-on-7s.",
+      "source_name": "cbssports.com",
+      "source_type": "research",
+      "url": "https://www.cbssports.com/nfl/news/falcons-qb-battle-michael-penix-jr-tua-tagovailoa/",
+      "tier": "FACT"
+    },
+    {
+      "id": "E024",
+      "claim": "There are concerns about the injury histories of both quarterbacks.",
+      "source_name": "espn.com",
+      "source_type": "research",
+      "url": "https://www.espn.com/nfl/story/_/id/49673266/tua-tagovailoa-michael-penix-jr-nfl-season-opener-nears-atlanta-falcons-dont-qb1",
+      "tier": "FACT"
+    }
+  ]
+}

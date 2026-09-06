@@ -19,10 +19,11 @@
  * Every mp3 rendered here must get an AUDIO_MANIFEST.md row.
  */
 import fs from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { execSync, spawnSync } from 'node:child_process'
 
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '..', '..')
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
 // key precedence: process env > .env > lab/settings/keys.json (a key pasted in the SETTINGS page); no .env is fine
 const readKey = name => { const e = process.env[name]; if (e && e.trim()) return e.trim(); try { const m = fs.readFileSync(path.join(ROOT, '.env'), 'utf8').match(new RegExp('^' + name + '=(.+)$', 'm')); if (m) return m[1].trim() } catch { /* no .env */ } try { const v = JSON.parse(fs.readFileSync(path.join(ROOT, 'lab', 'settings', 'keys.json'), 'utf8'))[name]; if (v && String(v).trim()) return String(v).trim() } catch { /* no settings file */ } return undefined }
 const KEY = readKey('CUPCAKE_GATEWAY_KEY')
@@ -89,6 +90,8 @@ const whoOf = n => {
   const s = n.toLowerCase()
   if (s.includes('tasha')) return 'tasha'; if (s.includes('blaze') || s.includes('marcus')) return 'blaze'; if (s.includes('knowledge') || s.includes('king')) return 'knowledge'
   if (s.includes('dwayne') || s.includes('champagne')) return 'dwayne'
+  // any cast host, matched by display name, so a show's OWN lineup resolves (Andrew Hammond, Renee Vaughn, Big Mike Vega, Cassius Wynn...)
+  for (const [key, x] of Object.entries(CAST)) if (x.name && s.includes(String(x.name).toLowerCase())) return key
   for (const [id, x] of Object.entries(EXTRA)) if (x.name && s.includes(String(x.name).toLowerCase())) return id   // a delegate, by name
   return null
 }
@@ -98,7 +101,7 @@ async function post(ep, body, tries = 3) {
   let busyWaits = 0, lastErr
   for (let a = 1; a <= tries;) {
     let res
-    try { res = await fetch(GW + ep, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + KEY }, body: JSON.stringify(body) }) }
+    try { res = await fetch(GW + ep, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + KEY }, body: JSON.stringify(body), signal: AbortSignal.timeout(240000) }) } // a hung (accepted-never-answered) socket must not stall the render forever
     catch (e) { lastErr = e; console.error(`  retry ${a}: ${e.message}`); if (++a > tries) break; await sleep(a * 10000); continue }
     if (res.status === 409) {
       // the video engines own the GPU (single-concurrency box): wait it out, 60s x 5 (house law), then say exactly how to resume
@@ -300,16 +303,24 @@ const main = async () => {
   if (mode === 'segment') {
     const seg = a1, out = a2
     if (!seg || !out) { console.error('usage: segment <segment.md> <out.mp3>'); process.exit(1) }
-    await loadDelegates(path.dirname(path.dirname(path.resolve(seg))))   // showDir/floor/segment.md -> showDir/beatcard.json
+    // showDir: a floor segment lives at showDir/floor/segment.md, a stitched EPISODE at showDir/episode.md.
+    // dirname(dirname()) on an episode resolved to lab/shows/ - no beatcard found, delegates loaded empty,
+    // and a real person's verbatim lines were silently dropped from the mp3.
+    const segAbs = path.resolve(seg)
+    const showDir = path.basename(path.dirname(segAbs)).toLowerCase() === 'floor' ? path.dirname(path.dirname(segAbs)) : path.dirname(segAbs)
+    await loadDelegates(showDir)
     const tmp = fs.mkdtempSync(path.join(path.dirname(path.resolve(out)), 'brz_'))
     try { // never leave a brz_* orphan behind when the gateway 409s mid-render
       const lines = []
+      const skipped = [] // every spoken-looking line we could NOT voice, and why - silence is how words get lost
       // line shape: NAME [any tags]* (delivery): text — tags may be many, mixed-case, with commas
       // (the MIX pass writes "[Booming, confident] [interrupting]"); only a real overlap tag is a cue
       for (const raw of fs.readFileSync(seg, 'utf8').split('\n')) {
-        const m = raw.trim().match(/^([A-Z][A-Z .'\-]*?)\s*((?:\[[^\]]*\]\s*)*)\(([^)]*)\)\s*:\s*(.+)$/)
-        if (!m) continue
-        const who = whoOf(m[1]); if (!who) continue
+        const t = raw.trim()
+        if (!t || t.startsWith('#') || t.startsWith('<!--')) continue
+        const m = t.match(/^([A-Z][A-Z .'\-]*?)\s*((?:\[[^\]]*\]\s*)*)\(([^)]*)\)\s*:\s*(.+)$/)
+        if (!m) { if (/^[A-Z][A-Z .'\-]{2,}/.test(t) || t.length > 40) skipped.push({ line: t.slice(0, 70), why: 'no NAME (delivery): head' }); continue }
+        const who = whoOf(m[1]); if (!who) { skipped.push({ line: t.slice(0, 70), why: `unknown speaker "${m[1].trim()}"` }); continue }
         const text = m[4].replace(/\[E\d+\]/g, '').replace(/[*_]/g, '').replace(/\s{2,}/g, ' ').trim()
         if (!text || text === '(unusable turn)') continue
         const deliv = (m[3] || '').replace(/\|/g, ', ')
@@ -317,7 +328,9 @@ const main = async () => {
         const tag = /interrupt|cutting in/.test(tags) ? 'cutting in fast, ' : /overlap|talking over|under them/.test(tags) ? 'talking over the last words, ' : ''
         lines.push({ who, text, instruction: `${tag}${deliv || voiceOf(who).base}` })
       }
-      console.error(`${lines.length} lines`)
+      console.error(`${lines.length} lines${skipped.length ? ` · ${skipped.length} SKIPPED` : ''}`)
+      for (const s of skipped) console.error(`  SKIPPED (${s.why}): ${s.line}`)
+      if (skipped.length > Math.max(2, lines.length * 0.1)) { console.error(`REFUSING to render: ${skipped.length} spoken lines would be silently missing from the audio - fix the transcript or the cast, then re-run`); process.exit(1) }
       const parts = []
       for (let i = 0; i < lines.length; i++) {
         const l = lines[i], f = path.join(tmp, `s${i}.wav`)

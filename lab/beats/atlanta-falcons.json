@@ -16,7 +16,16 @@
     "outro": {
       "enabled": true,
       "template": "Next game countdown + one bold prediction the comments can hold us to."
-    }
+    },
+    "hosts": [
+      "renee-vaughn",
+      "cassius-wynn",
+      "andrew-hammond"
+    ],
+    "rotation": [
+      "dale-ruttman"
+    ],
+    "rotation_note": "Robert 2026-09-04: Dale Ruttman comes on sometimes as the rotating third analyst; Rico Delgado available for the comedy break."
   },
   "cases": [
     {
@@ -153,7 +162,19 @@
       "token": "ih8l5gug2nmdd99d",
       "prompts_mode": "auto",
       "custom_prompts": [],
-      "added": "2026-09-02T18:52:39Z"
+      "added": "2026-09-02T18:52:39Z",
+      "depth": "casual"
+    },
+    {
+      "slug": "robert",
+      "name": "Robert",
+      "relation": "the owner",
+      "channel": "link",
+      "address": null,
+      "token": "uv9wg5gy16ylt7t8",
+      "prompts_mode": "auto",
+      "custom_prompts": [],
+      "added": "2026-09-04T03:11:21Z"
     }
   ]
 }

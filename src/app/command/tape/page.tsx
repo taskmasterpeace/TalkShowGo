@@ -1,14 +1,17 @@
 'use client'
 import { useState } from 'react'
-import { useCmdState, fmtBytes, ago } from '../lib'
+import { useCmdState, fmtBytes, ago, useBeat } from '../lib'
 
 const STAGE_CHIP: Record<string, string> = { done: 'ok', error: 'err', cancelled: 'warn' }
 const TERMINAL = new Set(['done', 'error', 'cancelled'])
 
 export default function TapePage() {
   const { state, reload } = useCmdState()
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const { beat, beats } = useBeat(state)
   const [busy, setBusy] = useState<string | null>(null)
   const [msg, setMsg] = useState<string | null>(null)
+  const [scopeAll, setScopeAll] = useState(false)   // default: only THIS show's tape; toggle for every show + the engine logs
   if (!state) return <div className="p-8 cmd-kbd">LOADING TAPE...</div>
 
   const act = async (key: string, fn: () => Promise<Response>) => {
@@ -18,7 +21,9 @@ export default function TapePage() {
   }
   const buildAgain = (s: any) => act('again:' + s.slug, () => fetch('/api/command/showbuild', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ briefing_id: s.briefing, voice: true }) }))
   const cancel = (s: any) => act('cancel:' + s.slug, () => fetch('/api/command/showbuild?show=' + s.slug, { method: 'DELETE' }))
-  const shows: any[] = state.shows || []
+  const allShows: any[] = state.shows || []
+  const shows = scopeAll ? allShows : allShows.filter(s => s.beat === beat?.id)
+  const showName = (bid?: string) => { const b = beats.find((x: any) => x.id === bid); return b ? (b.show?.name || b.name || bid) : null }
 
   // parse manifest rows for provenance chips
   const manifestRows: Record<string, { words: string; voiced: string }> = {}
@@ -40,8 +45,12 @@ export default function TapePage() {
         <div className="flex items-center gap-3 flex-wrap">
           <span className="cmd-label" style={{ color: 'var(--cmd-red)', margin: 0 }}>SHOWS</span>
           <span className="cmd-kbd">{shows.filter(s => s.stage === 'done').length} finished · {shows.filter(s => !TERMINAL.has(s.stage)).length} building</span>
+          <div className="flex gap-1 ml-auto">
+            <button className={`chip ${!scopeAll ? 'err' : ''}`} style={{ cursor: 'pointer' }} onClick={() => setScopeAll(false)}>THIS SHOW ({allShows.filter(s => s.beat === beat?.id).length})</button>
+            <button className={`chip ${scopeAll ? 'err' : ''}`} style={{ cursor: 'pointer' }} onClick={() => setScopeAll(true)}>ALL ({allShows.length})</button>
+          </div>
         </div>
-        {shows.length === 0 && <div className="cmd-panel p-4 cmd-kbd">no shows built yet — rank a story on DISCOVERY and press BUILD THIS SHOW</div>}
+        {shows.length === 0 && <div className="cmd-panel p-4 cmd-kbd">{scopeAll ? 'no shows built yet — rank a story on DISCOVERY and press BUILD THIS SHOW' : 'no tape for this show yet — build one from the DESK, or tap ALL to see every show'}</div>}
         <div className="grid gap-3" style={{ gridTemplateColumns: 'repeat(auto-fill,minmax(420px,1fr))' }}>
           {shows.map((s: any) => {
             const live = !TERMINAL.has(s.stage)
@@ -53,6 +62,7 @@ export default function TapePage() {
                 </div>
                 <div className="p-3 space-y-2">
                   <div className="flex gap-2 flex-wrap items-center">
+                    {scopeAll && s.beat && <span className="chip info" title="show">{showName(s.beat)}</span>}
                     {s.voice_engine && <span className={`chip ${s.voice_engine === 'breeze' ? 'ok' : 'warn'}`}>{s.voice_engine === 'breeze' ? 'BREEZE' : 'KOKORO DRAFT'}</span>}
                     {s.duration_s ? <span className="cmd-kbd">{Math.floor(s.duration_s / 60)}:{String(s.duration_s % 60).padStart(2, '0')} · {s.lines} lines</span> : null}
                     <span className="cmd-kbd ml-auto" title={s.updated || ''}>{ago(s.updated || s.started).text}</span>
@@ -73,6 +83,7 @@ export default function TapePage() {
         </div>
       </section>
 
+      {scopeAll && (<>
       <div className="cmd-label" style={{ color: 'var(--cmd-cyan)' }}>ENGINE TEST CUTS (legacy renders)</div>
       <div className="grid grid-cols-2 gap-4">
         {state.audio.map(a => {
@@ -117,6 +128,7 @@ export default function TapePage() {
           </table>
         </div>
       </section>
+      </>)}
     </div>
   )
 }

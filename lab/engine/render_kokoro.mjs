@@ -9,12 +9,13 @@
  * two-pass loudnorm (I=-16, TP=-1.5, LRA=11) on the full mix; per-speaker before/after LUFS lines go to stderr.
  */
 import fs from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { execSync, spawnSync } from 'node:child_process'
 
 const [seg, out] = process.argv.slice(2)
 if (!seg || !out) { console.error('usage: render_kokoro.mjs <segment.md> <out.mp3>'); process.exit(1) }
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '..', '..')
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
 // key precedence: process env > .env > lab/settings/keys.json (a key pasted in the SETTINGS page); no .env is fine
 const readKey = name => { const e = process.env[name]; if (e && e.trim()) return e.trim(); try { const m = fs.readFileSync(path.join(ROOT, '.env'), 'utf8').match(new RegExp('^' + name + '=(.+)$', 'm')); if (m) return m[1].trim() } catch { /* no .env */ } try { const v = JSON.parse(fs.readFileSync(path.join(ROOT, 'lab', 'settings', 'keys.json'), 'utf8'))[name]; if (v && String(v).trim()) return String(v).trim() } catch { /* no settings file */ } return undefined }
 const KEY = readKey('CUPCAKE_GATEWAY_KEY')

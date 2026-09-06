@@ -1,0 +1,269 @@
+[
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Good evening. Seven captains, every unit covered, that part's confirmed and clean. But structure tells you the roster is balanced, not that these are the seven best leaders in that building.",
+    "delivery": "even, measured, pointed",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E001",
+      "E003"
+    ],
+    "tag": null,
+    "ms": 3414,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Renee! That balance IS the championship energy. A captain like Deablo covering both sides of the ball? That's not a checklist, that's THE ANNOUNCEMENT to the entire locker room!",
+    "delivery": "Leans in, energetic emphasis",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E003",
+      "E005",
+      "E007"
+    ],
+    "tag": null,
+    "ms": 11571,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Well, Mike, you know, when you see a guy like Divine Deablo representing the defense, and then you've got Jessie Bates right there, it certainly feels like a cohesive unit, doesn't it?",
+    "delivery": "warm, agreeable",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E003"
+    ],
+    "tag": null,
+    "ms": 957,
+    "noMerge": false
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Exactly, Andrew! That cohesion IS the blueprint, and with seven captains covering every unit, this is the TITLE FIGHT walkout right now!",
+    "delivery": "booming agreement, escalating energy",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E001"
+    ],
+    "tag": null,
+    "ms": 53382,
+    "noMerge": false
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "And Mike, that's exactly it! When you've got leaders like Chris Lindstrom for offense, Nick Folk on special teams, and yes, Divine Deablo for defense, that's how you truly foster team identity.",
+    "delivery": "upbeat, affirming, smooth",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E004",
+      "E002",
+      "E003"
+    ],
+    "tag": null,
+    "ms": 1630,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Andrew, you see it! The Falcons say a captain REPRESENTS the identity...with seven covering every unit? That's the marquee LIT UP!",
+    "delivery": "Booming, escalating, arms wide",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 116397,
+    "noMerge": false
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "And look, Mike, the Falcons themselves are saying leadership comes in many forms, and having those seven captains truly covers all the bases.",
+    "delivery": "warm, affirming",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E001",
+      "E008"
+    ],
+    "tag": null,
+    "ms": 1516,
+    "noMerge": false
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Andrew, that quote defines the JOB, not the roster. The Falcons telling us what a captain represents doesn't tell us these seven represent it best.",
+    "delivery": "level, sharpening",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E007"
+    ],
+    "tag": "interrupting",
+    "ms": 2611,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Renee, hold up! You think identity's just a job description? Bates on defense, Lindstrom on offense...they're not representing it, they ARE it!",
+    "delivery": "surprised, then booming declaration",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E003",
+      "E004"
+    ],
+    "tag": null,
+    "ms": 48766,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Renee, the numbers tell a story too, with seven captains on the field, representing offense, defense, and special teams. That's a full roster of leaders, plain and simple.",
+    "delivery": "upbeat, smooth, confident",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E001",
+      "E004",
+      "E003",
+      "E002"
+    ],
+    "tag": null,
+    "ms": 1351,
+    "noMerge": false
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Renee, last show you called it: identity ain't quality! But Andrew, when the identity COVERS every unit, that quality BECOMES the main event!",
+    "delivery": "Booming, pointed escalation",
+    "addressed_to": "andrew-hammond",
+    "evidence": [],
+    "tag": null,
+    "ms": 79076,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mike, coverage doesn't become quality just because you say it loud enough. Nobody at this desk has named who was left off that list, or why.",
+    "delivery": "quiet, unhurried, weighty",
+    "addressed_to": "big-mike-vega",
+    "evidence": [],
+    "tag": null,
+    "ms": 11367,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Renee, Folk holding special teams, Bates leading defense, Lindstrom anchoring offense...that's full-unit quality! That's the right pick!",
+    "delivery": "Booming, emphatic counter",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E002",
+      "E003",
+      "E004"
+    ],
+    "tag": null,
+    "ms": 72324,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mike, naming the position isn't the same as proving the pick. Who's your source for 'right' beyond the roster sheet itself?",
+    "delivery": "level, pressing, unmoved",
+    "addressed_to": "big-mike-vega",
+    "evidence": [],
+    "tag": null,
+    "ms": 3274,
+    "noMerge": false
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Renee, the source is the MOMENT Coach Stefanski created! That announcement turns names into a TITLE FIGHT walkout...THAT'S your proof!",
+    "delivery": "Booming, arena-style rebuttal",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E006"
+    ],
+    "tag": null,
+    "ms": 87971,
+    "noMerge": false
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "And Mike, you're right, that announcement certainly sets the tone, but the real proof, as always, will be when they hit the field this season.",
+    "delivery": "upbeat, smooth, forward-looking",
+    "addressed_to": "big-mike-vega",
+    "evidence": [],
+    "tag": null,
+    "ms": 1237,
+    "noMerge": true
+  }
+]

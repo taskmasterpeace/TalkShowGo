@@ -1,0 +1,375 @@
+{
+  "topic": "Are the Falcons built to win the NFC South in 2026, or not?",
+  "compiled": "2026-09-04T14:32:09.233Z",
+  "question": "Are the Falcons built to win the NFC South in 2026, or not?",
+  "entries": [
+    {
+      "id": "E001",
+      "claim": "The Atlanta Falcons' 2026 schedule includes primetime matchups and divisional games early in the season.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "FACT"
+    },
+    {
+      "id": "E002",
+      "claim": "The Falcons' 2026 season opener is against the Pittsburgh Steelers.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=JpJ6gThv54I",
+      "tier": "FACT"
+    },
+    {
+      "id": "E003",
+      "claim": "The Falcons' 2026 home opener is against the Carolina Panthers in week two.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=0Mc27nm2Ou0",
+      "tier": "FACT"
+    },
+    {
+      "id": "E004",
+      "claim": "Bryce Young has performed well against the Falcons at home in recent games.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=0Mc27nm2Ou0",
+      "tier": "FACT"
+    },
+    {
+      "id": "E005",
+      "claim": "Bryce Young has thrown six touchdown passes and over 700 yards in his last two games in Atlanta.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=0Mc27nm2Ou0",
+      "tier": "FACT"
+    },
+    {
+      "id": "E006",
+      "claim": "The Falcons have three primetime games between week three and week five of the 2026 season.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=0Mc27nm2Ou0",
+      "tier": "FACT"
+    },
+    {
+      "id": "E007",
+      "claim": "The Falcons' only home primetime game in the early part of the 2026 season is against the Baltimore Ravens in week five.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=0Mc27nm2Ou0",
+      "tier": "FACT"
+    },
+    {
+      "id": "E008",
+      "claim": "The Falcons will play five of their first seven opponents in 2026 who were playoff teams in the previous year.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=0Mc27nm2Ou0",
+      "tier": "FACT"
+    },
+    {
+      "id": "E009",
+      "claim": "The Falcons' 2026 international game is in Madrid, Spain, against the Cincinnati Bengals.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=0Mc27nm2Ou0",
+      "tier": "FACT"
+    },
+    {
+      "id": "E010",
+      "claim": "The Falcons' bye week in 2026 is in week 11.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=0Mc27nm2Ou0",
+      "tier": "FACT"
+    },
+    {
+      "id": "E011",
+      "claim": "The Falcons' final three games of the 2026 season are divisional matchups against Tampa Bay, New Orleans, and Carolina.",
+      "source_name": "Locked On Falcons",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=0Mc27nm2Ou0",
+      "tier": "FACT"
+    },
+    {
+      "id": "E012",
+      "claim": "The Falcons' 2026 schedule is considered the fifth easiest in the NFL.",
+      "source_name": "NFC South Roundtable",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_GPaO3jioQo",
+      "tier": "FACT"
+    },
+    {
+      "id": "E013",
+      "claim": "The Falcons' 2026 schedule includes games against the NFC North and AFC North divisions, plus a game against the Kansas City Chiefs.",
+      "source_name": "NFC South Roundtable",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_GPaO3jioQo",
+      "tier": "FACT"
+    },
+    {
+      "id": "E014",
+      "claim": "Clay believes the Falcons are stuck in neutral and predicts a 3-14 or 6-11 record for the 2026 season.",
+      "source_name": "NFC South Roundtable",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_GPaO3jioQo",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E015",
+      "claim": "James believes the Falcons have an okay schedule for 2026, but that the league is giving them too much national attention with their primetime games.",
+      "source_name": "NFC South Roundtable",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_GPaO3jioQo",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E016",
+      "claim": "James suggests that the Falcons' late-season divisional games will be more important for their opponents than for the Falcons themselves.",
+      "source_name": "NFC South Roundtable",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_GPaO3jioQo",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E017",
+      "claim": "The Falcons' 2026 schedule has them playing three straight primetime games early in the season.",
+      "source_name": "NFC South Roundtable",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_GPaO3jioQo",
+      "tier": "FACT"
+    },
+    {
+      "id": "E018",
+      "claim": "The Falcons have as many primetime games as the Buccaneers and Panthers in 2026, which James finds disrespectful to the Panthers who won the division.",
+      "source_name": "NFC South Roundtable",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_GPaO3jioQo",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E019",
+      "claim": "The Falcons are projected to face the third-place team in the AFC West, which is currently the Kansas City Chiefs, as their 17th game in 2026.",
+      "source_name": "James Skrmetta",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=w6b3u2SsBYI",
+      "tier": "FACT"
+    },
+    {
+      "id": "E020",
+      "claim": "Aaron Freeman believes the Falcons are likely to finish with six to eight wins in 2026, stating that everything would have to go right for them to reach nine or ten wins.",
+      "source_name": "James Skrmetta",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=w6b3u2SsBYI",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E021",
+      "claim": "Aaron Freeman suggests the Falcons should let Kyle Pitts walk in free agency to maximize compensatory picks in 2027 and accumulate ammunition for a 2027 quarterback draft.",
+      "source_name": "James Skrmetta",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=w6b3u2SsBYI",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E022",
+      "claim": "The Falcons' defense had a 41% blitz rate in the first half of their game against the Buccaneers, which was effective.",
+      "source_name": "James Skrmetta",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=w6b3u2SsBYI",
+      "tier": "FACT"
+    },
+    {
+      "id": "E023",
+      "claim": "The Falcons' defense had two sacks negated by penalties, both of which came on blitzes.",
+      "source_name": "James Skrmetta",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=w6b3u2SsBYI",
+      "tier": "FACT"
+    },
+    {
+      "id": "E024",
+      "claim": "The Falcons' defense has been vulnerable to the blitz, especially against quarterbacks like Jacoby Brissett.",
+      "source_name": "James Skrmetta",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=w6b3u2SsBYI",
+      "tier": "ANALYSIS"
+    },
+    {
+      "id": "E025",
+      "claim": "The Falcons' defense has 48 sacks, and the speaker believes they can reach 60 sacks by being aggressive with the blitz.",
+      "source_name": "James Skrmetta",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=w6b3u2SsBYI",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E026",
+      "claim": "The Falcons' 2026 schedule is considered the fifth easiest in the NFL.",
+      "source_name": "NFC South Roundtable",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_GPaO3jioQo",
+      "tier": "FACT"
+    },
+    {
+      "id": "E027",
+      "claim": "The Falcons' bye week in 2026 is in week 11.",
+      "source_name": "NFC South Roundtable",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_GPaO3jioQo",
+      "tier": "FACT"
+    },
+    {
+      "id": "E028",
+      "claim": "Clay believes the Falcons' quarterback situation, with Tua Tagovailoa and Michael Penix Jr., is a major concern for the 2026 season.",
+      "source_name": "NFC South Roundtable",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_GPaO3jioQo",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E029",
+      "claim": "Clay believes the Falcons did not make enough favorable moves in the offseason or draft to improve significantly for 2026.",
+      "source_name": "NFC South Roundtable",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_GPaO3jioQo",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E030",
+      "claim": "James believes the Falcons' schedule is okay, but questions how many teams on the schedule the Falcons are actually better than.",
+      "source_name": "NFC South Roundtable",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_GPaO3jioQo",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E031",
+      "claim": "James suggests that the Falcons' late-season divisional games will be more important for their opponents than for the Falcons themselves.",
+      "source_name": "NFC South Roundtable",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_GPaO3jioQo",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E032",
+      "claim": "The Falcons have three primetime games in 2026, the same number as the Buccaneers and Panthers.",
+      "source_name": "NFC South Roundtable",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_GPaO3jioQo",
+      "tier": "FACT"
+    },
+    {
+      "id": "E033",
+      "claim": "The Falcons' 2026 schedule includes games against the NFC North and AFC North divisions, plus a game against the Kansas City Chiefs.",
+      "source_name": "James Skrmetta",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=w6b3u2SsBYI",
+      "tier": "FACT"
+    },
+    {
+      "id": "E034",
+      "claim": "Aaron Freeman believes the Falcons are likely to finish with six to eight wins in 2026, stating that everything would have to go right for them to reach nine or ten wins.",
+      "source_name": "James Skrmetta",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=w6b3u2SsBYI",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E035",
+      "claim": "Aaron Freeman suggests the Falcons should let Kyle Pitts walk in free agency to maximize compensatory picks in 2027 and accumulate ammunition for a 2027 quarterback draft.",
+      "source_name": "James Skrmetta",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=w6b3u2SsBYI",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E036",
+      "claim": "The Falcons' defense had a 41% blitz rate in the first half of their game against the Buccaneers, which was effective.",
+      "source_name": "James Skrmetta",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=w6b3u2SsBYI",
+      "tier": "FACT"
+    },
+    {
+      "id": "E037",
+      "claim": "The Falcons' defense had two sacks negated by penalties, both of which came on blitzes.",
+      "source_name": "James Skrmetta",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=w6b3u2SsBYI",
+      "tier": "FACT"
+    },
+    {
+      "id": "E038",
+      "claim": "The Falcons' defense has been vulnerable to the blitz, especially against quarterbacks like Jacoby Brissett.",
+      "source_name": "James Skrmetta",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=w6b3u2SsBYI",
+      "tier": "ANALYSIS"
+    },
+    {
+      "id": "E039",
+      "claim": "The Falcons' defense has 48 sacks, and the speaker believes they can reach 60 sacks by being aggressive with the blitz.",
+      "source_name": "James Skrmetta",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=w6b3u2SsBYI",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E040",
+      "claim": "The Falcons' 2026 schedule is considered the fifth easiest in the NFL.",
+      "source_name": "NFC South Roundtable",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_GPaO3jioQo",
+      "tier": "FACT"
+    },
+    {
+      "id": "E041",
+      "claim": "The Falcons' bye week in 2026 is in week 11.",
+      "source_name": "NFC South Roundtable",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_GPaO3jioQo",
+      "tier": "FACT"
+    },
+    {
+      "id": "E042",
+      "claim": "Clay believes the Falcons' quarterback situation, with Tua Tagovailoa and Michael Penix Jr., is a major concern for the 2026 season.",
+      "source_name": "NFC South Roundtable",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_GPaO3jioQo",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E043",
+      "claim": "Clay believes the Falcons did not make enough favorable moves in the offseason or draft to improve significantly for 2026.",
+      "source_name": "NFC South Roundtable",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_GPaO3jioQo",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E044",
+      "claim": "James believes the Falcons' schedule is okay, but questions how many teams on the schedule the Falcons are actually better than.",
+      "source_name": "NFC South Roundtable",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_GPaO3jioQo",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E045",
+      "claim": "James suggests that the Falcons' late-season divisional games will be more important for their opponents than for the Falcons themselves.",
+      "source_name": "NFC South Roundtable",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_GPaO3jioQo",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E046",
+      "claim": "The Falcons have three primetime games in 2026, the same number as the Buccaneers and Panthers.",
+      "source_name": "NFC South Roundtable",
+      "source_type": "research",
+      "url": "https://www.youtube.com/watch?v=_GPaO3jioQo",
+      "tier": "FACT"
+    }
+  ]
+}

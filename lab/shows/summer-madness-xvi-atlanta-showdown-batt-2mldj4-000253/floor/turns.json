@@ -1,0 +1,292 @@
+[
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Hollow stood there and called that man a thief, a beggar, a destroyer...on the main stage, in front of the world. That's not accountability, that's theater with a lawyer's vocabulary.",
+    "delivery": "building accusation, then the snap",
+    "addressed_to": "null",
+    "evidence": [
+      "E001"
+    ],
+    "tag": null,
+    "ms": 3871,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "The stage is the invoice, Marcus. The receipts get cashed backstage.",
+    "delivery": "cool, looking past him",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 3383,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Backstage? Twork's still walking around with those charges on his name, and Hollow's back in the title picture. You telling me THAT'S the receipt?",
+    "delivery": "mocking disbelief, rising to challenge",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 2456,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "The real invoice gets paid off-camera. Twork's walking, Hollow's paid. We both know who holds the ledger.",
+    "delivery": "low, precise, eyes locked",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 3554,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Nah.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Twork's name's still mud in these streets and Hollow's collecting checks. That ain't justice, that's whoever's holding the mic gets to write the rules.",
+    "delivery": "building to righteous snap",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 5960,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Ask Calicoe if the trauma's real or just a new angle to write checks off.",
+    "delivery": "low, eyes down at notes",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E004",
+      "E006"
+    ],
+    "tag": null,
+    "ms": 4189,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Tasha's right about the check-writing angle. But Calicoe's whole point in Houston was the handshake that didn't come.",
+    "delivery": "slow, leaning forward",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 3542,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Hm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "So you can't talk crazy to him... but who gets to define what 'crazy' is?",
+    "delivery": "calm, looking down at notes",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": null,
+    "ms": 6459,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Who defines it? The same hand that holds the checkbook, Tasha. Calicoe said Brizz was scared, said he was tripping - but Brizz still got paid for NOT showing up. That's respect you can counterfeit.",
+    "delivery": "building accusation, then the snap",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E003",
+      "E015"
+    ],
+    "tag": null,
+    "ms": 3903,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Conceded. But according to hiphopisreal.com, Calicoe said Brizz was traumatized back in 2019. That's a long time to wait to cash that check.",
+    "delivery": "flat, almost bored, looking up",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E004",
+      "E010"
+    ],
+    "tag": "interrupting",
+    "ms": 4953,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Okay okay okay. 2019 to now? That's not trauma, that's a RETIREMENT PLAN. Calicoe called Brizz scared in Houston, said he was tripping when Moo announced it. hiphopisreal.com. But Brizz still eating off that no-show.",
+    "delivery": "mocking disbelief building to accusation",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E003",
+      "E015"
+    ],
+    "tag": null,
+    "ms": 6544,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Hm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The handshake's the point, but the handshake's a test. It ain't about fear, it's about who's willing to stand in the fire of the moment and not flinch.",
+    "delivery": "low, certain, letting it land",
+    "addressed_to": "null",
+    "evidence": [],
+    "tag": null,
+    "ms": 3604,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "And the fire he won't stand in? It's got a price tag. Respect is the check they're waiting to clear.",
+    "delivery": "low, eyes still on notes",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": null,
+    "ms": 3343,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The test ain't the money. It's the man. Calicoe in Houston, P.A.Y.N.E. with Cannon... they ain't asking for a check, they're asking for the man to show up.",
+    "delivery": "low, definitive, leaning forward",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E007",
+      "E019",
+      "E022"
+    ],
+    "tag": null,
+    "ms": 8215,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Calicoe calls him traumatized, then questions if he'd ever swing a blade. Which man are they asking to show up?",
+    "delivery": "low, looking up slowly",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": null,
+    "ms": 5188,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Hm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The man who shows up is the man who respects the game. The man who don't is the man who respects the check.",
+    "delivery": "low, definitive, leaning back",
+    "addressed_to": "null",
+    "evidence": [],
+    "tag": null,
+    "ms": 3537,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "But according to Calicoe on hiphopisreal.com, Brizz was already 'traumatized' and 'easing back in' in 2019. The check's been waiting to clear for years.",
+    "delivery": "flat read, looking down at notes",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E004",
+      "E010"
+    ],
+    "tag": null,
+    "ms": 11332,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Calicoe told hiphopisreal.com that Brizz made easy money sitting out, and now he's claiming trauma years back. That's not two truths, that's two invoices for the same no-show.",
+    "delivery": "flat accusation, building heat",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E015",
+      "E003"
+    ],
+    "tag": null,
+    "ms": 17644,
+    "noMerge": true
+  }
+]

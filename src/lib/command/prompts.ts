@@ -55,17 +55,20 @@ export function latestBriefingFor(beat: any, root = process.cwd(), maxAgeDays = 
   const dir = path.join(root, 'lab', 'briefings')
   if (!fs.existsSync(dir)) return null
   const cutoff = Date.now() - maxAgeDays * 86400e3
-  let best: any = null
+  let best: any = null, bestLoose: any = null
   for (const f of fs.readdirSync(dir)) {
     if (!/^brf_[a-z0-9]+\.json$/.test(f)) continue
     const b = readJson(path.join(dir, f))
     if (!b || !b.id) continue
     const ts = Date.parse(b.created_at || '')
     if (!Number.isFinite(ts) || ts < cutoff) continue
+    // a stamped briefing belongs to exactly one beat; word-overlap is legacy-only (it once handed a
+    // Falcons person a battle-rap question because both titles said "Atlanta")
+    if (b.beat) { if (b.beat === beat?.id && (!best || ts > Date.parse(best.created_at))) best = b; continue }
     if (!beatMentioned(`${b.title || ''} ${b.question?.text || ''}`, beat)) continue
-    if (!best || ts > Date.parse(best.created_at)) best = b
+    if (!bestLoose || ts > Date.parse(bestLoose.created_at)) bestLoose = b
   }
-  return best
+  return best || bestLoose
 }
 
 /** Newest lab/runs/clusters_* for the beat (by filename suffix, else the `beat` field inside) -> story titles. */
@@ -106,19 +109,27 @@ export function contextFor(beat: any, root = process.cwd()): BeatContext {
   }
 }
 
-const SYS = `You write the QUESTIONS a talk show sends to a real person on its beat: a fan, a neighbor, a family member the show has invited to weigh in through a private link. They have NOT read anything; they just live it. Write exactly 3 SHORT, plain-spoken, NEUTRAL questions in the second person that would get THIS person talking about what is going on right now (the context below), the way a friend would ask. The first invites their overall take, the second digs into one concrete thing from the context, the third asks for a one-line prediction or verdict. No leading questions, no jargon, no em-dashes, nothing over 20 words.
+// FAN DEPTH (Robert 2026-09-05): a casual fan and a diehard deserve DIFFERENT questions - but we never ask
+// "are you a superfan" outright; the page asks HOW they keep up (behavioral) and passes the level here.
+export type FanDepth = 'casual' | 'regular' | 'diehard'
+const DEPTH_CLAUSE: Record<FanDepth, string> = {
+  casual: ` THIS PERSON FOLLOWS CASUALLY: ask big-picture, how-does-it-feel questions; zero insider jargon; if a name is unavoidable, add who they are in three words; never quiz them on specifics they'd have to look up.`,
+  regular: '',
+  diehard: ` THIS PERSON IS DEEP IN IT: skip every basic; ask the specific insider questions a hardcore fan relishes - the real roster/scheme/decision debate, the call they'd make - and treat them like they watch every snap.`,
+}
+const SYS_FOR = (depth?: FanDepth) => `You write the QUESTIONS a talk show sends to a real person on its beat: a fan, a neighbor, a family member the show has invited to weigh in through a private link. They have NOT read anything; they just live it. Write exactly 3 SHORT, plain-spoken, NEUTRAL questions in the second person that would get THIS person talking about what is going on right now (the context below), the way a friend would ask. The first invites their overall take, the second digs into one concrete thing from the context, the third asks for a one-line prediction or verdict. No leading questions, no em-dashes, nothing over 20 words.${DEPTH_CLAUSE[depth || 'regular']}
 Output STRICT JSON: {"questions":["...","...","..."]}`
 
 /** The prompts a person sees on their take link. Custom prompts win; else tailored from recent context; else the generic set. Never throws. */
-export async function promptsFor(beat: any, person: any, root = process.cwd()): Promise<PromptsResult> {
+export async function promptsFor(beat: any, person: any, root = process.cwd(), depth?: FanDepth): Promise<PromptsResult> {
   const t0 = Date.now()
   const custom: string[] = Array.isArray(person?.custom_prompts) ? person.custom_prompts.filter((q: any) => typeof q === 'string' && q.trim()).map((q: string) => noDash(q).slice(0, 240)) : []
   if (person?.prompts_mode === 'custom' && custom.length) return { prompts: custom, source: 'custom', context: contextFor(beat, root).text, ms: Date.now() - t0 }
   const ctx = contextFor(beat, root)
   if (ctx.text) {
     try {
-      const user = `THE PERSON: ${person?.name || 'a listener'}${person?.relation ? ' (' + person.relation + ')' : ''}\n\n${ctx.text}`
-      const raw = await openrouterJson(SYS, user, { temperature: 0.5, maxTokens: 400 })
+      const user = `THE PERSON: ${person?.name || 'a listener'}${person?.relation ? ' (' + person.relation + ')' : ''}${depth ? `\nHOW THEY FOLLOW THE BEAT: ${depth}` : ''}\n\n${ctx.text}`
+      const raw = await openrouterJson(SYS_FOR(depth), user, { temperature: 0.5, maxTokens: 400 })
       const j = parseJsonLoose(raw)
       const qs: string[] = Array.isArray(j?.questions) ? j.questions.filter((q: any) => typeof q === 'string' && q.trim()).map((q: string) => noDash(q.trim()).slice(0, 160)).slice(0, 3) : []
       if (qs.length >= 2) return { prompts: qs, source: 'tailored', context: ctx.text, ms: Date.now() - t0 }

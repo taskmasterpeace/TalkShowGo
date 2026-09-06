@@ -6,10 +6,11 @@
  * Needs: lab/cast/images/<id>.png (locked portrait) + lab/cast/voices/library/<id>.wav(+.ref.txt).
  */
 import fs from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { execFileSync } from 'node:child_process'
 
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '..', '..')
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
 const readKey = name => { const e = process.env[name]; if (e?.trim()) return e.trim(); try { const m = fs.readFileSync(path.join(ROOT, '.env'), 'utf8').match(new RegExp('^' + name + '=(.+)$', 'm')); if (m) return m[1].trim() } catch {} try { const v = JSON.parse(fs.readFileSync(path.join(ROOT, 'lab', 'settings', 'keys.json'), 'utf8'))[name]; if (v) return String(v).trim() } catch {} return undefined }
 const KEY = readKey('CUPCAKE_GATEWAY_KEY')
 const GW = process.env.CUPCAKE_GATEWAY_URL || 'http://192.168.1.249:8700'

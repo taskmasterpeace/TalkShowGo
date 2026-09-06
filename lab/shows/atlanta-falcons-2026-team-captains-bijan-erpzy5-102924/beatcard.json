@@ -1,0 +1,126 @@
+{
+  "id": "atlanta-falcons-2026-team-captains-bijan",
+  "show": "atlanta-falcons-2026-team-captains-bijan",
+  "question": "Did the Falcons pick the right captains for this season, or not?",
+  "target_spoken_words": 368,
+  "max_turns": 27,
+  "stances": {
+    "renee-vaughn": "While the Falcons selected a defensible slate of seven captains covering every unit, the confirmed facts don't tell us if they were the 'right' choices.",
+    "big-mike-vega": "The Falcons absolutely nailed it by selecting seven captains who cover every unit and embody the championship energy this team needs to dominate.",
+    "andrew-hammond": "The Falcons made a sound decision appointing a diverse group of leaders representing all key units, a textbook approach to fostering team identity and leadership."
+  },
+  "allowed_evidence": {
+    "renee-vaughn": [
+      "E001",
+      "E006",
+      "E002",
+      "E003",
+      "E004",
+      "E005",
+      "E007",
+      "E008"
+    ],
+    "big-mike-vega": [
+      "E001",
+      "E006",
+      "E002",
+      "E003",
+      "E004",
+      "E005",
+      "E007"
+    ],
+    "andrew-hammond": [
+      "E001",
+      "E004",
+      "E003",
+      "E002",
+      "E008"
+    ]
+  },
+  "participants": [
+    {
+      "id": "renee-vaughn",
+      "name": "Renee Vaughn",
+      "kind": "host"
+    },
+    {
+      "id": "big-mike-vega",
+      "name": "Big Mike Vega",
+      "kind": "host"
+    },
+    {
+      "id": "andrew-hammond",
+      "name": "Andrew Hammond",
+      "kind": "host"
+    }
+  ],
+  "delegates": {
+    "ai": [],
+    "human": []
+  },
+  "human_slots": [],
+  "withheld": [
+    {
+      "host": "renee-vaughn",
+      "evidence": "E007",
+      "turn": 7,
+      "instruction": "Detonate the claim that the role of a captain is to represent the identity of the Atlanta Falcons."
+    }
+  ],
+  "anaphora_exempt": [
+    "captains",
+    "atlanta falcons",
+    "seven"
+  ],
+  "protected_facts": [],
+  "waypoints": [
+    {
+      "after_words": 25,
+      "host": "big-mike-vega",
+      "note": "Directly challenge Renee's uncertainty about 'right' choices."
+    },
+    {
+      "after_words": 75,
+      "host": "andrew-hammond",
+      "note": "Reframe Big Mike's 'championship energy' as 'fostering team identity'."
+    },
+    {
+      "after_words": 150,
+      "host": "renee-vaughn",
+      "note": "Introduce the idea that 'leadership comes in many forms' to question the captain structure."
+    },
+    {
+      "after_words": 225,
+      "host": "big-mike-vega",
+      "note": "Push back on Renee's doubt by emphasizing the representation of units."
+    }
+  ],
+  "attribution": {
+    "mode": "A",
+    "label": "SOURCED & COMMITTED",
+    "law": "When a receipt is an ATTRIBUTED_CLAIM, name who said it and where (person/outlet + platform), then COMMIT to your read of it - never hedge it into mush. A FACT you state plainly. Never present an unproven claim as settled fact; never bury a real fact under \"allegedly\"."
+  },
+  "detonation_react": {
+    "host": "big-mike-vega",
+    "instruction": "React with surprise to Renee's point about identity, then defend by linking it to the chosen captains."
+  },
+  "kk_drop": {
+    "host": "renee-vaughn",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "renee-vaughn",
+    "instruction": "The Falcons named seven captains covering every major unit, which is sound structure."
+  },
+  "exit": {
+    "host": "andrew-hammond",
+    "alt_host": "renee-vaughn",
+    "instruction": "Concede nothing; tease that the real test is on the field."
+  },
+  "_compiled_from": {
+    "stringer": "str_ilppbi7w",
+    "briefing": "brf_erpzy52v",
+    "delegates_surfaced": []
+  }
+}

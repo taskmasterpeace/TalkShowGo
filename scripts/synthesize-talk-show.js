@@ -217,7 +217,7 @@ async function synthesizeNewsBulletin(client, topicId, claim) {
   console.log(`\n${host.name}: "We've verified this with ${sources.length} independent sources."`)
 
   // WHAT'S NEXT
-  console.log('\n[WHAT'S NEXT]')
+  console.log('\n[WHAT IS NEXT]')
   console.log(`\n${host.name}: "Watch this space - there's more to come on this story."`)
 
   console.log('\n' + '-'.repeat(60))

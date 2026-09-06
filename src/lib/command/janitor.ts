@@ -49,7 +49,7 @@ export const PRUNE_AFTER_DAYS = 14
 export const LOG_ROTATE_BYTES = 20 * 1024 * 1024
 const PULLS_FOR_HEALTH = 5     // the spec's window for health calls
 const PULLS_MEMORY = 30        // older pulls only lend a last-item date and a longer provable silence
-const KIND: LogKind = 'janitor' as LogKind   // log.ts owns the LogKind union; the LOG page lists unknown kinds it finds
+const KIND: LogKind = 'janitor'
 
 export type JanitorAction = 'flag_suspect' | 'retire_source' | 'repair_id' | 'add_channel' | 'widen_window' | 'prune_runs' | 'rotate_log'
 export type ProposalStatus = 'pending' | 'applied' | 'dismissed' | 'failed'

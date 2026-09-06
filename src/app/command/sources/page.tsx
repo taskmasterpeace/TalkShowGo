@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { useCmdState, saveBeat, Flash, useBeat, BeatPicker, ago, statusDate } from '../lib'
+import { useCmdState, saveBeat, Flash, useBeat, ago, statusDate } from '../lib'
 
 export default function Sources() {
   const { state, reload } = useCmdState()
@@ -27,7 +27,7 @@ export default function Sources() {
   const [exploreErr, setExploreErr] = useState<string | null>(null)
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { beat, beats, pick } = useBeat(state)
+  const { beat } = useBeat(state)
   if (!state) return <div className="p-8 cmd-kbd">LOADING SOURCES...</div>
   if (!beat) return <div className="p-8 cmd-kbd">NO BEAT LOADED</div>
   const tw = beat.sources?.twitter || []
@@ -219,7 +219,7 @@ export default function Sources() {
     <div className="p-6 space-y-5">
       <div className="flex items-center gap-4">
         <span className="cmd-display text-lg" style={{ letterSpacing: '0.1em' }}>SOURCES — {beat.name?.toUpperCase()}</span>
-        <BeatPicker beats={beats} beat={beat} pick={pick} />
+        {/* show switching lives in the master bar at the top of every page */}
         <span className={`chip ${pullAge.cls}`}>LAST PULL: {pullAge.text.toUpperCase()}</span>
         <Flash msg={flash} />
       </div>

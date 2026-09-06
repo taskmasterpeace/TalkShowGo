@@ -1,6 +1,7 @@
 import { Big_Shoulders_Display, JetBrains_Mono } from 'next/font/google'
 import './command.css'
 import { CommandNav } from './nav'
+import { ShowSwitcher } from './show-switcher'
 
 const display = Big_Shoulders_Display({ weight: ['700', '900'], subsets: ['latin'], variable: '--font-cmd-display', display: 'swap' })
 const mono = JetBrains_Mono({ weight: ['400', '500', '700'], subsets: ['latin'], variable: '--font-cmd-mono', display: 'swap' })
@@ -22,7 +23,7 @@ export default function CommandLayout({ children }: { children: React.ReactNode 
             <div className="onair"><i />MANUAL</div>
           </div>
         </aside>
-        <main className="flex-1 min-w-0">{children}</main>
+        <main className="flex-1 min-w-0"><ShowSwitcher />{children}</main>
       </div>
     </div>
   )

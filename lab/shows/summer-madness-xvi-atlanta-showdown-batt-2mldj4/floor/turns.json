@@ -1,0 +1,315 @@
+[
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Panhandling? Grand larceny? We talking about rap battles or a crime spree out here?",
+    "delivery": "booming incredulous disbelief",
+    "addressed_to": "null",
+    "evidence": [
+      "E001"
+    ],
+    "tag": null,
+    "ms": 645,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Call it what you want, but Calicoe just told HipHopIsReal Brizz is making easy money not battling. That's the invoice.",
+    "delivery": "deadpan, letting it land",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E015"
+    ],
+    "tag": "interrupting",
+    "ms": 3638,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Easy money? That's the bill for disrespecting the whole damn culture!",
+    "delivery": "Angry, dismissive, escalating",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 567,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Respect ain't the bill, Marcus, it's the currency you pay to duck the fight.",
+    "delivery": "flat, almost bored",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 2589,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Currency? You talkin' 'bout currency when careers are on the line? That's a damn shame.",
+    "delivery": "Warm, but with an edge",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 663,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Careers? He said Brizz is traumatized and done. That's the opposite of a career move.",
+    "delivery": "quiet, factual, cutting through the noise",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E006"
+    ],
+    "tag": "interrupting",
+    "ms": 2844,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Traumatized? Done? That ain't no career move, that's a damn indictment!",
+    "delivery": "Booms, then snaps.",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 1547,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Cap.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Then tell me why he's questioning Brizz's machete credibility on the same site that ran his 'too much' story.",
+    "delivery": "quiet, leaning forward",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E005",
+      "E011"
+    ],
+    "tag": "interrupting",
+    "ms": 3343,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Come ON.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Okay okay.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Accountability is toast if we're letting 'traumatized' be an excuse to dodge.",
+    "delivery": "Angry, cutting to the core",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": "interrupting",
+    "ms": 1262,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "You said dodge, but Calicoe's invoice said Brizz was circling them like a shark. So which behavior needed the excuse?",
+    "delivery": "flat, leaning forward",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E005"
+    ],
+    "tag": null,
+    "ms": 3532,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Circled him? Nah, that's just Calicoe talking. My man, that's straight up evasion.",
+    "delivery": "Angry, dismissive, escalating",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E009"
+    ],
+    "tag": null,
+    "ms": 1212,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "This ain't about who circled who. This is about the whole damn game folding like a cheap suit. Accountability? Gone. Respect? Out the window. What are we even doing here?",
+    "delivery": "weighty, reflective, then direct",
+    "addressed_to": "null",
+    "evidence": [],
+    "tag": null,
+    "ms": 714,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Respect is the brochure, Marcus. He says he represents love and respect, then calls someone the friendliest soft ass on the circuit.",
+    "delivery": "deadpan, leaning forward",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E023",
+      "E022"
+    ],
+    "tag": null,
+    "ms": 3132,
+    "noMerge": true
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "He calls himself a man of respect and then trashes someone? That ain't respect, that's a lie.",
+    "delivery": "weary, disappointed, direct",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": "interrupting",
+    "ms": 2136,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "So he represents love and respect, and you can't trust what he does with it either.",
+    "delivery": "quiet, eyes steady",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E023"
+    ],
+    "tag": "interrupting",
+    "ms": 10599,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Traumatized? Okay, I'll give you that. But then *why* is Calicoe still saying Brizz is scared of Moo? That ain't trauma, that's cowardice!",
+    "delivery": "Confrontational, questioning the narrative",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E003",
+      "E014"
+    ],
+    "tag": null,
+    "ms": 648,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "So the trauma's real but the invoice changes depending on who he's selling it to.",
+    "delivery": "low, flat, with a slight head tilt",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 6465,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "So the trauma is the reason *now*, but the fear was the reason *before*? Come on, man!",
+    "delivery": "Angry, questioning the narrative",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 1318,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Pick a receipt, Marcus. The Summer Impact trauma, or the easy money claim. They can't both be the bill.",
+    "delivery": "deadpan, holds up a hand",
+    "addressed_to": "marcus-blaze",
+    "evidence": [
+      "E004",
+      "E015"
+    ],
+    "tag": "interrupting",
+    "ms": 3944,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "You see the receipts? Nu Jerzey Twork is accused of stealing and panhandling! That's not about trauma, that's straight up filth.",
+    "delivery": "booming, incredulous, escalating",
+    "addressed_to": "null",
+    "evidence": [
+      "E001",
+      "E002"
+    ],
+    "tag": "interrupting",
+    "ms": 1306,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Panhandling is the invoice for respect you didn't earn. Same as ducking a fight.",
+    "delivery": "low, flat, with a slight head tilt",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 3650,
+    "noMerge": false
+  },
+  {
+    "id": "marcus-blaze",
+    "name": "MARCUS BLAZE",
+    "line": "Respect? You talking about respect when he ain't even payin' for his own damn drinks?! That's not respect, that's fraud!",
+    "delivery": "Angry, dismissive, escalating",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 1278,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Respect is the thing they all claim to sell when the bill comes due.",
+    "delivery": "low, tired, dead serious",
+    "addressed_to": "marcus-blaze",
+    "evidence": [],
+    "tag": null,
+    "ms": 9335,
+    "noMerge": true
+  }
+]

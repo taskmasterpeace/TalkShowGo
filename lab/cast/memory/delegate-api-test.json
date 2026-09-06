@@ -1,0 +1,30 @@
+{
+  "id": "delegate:api-test",
+  "entries": [
+    {
+      "show": "atlanta-falcons-2026-team-captains-bijan-erpzy5",
+      "beat": "atlanta-falcons-2026-team-captains-bijan",
+      "date": "2026-09-04",
+      "question": "Did the Falcons pick the right captains for this season, or not?",
+      "stance": "",
+      "said": [
+        "Look, I'm not on TV. I'm just a fan who actually watches and I'm telling you, this one's different. I've been saying that for a long time.",
+        "Honestly I would need to see it again, with fresh eyes."
+      ],
+      "closing": "Honestly I would need to see it again, with fresh eyes."
+    },
+    {
+      "show": "atlanta-falcons-2026-team-captains-bijan-erpzy5-073943",
+      "beat": "atlanta-falcons-2026-team-captains-bijan",
+      "date": "2026-09-04",
+      "question": "Did the Falcons pick the right captains for this season, or not?",
+      "stance": "",
+      "said": [
+        "Look, I'm not on TV. I'm just a fan who actually watches and I'm telling you, this one's different. I've been saying that for a long time.",
+        "Honestly I would need to see it again, with fresh eyes."
+      ],
+      "closing": "Honestly I would need to see it again, with fresh eyes."
+    }
+  ],
+  "name": "Api Test"
+}

@@ -1,0 +1,111 @@
+{
+  "topic": "Was hanging 87 on Savannah State the right move, or should Coach Berry have called off the dogs?",
+  "compiled": "2026-09-05T17:41:42.703Z",
+  "question": "Was hanging 87 on Savannah State the right move, or should Coach Berry have called off the dogs?",
+  "entries": [
+    {
+      "id": "E001",
+      "claim": "South Carolina State defeated Savannah State with a score of 87-0.",
+      "source_name": "espn.com",
+      "source_type": "research",
+      "url": "https://www.espn.com/college-football/playbyplay/_/gameId/401867982",
+      "tier": "FACT"
+    },
+    {
+      "id": "E002",
+      "claim": "The 87-point victory marked the highest scoring output in South Carolina State program history.",
+      "source_name": "hbcubuzz.com",
+      "source_type": "research",
+      "url": "https://hbcubuzz.com/107551/sc-state-87-0-savannah-state/",
+      "tier": "FACT"
+    },
+    {
+      "id": "E003",
+      "claim": "The previous record for high scoring was set during a win in 1981.",
+      "source_name": "hbcubuzz.com",
+      "source_type": "research",
+      "url": "https://hbcubuzz.com/107551/sc-state-87-0-savannah-state/",
+      "tier": "FACT"
+    },
+    {
+      "id": "E004",
+      "claim": "This was the largest FCS margin of victory since Idaho State beat Lincoln (Calif.) 90-0 in the 2025 season.",
+      "source_name": "hbcubuzz.com",
+      "source_type": "research",
+      "url": "https://hbcubuzz.com/107551/sc-state-87-0-savannah-state/",
+      "tier": "FACT"
+    },
+    {
+      "id": "E005",
+      "claim": "Coach Chennis Berry's philosophy is to 'Go 1-0'.",
+      "source_name": "si.com",
+      "source_type": "research",
+      "url": "https://www.si.com/college/hbcu/football/chennis-berry-shines-on-nightcap-shannon-sharpe",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E006",
+      "claim": "Berry believes the separation between winning and losing is found in preparation.",
+      "source_name": "si.com",
+      "source_type": "research",
+      "url": "https://www.si.com/college/hbcu/football/chennis-berry-shines-on-nightcap-shannon-sharpe",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E007",
+      "claim": "The large margin of victory was due to a significant mismatch in skill and preparation.",
+      "source_name": "clutchpoints.com",
+      "source_type": "research",
+      "url": "https://clutchpoints.com/hbcu/why-people-are-overreacting-to-savannah-states-87-point-loss-to-south-carolina-state",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E008",
+      "claim": "South Carolina State is described as the 'HBCU national champion of Division 1'.",
+      "source_name": "clutchpoints.com",
+      "source_type": "research",
+      "url": "https://clutchpoints.com/hbcu/why-people-are-overreacting-to-savannah-states-87-point-loss-to-south-carolina-state",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E009",
+      "claim": "Savannah State was considered outmatched in terms of scholarship allocation and experience.",
+      "source_name": "clutchpoints.com",
+      "source_type": "research",
+      "url": "https://clutchpoints.com/hbcu/why-people-are-overreacting-to-savannah-states-87-point-loss-to-south-carolina-state",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E010",
+      "claim": "Some argue Savannah State perhaps should have played an opponent more in line with their program's trajectory.",
+      "source_name": "clutchpoints.com",
+      "source_type": "research",
+      "url": "https://clutchpoints.com/hbcu/why-people-are-overreacting-to-savannah-states-87-point-loss-to-south-carolina-state",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E011",
+      "claim": "The South Carolina State defense held Savannah State to 75 rushing yards and 42 passing yards.",
+      "source_name": "wtoc.com",
+      "source_type": "research",
+      "url": "https://www.wtoc.com/2026/08/30/savannah-state-falls-south-carolina-state-87-0/",
+      "tier": "FACT"
+    },
+    {
+      "id": "E012",
+      "claim": "The Bulldogs forced three fumbles, recovered two, and had an interception.",
+      "source_name": "wtoc.com",
+      "source_type": "research",
+      "url": "https://www.wtoc.com/2026/08/30/savannah-state-falls-south-carolina-state-87-0/",
+      "tier": "FACT"
+    },
+    {
+      "id": "E013",
+      "claim": "Berry stated the team was just trying to find a way to win.",
+      "source_name": "si.com",
+      "source_type": "research",
+      "url": "https://www.si.com/college/hbcu/football/chennis-berry-shines-on-nightcap-shannon-sharpe",
+      "tier": "ATTRIBUTED_CLAIM"
+    }
+  ]
+}

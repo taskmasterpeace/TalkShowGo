@@ -7,7 +7,7 @@ import { excludedTerms, isExcluded } from './openrouter-web'
 import { fetchTranscriptSegments, type TranscriptSegment } from './transcript'
 
 const ROOT = process.cwd()
-const OR_KEY = process.env.OPENROUTER_API_KEY
+const OR_KEY = () => process.env.OPENROUTER_API_KEY // per-call: a key saved in SETTINGS works without a restart
 
 export function loadConfig(): any {
   try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'lab', 'research', 'config.json'), 'utf8')) } catch { return {} }
@@ -100,6 +100,7 @@ const PARSE_SYS = `You are an IMPARTIAL research analyst for a talk show. From t
 - Cite every factual claim to a source id that appears in the material. NEVER invent a fact, a quote, or a source id.
 - Label each claim: FACT (stated as fact by the source), ATTRIBUTED_CLAIM (someone's claim/opinion, reported), or ANALYSIS (an interpretation).
 - Do NOT lean, argue, or editorialize. Present what the sources say, including where they DISAGREE.
+- CAPTURE THE DISAGREEMENT AS EVIDENCE: when sources hold DIFFERENT opinions, criticisms, or alternative views on the assignment, extract EACH competing view as its OWN separate ATTRIBUTED_CLAIM entry in "evidence" (who argues what, and their reason) - a talk show debates from these receipts, so both sides need real ammunition. Never collapse opposing opinions into one claim, and never drop the minority/critical view. If the material is entirely one-sided, say so in context.unknowns rather than inventing an opposing view.
 - Quotes must be short and verbatim from the material.
 Output STRICT JSON only:
 {"evidence":[{"claim":"...","truth_label":"FACT|ATTRIBUTED_CLAIM|ANALYSIS","source_id":"S001","quote":"..."}],
@@ -176,9 +177,9 @@ async function parserLocal(user: string, cfg: any): Promise<{ content: string; u
 }
 
 async function parserOpenRouter(user: string, cfg: any): Promise<{ content: string; usage: any }> {
-  if (!OR_KEY) throw new Error('OPENROUTER_API_KEY missing')
+  if (!OR_KEY()) throw new Error('OPENROUTER_API_KEY missing')
   const r = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-    method: 'POST', headers: { Authorization: 'Bearer ' + OR_KEY, 'Content-Type': 'application/json' },
+    method: 'POST', headers: { Authorization: 'Bearer ' + OR_KEY(), 'Content-Type': 'application/json' },
     body: JSON.stringify({ model: cfg.parser?.model || 'google/gemini-2.5-flash-lite', temperature: cfg.parser?.temperature ?? 0.1, max_tokens: cfg.parser?.max_output_tokens || 5000, response_format: { type: 'json_object' }, messages: [{ role: 'system', content: PARSE_SYS }, { role: 'user', content: user }] }),
     signal: AbortSignal.timeout(120000),
   })
@@ -208,8 +209,36 @@ export async function runStringer(assignment: Assignment, trusted: { channel_id:
   const cfg = loadConfig()
   const id = 'str_' + Math.random().toString(36).slice(2, 10)
   const now = new Date().toISOString()
-  // 1) search YouTube (mode-aware: current/context/legacy/original/reaction; dual = freshness+relevance)
-  const sources = await ytSearch(assignment.text + (assignment.questions[0] ? ' ' + assignment.questions[0] : ''), trusted, cfg, opts)
+  // 1) search YouTube (mode-aware: current/context/legacy/original/reaction; dual = freshness+relevance).
+  //    Beyond the neutral query, run a CONTROVERSY/REACTION pass so the transcripts contain the DISAGREEMENT a
+  //    debate show needs - a one-sided factual ledger yields a one-sided "debate" (see engine SELF_IMPROVE_LOG
+  //    root-cause). INTERLEAVE the two result sets so reaction sources reach the transcribed top-N, not just
+  //    appended after the facts. Controllable via cfg.stringer.controversy_pass (default on).
+  const baseQ = assignment.text + (assignment.questions[0] ? ' ' + assignment.questions[0] : '')
+  const primary = await ytSearch(baseQ, trusted, cfg, opts)
+  let sources = primary
+  if (cfg.stringer?.controversy_pass !== false) {
+    try {
+      const angleTerms = cfg.stringer?.controversy_terms || 'reaction analysis debate'
+      const angleQ = `${assignment.text.replace(/\?+\s*$/, '').slice(0, 90)} ${angleTerms}`
+      const angle = await ytSearch(angleQ, trusted, cfg, opts)
+      const seen = new Set<string>(); const merged: Src[] = []
+      for (let i = 0; i < Math.max(primary.length, angle.length); i++) {
+        for (const s of [primary[i], angle[i]]) if (s && !seen.has(s.video_id)) { seen.add(s.video_id); merged.push(s) }
+      }
+      sources = merged
+      // RELEVANCE filter: a controversy query attracts off-topic clickbait/AI-slop/foreign fiction whose titles
+      // merely share a word ("reaction", "secret"). Keep only sources whose title shares a DISCRIMINATING subject
+      // token (real "Falcons/captains" content will; spam won't). Only trims when it leaves >= 3 sources, so a
+      // thinly-covered real topic is never filtered down to nothing.
+      const generic = new Set('does did will what when were with from have they their team this that then than best good this year time week game show talk news full live 2026 2025 reaction analysis debate should about right pick season'.split(/\s+/))
+      const subjTokens = (assignment.text.toLowerCase().match(/[a-z]{4,}/g) || []).filter(w => !generic.has(w))
+      if (subjTokens.length) {
+        const kept = sources.filter(s => subjTokens.some(w => (s.title || '').toLowerCase().includes(w)))
+        if (kept.length >= 3) sources = kept
+      }
+    } catch { /* angle pass is best-effort; the neutral results stand on their own */ }
+  }
   // 2) transcripts for the top N
   const capWords = cfg.youtube?.transcript_words_per_video || 12000
   let totalWords = 0
@@ -258,12 +287,16 @@ export async function runStringer(assignment: Assignment, trusted: { channel_id:
 export function saveStringer(result: any) {
   const dir = path.join(ROOT, 'lab', 'research', 'stringer')
   fs.mkdirSync(dir, { recursive: true })
-  fs.writeFileSync(path.join(dir, result.id + '.json'), JSON.stringify(result, null, 2) + '\n')
+  const sp = path.join(dir, result.id + '.json')
+  fs.writeFileSync(sp + '.tmp', JSON.stringify(result, null, 2) + '\n'); fs.renameSync(sp + '.tmp', sp) // atomic: a torn artifact 500s every later read
 }
 
 export function listStringers(limit = 12): any[] {
   const dir = path.join(ROOT, 'lab', 'research', 'stringer')
   if (!fs.existsSync(dir)) return []
-  return fs.readdirSync(dir).filter(f => f.startsWith('str_') && f.endsWith('.json')).sort().reverse().slice(0, limit)
-    .map(f => { try { return JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')) } catch { return null } }).filter(Boolean)
+  // ids are random strings: "recent" must come from mtime, never from sorting the names
+  return fs.readdirSync(dir).filter(f => /^str_[a-z0-9]+\.json$/.test(f))
+    .map(f => ({ f, m: (() => { try { return fs.statSync(path.join(dir, f)).mtimeMs } catch { return 0 } })() }))
+    .sort((a, b) => b.m - a.m).slice(0, limit)
+    .map(({ f }) => { try { return JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')) } catch { return null } }).filter(Boolean)
 }

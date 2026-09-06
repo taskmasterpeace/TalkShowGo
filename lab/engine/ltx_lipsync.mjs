@@ -9,11 +9,12 @@
  * Vocal must be ISOLATED voice (no music), <=5s (121 frames @24fps). 832x480. ~2-3 min cold, ~96s warm.
  */
 import fs from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { execFileSync, spawnSync } from 'node:child_process'
 
 const COMFY = process.env.COMFY_URL || 'http://192.168.1.249:8188'
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '..', '..')
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
 const GRAPH = path.join(ROOT, 'lab', 'engine', 'ltx25-lipsync-graph.json')
 const [portrait, vocal, line, out, prefix] = process.argv.slice(2)
 if (!portrait || !vocal || !line || !out) { console.error('usage: ltx_lipsync.mjs <portrait.png> <vocal.wav> "<line>" <out.mp4> [prefix]'); process.exit(1) }

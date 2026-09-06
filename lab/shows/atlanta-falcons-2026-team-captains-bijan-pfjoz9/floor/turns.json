@@ -1,0 +1,244 @@
+[
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Good evening, folks. Kevin Stefanski named seven captains for this season, and Bijan's name wasn't on that list. So Mike, Andrew, was that the right call or too early to tell?",
+    "delivery": "even, opening the floor",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E001",
+      "E006"
+    ],
+    "tag": null,
+    "ms": 3048,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Renee, that announcement BOOMS 'this is our identity'...and Bijan Robinson IS that identity, ready to lead right now!",
+    "delivery": "booming with electric conviction",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 57335,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Well, Mike, you know, the Falcons themselves have said that leadership comes in many forms, and we've got Chris Lindstrom out there as an offensive captain already, so it's not like the offense isn't covered.",
+    "delivery": "warm, consensus-building, smooth",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E008",
+      "E004"
+    ],
+    "tag": null,
+    "ms": 1023,
+    "noMerge": false
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Andrew, the Falcons declare captains represent the team's heart...and Bijan Robinson IS that heart, ready to lead this instant!",
+    "delivery": "booming with electric conviction",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 83849,
+    "noMerge": false
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Mike, I hear you, but the Falcons themselves state that leadership comes in many forms, not just the guys with the C on their chest.",
+    "delivery": "friendly but firm",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E008"
+    ],
+    "tag": null,
+    "ms": 1332,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Renee, that 'mm' is the quiet before the DECIBEL METER BREAKS! The Falcons declare a captain represents the identity – and Bijan Robinson IS that identity, WALKING IN READY!",
+    "delivery": "booming with triumphant conviction",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 82248,
+    "noMerge": false
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mike, that's the third time you've called the roster spot the man's identity, but the seven names on record don't include him. Why not?",
+    "delivery": "level, pressing for a source",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E001"
+    ],
+    "tag": null,
+    "ms": 3388,
+    "noMerge": false
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Look, folks, the Falcons organization themselves put it out there: leadership comes in many forms within the team.",
+    "delivery": "direct, grounded",
+    "addressed_to": "null",
+    "evidence": [
+      "E008"
+    ],
+    "tag": "interrupting",
+    "ms": 3839,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Andrew, leadership in many forms? ABSOLUTELY! And Bijan Robinson's form is the HEADLINER, ready to wear the C and represent that identity RIGHT NOW!",
+    "delivery": "booming with defiant triumph",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 65078,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Mike, we know Chris Lindstrom is already an offensive captain. The team has seven guys with the C, and honestly, that's a good number.",
+    "delivery": "calm, fact-driven, agreeable",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E004"
+    ],
+    "tag": null,
+    "ms": 4161,
+    "noMerge": false
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Andrew, the Atlanta Falcons state the captain's role is to represent the identity – Bijan Robinson IS that walkout, ready for the spotlight TODAY!",
+    "delivery": "booming with marquee-scale conviction",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 97755,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mike, you keep announcing him captain by volume, but the coach didn't put him there. Andrew, you keep citing 'many forms' without naming a single form Bijan's actually filled.",
+    "delivery": "level, cutting through noise",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E006"
+    ],
+    "tag": null,
+    "ms": 3726,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Renee, last show you said coverage isn't consensus – well the identity IS the consensus! The Falcons declare a captain represents it, and Bijan's the WALKOUT!",
+    "delivery": "booming with triumphant defiance",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 80083,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Look, Mike, the organization has made it clear that leadership isn't just about wearing the 'C'. They've got seven captains, including Chris Lindstrom on offense, and that feels like a full roster to me.",
+    "delivery": "calm, agreeable, grounded",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E008",
+      "E004"
+    ],
+    "tag": null,
+    "ms": 2776,
+    "noMerge": true
+  },
+  {
+    "id": "big-mike-vega",
+    "name": "BIG MIKE VEGA",
+    "line": "Andrew, a full roster without Bijan Robinson headlining? That's an undercard pretending it's the pay-per-view!",
+    "delivery": "booming with arena-scale conviction",
+    "addressed_to": "andrew-hammond",
+    "evidence": [],
+    "tag": null,
+    "ms": 58415,
+    "noMerge": false
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Mike, the coach made his list and Bijan wasn't on it. That's the fact. Everything after that is your case, not the record.",
+    "delivery": "level, tired, direct",
+    "addressed_to": "big-mike-vega",
+    "evidence": [
+      "E006"
+    ],
+    "tag": null,
+    "ms": 8622,
+    "noMerge": true
+  }
+]

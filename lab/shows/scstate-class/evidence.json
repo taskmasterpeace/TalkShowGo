@@ -1,0 +1,71 @@
+{
+  "topic": "After hanging 87 points on Savannah State, are the Bulldogs the class of HBCU football right now?",
+  "compiled": "2026-09-05T17:38:19.831Z",
+  "question": "After hanging 87 points on Savannah State, are the Bulldogs the class of HBCU football right now?",
+  "entries": [
+    {
+      "id": "E001",
+      "claim": "South Carolina State defeated Savannah State with a score of 87-0.",
+      "source_name": "hbcubuzz.com",
+      "source_type": "research",
+      "url": "https://hbcubuzz.com/107551/sc-state-87-0-savannah-state/",
+      "tier": "FACT"
+    },
+    {
+      "id": "E002",
+      "claim": "The victory occurred on August 30, 2026, in the season opener.",
+      "source_name": "hbcubuzz.com",
+      "source_type": "research",
+      "url": "https://hbcubuzz.com/107551/sc-state-87-0-savannah-state/",
+      "tier": "FACT"
+    },
+    {
+      "id": "E003",
+      "claim": "South Carolina State is ranked No. 24 in the FCS.",
+      "source_name": "hbcubuzz.com",
+      "source_type": "research",
+      "url": "https://hbcubuzz.com/107551/sc-state-87-0-savannah-state/",
+      "tier": "FACT"
+    },
+    {
+      "id": "E004",
+      "claim": "The Bulldogs scored a total of 87 points across four quarters.",
+      "source_name": "hbcubuzz.com",
+      "source_type": "research",
+      "url": "https://hbcubuzz.com/107551/sc-state-87-0-savannah-state/",
+      "tier": "FACT"
+    },
+    {
+      "id": "E005",
+      "claim": "The win set a school record for points scored.",
+      "source_name": "hbcubuzz.com",
+      "source_type": "research",
+      "url": "https://hbcubuzz.com/107551/sc-state-87-0-savannah-state/",
+      "tier": "FACT"
+    },
+    {
+      "id": "E006",
+      "claim": "It was the largest FCS win since Idaho State defeated Lincoln (California) 90-0 in the 2025 season.",
+      "source_name": "hbcubuzz.com",
+      "source_type": "research",
+      "url": "https://hbcubuzz.com/107551/sc-state-87-0-savannah-state/",
+      "tier": "FACT"
+    },
+    {
+      "id": "E007",
+      "claim": "Head coach Chennis Berry is aiming to prove last season's Celebration Bowl championship was not a fluke.",
+      "source_name": "hbcubuzz.com",
+      "source_type": "research",
+      "url": "https://hbcubuzz.com/107551/sc-state-87-0-savannah-state/",
+      "tier": "FACT"
+    },
+    {
+      "id": "E008",
+      "claim": "The Bulldogs' next game is against Florida A&M.",
+      "source_name": "hbcubuzz.com",
+      "source_type": "research",
+      "url": "https://hbcubuzz.com/107551/sc-state-87-0-savannah-state/",
+      "tier": "FACT"
+    }
+  ]
+}

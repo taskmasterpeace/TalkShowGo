@@ -1,0 +1,133 @@
+{
+  "id": "is-malachi-tony-truly-the-best-player-in",
+  "show": "miami-tony",
+  "question": "Is Malachi Tony truly the best player in college football this season?",
+  "target_spoken_words": 368,
+  "max_turns": 27,
+  "stances": {
+    "renee-vaughn": "MODERATOR: I will frame the debate, source the claims, and press both sides without taking a side myself.",
+    "dale-ruttman": "Yes, Malachi Tony is truly the best player in college football this season because his overall impact, fundamentals, and football IQ set him apart beyond just position-specific skills.",
+    "cassius-wynn": "No, Malachi Tony is not the best player in college football this season; despite his versatility and accolades, the title belongs to Jeremiah Smith, the undisputed best wide receiver with superior position-specific skills and accuracy."
+  },
+  "allowed_evidence": {
+    "renee-vaughn": [
+      "E037",
+      "E038",
+      "E041",
+      "E042",
+      "E007",
+      "E008",
+      "E009"
+    ],
+    "dale-ruttman": [
+      "E010",
+      "E011",
+      "E006",
+      "E004"
+    ],
+    "cassius-wynn": [
+      "E002",
+      "E031",
+      "E032",
+      "E039",
+      "E003"
+    ]
+  },
+  "participants": [
+    {
+      "id": "renee-vaughn",
+      "name": "Renee Vaughn",
+      "kind": "host"
+    },
+    {
+      "id": "dale-ruttman",
+      "name": "Dale Ruttman",
+      "kind": "host"
+    },
+    {
+      "id": "cassius-wynn",
+      "name": "Cassius Wynn",
+      "kind": "host"
+    }
+  ],
+  "delegates": {
+    "ai": [],
+    "human": []
+  },
+  "human_slots": [],
+  "withheld": [
+    {
+      "host": "cassius-wynn",
+      "evidence": "E042",
+      "turn": 7,
+      "instruction": "NOW detonate this receipt, flat, let it sit"
+    }
+  ],
+  "anaphora_exempt": [
+    "malachi tony",
+    "jeremiah smith",
+    "best player",
+    "college football"
+  ],
+  "protected_facts": [],
+  "waypoints": [
+    {
+      "after_words": 25,
+      "host": "dale-ruttman",
+      "note": "Malachi's fundamentals and football IQ make him the best overall player, not just a receiver."
+    },
+    {
+      "after_words": 50,
+      "host": "cassius-wynn",
+      "note": "But Jeremiah Smith's elite accuracy and status as the best receiver challenge Malachi's claim to being the best overall."
+    },
+    {
+      "after_words": 90,
+      "host": "dale-ruttman",
+      "note": "Malachi's versatility and ability to impact the game in multiple ways outweighs pure receiver skills."
+    },
+    {
+      "after_words": 130,
+      "host": "cassius-wynn",
+      "note": "Yet Malachi is not better than Jeremiah Smith at wide receiver, which is the most critical skill for the title of best player."
+    },
+    {
+      "after_words": 180,
+      "host": "dale-ruttman",
+      "note": "The best player isn't just about one position; Malachi's all-around ability and leadership prove his superiority."
+    },
+    {
+      "after_words": 230,
+      "host": "cassius-wynn",
+      "note": "Recognition from experts and stats favor Jeremiah Smith as the top player, not Malachi."
+    }
+  ],
+  "attribution": {
+    "mode": "A",
+    "label": "SOURCED & COMMITTED",
+    "law": "When a receipt is an ATTRIBUTED_CLAIM, name who said it and where (person/outlet + platform), then COMMIT to your read of it - never hedge it into mush. A FACT you state plainly. Never present an unproven claim as settled fact; never bury a real fact under \"allegedly\"."
+  },
+  "detonation_react": {
+    "host": "dale-ruttman",
+    "instruction": "You didn't see that coming; Malachi’s leading stats are impressive, but the best player is about more than numbers—it's about overall impact and leadership."
+  },
+  "kk_drop": {
+    "host": "renee-vaughn",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "renee-vaughn",
+    "instruction": "Let's start with a fact: Malachi Tony led American Heritage to the state championship and was named Florida high school football player of the year, then enrolled early at Miami and became the team's best player."
+  },
+  "exit": {
+    "host": "renee-vaughn",
+    "alt_host": "dale-ruttman",
+    "instruction": "Let's close this intense debate with no clear winner yet—next time, we'll dive deeper into how these players shape their teams' futures."
+  },
+  "_compiled_from": {
+    "stringer": "str_g0vtrw31",
+    "briefing": "brf_i7fj427o",
+    "delegates_surfaced": []
+  }
+}

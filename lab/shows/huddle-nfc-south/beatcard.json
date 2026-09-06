@@ -1,0 +1,132 @@
+{
+  "id": "are-the-falcons-built-to-win-the-nfc-sou",
+  "show": "huddle-nfc-south",
+  "question": "Are the Falcons built to win the NFC South in 2026, or not?",
+  "target_spoken_words": 368,
+  "max_turns": 27,
+  "stances": {
+    "renee-vaughn": "MODERATOR: I take no side; I will referee and press both debaters by highlighting the Falcons' strengths up front and the uncertainties at quarterback and defense, ensuring a fair and balanced discussion.",
+    "big-mike-vega": "YES, the Falcons are built to win the NFC South in 2026 because their offensive line continuity and legendary coaching under Bill Callahan create a potentially limitless offense, and the rising energy around the team signals they are primed to take the next step.",
+    "andrew-hammond": "NO, the Falcons are not built to win the NFC South in 2026 due to crippling uncertainties at quarterback, a defense weakened by key suspensions and injuries, salary cap constraints, and a history of underwhelming records and playoff droughts."
+  },
+  "allowed_evidence": {
+    "renee-vaughn": [
+      "E010",
+      "E031",
+      "E042"
+    ],
+    "big-mike-vega": [
+      "E017",
+      "E019",
+      "E020",
+      "E015",
+      "E016"
+    ],
+    "andrew-hammond": [
+      "E043",
+      "E046",
+      "E048",
+      "E047",
+      "E049"
+    ]
+  },
+  "participants": [
+    {
+      "id": "renee-vaughn",
+      "name": "Renee Vaughn",
+      "kind": "host"
+    },
+    {
+      "id": "big-mike-vega",
+      "name": "Big Mike Vega",
+      "kind": "host"
+    },
+    {
+      "id": "andrew-hammond",
+      "name": "Andrew Hammond",
+      "kind": "host"
+    }
+  ],
+  "delegates": {
+    "ai": [],
+    "human": []
+  },
+  "human_slots": [],
+  "withheld": [
+    {
+      "host": "andrew-hammond",
+      "evidence": "E046",
+      "turn": 7,
+      "instruction": "Reveal the defense could be one of the NFL's worst front sevens in 2026 due to key suspensions and injuries."
+    }
+  ],
+  "anaphora_exempt": [
+    "falcons",
+    "nfc south",
+    "2026",
+    "offensive line",
+    "quarterback",
+    "defense"
+  ],
+  "protected_facts": [],
+  "waypoints": [
+    {
+      "after_words": 25,
+      "host": "big-mike-vega",
+      "note": "Highlight the offensive line's technical excellence and the team's rising energy as a foundation for winning the division."
+    },
+    {
+      "after_words": 50,
+      "host": "andrew-hammond",
+      "note": "Counter by emphasizing the quarterback injuries and defensive suspensions that critically weaken the Falcons' chances."
+    },
+    {
+      "after_words": 100,
+      "host": "big-mike-vega",
+      "note": "Challenge the impact of injuries by pointing to the coaching staff's ability to adapt and develop players."
+    },
+    {
+      "after_words": 150,
+      "host": "andrew-hammond",
+      "note": "Bring up the salary cap and lack of draft capital limiting offseason improvements."
+    },
+    {
+      "after_words": 200,
+      "host": "big-mike-vega",
+      "note": "Argue that despite constraints, the team's momentum and offensive potential outweigh the negatives."
+    },
+    {
+      "after_words": 250,
+      "host": "andrew-hammond",
+      "note": "Reinforce the recent history of missing playoffs and mediocre records as evidence against the Falcons' readiness."
+    }
+  ],
+  "attribution": {
+    "mode": "A",
+    "label": "SOURCED & COMMITTED",
+    "law": "When a receipt is an ATTRIBUTED_CLAIM, name who said it and where (person/outlet + platform), then COMMIT to your read of it - never hedge it into mush. A FACT you state plainly. Never present an unproven claim as settled fact; never bury a real fact under \"allegedly\"."
+  },
+  "detonation_react": {
+    "host": "big-mike-vega",
+    "instruction": "React surprised but acknowledge the defensive issues, then pivot to the offensive line's strength and coaching as the true game-changers."
+  },
+  "kk_drop": {
+    "host": "renee-vaughn",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "renee-vaughn",
+    "instruction": "Start by stating the Falcons have a strong offensive line continuity and an iconic coach, but also face quarterback uncertainty and defensive challenges."
+  },
+  "exit": {
+    "host": "renee-vaughn",
+    "alt_host": "big-mike-vega",
+    "instruction": "Close the segment by summarizing the key points without conceding, teasing a deeper dive into the Falcons' offseason moves next time."
+  },
+  "_compiled_from": {
+    "stringer": "str_0clsie6s",
+    "briefing": "brf_2a31wfax",
+    "delegates_surfaced": []
+  }
+}

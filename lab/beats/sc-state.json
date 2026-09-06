@@ -1,0 +1,106 @@
+{
+  "id": "sc-state",
+  "name": "South Carolina State Bulldogs",
+  "status": "bootstrapped",
+  "description": "South Carolina State Bulldogs (HBCU college football) - auto-bootstrapped 2026-09-05; validate + let the producer prune sources before shipping",
+  "show": {
+    "name": "SOUTH CAROLINA STATE BULLDOGS DAILY",
+    "tagline": "Your South Carolina State Bulldogs desk, every day",
+    "timespan_hours": 48,
+    "format_bias": "auto",
+    "show_type": "moderated-collision",
+    "intro": {
+      "enabled": true,
+      "template": "State of the program in one breath, then the day's biggest storyline as a topic card."
+    },
+    "outro": {
+      "enabled": true,
+      "template": "Next game countdown + one bold prediction the comments can hold us to."
+    },
+    "hosts": [
+      "renee-vaughn",
+      "cassius-wynn",
+      "andrew-hammond"
+    ],
+    "rotation": [
+      "dale-ruttman"
+    ],
+    "hosts_note": "the house desk until Robert casts a dedicated crew for this show"
+  },
+  "sources": {
+    "youtube": [
+      {
+        "channel_name": "James Hill",
+        "label": "auto-discovered (score 24.0, 8 hits)",
+        "type": "media",
+        "priority": 1,
+        "status": "RESOLVED 2026-09-05 (auto)",
+        "channel_id": "UCa_b3qTY2goLOy_d2SRyNmg",
+        "resolved_title": "James Hill"
+      },
+      {
+        "channel_name": "Nightcap",
+        "label": "auto-discovered (score 20.0, 4 hits)",
+        "type": "media",
+        "priority": 1,
+        "status": "RESOLVED 2026-09-05 (auto)",
+        "channel_id": "UCKnodHJpZd8UbSvAufDd3_g",
+        "resolved_title": "Nightcap"
+      },
+      {
+        "channel_name": "HBCU Pulse",
+        "label": "auto-discovered (score 20.0, 4 hits)",
+        "type": "media",
+        "priority": 1,
+        "status": "RESOLVED 2026-09-05 (auto)",
+        "channel_id": "UCa7yQhy0nT6oVWpVoJs6bvg",
+        "resolved_title": "HBCU Pulse"
+      },
+      {
+        "channel_name": "News 19 WLTX",
+        "label": "auto-discovered (score 18.0, 3 hits)",
+        "type": "media",
+        "priority": 2,
+        "status": "RESOLVED 2026-09-05 (auto)",
+        "channel_id": "UCVaXclURQZlakiTMzuwHvRw",
+        "resolved_title": "News 19 WLTX"
+      },
+      {
+        "channel_name": "The BlitzCity Podcast",
+        "label": "auto-discovered (score 18.0, 6 hits)",
+        "type": "media",
+        "priority": 2,
+        "status": "RESOLVED 2026-09-05 (auto)",
+        "channel_id": "UCAtVilFGUWaZ_-iCx1y3KPQ",
+        "resolved_title": "The BlitzCity Podcast"
+      },
+      {
+        "channel_name": "ESPN College Football",
+        "label": "auto-discovered (score 15.0, 5 hits)",
+        "type": "media",
+        "priority": 2,
+        "status": "RESOLVED 2026-09-05 (auto)",
+        "channel_id": "UCzRWWsFjqHk1an4OnVPsl9g",
+        "resolved_title": "ESPN College Football"
+      }
+    ],
+    "twitter": [
+      {
+        "handle": "SouthCarolinaStateBulldogs",
+        "label": "South Carolina State Bulldogs (official) - SUGGESTED, unverified",
+        "type": "media",
+        "priority": 1,
+        "status": "UNVERIFIED - producer must verify the real handle"
+      }
+    ],
+    "rss": [
+      {
+        "label": "Google News - South Carolina State Bulldogs",
+        "url": "https://news.google.com/rss/search?q=%22South%20Carolina%20State%20Bulldogs%22&hl=en-US&gl=US&ceid=US:en",
+        "note": "legal published feed; never hostile-crawl"
+      }
+    ],
+    "web": []
+  },
+  "people": []
+}

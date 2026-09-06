@@ -3,7 +3,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { humanDelivery, mergeDelivery, type HumanAnswer } from '@/lib/command/agent-brief'
 import { findBeat, loadPeople } from '@/lib/command/people'
-import { pendingTakes, markUsed, type Take } from '@/lib/command/takes'
+import { pendingTakes, listTakes, markUsed, type Take } from '@/lib/command/takes'
 import { appendLog } from '@/lib/command/log'
 
 export const runtime = 'nodejs'
@@ -66,8 +66,11 @@ export async function POST(req: Request) {
       })
     }
     const answers = [...mains, ...typed, ...choices]
-    // voice: the longest recorded clip across their takes (already cut to Breeze length by the intake)
-    const withVoice = g.takes.filter(t => t.voice && t.voice.sample_wav && fs.existsSync(t.voice.sample_wav) && t.voice.ref_text).sort((p, q) => (q.voice!.seconds || 0) - (p.voice!.seconds || 0))[0]
+    // voice: the longest recorded clip across ALL the person's takes on this beat - used ones included.
+    // Only pending takes get SEATED, but the voice print is an identity: a 2-second "yep" today must
+    // never replace the clean 19-second ref they gave last week.
+    const allTheirs = listTakes(hit.beat.id, g.slug)
+    const withVoice = (allTheirs.length ? allTheirs : g.takes).filter(t => t.voice && t.voice.sample_wav && fs.existsSync(t.voice.sample_wav) && t.voice.ref_text).sort((p, q) => (q.voice!.seconds || 0) - (p.voice!.seconds || 0))[0]
     const voice = withVoice ? { sample_wav: withVoice.voice!.sample_wav, ref_text: withVoice.voice!.ref_text, seconds: withVoice.voice!.seconds } : null
     // two people with the same name on one floor must read differently in the transcript
     let display = floorName(name) || g.slug.replace(/-/g, ' ')

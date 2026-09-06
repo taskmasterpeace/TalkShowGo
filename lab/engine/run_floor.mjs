@@ -8,6 +8,7 @@
  * end-name tic, catchphrase cap, exemplar/self repeat) are a per-host dial - cast.json `guards.style:false` turns them off.
  */
 import fs from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
 const ARG = Object.fromEntries(process.argv.slice(2).map(a => { const m = a.match(/^--([^=]+)=?(.*)$/); return m ? [m[1], m[2] || true] : [a, true] }))
@@ -27,7 +28,7 @@ function heartbeat(turnNo, maxTurns, spoken, target) {
     fs.writeFileSync(STATUS_PATH + '.tmp', next); fs.renameSync(STATUS_PATH + '.tmp', STATUS_PATH)   // atomic: a reader never sees a torn file
   } catch { /* heartbeat is best-effort */ }
 }
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '..', '..')
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
 const OLLAMA = process.env.ENGINE_OLLAMA_URL || 'http://192.168.1.249:11434'
 const MODELS = {
   'tasha-raw': process.env.ENGINE_MODEL_TASHA || 'hf.co/bartowski/NousResearch_Hermes-4-70B-GGUF:Q4_K_M',
@@ -51,6 +52,21 @@ function readEnvKey(name) {
   return null
 }
 
+// ---------- show memory: what each speaker said on previous shows (lab/cast/memory/<id>.json) ----------
+const MEMDIR = path.join(ROOT, 'lab', 'cast', 'memory')
+const memPath = id => path.join(MEMDIR, String(id).replace(/[^a-z0-9-]/gi, '-') + '.json')
+function loadMemory(id) { try { return JSON.parse(fs.readFileSync(memPath(id), 'utf8')) } catch { return { id, entries: [] } } }
+function saveMemoryEntry(id, name, entry) {
+  try {
+    fs.mkdirSync(MEMDIR, { recursive: true })
+    const m = loadMemory(id); m.id = id; m.name = name
+    m.entries = (m.entries || []).filter(e => e.show !== entry.show)   // a re-run of the same show REPLACES its entry
+    m.entries.push(entry)
+    m.entries = m.entries.slice(-24)   // the record keeps a season, not a lifetime
+    fs.writeFileSync(memPath(id), JSON.stringify(m, null, 2) + '\n')
+  } catch (e) { console.error('  memory write failed (' + id + '): ' + e.message) }
+}
+
 // --provider=openrouter routes each host's turn to its Model-DNA engine (the proven cheap models).
 // This is the fix DELIVERY.md named for the writer ceiling: a stronger conversationalist per seat.
 const OR_KEY = readEnvKey('OPENROUTER_API_KEY')
@@ -64,6 +80,16 @@ const DNA = (() => {
   for (const h of cast.hosts || []) { const ov = process.env['ENGINE_DNA_' + h.id.toUpperCase().replace(/[^A-Z0-9]/g, '_')]; let id = ov || h.model?.dna_id; if (id) m[h.id] = FLOOR_SUB[id] || id }
   m._mix = process.env.ENGINE_DNA_MIX || 'google/gemini-2.5-flash-lite'
   return m
+})()
+// THE PRODUCER — the showrunner's model does the final in-voice PUNCH-UP over the raw floor (the editorial
+// layer Robert asked for). Resolves to cast.producer/showrunner model; --producer= / ENGINE_PRODUCER override; --punchup=off disables.
+const PRODUCER = (() => {
+  // OPT-IN: an A/B (2026-09-03) showed a "punch/polish" pass scored WORSE (4->3) - it amplified the metaphor
+  // decoration. Off unless explicitly asked (--punchup=on / --producer= / ENGINE_PRODUCER). Kept for the de-polish experiment.
+  const ov = process.env.ENGINE_PRODUCER || (typeof ARG.producer === 'string' && ARG.producer) || ''
+  if (ov) return ov
+  if (String(ARG.punchup) !== 'on') return null
+  try { const c = JSON.parse(fs.readFileSync(path.join(ROOT, 'lab', 'cast', 'cast.json'), 'utf8')); const p = c.producer || c.showrunner || (c.hosts || []).find(h => h && h.id === 'showrunner'); return (p && p.model && p.model.id) || null } catch { return null }
 })()
 
 // ---------- providers ----------
@@ -92,18 +118,20 @@ async function callRequesty(system, user, temperature, max_tokens = 200) {
   if (!res.ok) throw new Error('requesty ' + res.status + ' ' + (await res.text()).slice(0, 200))
   return (await res.json()).choices[0].message.content.trim()
 }
-async function callOpenRouter(model, system, user, temperature, max_tokens = 200, jsonFormat = false) {
+async function callOpenRouter(model, system, user, temperature, max_tokens = 200, jsonFormat = false, reasoning = null) {
   if (!OR_KEY) throw new Error('no OPENROUTER_API_KEY in .env')
   const body = { model, temperature, max_tokens, messages: [{ role: 'system', content: system }, { role: 'user', content: user }] }
   if (jsonFormat) body.response_format = { type: 'json_object' }
+  if (reasoning) body.reasoning = reasoning   // a reasoning model (sonnet-5) can burn the ENTIRE token budget thinking and emit 0 content; cap it for editorial passes
   let lastErr
   for (let attempt = 1; attempt <= 3; attempt++) {
     try {
       const res = await fetch('https://openrouter.ai/api/v1/chat/completions', { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + OR_KEY }, body: JSON.stringify(body), signal: AbortSignal.timeout(120000) })
       if (!res.ok) {
-        const txt = (await res.text()).slice(0, 160)
-        // an open-weight route that refuses JSON mode (400 on response_format): drop it, the prompt already demands strict JSON
-        if (res.status === 400 && body.response_format && /response_format|json/i.test(txt)) { delete body.response_format; console.error(`  ${model}: no json mode on this route, retrying plain`); continue }
+        const txt = (await res.text()).slice(0, 300)
+        // a route that refuses JSON mode 400s with varied wording ("response_format", "json", or kimi's
+        // "structured-outputs"), so on ANY 400 while response_format is set, drop it and retry - the prompt already demands strict JSON
+        if (res.status === 400 && body.response_format) { delete body.response_format; console.error(`  ${model}: no json mode on this route, retrying plain`); continue }
         throw new Error('openrouter ' + res.status + ' ' + txt)
       }
       return stripThink((await res.json()).choices?.[0]?.message?.content || '')
@@ -113,7 +141,7 @@ async function callOpenRouter(model, system, user, temperature, max_tokens = 200
 }
 const call = (hostId, system, user, temperature, n, jsonFormat = true) =>
   PROVIDER === 'requesty' ? callRequesty(system, user, temperature, n)
-    : PROVIDER === 'openrouter' ? callOpenRouter(DNA[hostId] || DNA._mix, system, user, temperature, n, jsonFormat)
+    : PROVIDER === 'openrouter' ? callOpenRouter(DNA[hostId] || DNA._mix, system, user, temperature, n, jsonFormat, { effort: 'low' })
       : callOllama(MODELS[hostId] || MODELS['_mix'], system, user, temperature, n, jsonFormat)
 
 // ---------- prompt assembly ----------
@@ -190,6 +218,34 @@ async function main() {
   // guards.style is the per-host DIAL (cast.json shared_rules.guards_law); fact guards are never dialed
   const styleGuards = id => hosts[id]?.guards?.style !== false
   console.error(`floor: ${PROVIDER} · ` + speakers.map(s => `${s.id}=${PROVIDER === 'openrouter' ? (DNA[s.id] || DNA._mix) : PROVIDER === 'requesty' ? 'requesty' : (MODELS[s.id] || MODELS._mix)}${styleGuards(s.id) ? '' : ' [no style guards]'}`).join(' · '))
+
+  // ---------- SHOW MEMORY (recall): what this desk said on previous shows of this beat ----------
+  const pastOf = {}   // id -> newest-first prior entries on THIS beat (never the show being rebuilt)
+  for (const s of [...speakers, ...(beat.delegates?.human || [])]) pastOf[s.id] = (loadMemory(s.id).entries || []).filter(e => e.beat === beat.id && e.show !== path.basename(showDir)).slice(-3).reverse()
+  const quoteOf = e => String((e.said || [])[0] || e.closing || '').slice(0, 180)
+  const PASTBLOCK = {}
+  for (const s of speakers) {
+    const mine = (pastOf[s.id] || []).map(e => `- ${e.date} (on "${e.question}") your stance: "${String(e.stance || '').slice(0, 140)}"; you said: "${quoteOf(e)}"`)
+    const theirs = Object.keys(pastOf).filter(id => id !== s.id && pastOf[id].length).map(id => { const e = pastOf[id][0]; return `- ${hosts[id]?.name || id} said on ${e.date}: "${quoteOf(e)}"` })
+    if (!mine.length && !theirs.length) continue
+    PASTBLOCK[s.id] = ['SHOW MEMORY - real quotes from PREVIOUS episodes of this desk. Reference them naturally when they matter ("last show I said...", "last show YOU said..."). A contradiction with a past line is fair game: call it, by name.',
+      mine.length ? 'YOUR OWN PAST:\n' + mine.join('\n') : '', theirs.length ? "THE ROOM'S PAST:\n" + theirs.join('\n') : ''].filter(Boolean).join('\n')
+  }
+  // one continuity waypoint per show: someone with history gets tested against their own tape (inserted in after_words order)
+  const withPast = [...speakers, ...(beat.delegates?.human || [])].filter(s => (pastOf[s.id] || []).length)
+  if (withPast.length) {
+    const target = withPast[0]
+    const caller = speakers.find(s => s.id !== target.id) || speakers[0]
+    const e = (pastOf[target.id] || [])[0]
+    if (caller && e) {
+      const wps = Array.isArray(beat.waypoints) ? beat.waypoints : (beat.waypoints = [])
+      const wp = { host: caller.id, after_words: Math.round((beat.target_spoken_words || 300) * 0.45), note: `CONTINUITY BEAT: on ${e.date} ${hosts[target.id]?.name || target.id} said: "${quoteOf(e)}". Hold that against what they are arguing RIGHT NOW. If it flipped, call the flip by name ("Last show you said..."). If it holds, credit it and push it one step further.` }
+      const at = wps.findIndex(w => (w.after_words || 0) > wp.after_words)
+      if (at < 0) wps.push(wp); else wps.splice(at, 0, wp)
+      console.error(`  show-memory: ${withPast.length} speaker(s) on the record; continuity beat -> ${caller.id} re: ${target.id}`)
+    }
+  }
+
   const outDir = path.resolve(ARG.out || path.join(ROOT, 'lab', 'engine', 'runs', 'run_' + Date.now()))
   fs.mkdirSync(outDir, { recursive: true })
   const rand = rng(Number(ARG.seed || 42))
@@ -200,11 +256,22 @@ async function main() {
   let spoken = 0, turnNo = 0, kkDropped = false, detonated = new Set()
   // model-facing transcript: backchannels are texture, not content - hosts must never see or argue with them
   const transcript = () => turns.filter(t => !t.bc).map(t => `${t.name}${t.tag ? ' [' + t.tag + ']' : ''} (${t.delivery}): ${t.line}`).join('\n')
+  // the neutral moderator drives, never murmurs: a desk anchor going "Mm"/"Right" reads as passive filler (the
+  // judge's moderator knock). Debaters may still backchannel - it's realistic texture for a reacting arguer.
+  const isMod = id => /^MODERATOR\b/i.test((beat.stances && beat.stances[id]) || '')
 
   const jaccard = (a, b) => { const A = new Set(a.toLowerCase().match(/[a-z']+/g) || []), B = new Set(b.toLowerCase().match(/[a-z']+/g) || []); if (!A.size || !B.size) return 0; let i = 0; for (const w of A) if (B.has(w)) i++; return i / (A.size + B.size - i) }
   const SPELLED = { one: '1', two: '2', three: '3', four: '4', five: '5', six: '6', seven: '7', eight: '8', nine: '9', ten: '10' }
   const ngrams = (s, n) => { const w = s.toLowerCase().match(/[a-z']+/g) || []; const out = []; for (let i = 0; i + n <= w.length; i++) out.push(w.slice(i, i + n).join(' ')); return out }
+  // metaphor wells that, over-extended, turn the floor into a themed slogan-relay (the judge's #1 knock across
+  // two runs). Only words that are FIGURATIVE for "respect" here - literal battle-rap terms (battle, bars,
+  // receipts, evidence, proof) are deliberately NOT listed. Extend with new families as they show up.
+  const METAPHOR_FAMILIES = {
+    finance: ['invoice', 'invoices', 'ledger', 'ledgers', 'currency', 'mint', 'collateral', 'loan', 'loans', 'bankroll', 'dividend', 'refund', 'audit', 'audits', 'debt', 'mortgage', 'credit', 'bank', 'banker', 'customer service', 'marketing budget', 'fine print', 'loan officer', 'exchange rate'],
+  }
   function badTurn(hostId, line) {
+    // empty / degenerate draft (a model returned nothing, or only punctuation/filler) - force a real retry, never render "..."
+    if ((line.match(/[a-z]/gi) || []).length < 4) return 'your draft was empty or a non-answer; say a real, complete line that makes your point'
     // ---- FACT guards: never a dial, every host, every turn ----
     if (/\bE\d+\b/.test(line)) return 'you said an evidence id out loud; humans say the FACT, never the label'
     // protected facts: phrasings the beat card explicitly bans (fact-precision on real people)
@@ -214,6 +281,13 @@ async function main() {
     const allowedNums = new Set(allowedText.toLowerCase().replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b/g, m => SPELLED[m]).match(/\d+/g) || [])
     const lineNums = (line.toLowerCase().replace(/\b(one|two|three|four|five|six|seven|eight|nine|ten)\b/g, m => SPELLED[m]).match(/\d+/g) || [])
     for (const n of lineNums) if (!allowedNums.has(n)) return `the number ${n} is not in your receipts; you invented it - drop the number or use a fact you actually hold`
+    // "last show" CALLBACK CAP (every host - Robert 2026-09-05): show-memory callbacks are good continuity but
+    // Cassius used two in one episode and "twice seems like a lot - we can NEVER do it a third time". Hard cap:
+    // the ROOM gets at most 2 last-show references per episode; the 3rd+ is rejected.
+    const isCallback = s => /\blast (show|episode|week|time)\b|\b(said|mentioned|told us|called it) last\b|\bon the last show\b/i.test(s)
+    if (isCallback(line) && turns.filter(t => !t.bc && isCallback(t.line)).length >= 2) {
+      return 'the "last show" callback has already been used twice this episode - that is the cap; make this point fresh, no callback'
+    }
     // ---- STYLE guards: the per-host dial (cast.json guards.style; false = an unfiltered host, no tic policing) ----
     if (styleGuards(hostId)) {
       // anaphora guard: a 3-word phrase said 2x is dead; a 2-word phrase said 3x is dead (kills short-volley tennis)
@@ -227,17 +301,32 @@ async function main() {
           if (counts[g] >= cap) return `the phrase "${g}" has been beaten to death in this room - that phrasing is DEAD, find completely new words`
         }
       }
+      // metaphor-family loop guard: once the WHOLE ROOM has run one imagery well too many times, break it
+      for (const [fam, wds] of Object.entries(METAPHOR_FAMILIES)) {
+        const reaches = s => wds.some(w => new RegExp('\\b' + w + '\\b', 'i').test(s))
+        if (reaches(line) && turns.filter(t => !t.bc && reaches(t.line)).length >= 2) return `the room has run the ${fam} metaphor into the ground - drop that imagery entirely and make your point in plain, literal terms`
+      }
       // end-name tic: ending every line with your opponent's name reads fake fast
       const endsWithName = l => /,?\s+(marcus|blaze|tasha|king|knowledge|champagne|dwayne)[.!?"']*\s*$/i.test(l.trim())
       if (endsWithName(line) && turns.filter(t => t.id === hostId && endsWithName(t.line)).length >= 2) return 'you keep ending your lines with his name - it has become a tic; end this line on the POINT instead'
-      // catchphrase law: yours max once per episode, another host's NEVER
+      // catchphrase law: yours max once per episode, another host's NEVER.
+      // Match on the SPACELESS line (multi-word phrases like "I said what I said" never matched the old
+      // word-by-word check), and treat a short common-word signature ("Anyway.") as a match only when it
+      // stands as its own sentence - otherwise every host lost turns for saying the ordinary word.
+      const flatTxt = s => String(s).toLowerCase().replace(/[^a-z]/g, '')
+      const escRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
       for (const h of cast.hosts) for (const c of (h.catchphrase_rare || [])) {
-        const stem = c.toLowerCase().replace(/[^a-z]/g, '').slice(0, Math.max(4, c.length - 2)) // "Periodt" also catches the "Period." dodge
-        const hasIt = l => l.toLowerCase().replace(/[^a-z ]/g, '').split(/\s+/).some(w => w.startsWith(stem))
-        if (hasIt(line)) {
-          if (h.id !== hostId) return `"${c}" is ${h.name}'s signature, not yours - never use another host's words`
-          if (turns.some(t => t.id === hostId && hasIt(t.line))) return `you already used your catchphrase "${c}" (or a variant of it) this episode - once is the cap`
-        }
+        const f = flatTxt(c)
+        if (f.length < 4) continue
+        const distinctive = f.length >= 7 || c.trim().includes(' ') // 7 keeps "Periodt" policeable by stem; "Anyway" (6) stays sentence-only
+        const stem = f.slice(0, Math.max(6, f.length - 2)) // "Periodt" also catches the "Period." dodge
+        const core = escRe(c.trim().replace(/[.!?…]+$/, ''))
+        const hasIt = distinctive
+          ? (l => flatTxt(l).includes(stem))
+          : (l => new RegExp(`(^|[.!?…]["']?\\s*)${core}\\s*[.!?…]`, 'i').test(String(l).trim())) // standalone-sentence use only
+        if (!hasIt(line)) continue
+        if (h.id !== hostId) { if (distinctive) return `"${c}" is ${h.name}'s signature, not yours - never use another host's words`; continue }
+        if (turns.some(t => t.id === hostId && hasIt(t.line))) return `you already used your catchphrase "${c}" (or a variant of it) this episode - once is the cap`
       }
       // exemplar / self repeat: a draft that is mostly the room's last lines or the host's own known lines
       const recent = turns.slice(-3).map(t => t.line)
@@ -249,7 +338,7 @@ async function main() {
   }
   async function speak(hostId, instruction, tag) {
     const host = hosts[hostId]
-    const sys = hostSystem(host, beat, evTexts, evMeta, laws)
+    const sys = hostSystem(host, beat, evTexts, evMeta, laws) + (PASTBLOCK[hostId] ? '\n\n' + PASTBLOCK[hostId] : '')
     const lastLine = turns.length ? turns[turns.length - 1] : null
     const mine = turns.filter(t => t.id === hostId).map(t => '"' + t.line + '"')
     const antiRepeat = `ANTI-REPEAT (absolute): never repeat or echo any phrase already in the transcript, yours or theirs, and never reuse your signature lines. ADVANCE the argument: a new angle, a new consequence, a concession-then-counter.` + (mine.length ? `\nLines you already said (dead to you now): ${mine.slice(-4).join(' ')}` : '')
@@ -303,7 +392,9 @@ async function main() {
   function seatHuman(slot) {
     usedSlots.add(slot.key)
     const name = (hosts[slot.host]?.name || slot.name || slot.host).toUpperCase()
-    turns.push({ id: slot.host, name, line: slot.text, delivery: 'in their own voice', addressed_to: null, evidence: [], tag: 'delegate', ms: 0, noMerge: true, verbatim: true })
+    // same em-dash scrub every rendered line gets: the editorial gate compares out.includes(t.line)
+    // against the SCRUBBED transcript, so an unscrubbed verbatim line here made punch/mix auto-reject forever
+    turns.push({ id: slot.host, name, line: String(slot.text).replace(/—/g, '...').trim(), delivery: 'in their own voice', addressed_to: null, evidence: [], tag: 'delegate', ms: 0, noMerge: true, verbatim: true })
     spoken += words(slot.text); turnNo++
     heartbeat(turnNo, beat.max_turns, spoken, beat.target_spoken_words)
     console.error(`turn ${turnNo} ${slot.host} [delegate, verbatim] ${words(slot.text)}w :: ${slot.text.slice(0, 70)}`)
@@ -326,8 +417,31 @@ async function main() {
     // waypoints: the director's progression notes - momentum comes from the beat sheet, not model willpower
     const wp = (beat.waypoints || [])[wpIdx]
     if (wp && spoken >= wp.after_words && wp.host !== (last && last.id)) { wpIdx++; return { id: wp.host, instruction: wp.note, tag: null } } // defer, never drop
+    // the neutral MODERATOR drives: a First Take anchor punctuates regularly (press the weak point, force a new
+    // angle) instead of vanishing after the open - the judge's recurring "moderator disappears / debate circles"
+    // knock. Cut them in when they've been silent for >=3 real turns; never right after they just spoke.
+    const modId = Object.keys(beat.stances || {}).find(id => isMod(id))
+    if (modId && last && last.id !== modId) {
+      const sinceMod = turns.filter(t => !t.bc).reverse().findIndex(t => t.id === modId)
+      if (sinceMod === -1 || sinceMod >= 3) {
+        // BALANCE the scrutiny: press the debater the moderator has grilled LESS so far, by name (the judge's
+        // recurring "presses only B / sides with C" tilt - the old rule pressed the LAST speaker, usually the
+        // floor-hog). Count prior moderator turns addressed to each debater; target the under-pressed one.
+        const debaters = speakers.filter(h => h.id !== modId).map(h => h.id)
+        const pressed = Object.fromEntries(debaters.map(d => [d, 0]))
+        for (const t of turns) if (t.id === modId && t.addressed_to && pressed[t.addressed_to] !== undefined) pressed[t.addressed_to]++
+        const target = debaters.slice().sort((a, b) => pressed[a] - pressed[b])[0]
+        const tname = target && hosts[target] ? hosts[target].name : null
+        const press = tname ? `press ${tname} specifically - put a pointed question to THEM on the weakest part of THEIR case` : 'press the last speaker on the weakest part of their case'
+        return { id: modId, instruction: `You are the neutral MODERATOR. Cut in now: ${press}, or put a NEW angle on the table that neither debater has raised. Balance your scrutiny across BOTH debaters - never let one side off easy. Never take a side or argue a verdict.` }
+      }
+    }
     if (last && last.addressed_to && hosts[last.addressed_to] && hosts[last.addressed_to].kind !== 'human' && last.addressed_to !== last.id && shareOf(last.addressed_to) <= 0.45 && rand() < 0.75) return { id: last.addressed_to }
-    const cands = speakers.filter(h => h.id !== (last && last.id) && !(h.id === beat.kk_drop.host && !kkDropped))
+    let cands = speakers.filter(h => h.id !== (last && last.id) && !(h.id === beat.kk_drop.host && !kkDropped))
+    // never deadlock: in a 2-hander the only free voice can be the held drop-host - relax the hold, then
+    // (single-speaker floor) even allow the last speaker. pickNext MUST return a real speaker, never undefined.
+    if (!cands.length) cands = speakers.filter(h => h.id !== (last && last.id))
+    if (!cands.length) cands = speakers
     const weights = cands.map(h => (0.25 + h.behavior.interruption_rate) * (shareOf(h.id) > 0.4 ? 0.2 : 1)) // damp floor-hogs
     let r = rand() * weights.reduce((a, b) => a + b, 0)
     for (let i = 0; i < cands.length; i++) { r -= weights[i]; if (r <= 0) return { id: cands[i].id, tag: rand() < cands[i].behavior.interruption_rate * 0.5 ? 'interrupting' : null } }
@@ -342,17 +456,22 @@ async function main() {
     const slot = (beat.human_slots || []).find(s => !usedSlots.has(s.key) && spoken >= s.after_words)
     if (slot) { seatHuman(slot); continue }
     const pick = pickNext()
-    // quiet host emits backchannel instead of a turn while holding
-    if (pick.id === beat.kk_drop.host && !kkDropped && rand() < hosts[pick.id].behavior.backchannel_rate) { backchannel(pick.id); continue }
+    // quiet host emits backchannel instead of a turn while holding - but ONLY an uninstructed turn.
+    // pickNext already consumed the beat (detonation armed, waypoint advanced, reaction cleared), so
+    // swallowing a SCRIPTED pick here meant the withheld receipt could become "Mm." and never fire
+    // while the room reacted to a detonation nobody heard.
+    if (!pick.instruction && pick.id === beat.kk_drop.host && !kkDropped && !isMod(pick.id) && rand() < hosts[pick.id].behavior.backchannel_rate) { backchannel(pick.id); continue }
     await speak(pick.id, pick.instruction, pick.tag)
-    // losing bidder backchannels occasionally
-    if (rand() < 0.3) { const others = speakers.filter(h => h.id !== turns[turns.length - 1].id); const b = others[Math.floor(rand() * others.length)]; if (b && rand() < b.behavior.backchannel_rate) backchannel(b.id) }
+    // losing bidder backchannels occasionally - but never the moderator (a desk anchor doesn't murmur)
+    if (rand() < 0.3) { const others = speakers.filter(h => h.id !== turns[turns.length - 1].id && !isMod(h.id)); const b = others[Math.floor(rand() * others.length)]; if (b && rand() < b.behavior.backchannel_rate) backchannel(b.id) }
   }
   // any human turn the floor never reached still gets said before the close (their verdict matters)
   for (const s of (beat.human_slots || [])) if (!usedSlots.has(s.key)) { seatHuman(s); if (pendingReact) { const p = pendingReact; pendingReact = null; await speak(p.id, p.instruction, p.tag) } }
   if (!kkDropped) await speak(beat.kk_drop.host, beat.kk_drop.instruction)
   const lastRealEnd = [...turns].reverse().find(t => !t.bc)
-  const exitHost = lastRealEnd && lastRealEnd.id === beat.exit.host ? (beat.exit.alt_host || 'tasha-raw') : beat.exit.host
+  // alt fallback must be someone ON this card, not a hardcoded OG host a modern desk doesn't seat
+  const altExit = beat.exit.alt_host || Object.keys(hosts).find(id => id !== beat.exit.host) || beat.exit.host
+  const exitHost = lastRealEnd && lastRealEnd.id === beat.exit.host ? altExit : beat.exit.host
   await speak(exitHost, beat.exit.instruction)
 
   // render for output: merge consecutive same-speaker turns, append evidence tags after the spoken line
@@ -368,24 +487,58 @@ async function main() {
   const rawMd = (`# FLOOR RAW - ${beat.id}\n\n` + renderMd() + '\n').replace(/—/g, '...')
   fs.writeFileSync(path.join(outDir, 'segment_raw.md'), rawMd)
 
-  // MIX — messiness pass
-  const mixSys = `You are a dialogue editor making an AI talk-show transcript sound like REAL recorded conversation. Rules:\n- Keep every speaker name line format: NAME [tag] (delivery): line\n- Inject sparingly (not every line): fillers, false starts, self-corrections, repeated words when heated\n- Truncate 2-3 lines mid-clause where the next speaker cuts in; tag that next line [interrupting] or [overlapping]\n- Vary turn lengths harder: make SHORT lines shorter, but NEVER shorten a turn longer than 20 words - long turns are load-bearing\n- Keep every backchannel line (the tiny 'Right.' / 'Mm.' lines) exactly as they are\n- Lines tagged [delegate] are a REAL PERSON'S OWN WORDS: copy them EXACTLY, character for character; never edit, cut, or add to them\n- Keep ALL [E##] evidence tags exactly where they are. Do NOT add facts, receipts, or new claims. Do NOT add or remove speakers.\n- KEEP EVERY TURN. Total length must stay within 10% of the input. You may split a line with an interruption but never delete content.\n- No em-dashes anywhere (replace any you see with a period or '...').\nOutput ONLY the transcript.`
-  let finalMd = rawMd
-  try {
-    let mixed = PROVIDER === 'requesty' ? await callRequesty(mixSys, rawMd, 0.7, 1600)
-      : PROVIDER === 'openrouter' ? await callOpenRouter(DNA._mix, mixSys, rawMd, 0.7, 1600, false)
-        : await callOllama(MODELS['_mix'], mixSys, rawMd, 0.7, 1600, false)
-    const evCountRaw = (rawMd.match(/\[E\d+\]/g) || []).length, evCountMix = (mixed.match(/\[E\d+\]/g) || []).length
-    // the mixer sometimes echoes the delivery as a bracket tag too ("NAME [x] (x):"): collapse the echo
-    mixed = mixed.replace(/^([A-Z][A-Z .'\-]*?)\s*\[([^\]]+)\]\s*\(\s*\2\s*\)\s*:/gm, '$1 ($2):')
-    const mixWords = (mixed.match(/\S+/g) || []).length, rawWords = (rawMd.match(/\S+/g) || []).length
-    // a human's verbatim lines must survive the mix untouched, or the mix is rejected
-    const verbatimKept = turns.filter(t => t.verbatim).every(t => mixed.includes(t.line))
-    if (!verbatimKept) console.error('MIX altered a verbatim delegate line — keeping raw')
-    if (verbatimKept && evCountMix >= Math.floor(evCountRaw * 0.7) && mixWords >= rawWords * 0.75) {
-      finalMd = (`# FLOOR MIXED - ${beat.id}\n\n` + mixed.trim() + '\n').replace(/—/g, '...')
-    } else console.error(`MIX rejected (evidence ${evCountMix}/${evCountRaw}, words ${mixWords}/${rawWords}), keeping raw`)
-  } catch (e) { console.error('MIX failed: ' + e.message + ' — keeping raw') }
+  // shared editorial gate: an edited transcript is accepted only if it kept the receipts, the verbatim
+  // delegate lines, and roughly the length - no pass may silently gut the show
+  const evCountRaw = (rawMd.match(/\[E\d+\]/g) || []).length, rawWords = (rawMd.match(/\S+/g) || []).length
+  const bodyOf = md => md.replace(/^#[^\n]*\n\n?/, '')   // strip our own "# FLOOR RAW ..." header before feeding an editor
+  const collapseEcho = s => s.replace(/^([A-Z][A-Z .'\-]*?)\s*\[([^\]]+)\]\s*\(\s*\2\s*\)\s*:/gm, '$1 ($2):') // "NAME [x] (x):" -> "NAME (x):"
+  const passesGate = out => {
+    const verbatimKept = turns.filter(t => t.verbatim).every(t => out.includes(t.line))   // a real person's words must survive untouched
+    const ev = (out.match(/\[E\d+\]/g) || []).length, w = (out.match(/\S+/g) || []).length
+    return { ok: verbatimKept && ev >= Math.floor(evCountRaw * 0.7) && w >= rawWords * 0.7 && w <= rawWords * 1.5, verbatimKept, ev, w }
+  }
+  let finalMd = rawMd, finalKind = 'raw'
+
+  // PRODUCER PUNCH-UP (primary) — the showrunner's model punches every line up IN VOICE: sharper, harder-
+  // landing, MORE distinct per host. Structure/order/attribution/receipts are fixed; each host may reach only
+  // into ITS OWN metaphor pool so no single image takes over the show. This is the editorial layer.
+  if (PRODUCER && OR_KEY) {
+    const card = h => { const p = h.print || {}; const banned = p.lexicon ? (p.lexicon.banned_for_him || p.lexicon.banned_for_her || p.lexicon.banned || []) : []
+      return [`${h.name.toUpperCase()}`, p.speech ? `  voice: ${p.speech.tone}; ${p.speech.pace}; sentences ${p.speech.sentence_shape}` : '', p.lexicon && p.lexicon.metaphor_pools && p.lexicon.metaphor_pools.length ? `  imagery ONLY from: ${p.lexicon.metaphor_pools.join('; ')}` : '', banned.length ? `  never: ${banned.join(', ')}` : '', p.argument && p.argument.attack ? `  attacks by: ${p.argument.attack}` : ''].filter(Boolean).join('\n') }
+    const cards = speakers.map(card).join('\n\n')
+    const ledger = Object.entries(evTexts).map(([id, c]) => `[${id}] ${c}`).join('\n')
+    const memNotes = Object.entries(pastOf).filter(([, es]) => (es || []).length).map(([id, es]) => `${hosts[id] ? hosts[id].name : id} last time: "${quoteOf(es[0])}"`).join('\n')
+    const punchSys = [
+      `You are THE SHOWRUNNER of "${beat.show && beat.show.name || beat.id}", the sharpest writer in the building. Below is the RAW floor of tonight's episode. The hosts argued it live, so the STRUCTURE is already right: who speaks, the order, who holds which receipt, and the real disagreement. Do the PUNCH-UP - the polish a great showrunner does on a table read.`,
+      `EACH HOST'S VOICE (rewrite their lines to sound like THEM, and make the ${speakers.length} of them sound MORE different from each other, never like one writer):\n\n${cards}`,
+      `RECEIPTS on the desk (you may land one harder inside a host's line; invent NOTHING beyond these):\n${ledger || '(none)'}`,
+      memNotes ? `WHAT THEY SAID ON PAST SHOWS (weave in a callback ONLY where it truly lands - "last show you said..."):\n${memNotes}` : '',
+      `DO: sharpen the wording, cut the flab, land the punchline, raise the heat. Each host pulls imagery ONLY from their own pool above, so no single metaphor family takes over the show.`,
+      `NEVER: change who speaks or the order; merge two voices; invent a fact; hand a host another host's imagery; add or drop a speaker or a turn; use an em-dash.`,
+      `HANDS OFF: keep each line's "NAME [tag] (delivery):" head; keep every [E##] tag on its own line; keep the tiny backchannels ("Mm." "Right." "Whew.") as they are; any line tagged [delegate] is a REAL PERSON'S EXACT WORDS - reproduce it character-for-character, never edit it.`,
+      `Bright lines: ${laws}`,
+      `Output ONLY the transcript - same line order, same count, same "NAME (delivery): line" format.`,
+    ].filter(Boolean).join('\n\n')
+    try {
+      const punched = collapseEcho(await callOpenRouter(PRODUCER, punchSys, bodyOf(rawMd), 0.6, 4000, false, { effort: 'low' }))
+      const g = passesGate(punched)
+      if (g.ok) { finalMd = (`# FLOOR PUNCHED - ${beat.id}\n\n` + punched.trim() + '\n').replace(/—/g, '...'); finalKind = 'punched'; console.error(`  punch-up: ${PRODUCER} accepted (ev ${g.ev}/${evCountRaw}, ${g.w}w vs ${rawWords})`) }
+      else console.error(`  punch-up rejected the gate (verbatim ${g.verbatimKept}, ev ${g.ev}/${evCountRaw}, ${g.w}w vs ${rawWords}) - falling back to mix`)
+    } catch (e) { console.error('  punch-up failed: ' + e.message + ' - falling back to mix') }
+  }
+
+  // MIX (fallback) — the cheap messiness pass, only when punch-up is off or didn't land
+  if (finalKind === 'raw') {
+    const mixSys = `You are a dialogue editor making an AI talk-show transcript sound like REAL recorded conversation. Rules:\n- Keep every speaker name line format: NAME [tag] (delivery): line\n- Inject sparingly (not every line): fillers, false starts, self-corrections, repeated words when heated\n- Truncate 2-3 lines mid-clause where the next speaker cuts in; tag that next line [interrupting] or [overlapping]\n- Vary turn lengths harder: make SHORT lines shorter, but NEVER shorten a turn longer than 20 words - long turns are load-bearing\n- Keep every backchannel line (the tiny 'Right.' / 'Mm.' lines) exactly as they are\n- Lines tagged [delegate] are a REAL PERSON'S OWN WORDS: copy them EXACTLY, character for character; never edit, cut, or add to them\n- Keep ALL [E##] evidence tags exactly where they are. Do NOT add facts, receipts, or new claims. Do NOT add or remove speakers.\n- KEEP EVERY TURN. Total length must stay within 10% of the input. You may split a line with an interruption but never delete content.\n- No em-dashes anywhere (replace any you see with a period or '...').\nOutput ONLY the transcript.`
+    try {
+      let mixed = collapseEcho(PROVIDER === 'requesty' ? await callRequesty(mixSys, rawMd, 0.7, 1600)
+        : PROVIDER === 'openrouter' ? await callOpenRouter(DNA._mix, mixSys, rawMd, 0.7, 1600, false)
+          : await callOllama(MODELS['_mix'], mixSys, rawMd, 0.7, 1600, false))
+      const g = passesGate(mixed)
+      if (g.ok) { finalMd = (`# FLOOR MIXED - ${beat.id}\n\n` + mixed.trim() + '\n').replace(/—/g, '...'); finalKind = 'mixed' }
+      else console.error(`MIX rejected (verbatim ${g.verbatimKept}, evidence ${g.ev}/${evCountRaw}, words ${g.w}/${rawWords}), keeping raw`)
+    } catch (e) { console.error('MIX failed: ' + e.message + ' — keeping raw') }
+  }
   fs.writeFileSync(path.join(outDir, 'segment_final.md'), finalMd)
   fs.writeFileSync(path.join(outDir, 'turns.json'), JSON.stringify(turns, null, 2))
   // meta records the EFFECTIVE lineup this run spoke on (per seat + the mix), the declared Model DNA, and each seat's guard dial
@@ -393,7 +546,20 @@ async function main() {
   const models = Object.fromEntries([...speakers.map(s => s.id), '_mix'].map(id => [id, effectiveModel(id)]))
   const dna = Object.fromEntries(speakers.map(s => [s.id, hosts[s.id]?.model?.dna_id || null]))
   const guards = Object.fromEntries(speakers.map(s => [s.id, { style: styleGuards(s.id) }]))
-  fs.writeFileSync(path.join(outDir, 'meta.json'), JSON.stringify({ beat: beat.id, provider: PROVIDER, models, dna, guards, seed: Number(ARG.seed || 42), turns: turns.length, spoken_words: spoken, finished: new Date().toISOString() }, null, 2))
+  fs.writeFileSync(path.join(outDir, 'meta.json'), JSON.stringify({ beat: beat.id, provider: PROVIDER, models, dna, guards, seed: Number(ARG.seed || 42), turns: turns.length, spoken_words: spoken, final_pass: finalKind, producer: finalKind === 'punched' ? PRODUCER : null, finished: new Date().toISOString() }, null, 2))
+
+  // ---------- SHOW MEMORY (write-back): every speaker's night goes on the record for future shows ----------
+  const memDate = new Date().toISOString().slice(0, 10)
+  for (const s of [...speakers, ...(beat.delegates?.human || [])]) {
+    const said = turns.filter(t => t.id === s.id && !t.bc && words(t.line) >= 6).map(t => t.line)
+    if (!said.length) continue
+    saveMemoryEntry(s.id, hosts[s.id]?.name || s.name || s.id, {
+      show: path.basename(showDir), beat: beat.id, date: memDate, question: String(beat.question || '').slice(0, 200),
+      stance: String((beat.stances || {})[s.id] || '').slice(0, 300),
+      said: [...said].sort((a, b) => words(b) - words(a)).slice(0, 3), closing: said[said.length - 1].slice(0, 200),
+    })
+  }
+  console.error(`  show-memory: wrote the record for ${[...speakers, ...(beat.delegates?.human || [])].filter(s => turns.some(t => t.id === s.id && !t.bc)).length} speaker(s)`)
   console.log(outDir)
 }
 main().catch(e => { console.error('FATAL: ' + e.message); process.exit(1) })

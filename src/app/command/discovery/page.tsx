@@ -122,7 +122,10 @@ export default function Discovery() {
       if (!j.ok) throw new Error('briefing: ' + (j.error || ''))
       const bid = j.id
       updateBuild(key, { stage: 'casting', pct: 55, bid })
-      j = await post('/api/command/briefing/agent', { briefing_id: bid, cast_ids: ['marcus-blaze', 'tasha-raw', 'king-knowledge'] })
+      // the HOUSE desk (Renee hosting, Cassius vs Andrew) - the old hardcoded trio kept seating
+      // Blaze/Knowledge, both rejected as hosts. (Discovery stories carry no beat yet; when they do,
+      // this should read that beat's show.hosts.)
+      j = await post('/api/command/briefing/agent', { briefing_id: bid, cast_ids: ['renee-vaughn', 'cassius-wynn', 'andrew-hammond'] })
       if (!j.ok) throw new Error('casting: ' + (j.error || ''))
       await startJob(key, bid)
     } catch (e: any) { updateBuild(key, { stage: 'error', error: String(e?.message || e) }) }

@@ -1,0 +1,16 @@
+{
+  "stage": "done",
+  "pct": 100,
+  "message": "script ready (no audio requested)",
+  "show": "atlanta-falcons-2026-team-captains-bijan",
+  "showDir": "D:\\git\\talkshowgo\\lab\\shows\\atlanta-falcons-2026-team-captains-bijan-erpzy5-104325",
+  "briefing": "brf_erpzy52v",
+  "stringer": "str_ilppbi7w",
+  "pid": 56028,
+  "started": "2026-09-04T10:43:26.026Z",
+  "updated": "2026-09-04T10:49:43.926Z",
+  "question": "Did the Falcons pick the right captains for this season, or not?",
+  "segment": "D:\\git\\talkshowgo\\lab\\shows\\atlanta-falcons-2026-team-captains-bijan-erpzy5-104325\\floor\\segment_final.md",
+  "lines": 21,
+  "elapsed_s": 378
+}

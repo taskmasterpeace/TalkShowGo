@@ -1,0 +1,418 @@
+[
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Seven captains is a committee. Who's holding the game on offense when you need a single answer?",
+    "delivery": "flat, low, unimpressed",
+    "addressed_to": "delegate:api-test",
+    "evidence": [
+      "E001"
+    ],
+    "tag": null,
+    "ms": 4707,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm. The question ain't 'who', it's 'what'. The team named what they believe in.",
+    "delivery": "low, unhurried, foundational",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 3727,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Belief is a vibe sheet. The end zone needs a name.",
+    "delivery": "quiet, cutting, definitive",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": null,
+    "ms": 3379,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Whew.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Hm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The end zone has names. The tape shows who they are.",
+    "delivery": "calm, definitive, with a slight nod",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 3877,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "The tape shows a running back and a guard. Who's calling the play in that huddle?",
+    "delivery": "flat, eyes narrowing slightly",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": null,
+    "ms": 4292,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Whew.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The huddle's got a quarterback. The committee ain't a question, it's an answer.",
+    "delivery": "low, definitive, with a slight shrug",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 3630,
+    "noMerge": false
+  },
+  {
+    "id": "delegate:api-test",
+    "name": "API TEST",
+    "line": "Look, I'm not on TV. I'm just a fan who actually watches and I'm telling you, this one's different. I've been saying that for a long time.",
+    "delivery": "in their own voice",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": "delegate",
+    "ms": 0,
+    "noMerge": true,
+    "verbatim": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Api Test, I respect your watch. But 'different' is the first word in a story the tape hasn't finished telling.",
+    "delivery": "slow nod, dry wisdom chuckle",
+    "addressed_to": "delegate:api-test",
+    "evidence": [],
+    "tag": null,
+    "ms": 3706,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "A head coach's call makes it a design flaw, not an accident.",
+    "delivery": "quiet, definitive, eyes on KK",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": null,
+    "ms": 3616,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Hm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Hm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Whew.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The design's a choice. And the choice says they trust the room, not just one throne.",
+    "delivery": "low, certain, leaning forward",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 3485,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Trust the room all day. But your offensive captains are a guard and a running back. That's not leadership, that's a unit report.",
+    "delivery": "quiet, flat, surgical",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E005"
+    ],
+    "tag": null,
+    "ms": 4384,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Tasha's looking for a crown. Api's looking for a change. Y'all both missing the foundation.",
+    "delivery": "low, slow, definitive",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 3095,
+    "noMerge": true
+  },
+  {
+    "id": "delegate:api-test",
+    "name": "API TEST",
+    "line": "typed only take",
+    "delivery": "in their own voice",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": "delegate",
+    "ms": 0,
+    "noMerge": true,
+    "verbatim": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Api Test, you watch. I get it. But you have a guard and a back as offensive captains. That's an incomplete grade.",
+    "delivery": "flat, direct, eye contact with camera",
+    "addressed_to": "delegate:api-test",
+    "evidence": [
+      "E005"
+    ],
+    "tag": null,
+    "ms": 3735,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "An incomplete grade is a teacher's problem. The Falcons gave us the syllabus. The identity is the lesson.",
+    "delivery": "calm, definitive, leaning back",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 3814,
+    "noMerge": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Proven veterans at the guard and back spots. So who exactly is running the offense on a third and long, then?",
+    "delivery": "quiet, definitive, surgical",
+    "addressed_to": "king-knowledge",
+    "evidence": [
+      "E004"
+    ],
+    "tag": null,
+    "ms": 8225,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The quarterback's running the offense. The captain's running the culture. They told you which one they're building.",
+    "delivery": "low, definitive, with a dry chuckle",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 3602,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Culture doesn't call the play. So who does when the clock's running?",
+    "delivery": "quiet, flat, definitive",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": null,
+    "ms": 3400,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "The clock runs, the play gets called. The captain makes sure the huddle believes it.",
+    "delivery": "low, definitive, with a slight shrug",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 3616,
+    "noMerge": false
+  },
+  {
+    "id": "delegate:api-test",
+    "name": "API TEST",
+    "line": "Honestly I would need to see it again, with fresh eyes.",
+    "delivery": "in their own voice",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": "delegate",
+    "ms": 0,
+    "noMerge": true,
+    "verbatim": true
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "Api Test, fresh eyes are fine. But the roster has seven captains and the offense still doesn't have a general.",
+    "delivery": "quiet, flat, definitive",
+    "addressed_to": "delegate:api-test",
+    "evidence": [
+      "E001",
+      "E004"
+    ],
+    "tag": null,
+    "ms": 7531,
+    "noMerge": true
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Generals are for the battlefield. The Falcons are building a parliament. And parliaments last longer than wars.",
+    "delivery": "low, definitive, with a slight nod",
+    "addressed_to": "tasha-raw",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 3533,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "A parliament votes on the bill. The huddle needs a name to pay it.",
+    "delivery": "quiet, flat, definitive eye contact",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": null,
+    "ms": 8213,
+    "noMerge": false
+  },
+  {
+    "id": "king-knowledge",
+    "name": "KING KNOWLEDGE",
+    "line": "Mm. The bill's been paid. The names are on the roster. The huddle just needs to trust the signature.",
+    "delivery": "calm, definitive, with finality",
+    "addressed_to": "tasha-raw",
+    "evidence": [],
+    "tag": null,
+    "ms": 7114,
+    "noMerge": false
+  },
+  {
+    "id": "tasha-raw",
+    "name": "TASHA RAW",
+    "line": "The signature's still a 'C' on a dotted line. An answer's missing.",
+    "delivery": "flat, definitive, quiet challenge",
+    "addressed_to": "king-knowledge",
+    "evidence": [],
+    "tag": null,
+    "ms": 7512,
+    "noMerge": true
+  }
+]
