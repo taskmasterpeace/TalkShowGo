@@ -59,6 +59,8 @@ export default function Stringer() {
   // transcribed), taps through 2-3 follow-ups, and their longest take is kept as their voice sample for the floor
   const [iv, setIv] = useState<Iv | null>(null)
   const recRef = useRef<IvRec | null>(null)
+  const startingRef = useRef(false)   // getUserMedia in flight (recRef not yet set)
+  const pollStartRef = useRef(0)      // pollShow gets a hard ceiling instead of retrying forever
   // never leave a live mic behind if the page unmounts mid-take
   useEffect(() => () => { const r = recRef.current; if (!r) return; clearInterval(r.timer); r.abort = true; try { if (r.mr.state !== 'inactive') r.mr.stop() } catch { /* already stopped */ } r.stream.getTracks().forEach(t => t.stop()); recRef.current = null }, [])
   if (!state) return <div className="p-8 cmd-kbd">LOADING STRINGER…</div>
@@ -123,12 +125,14 @@ export default function Stringer() {
     } catch (e: any) { setIv(v => v ? { ...v, uploading: null, error: String(e?.message || e) } : v) }
   }
   const startRec = async (k: number) => {
-    if (!iv || iv.done || !brief?.id || recRef.current) return
+    if (!iv || iv.done || !brief?.id || recRef.current || startingRef.current) return
+    startingRef.current = true // recRef is only set AFTER getUserMedia resolves; a second click in the permission-prompt window used to orphan a live mic
     const briefingId = brief.id, delegate = delegates[iv.idx], question = iv.questions[k]
-    if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) { setIv(v => v ? { ...v, mic: 'unsupported' } : v); return }
+    if (typeof MediaRecorder === 'undefined' || !navigator.mediaDevices?.getUserMedia) { startingRef.current = false; setIv(v => v ? { ...v, mic: 'unsupported' } : v); return }
     let stream: MediaStream
     try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }) }
-    catch (e: any) { setIv(v => v ? { ...v, mic: /NotAllowed|Security|Permission/i.test(String(e?.name || e)) ? 'denied' : 'unsupported' } : v); return }
+    catch (e: any) { startingRef.current = false; setIv(v => v ? { ...v, mic: /NotAllowed|Security|Permission/i.test(String(e?.name || e)) ? 'denied' : 'unsupported' } : v); return }
+    startingRef.current = false
     const mime = IV_MIMES.find(m => MediaRecorder.isTypeSupported(m)) || ''
     let mr: MediaRecorder
     try { mr = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream) }
@@ -199,13 +203,15 @@ export default function Stringer() {
   }
   const addDelegate = () => { if (!dName.trim()) return; setDelegates(d => [...d, { name: dName.trim(), persona_note: dNote.trim() || undefined }]); setDName(''); setDNote('') }
   const pollShow = async (slug: string) => {
+    if (!pollStartRef.current) pollStartRef.current = Date.now()
+    if (Date.now() - pollStartRef.current > 25 * 60000) { setShowBusy(false); pollStartRef.current = 0; return } // same 25-min ceiling Discovery uses - never poll a dead server for the tab's whole life
     try {
       const r = await fetch(`/api/command/showbuild?show=${slug}`); const j = await r.json()
       if (j.ok) {
         setShow({ slug, status: j.status })
         if (j.status.stage !== 'done' && j.status.stage !== 'error') setTimeout(() => pollShow(slug), 3000)
-        else setShowBusy(false)
-      } else setShowBusy(false)
+        else { setShowBusy(false); pollStartRef.current = 0 }
+      } else { setShowBusy(false); pollStartRef.current = 0 }
     } catch { setTimeout(() => pollShow(slug), 4000) }
   }
   const produceShow = async () => {

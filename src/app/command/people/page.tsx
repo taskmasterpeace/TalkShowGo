@@ -55,6 +55,8 @@ export default function People() {
   }
   const removePerson = async (p: any) => {
     if (!p?.slug || busy) return
+    // the ✕ sits one slip from COPY, and removing kills their private link instantly
+    if (!window.confirm(`Remove ${p.name || p.slug}? Their take link stops working immediately.`)) return
     setBusy('rm:' + p.slug); setErr(null)
     try {
       const r = await fetch('/api/command/people', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ beat: beatId, slug: p.slug }) })

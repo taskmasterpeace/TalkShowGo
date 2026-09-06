@@ -162,7 +162,8 @@
       "token": "ih8l5gug2nmdd99d",
       "prompts_mode": "auto",
       "custom_prompts": [],
-      "added": "2026-09-02T18:52:39Z"
+      "added": "2026-09-02T18:52:39Z",
+      "depth": "casual"
     },
     {
       "slug": "robert",

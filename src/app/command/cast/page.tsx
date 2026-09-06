@@ -171,8 +171,11 @@ export default function CastPage() {
     save(next)
   }
   const voiceOf = (id: string) => {
-    const short = id.split('-')[0] === 'marcus' ? 'blaze' : id.split('-')[0] === 'king' ? 'knowledge' : 'tasha'
-    return state.voices.find(v => v === `${short}.wav`) || null
+    // per-host wav first (the cast is 19 deep now); OG short names as legacy fallback. The old
+    // 3-way mapping played Tasha's voice on 16 cards and lit LOCKED green for refs that were hers.
+    if (state.voices.includes(`${id}.wav`)) return `${id}.wav`
+    const short = id === 'marcus-blaze' ? 'blaze' : id === 'king-knowledge' ? 'knowledge' : id === 'tasha-raw' ? 'tasha' : null
+    return short && state.voices.includes(`${short}.wav`) ? `${short}.wav` : null
   }
   const imageOf = (id: string) => state.images.find(im => im.startsWith(id) || im.startsWith(id.split('-')[0])) || null
 
@@ -253,7 +256,7 @@ export default function CastPage() {
                   <button className="cmd-btn ghost" disabled={vbusy === h.id} onClick={() => designVoice(h.id)}>{vbusy === h.id ? 'DESIGNING…' : '🎙 DESIGN FROM DESCRIPTION'}</button>
                   <label className="cmd-btn ghost" style={{ cursor: 'pointer' }}>
                     ⬆ UPLOAD MY OWN (.wav)
-                    <input type="file" accept=".wav" className="hidden" onChange={e => e.target.files?.[0] && uploadVoice(h.id, e.target.files[0])} />
+                    <input type="file" accept=".wav" className="hidden" onChange={e => { const f = e.target.files?.[0]; e.target.value = ''; if (f) uploadVoice(h.id, f) }} />
                   </label>
                 </div>
                 {vmsg[h.id] && <div className="cmd-kbd mt-1" style={{ color: vmsg[h.id].startsWith('OK') ? 'var(--cmd-green)' : 'var(--cmd-amber)' }}>{vmsg[h.id]}</div>}

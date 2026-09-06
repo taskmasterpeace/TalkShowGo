@@ -83,12 +83,14 @@ export default function Desk() {
   const [report, setReport] = useState<any>(null)
   const [topics2, setTopics2] = useState<any>(null)
   const runMine = async (beatFile: string) => {
+    if (!beatFile) return
     setBusy2(true)
     try {
       const r = await fetch('/api/command/topics', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ file: beatFile }) })
-      const j = await r.json()
+      const j = await r.json().catch(() => ({ error: `miner returned HTTP ${r.status}` }))
       if (j.error) setTopics2({ error: j.error }); else setTopics2(j)
-    } finally { setBusy2(false) }
+    } catch (e: any) { setTopics2({ error: String(e?.message || e) }) }
+    finally { setBusy2(false) }
   }
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -118,12 +120,14 @@ export default function Desk() {
     reload()
   }
   const runPull = async () => {
+    if (!beat?.file) return // fresh install, zero beats: a dead-looking button beats a handler throw
     setBusy(true); setReport(null)
     try {
       const r = await fetch('/api/command/process', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ file: beat.file }) })
-      const j = await r.json()
+      const j = await r.json().catch(() => ({ report: { error: `pull returned HTTP ${r.status}` } }))
       setReport(j.report)
-    } finally { setBusy(false); reload() }
+    } catch (e: any) { setReport({ error: String(e?.message || e) } as any) }
+    finally { setBusy(false); reload() }
   }
 
   const lamp = (v: boolean | null) => v === null ? 'warn' : v ? 'on' : 'err'
@@ -134,7 +138,7 @@ export default function Desk() {
       <div className="flex items-center justify-between px-6 py-3 border-b" style={{ borderColor: 'var(--cmd-line)' }}>
         <div className="flex items-center gap-6">
           <span className="cmd-display text-lg" style={{ letterSpacing: '0.1em' }}>MASTER DESK</span>
-          <span className="lamp on"><i />TWITTER KEY</span>
+          <span className={`lamp ${lamp(state.health.twitter_key)}`}><i />TWITTER KEY</span>
           <span className={`lamp ${lamp(state.health.gateway)}`}><i />CUPCAKE GATEWAY</span>
           <span className={`lamp ${state.health.breeze_refs ? 'on' : 'warn'}`}><i />BREEZE CAST</span>
         </div>
