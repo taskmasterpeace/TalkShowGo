@@ -1,0 +1,215 @@
+[
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Sixteen pancakes, and he didn't even start the first three games. So which is it, gentlemen, the trenches or the quarterbacks?",
+    "delivery": "flat, level, baiting",
+    "addressed_to": null,
+    "evidence": [
+      "E006"
+    ],
+    "tag": null,
+    "ms": 2608,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Well, Renee, you gotta look at the whole picture. Marcel Reed is an electric runner, but Split Zone Duo says he's not a top-tier passer. That puts pressure on the coaching to adjust.",
+    "delivery": "friendly, thoughtful pause",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E032"
+    ],
+    "tag": null,
+    "ms": 1671,
+    "noMerge": false
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, Evan Henry threw down 16 pancakes and gave up just 1.5 sacks over 350 pass plays in 2020. You tell me if that line ain't the clutch factor.",
+    "delivery": "confident, assertive",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E006",
+      "E007"
+    ],
+    "tag": null,
+    "ms": 1323,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Cassius, that's a solid line, no doubt, but Reed's mobility and ability to make those 'wow' throws, even if inconsistent, can neutralize a tough front.",
+    "delivery": "friendly, conceding, countering",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E032"
+    ],
+    "tag": null,
+    "ms": 1872,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, even the sickest QB can’t run through a wall that ain’t move. Control the line, you control the game clock and the playbook. That’s fundamentals, no cap.",
+    "delivery": "firm, clear, authoritative",
+    "addressed_to": "andrew-hammond",
+    "evidence": [],
+    "tag": null,
+    "ms": 1284,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Cassius, that stat line is from 2020. What's your source that Henry's game translates the same way this season?",
+    "delivery": "level, pointed, pressing",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E006",
+      "E007"
+    ],
+    "tag": null,
+    "ms": 2946,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Renee, that's a fair point. But even with a strong line, you still need the quarterback to make the plays, and Reed’s mobility forces a defensive coordinator to get creative.",
+    "delivery": "thoughtful, engaging",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E032"
+    ],
+    "tag": null,
+    "ms": 1561,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, Evan Henry came out as a three-star recruit, still got eligibility left to sharpen his game. That’s the fresh energy in the trenches South Carolina State needed, no debate.",
+    "delivery": "confident, definitive",
+    "addressed_to": "andrew-hammond|renee-vaughn",
+    "evidence": [
+      "E001"
+    ],
+    "tag": "interrupting",
+    "ms": 3436,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "A three-star recruit, still got eligibility? Okay, Cassius, that's a real talent upgrade for the trenches, but even a fresh line needs a game plan to stop a dynamic runner like Reed.",
+    "delivery": "surprised, then firm",
+    "addressed_to": "cassius-wynn",
+    "evidence": [],
+    "tag": null,
+    "ms": 1821,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Coaching and QBs bring questions, but that O-line upgrade? That’s a fact. You win the line, you make all the noise, plain and simple.",
+    "delivery": "firm and assertive",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E006"
+    ],
+    "tag": null,
+    "ms": 1172,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Look, Cassius, an O-line upgrade is definitely a piece of the puzzle, but Marcel Reed's dynamic playmaking can still shift the whole game plan and force an audible from the defense.",
+    "delivery": "warm, thoughtful, countering",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E032"
+    ],
+    "tag": null,
+    "ms": 1391,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Andrew, notice what you keep circling and never landing: you keep saying Reed 'can' shift the game plan, never that he does, on tape, this year.",
+    "delivery": "level, dropping the weight",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E032"
+    ],
+    "tag": null,
+    "ms": 4213,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, coaching's part of it, for sure, but you can’t scheme up 16 pancakes and near-impenetrable pass lanes. That line's the foundation, Reed's just the highlight reel on top.",
+    "delivery": "confident, rhythmic, firm",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E006"
+    ],
+    "tag": "interrupting",
+    "ms": 1473,
+    "noMerge": false
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Look, Cassius, you're right, those pancakes are real, but even a great line can't cover for a quarterback who can't consistently connect on throws downfield, and Marcel Reed can make those wow throws.",
+    "delivery": "warm, thoughtful, countering",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E032"
+    ],
+    "tag": null,
+    "ms": 1235,
+    "noMerge": false
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Both of you keep handing me potential, not proof, so here's where it stands: trenches confirmed, quarterback debated. We'll dig into the coaching angle next week.",
+    "delivery": "even, closing, wrapping up",
+    "addressed_to": "null",
+    "evidence": [],
+    "tag": null,
+    "ms": 3026,
+    "noMerge": true
+  }
+]

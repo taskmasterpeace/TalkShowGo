@@ -62,7 +62,11 @@ for (let i = 0; i < questions.length; i++) {
   fs.rmSync(DIR, { recursive: true, force: true }); fs.mkdirSync(path.join(DIR, 'floor'), { recursive: true })
   const ts = Date.now()
   const s = await post('/api/command/stringer', { input: { kind: 'question', text: q, mode: 'current' }, beat_file: beatId + '.json', web: true })
-  console.log(`[${slug}] research: ${(s.evidence || []).filter(e => e.valid_source).length} evidence${s.web_supplement ? ` (+${s.web_supplement.added} web)` : ''}`)
+  const evN = (s.evidence || []).filter(e => e.valid_source).length
+  console.log(`[${slug}] research: ${evN} evidence${s.web_supplement ? ` (+${s.web_supplement.added} web)` : ''}`)
+  // thin research is how contamination wins: with few on-story receipts, one off-story web hit (another
+  // team's recap, a past season) can dominate the whole floor. Warn loudly so the producer QAs the transcript.
+  if (evN < 8) console.log(`[${slug}] ⚠ THIN RESEARCH (${evN} < 8): off-story evidence can dominate - read the floor transcript for wrong teams/eras before voicing`)
   const b = await post('/api/command/briefing', { stringer_id: s.id, final_question: q, move_count: 6 })
   const bc = await post('/api/command/briefing/agent', { briefing_id: b.id, cast_ids: desk })
   const okN = (bc.deliveries || []).filter(x => x.ok).length

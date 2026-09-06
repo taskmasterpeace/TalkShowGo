@@ -2,32 +2,6 @@
   "id": "andrew-hammond",
   "entries": [
     {
-      "show": "atlanta-falcons-2026-team-captains-bijan-erpzy5-073943",
-      "beat": "atlanta-falcons-2026-team-captains-bijan",
-      "date": "2026-09-04",
-      "question": "Did the Falcons pick the right captains for this season, or not?",
-      "stance": "While the selection covers key units, the inclusion of players like Divine Deablo on both offense and defense raises questions about true representation.",
-      "said": [
-        "You're right, Renee, those guys are holding their lanes, and that's good work. But when one name pulls double duty, it does make you wonder if the full roster really got a voice in that huddle.",
-        "Look, Mike, seven captains on the field is a strong starting lineup, and when the dust settles, that's what folks will remember. But the real box score gets written when they hit the gridiron.",
-        "Look, Mike, I get the marquee, but if Divine Deablo is representing both offense and defense, does that really give us a full picture of the locker room?"
-      ],
-      "closing": "Look, Mike, seven captains on the field is a strong starting lineup, and when the dust settles, that's what folks will remember. But the real box score gets written when they hit the gridiron."
-    },
-    {
-      "show": "atlanta-falcons-2026-team-captains-bijan-erpzy5-082825",
-      "beat": "atlanta-falcons-2026-team-captains-bijan",
-      "date": "2026-09-04",
-      "question": "Did the Falcons pick the right captains for this season, or not?",
-      "stance": "The Falcons made a textbook sound decision by appointing a diverse group of leaders across all key units to foster team identity.",
-      "said": [
-        "And Mike, that's exactly it! You see offense, defense, and special teams all represented, which is how you build a cohesive unit. That's fostering team identity, plain and simple.",
-        "Well, Mike, you're right, Renee did say that the structure was sound, and when you've got leaders like Jessie Bates and Chris Lindstrom in place, that's just good coverage.",
-        "Mike, you hit the nail on the head: the Falcons themselves stated that leadership within the team comes in many forms, and that's precisely what this diverse group shows."
-      ],
-      "closing": "Mike, you hit the nail on the head: the Falcons themselves stated that leadership within the team comes in many forms, and that's precisely what this diverse group shows."
-    },
-    {
       "show": "atlanta-falcons-2026-team-captains-bijan-erpzy5-102924",
       "beat": "atlanta-falcons-2026-team-captains-bijan",
       "date": "2026-09-04",
@@ -312,6 +286,32 @@
         "Look, Cassius, I hear you on the execution, but when clutchpoints.com points out the mismatch in scholarship allocation, it really makes you wonder about the schedule, you know?"
       ],
       "closing": "And folks, to put that 87-0 in perspective, that's the biggest FCS shutout since Idaho State took down Lincoln 90-0 way back in 2025. You just don't see that kind of spread often."
+    },
+    {
+      "show": "scstate-famu-s1",
+      "beat": "south-carolina-state-hung-87-on-savannah",
+      "date": "2026-09-06",
+      "question": "South Carolina State hung 87 on Savannah State: does that firepower survive its first real test at Florida A&M this week?",
+      "stance": "NO, South Carolina State's huge score against Savannah State won't survive the test at Florida A&M because the previous opponent was weak and the game will be a completely different challenge.",
+      "said": [
+        "Now Cassius, I hear you, but let's not forget Savannah State didn't put a single point on the board. That's a different kind of coverage than what FAMU will bring.",
+        "Look, that kind of execution is impressive, Cassius, but when you give up zero points, it lets the offense swing for the fences. FAMU's defense won't be as forgiving.",
+        "And that's the thing, folks: South Carolina State's defense allowed no points to Savannah State. That changes the whole ballgame for an offense, doesn't it?"
+      ],
+      "closing": "And that's the thing, folks: South Carolina State's defense allowed no points to Savannah State. That changes the whole ballgame for an offense, doesn't it?"
+    },
+    {
+      "show": "scstate-famu-s2",
+      "beat": "what-decides-south-carolina-state-versus",
+      "date": "2026-09-06",
+      "question": "What decides South Carolina State versus Florida A&M this week: the trenches, the quarterbacks, or the coaching?",
+      "stance": "NO: The coaching changes and quarterback play will decide this game, not the trenches, since Florida A&M’s quarterback Marcel Reed’s dynamic running and passing ability and coaching adjustments will outweigh South Carolina State’s line additions.",
+      "said": [
+        "Well, Renee, you gotta look at the whole picture. Marcel Reed is an electric runner, but Split Zone Duo says he's not a top-tier passer. That puts pressure on the coaching to adjust.",
+        "Look, Cassius, you're right, those pancakes are real, but even a great line can't cover for a quarterback who can't consistently connect on throws downfield, and Marcel Reed can make those wow throws.",
+        "A three-star recruit, still got eligibility? Okay, Cassius, that's a real talent upgrade for the trenches, but even a fresh line needs a game plan to stop a dynamic runner like Reed."
+      ],
+      "closing": "Look, Cassius, you're right, those pancakes are real, but even a great line can't cover for a quarterback who can't consistently connect on throws downfield, and Marcel Reed can make those wow throws."
     }
   ],
   "name": "Andrew Hammond"

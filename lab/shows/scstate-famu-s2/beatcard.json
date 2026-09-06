@@ -1,0 +1,151 @@
+{
+  "id": "what-decides-south-carolina-state-versus",
+  "show": "scstate-famu-s2",
+  "question": "What decides South Carolina State versus Florida A&M this week: the trenches, the quarterbacks, or the coaching?",
+  "target_spoken_words": 368,
+  "max_turns": 27,
+  "stances": {
+    "renee-vaughn": "MODERATOR: take NO side and never argue a verdict yourself; referee - press BOTH debaters with pointed, specific questions and make them answer.",
+    "cassius-wynn": "YES: The trenches will decide this game because South Carolina State’s addition of Evan Henry, a dominant offensive tackle with proven pass protection and run blocking skills, is the critical edge that will control the line of scrimmage.",
+    "andrew-hammond": "NO: The coaching changes and quarterback play will decide this game, not the trenches, since Florida A&M’s quarterback Marcel Reed’s dynamic running and passing ability and coaching adjustments will outweigh South Carolina State’s line additions."
+  },
+  "allowed_evidence": {
+    "renee-vaughn": [
+      "E001",
+      "E006",
+      "E007",
+      "E009",
+      "E010",
+      "E029",
+      "E032",
+      "E030",
+      "E033",
+      "E034",
+      "E035",
+      "E036",
+      "E017",
+      "E024",
+      "E025",
+      "E026"
+    ],
+    "cassius-wynn": [
+      "E001",
+      "E006",
+      "E007",
+      "E009",
+      "E010"
+    ],
+    "andrew-hammond": [
+      "E029",
+      "E030",
+      "E032"
+    ]
+  },
+  "participants": [
+    {
+      "id": "renee-vaughn",
+      "name": "Renee Vaughn",
+      "kind": "host"
+    },
+    {
+      "id": "cassius-wynn",
+      "name": "Cassius Wynn",
+      "kind": "host"
+    },
+    {
+      "id": "andrew-hammond",
+      "name": "Andrew Hammond",
+      "kind": "host"
+    }
+  ],
+  "delegates": {
+    "ai": [],
+    "human": []
+  },
+  "human_slots": [],
+  "withheld": [
+    {
+      "host": "cassius-wynn",
+      "evidence": "E002",
+      "turn": 7,
+      "instruction": "Reveal Evan Henry’s three-star recruit status and remaining eligibility to strengthen the trenches argument."
+    }
+  ],
+  "anaphora_exempt": [
+    "evan henry",
+    "south carolina state",
+    "florida a&m",
+    "trenches",
+    "quarterback",
+    "coaching"
+  ],
+  "protected_facts": [
+    {
+      "note": "Evan Henry is a 6'3\", 310lb offensive tackle from D'oto, Texas.",
+      "banned_phrasings": [
+        "big offensive lineman",
+        "huge tackle"
+      ]
+    }
+  ],
+  "waypoints": [
+    {
+      "after_words": 25,
+      "host": "cassius-wynn",
+      "note": "Highlight Evan Henry’s 2020 stats showing dominance in pancakes and sacks allowed as proof trenches are decisive."
+    },
+    {
+      "after_words": 50,
+      "host": "andrew-hammond",
+      "note": "Challenge by emphasizing Marcel Reed’s dual-threat quarterback skills and coaching impact as more decisive."
+    },
+    {
+      "after_words": 100,
+      "host": "cassius-wynn",
+      "note": "Counter by arguing that even with quarterback talent, controlling the trenches is the foundation for winning."
+    },
+    {
+      "after_words": 150,
+      "host": "andrew-hammond",
+      "note": "Push back with the argument that coaching strategy and quarterback leadership create game-changing plays beyond line battles."
+    },
+    {
+      "after_words": 200,
+      "host": "cassius-wynn",
+      "note": "Reassert that South Carolina State’s offensive line upgrade is the concrete advantage, unlike coaching or quarterback uncertainty."
+    },
+    {
+      "after_words": 250,
+      "host": "andrew-hammond",
+      "note": "Close by stressing the importance of quarterback adaptability and coaching adjustments in a close matchup."
+    }
+  ],
+  "attribution": {
+    "mode": "A",
+    "label": "SOURCED & COMMITTED",
+    "law": "When a receipt is an ATTRIBUTED_CLAIM, name who said it and where (person/outlet + platform), then COMMIT to your read of it - never hedge it into mush. A FACT you state plainly. Never present an unproven claim as settled fact; never bury a real fact under \"allegedly\"."
+  },
+  "detonation_react": {
+    "host": "andrew-hammond",
+    "instruction": "React surprised to Evan Henry’s recruit ranking and eligibility; concede it’s a strong trenches asset but maintain coaching and quarterback impact ultimately decide."
+  },
+  "kk_drop": {
+    "host": "renee-vaughn",
+    "after_turn": 11,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "renee-vaughn",
+    "instruction": "Open the beat flat: name the single most concrete fact on the table, set the bait, and stop talking. Short."
+  },
+  "exit": {
+    "host": "renee-vaughn",
+    "alt_host": "cassius-wynn",
+    "instruction": "Close the segment by summarizing the fierce debate over trenches versus quarterback and coaching, teasing a deeper dive into coaching strategies next week."
+  },
+  "_compiled_from": {
+    "stringer": "str_0mosmrl6",
+    "briefing": "brf_rjjmt5gk",
+    "delegates_surfaced": []
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "topic": "South Carolina State hung 87 on Savannah State: does that firepower survive its first real test at Florida A&M this week?",
+  "compiled": "2026-09-06T07:15:35.396Z",
+  "question": "South Carolina State hung 87 on Savannah State: does that firepower survive its first real test at Florida A&M this week?",
+  "entries": [
+    {
+      "id": "E001",
+      "claim": "South Carolina State defeated Savannah State with a score of 87-0.",
+      "source_name": "wjcl.com",
+      "source_type": "research",
+      "url": "https://www.wjcl.com/article/savannah-state-opens-2026-season-with-loss-to-south-carolina-state-87-0/73561561",
+      "tier": "FACT"
+    },
+    {
+      "id": "E002",
+      "claim": "Malachi Jones scored a touchdown for South Carolina State.",
+      "source_name": "sports.yahoo.com",
+      "source_type": "research",
+      "url": "https://sports.yahoo.com/videos/every-south-carolina-state-touchdown-212319114.html",
+      "tier": "FACT"
+    },
+    {
+      "id": "E003",
+      "claim": "South Carolina State's defense allowed no points to Savannah State.",
+      "source_name": "sports.yahoo.com",
+      "source_type": "research",
+      "url": "https://sports.yahoo.com/videos/every-south-carolina-state-touchdown-212319114.html",
+      "tier": "FACT"
+    },
+    {
+      "id": "E004",
+      "claim": "South Carolina State's offensive line provided good protection.",
+      "source_name": "sports.yahoo.com",
+      "source_type": "research",
+      "url": "https://sports.yahoo.com/videos/every-south-carolina-state-touchdown-212319114.html",
+      "tier": "ATTRIBUTED_CLAIM"
+    }
+  ]
+}

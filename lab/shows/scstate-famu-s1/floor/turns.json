@@ -1,0 +1,209 @@
+[
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Good evening, folks. South Carolina State shut Savannah State out entirely on defense while their offense ran wild. But Florida A&M is a different animal. Does that production travel?",
+    "delivery": "even, setting up the debate",
+    "addressed_to": "null",
+    "evidence": [
+      "E001",
+      "E003"
+    ],
+    "tag": null,
+    "ms": 5652,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, that line up front ain't just showing up, they shielding like pros; if they keep that pocket clean, that offense gon' keep lighting it up against any defense they face.",
+    "delivery": "confident, upbeat",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E004"
+    ],
+    "tag": null,
+    "ms": 1177,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Now Cassius, I hear you, but let's not forget Savannah State didn't put a single point on the board. That's a different kind of coverage than what FAMU will bring.",
+    "delivery": "warm, friendly challenge",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E003"
+    ],
+    "tag": null,
+    "ms": 1518,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Aight, I see Savannah State was a soft test, but that offensive line locking down like that? That's a skill, not luck. FAMU gonna feel it.",
+    "delivery": "firm, confident, direct",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E001",
+      "E004"
+    ],
+    "tag": "interrupting",
+    "ms": 1348,
+    "noMerge": false
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Cassius, that eighty-seven point night came against a team that scored zero. What tells you the line holds when the other side hits back?",
+    "delivery": "level, pressing",
+    "addressed_to": "cassius-wynn",
+    "evidence": [],
+    "tag": null,
+    "ms": 9721,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Malachi Jones crossing the end zone ain't just a highlight, it’s proof that South Carolina State can punch through when it counts ... execution like that'll survive the test.",
+    "delivery": "firm, undeniable",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E002"
+    ],
+    "tag": null,
+    "ms": 2576,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Look, that kind of execution is impressive, Cassius, but when you give up zero points, it lets the offense swing for the fences. FAMU's defense won't be as forgiving.",
+    "delivery": "warm, friendly, firm",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E003"
+    ],
+    "tag": null,
+    "ms": 1252,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "And that's the thing, folks: South Carolina State's defense allowed no points to Savannah State. That changes the whole ballgame for an offense, doesn't it?",
+    "delivery": "warm, thoughtful, broadcast-smooth",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E003"
+    ],
+    "tag": "interrupting",
+    "ms": 1130,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, a shutout looks nice, but Savannah State was folding before the game even started...defense ain't the headline here, it's that offense breaking through no cap.",
+    "delivery": "confident, dismissive",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E001"
+    ],
+    "tag": null,
+    "ms": 1380,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Andrew, fair point on the shutout, but what's your actual evidence FAMU's defense is built to stop that specific line? Or is this just an assumption they're tougher?",
+    "delivery": "level, pointed follow-up",
+    "addressed_to": "andrew-hammond",
+    "evidence": [],
+    "tag": null,
+    "ms": 3228,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Look, strong fundamentals ain't just for show, they adapt on the fly...pressure hits, they pivot, protect, still find the paint. FAMU's gonna see that fire, no doubt.",
+    "delivery": "confident, assertive, rhythmic",
+    "addressed_to": "renee-vaughn",
+    "evidence": [],
+    "tag": null,
+    "ms": 2106,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Here's what neither of you has actually addressed: an eighty-seven to nothing final tells us nothing about how that line performs under real resistance, because there wasn't any.",
+    "delivery": "level, unhurried, cutting through",
+    "addressed_to": "cassius-wynn",
+    "evidence": [],
+    "tag": null,
+    "ms": 3185,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Pull up on this...lines that dominant don’t just disappear when the heat turns up; they adjust, absorb, then break through. Real tests don’t expose weakness, they prove legacy.",
+    "delivery": "firm and rhythmic",
+    "addressed_to": "renee-vaughn",
+    "evidence": [],
+    "tag": null,
+    "ms": 1268,
+    "noMerge": false
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "\"Legacy\" is a word, Cassius, not a stat. Nothing on that scoreboard proves resistance, because there wasn't any to survive.",
+    "delivery": "level, unmoved, pressing",
+    "addressed_to": "cassius-wynn",
+    "evidence": [],
+    "tag": null,
+    "ms": 5053,
+    "noMerge": false
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, no cap, when you roll out that kind of protection, it’s like a blueprint for anyone trying to stop you – FAMU's gotta bring more than talk to the line.",
+    "delivery": "confident, decisive",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E004"
+    ],
+    "tag": null,
+    "ms": 3495,
+    "noMerge": true
+  }
+]

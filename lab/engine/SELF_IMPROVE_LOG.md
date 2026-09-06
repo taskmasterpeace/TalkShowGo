@@ -42,6 +42,17 @@ judge quality by the TRANSCRIPT** (`segment_final.md`) + the blind Codex judge, 
   the evidence the same way they carry claims, and the parser's queued era-conflict flagging covers the sibling
   bug (a prediction said "the 2023 season" - now blocked at the prompt by the no-calendar-year rule, 5e2a49a,
   but era-tagging at EXTRACTION is still the root fix).
+- **P4 ESCALATED (FAMU-prep build, 2026-09-06) — context contamination is CATASTROPHIC on thin research,
+  not cosmetic.** First build: seg 1 (4 evidence only) debated a 48-3 FAMU loss THAT NEVER HAPPENED (a
+  phantom result from an off-story web recap treated as the current game); seg 2 drifted into JACKSON
+  STATE's QB battle mid-FAMU-preview (HBCU-wide channels leak adjacent teams). Working mitigations, proven
+  same day: (1) entity-anchored question text - naming BOTH teams + "this week" took seg-2 evidence 17->41
+  and produced a clean floor; (2) make_episode_build now warns at <8 evidence ("THIN RESEARCH - read the
+  floor for wrong teams/eras before voicing"); (3) closing predictions may not name a person the show
+  didn't discuss (a prediction invented "Coach Davis" and a player). ROOT FIX still queued: at extraction,
+  tag every claim with {teams, timeframe, game} and DROP claims whose entities miss the assignment's -
+  the moderator (Renee pressed a 2020 stat on-air, caught "nobody's shown me the 87 was vacated") cannot
+  be the last line of defense.
 
 ## Ops notes
 - Dev server: `preview_start name=talkshowgo` (port 3000). It has died mid-session before — restart if curls refuse.

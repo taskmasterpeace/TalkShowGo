@@ -1,0 +1,20 @@
+{
+  "beat": "sc-state",
+  "show": "SOUTH CAROLINA STATE BULLDOGS DAILY",
+  "desk": [
+    "renee-vaughn",
+    "cassius-wynn",
+    "andrew-hammond"
+  ],
+  "seed": 42,
+  "questions": [
+    "South Carolina State hung 87 on Savannah State: does that firepower survive its first real test at Florida A&M this week?",
+    "What decides South Carolina State versus Florida A&M this week: the trenches, the quarterbacks, or the coaching?"
+  ],
+  "segments": [
+    "scstate-famu-s1",
+    "scstate-famu-s2"
+  ],
+  "built_at": "2026-09-06T07:20:33.685Z",
+  "build_seconds": 349
+}
