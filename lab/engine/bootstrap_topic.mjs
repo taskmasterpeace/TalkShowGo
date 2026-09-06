@@ -22,16 +22,21 @@
  *        [--slug=miami-hurricanes] [--app=http://localhost:3000]
  */
 import fs from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 const ARG = Object.fromEntries(process.argv.slice(2).map(a => { const m = a.match(/^--([^=]+)=?(.*)$/); return m ? [m[1], m[2] || true] : [a, true] }))
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '..', '..')
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
 const APP = (typeof ARG.app === 'string' && ARG.app) || 'http://localhost:3000'
 const NAME = String(ARG.name || '').trim()
 const NICHE = String(ARG.niche || '').trim()
 if (!NAME) { console.error('need --name="<topic>" [--niche="..."]'); process.exit(1) }
 const SLUG = (typeof ARG.slug === 'string' && ARG.slug) || NAME.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 
-const post = async (p, b) => (await fetch(APP + p, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(b) })).json()
+const post = async (p, b) => {
+  const res = await fetch(APP + p, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(b), signal: AbortSignal.timeout(600000) })
+  const text = await res.text()
+  try { return JSON.parse(text) } catch { throw new Error(`${p} returned non-JSON (HTTP ${res.status}): ${text.slice(0, 120)}`) } // a Next 500 page used to surface as "Unexpected token '<'"
+}
 const recencyScore = t => { const s = String(t || '').toLowerCase(); if (/hour|day/.test(s)) return 3; if (/week/.test(s)) return 2; if (/month/.test(s)) return 1; return 0 }
 
 async function discoverChannels() {

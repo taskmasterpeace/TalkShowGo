@@ -14,10 +14,11 @@
  * Usage: node lab/engine/compile_beat.mjs --stringer=<id> --briefing=<brf_id> [--out=<dir>] [--runtime=8]
  */
 import fs from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
 const ARG = Object.fromEntries(process.argv.slice(2).map(a => { const m = a.match(/^--([^=]+)=?(.*)$/); return m ? [m[1], m[2] || true] : [a, true] }))
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '..', '..')
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
 const J = p => JSON.parse(fs.readFileSync(p, 'utf8'))
 // key precedence: process env > .env > lab/settings/keys.json (a key pasted in the SETTINGS page); no .env is fine
 const readEnvKey = name => {
@@ -166,7 +167,7 @@ async function main() {
   // kk_drop: the analyst hold-then-drop seat. Prefer king-knowledge; else the lowest-interruption host present.
   const behaviorOf = id => (cast.hosts.find(h => h.id === id)?.behavior?.interruption_rate ?? 1)
   const dropHost = pIds.includes('king-knowledge') ? 'king-knowledge' : [...pIds].sort((a, b) => behaviorOf(a) - behaviorOf(b))[0]
-  const kk_drop = { host: dropHost, after_turn: Math.max(8, Math.round((ARG.runtime ? +ARG.runtime : 8) * 1.4)), instruction: 'Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself.' }
+  const kk_drop = { host: dropHost, after_turn: Math.max(8, Math.round((Number.isFinite(+ARG.runtime) && +ARG.runtime >= 2 ? +ARG.runtime : 8) * 1.4)), instruction: 'Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself.' }
 
   const protected_facts = Array.isArray(dir.protected_facts) ? dir.protected_facts.filter(p => p && p.note && Array.isArray(p.banned_phrasings)).slice(0, 4) : []
   // exemptions are matched against lowercased n-grams in the floor guard, so lowercase them here
@@ -185,7 +186,9 @@ async function main() {
   }
   const amode = (ARG.attribution && ATTRIBUTION_MODES[String(ARG.attribution).toUpperCase()]) ? String(ARG.attribution).toUpperCase() : 'A'
 
-  const runtimeMin = ARG.runtime ? +ARG.runtime : 8
+  // guard the arithmetic: --runtime=abc -> NaN poisons target_spoken_words/max_turns into null and the
+  // floor exits after 3 turns with no error; bare --runtime -> +true = a 1-minute "show"
+  const runtimeMin = Number.isFinite(+ARG.runtime) && +ARG.runtime >= 2 && +ARG.runtime <= 60 ? +ARG.runtime : 8
   const targetWords = Math.round(runtimeMin * 46)
   // seat each human's verbatim turns at word marks across the floor (a fan's verdict lands late)
   const human_slots = []

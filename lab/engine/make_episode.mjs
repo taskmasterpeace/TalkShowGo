@@ -9,28 +9,42 @@
  * Usage: node lab/engine/make_episode.mjs --beat=<id> --segments=<slug1,slug2,...> [--topics="a|b|c"] [--out=<path>] [--model=<id>]
  */
 import fs from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 const ARG = Object.fromEntries(process.argv.slice(2).map(a => { const m = a.match(/^--([^=]+)=?(.*)$/); return m ? [m[1], m[2] || true] : [a, true] }))
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '..', '..')
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
 const J = p => JSON.parse(fs.readFileSync(p, 'utf8'))
 const readEnvKey = name => { const e = process.env[name]; if (e && e.trim()) return e.trim(); try { const m = fs.readFileSync(path.join(ROOT, '.env'), 'utf8').match(new RegExp('^' + name + '=(.+)$', 'm')); if (m) return m[1].trim() } catch { /* no .env */ } return null }
 const OR = readEnvKey('OPENROUTER_API_KEY')
 
+let emptyLines = 0 // every framing piece that came back blank - an episode with holes must not report success
 async function line(model, sys, user) {
-  if (!OR) return ''
+  if (!OR) { emptyLines++; console.error('  line(): OPENROUTER_API_KEY missing - framing line will be EMPTY'); return '' }
   // reasoning models would burn the budget; transitions are cheap one-liners on a fast model, so no reasoning + a real token ceiling
   const body = { model, temperature: 0.7, max_tokens: 220, messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] }
   if (/gpt-5|o1|o3|sonnet-5|deepseek-r1|thinking/i.test(model)) body.reasoning = { effort: 'low' }
-  const r = await fetch('https://openrouter.ai/api/v1/chat/completions', { method: 'POST', headers: { Authorization: 'Bearer ' + OR, 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(60000) })
-  const j = await r.json()
-  return clean(String(j.choices?.[0]?.message?.content || '')).replace(/\*+|_{2,}|`+/g, '').replace(/^["']|["']$/g, '').replace(/\s+/g, ' ').trim()
+  for (let attempt = 1; attempt <= 2; attempt++) { // one transient 429 must not put a silent hole in the episode
+    try {
+      const r = await fetch('https://openrouter.ai/api/v1/chat/completions', { method: 'POST', headers: { Authorization: 'Bearer ' + OR, 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(60000) })
+      const j = await r.json()
+      if (!r.ok) throw new Error(`HTTP ${r.status}: ${String(j?.error?.message || '').slice(0, 100)}`)
+      const out = clean(String(j.choices?.[0]?.message?.content || '')).replace(/\*+|_{2,}|`+/g, '').replace(/^["']|["']$/g, '').replace(/\s+/g, ' ').trim()
+      if (out) return out
+      throw new Error('empty completion')
+    } catch (e) {
+      console.error(`  line() attempt ${attempt}: ${e.message}`)
+      if (attempt === 1) await new Promise(res => setTimeout(res, 2500))
+    }
+  }
+  emptyLines++
+  return ''
 }
 
 // tidy text artifacts so the episode reads clean: common UTF-8 mojibake (â€™ from mixed encodings) + smart
 // quotes/dashes that read as "visibly generated" on the page (the judge's knock).
 function clean(s) {
   return String(s || '')
-    .replace(/â€™/g, "'").replace(/â€˜/g, "'").replace(/â€œ/g, '"').replace(/â€/g, '"').replace(/â€"/g, '...').replace(/â€"/g, '...').replace(/Â/g, '')
+    .replace(/â€™/g, "'").replace(/â€˜/g, "'").replace(/â€œ/g, '"').replace(/â€/g, '"').replace(/â€”/g, '...').replace(/â€“/g, '...').replace(/â€¦/g, '...').replace(/â€/g, '"').replace(/Â/g, '')
     .replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/[—–]/g, '...')
 }
 // the last substantive spoken line of a segment (its resolution), so a transition/sign-off can reference where it LANDED
@@ -101,6 +115,9 @@ async function main() {
   }
   parts.push(`${modName} (sign-off): ${outro}`, '')
   const out = (typeof ARG.out === 'string' && ARG.out) || path.join(ROOT, 'lab', 'shows', slugs[0], 'episode.md')
+  // an episode with silent holes (empty cold open, missing transition) must never report success -
+  // the voice stage skips empty lines, so the mp3 would just jump-cut between stories
+  if (emptyLines > 0) { console.error(`REFUSING to write: ${emptyLines} framing line(s) came back empty (key/API trouble above) - fix and re-run`); process.exit(1) }
   fs.writeFileSync(out, parts.join('\n'))
   console.log('EPISODE ->', out)
   console.log(segs.length, 'segments ·', modName, 'moderating (' + modId + ')')

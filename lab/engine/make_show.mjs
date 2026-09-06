@@ -15,12 +15,13 @@
  *        else :3000; beat = --beat, else inferred from the briefing. Unreachable = a warning, never a failed show.)
  */
 import fs from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { spawnSync, execFileSync } from 'node:child_process'
 import { inferBeat, attachTakes, stampTakes } from './lib/takes_mark.mjs'
 
 const ARG = Object.fromEntries(process.argv.slice(2).map(a => { const m = a.match(/^--([^=]+)=?(.*)$/); return m ? [m[1], m[2] || true] : [a, true] }))
-const ENGINE = path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1'))
+const ENGINE = path.dirname(fileURLToPath(import.meta.url))
 const ROOT = path.resolve(ENGINE, '..', '..')
 const STAGES = ['compile', 'floor', 'audio']
 

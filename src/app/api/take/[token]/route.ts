@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import fs from 'node:fs'
 import path from 'node:path'
-import { personByToken } from '@/lib/command/people'
+import { personByToken, setPersonDepth } from '@/lib/command/people'
 import { promptsFor, contextFor, latestBriefingFor } from '@/lib/command/prompts'
 import { askFollowups } from '@/lib/command/followups'
 import { decodeAudio, nextTake, saveClip, ownedWav, cleanSpeech, trimWav } from '@/lib/command/audio-intake'
@@ -54,10 +54,12 @@ export async function GET(req: Request, { params }: { params: { token: string } 
   const hit = personByToken(params.token)
   if (!hit) { appendLog({ kind: 'take', stage: 'denied', ok: false, summary: 'take link opened with an unknown token', error: 'unknown token' }); return nope() }
   const { beat, person } = hit
-  const p = await promptsFor(beat, person)
+  // a returning fan's saved depth tunes their questions from the first load - the page skips the quiz
+  const knownDepth = (person as any).depth && ['casual', 'regular', 'diehard'].includes((person as any).depth) ? (person as any).depth as 'casual' | 'regular' | 'diehard' : undefined
+  const p = await promptsFor(beat, person, process.cwd(), knownDepth)
   const brief = briefFor(beat)
-  appendLog({ kind: 'take', stage: 'open', ok: true, beat: beat.id, ref: person.slug, ms: p.ms, summary: `${person.name} opened their take link · ${p.prompts.length} prompts (${p.source})${brief ? ' · briefed' : ''}`, error: p.error || null, meta: { source: p.source, has_context: !!p.context, has_brief: !!brief } })
-  return NextResponse.json({ ok: true, show: showOf(beat), person: { name: person.name, slug: person.slug, relation: person.relation }, beat: beat.id, prompts: p.prompts, prompts_source: p.source, brief, max_seconds: MAX_STT_SECONDS })
+  appendLog({ kind: 'take', stage: 'open', ok: true, beat: beat.id, ref: person.slug, ms: p.ms, summary: `${person.name} opened their take link · ${p.prompts.length} prompts (${p.source})${knownDepth ? ' · ' + knownDepth : ''}${brief ? ' · briefed' : ''}`, error: p.error || null, meta: { source: p.source, has_context: !!p.context, has_brief: !!brief, depth: knownDepth || null } })
+  return NextResponse.json({ ok: true, show: showOf(beat), person: { name: person.name, slug: person.slug, relation: person.relation }, beat: beat.id, prompts: p.prompts, prompts_source: p.source, brief, max_seconds: MAX_STT_SECONDS, ...(knownDepth ? { depth: knownDepth } : {}) })
 }
 
 export async function POST(req: Request, { params }: { params: { token: string } }) {
@@ -79,7 +81,7 @@ export async function POST(req: Request, { params }: { params: { token: string }
 
   // ---- ASK: the person, being informed, has a question -> IMPARTIAL web lookup (SearXNG-first, free).
   //      This is the "look it up on the internet" step: name the captains, the pros/cons, then answer follow-ups. ----
-  if (typeof b.ask === 'string' && b.ask.trim()) {
+  if (typeof b.ask === 'string' && b.ask.trim() && typeof b.audio_b64 !== 'string') { // a body carrying BOTH is a clip first: never discard a recording over a question
     const q = b.ask.trim().slice(0, 300); const t0 = Date.now()
     try {
       const { webResearch } = await import('@/lib/command/openrouter-web')
@@ -109,7 +111,7 @@ export async function POST(req: Request, { params }: { params: { token: string }
     try { wav = saveClip(dir, dec.buf, dec.ext, n).wav } catch (e: any) {
       const error = String(e?.message || e).slice(0, 200)
       appendLog({ kind: 'take', stage: 'clip', ok: false, beat: beat.id, ref, ms: Date.now() - t0, summary: `${person.name} take ${n}: could not convert the recording`, error, meta: { take: n, mime: dec.mime, bytes: dec.buf.length } })
-      return bad('could not convert the recording: ' + error, 'convert', 502, true)
+      return bad('could not convert the recording - try again, or type it instead', 'convert', 502, true) // detail (with paths) stays in the log, never on the wire
     }
     const seconds = wavSeconds(wav)
     const capped = seconds > MAX_STT_SECONDS
@@ -144,6 +146,20 @@ export async function POST(req: Request, { params }: { params: { token: string }
   // ---- THE TAKE: their words, saved as-is; the longest recorded clip becomes their voice for the floor ----
   if (Array.isArray(b.answers)) {
     const t0 = Date.now()
+    // idempotency: the page retries a send whose response got lost - if that save already landed
+    // (same client_key on disk), acknowledge it instead of minting a duplicate take
+    const ckey = typeof b.client_key === 'string' && b.client_key.trim() ? b.client_key.trim().slice(0, 64) : null
+    if (ckey && fs.existsSync(dir)) {
+      for (const f of fs.readdirSync(dir).filter(f => /^take-\d+\.json$/.test(f))) {
+        try {
+          const prev = JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8'))
+          if (prev && prev.client_key === ckey) {
+            appendLog({ kind: 'take', stage: 'take', ok: true, beat: beat.id, ref, summary: `${person.name}: retried a save that already landed (take ${prev.take}) - no duplicate`, meta: { take: prev.take, dedupe: true } })
+            return NextResponse.json({ ok: true, take: { beat: beat.id, take: prev.take, transcript: prev.transcript }, on_next_show: true, deduped: true })
+          }
+        } catch { /* torn file - keep scanning */ }
+      }
+    }
     const answers: TakeAnswer[] = []
     for (const x of b.answers) {
       if (!x || typeof x !== 'object' || typeof x.a !== 'string') continue
@@ -184,11 +200,15 @@ export async function POST(req: Request, { params }: { params: { token: string }
       take: n, prompt: String(b.prompt || prompts?.[0] || main.q || '').slice(0, 240), prompts, transcript: main.a, answers,
       seconds: main.wav ? wavSeconds(main.wav) : null, wav: main.wav || voice?.full_wav || voice?.sample_wav || null, mime: typeof b.mime === 'string' ? b.mime.slice(0, 40) : null,
       voice, capped: b.capped === true, via: VIA.has(String(b.via)) ? String(b.via) : 'link', ...(typeof b.depth === 'string' && ['casual','regular','diehard'].includes(b.depth) ? { depth: b.depth } : {}),
+      ...(ckey ? { client_key: ckey } : {}),
     })
+    if (typeof b.depth === 'string') setPersonDepth(beat.id, person.slug, b.depth) // remember for their next visit
     const by = (s: string) => answers.filter(x => x.source === s).length
     appendLog({ kind: 'take', stage: 'take', ok: true, beat: beat.id, ref, ms: Date.now() - t0, summary: `${person.name} dropped take ${n} · ${answers.length} answer${answers.length === 1 ? '' : 's'} (${by('voice')} voice · ${by('typed')} typed · ${by('choice')} choice)${voice ? ` · voice ref ${Math.round(voice.seconds)}s${voice.trimmed ? ' (cut from ' + Math.round(wavSeconds(voice.full_wav!)) + 's)' : ''}` : ''} · in the inbox`, meta: { take: n, words: main.a.split(/\s+/).length, voice: !!voice, via: take.via, path: take.path } })
     const { path: _p, ...pub } = take
-    return NextResponse.json({ ok: true, take: { ...pub, wav: pub.wav ? path.basename(pub.wav) : null, voice: voice ? { seconds: voice.seconds, trimmed: !!voice.trimmed } : null }, on_next_show: true })
+    // basenames only on the wire: absolute paths (machine layout, beat ids, person slugs) stay in the log
+    const pubAnswers = pub.answers.map(a => ({ ...a, ...(a.wav ? { wav: path.basename(a.wav) } : {}) }))
+    return NextResponse.json({ ok: true, take: { ...pub, answers: pubAnswers, wav: pub.wav ? path.basename(pub.wav) : null, voice: voice ? { seconds: voice.seconds, trimmed: !!voice.trimmed } : null }, on_next_show: true })
   }
 
   return bad('send audio_b64, followups:true, or answers[]', 'validate')

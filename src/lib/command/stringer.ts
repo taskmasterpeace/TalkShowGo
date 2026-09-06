@@ -7,7 +7,7 @@ import { excludedTerms, isExcluded } from './openrouter-web'
 import { fetchTranscriptSegments, type TranscriptSegment } from './transcript'
 
 const ROOT = process.cwd()
-const OR_KEY = process.env.OPENROUTER_API_KEY
+const OR_KEY = () => process.env.OPENROUTER_API_KEY // per-call: a key saved in SETTINGS works without a restart
 
 export function loadConfig(): any {
   try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'lab', 'research', 'config.json'), 'utf8')) } catch { return {} }
@@ -177,9 +177,9 @@ async function parserLocal(user: string, cfg: any): Promise<{ content: string; u
 }
 
 async function parserOpenRouter(user: string, cfg: any): Promise<{ content: string; usage: any }> {
-  if (!OR_KEY) throw new Error('OPENROUTER_API_KEY missing')
+  if (!OR_KEY()) throw new Error('OPENROUTER_API_KEY missing')
   const r = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-    method: 'POST', headers: { Authorization: 'Bearer ' + OR_KEY, 'Content-Type': 'application/json' },
+    method: 'POST', headers: { Authorization: 'Bearer ' + OR_KEY(), 'Content-Type': 'application/json' },
     body: JSON.stringify({ model: cfg.parser?.model || 'google/gemini-2.5-flash-lite', temperature: cfg.parser?.temperature ?? 0.1, max_tokens: cfg.parser?.max_output_tokens || 5000, response_format: { type: 'json_object' }, messages: [{ role: 'system', content: PARSE_SYS }, { role: 'user', content: user }] }),
     signal: AbortSignal.timeout(120000),
   })
@@ -287,12 +287,16 @@ export async function runStringer(assignment: Assignment, trusted: { channel_id:
 export function saveStringer(result: any) {
   const dir = path.join(ROOT, 'lab', 'research', 'stringer')
   fs.mkdirSync(dir, { recursive: true })
-  fs.writeFileSync(path.join(dir, result.id + '.json'), JSON.stringify(result, null, 2) + '\n')
+  const sp = path.join(dir, result.id + '.json')
+  fs.writeFileSync(sp + '.tmp', JSON.stringify(result, null, 2) + '\n'); fs.renameSync(sp + '.tmp', sp) // atomic: a torn artifact 500s every later read
 }
 
 export function listStringers(limit = 12): any[] {
   const dir = path.join(ROOT, 'lab', 'research', 'stringer')
   if (!fs.existsSync(dir)) return []
-  return fs.readdirSync(dir).filter(f => f.startsWith('str_') && f.endsWith('.json')).sort().reverse().slice(0, limit)
-    .map(f => { try { return JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')) } catch { return null } }).filter(Boolean)
+  // ids are random strings: "recent" must come from mtime, never from sorting the names
+  return fs.readdirSync(dir).filter(f => /^str_[a-z0-9]+\.json$/.test(f))
+    .map(f => ({ f, m: (() => { try { return fs.statSync(path.join(dir, f)).mtimeMs } catch { return 0 } })() }))
+    .sort((a, b) => b.m - a.m).slice(0, limit)
+    .map(({ f }) => { try { return JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')) } catch { return null } }).filter(Boolean)
 }

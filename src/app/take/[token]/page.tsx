@@ -38,9 +38,19 @@ export default function TakePage({ params }: { params: { token: string } }) {
   const rec = useRef<MediaRecorder | null>(null)
   const chunks = useRef<Blob[]>([])
   const timer = useRef<ReturnType<typeof setInterval> | null>(null)
+  const starting = useRef(false)          // getUserMedia in flight - a second tap must not spawn a second recorder
+  const sendingRef = useRef(false)        // double-tap SEND guard (state is stale within the same render)
+  const phaseRef = useRef(phase)          // live phase for async callbacks (the depth retune lands seconds later)
+  const promptRef = useRef<string | null>(null) // the question as SEEN when answering began - a late retune must not relabel it
+  const nonce = useRef(`${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`) // one key per take: lets the server dedupe a retried save
+  useEffect(() => { phaseRef.current = phase }, [phase])
 
   useEffect(() => {
-    fetch(api).then(r => (r.ok ? r.json() : Promise.reject(new Error(String(r.status))))).then((j: Info) => { setInfo(j); setPhase(j.brief && j.brief.points?.length ? 'brief' : 'follow') }).catch(() => setPhase('dead'))
+    fetch(api).then(r => (r.ok ? r.json() : Promise.reject(new Error(String(r.status))))).then((j: Info & { depth?: string }) => {
+      setInfo(j)
+      if (j.depth) setDepth(j.depth) // the server remembers how they follow the beat - don't re-quiz a returning fan
+      setPhase(j.brief && j.brief.points?.length ? 'brief' : (j.depth ? 'ready' : 'follow'))
+    }).catch(() => setPhase('dead'))
     return () => { if (timer.current) clearInterval(timer.current); try { rec.current?.stream.getTracks().forEach(t => t.stop()) } catch { /* leaving */ } }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -65,14 +75,22 @@ export default function TakePage({ params }: { params: { token: string } }) {
     setDepth(d); setPhase('ready')
     try {
       const j = await (await fetch(api, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ depth: d }) })).json()
-      if (j?.ok && Array.isArray(j.prompts) && j.prompts.length) setInfo(prev => (prev ? { ...prev, prompts: j.prompts } : prev))
+      // the retune is an LLM call and can land AFTER they started answering: never swap the question
+      // out from under a live recording (the saved take would carry a question they never heard)
+      if (j?.ok && Array.isArray(j.prompts) && j.prompts.length && promptRef.current === null && ['brief', 'follow', 'ready'].includes(phaseRef.current))
+        setInfo(prev => (prev ? { ...prev, prompts: j.prompts } : prev))
     } catch { /* keep the default prompts */ }
   }
 
   async function startRecording() {
+    // double-tap guard: getUserMedia can sit behind a multi-second permission prompt; a second tap
+    // in that window used to spawn a second recorder and leave the first one's mic hot forever
+    if (starting.current || rec.current?.state === 'recording') return
+    starting.current = true
+    promptRef.current = prompt // freeze the question they are answering RIGHT NOW
     setErr('')
     let stream: MediaStream
-    try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }) } catch { setErr('Could not use the microphone (this needs an https link on a phone). Type it instead below.'); setPhase('typing'); return }
+    try { stream = await navigator.mediaDevices.getUserMedia({ audio: true }) } catch { starting.current = false; setErr('Could not use the microphone (this needs an https link on a phone). Type it instead below.'); setPhase('typing'); return }
     const mime = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4'].find(m => MediaRecorder.isTypeSupported(m)) || ''
     const r = new MediaRecorder(stream, mime ? { mimeType: mime } : undefined)
     chunks.current = []
@@ -93,8 +111,15 @@ export default function TakePage({ params }: { params: { token: string } }) {
     }
     rec.current = r
     r.start()
+    starting.current = false
     setSecs(0); setPhase('recording')
-    timer.current = setInterval(() => setSecs(s => { if (s >= 299) { try { r.stop() } catch { /* stopped */ } } return s + 1 }), 1000)
+    timer.current = setInterval(() => setSecs(s => {
+      if (s >= 299) {
+        if (timer.current) { clearInterval(timer.current); timer.current = null } // the cap must kill its own clock, or a re-record runs two
+        try { r.stop() } catch { /* stopped */ }
+      }
+      return s + 1
+    }), 1000)
   }
   function stopRecording() { if (timer.current) clearInterval(timer.current); try { rec.current?.stop() } catch { /* not recording */ } }
 
@@ -107,11 +132,14 @@ export default function TakePage({ params }: { params: { token: string } }) {
   }
 
   async function sendTake() {
-    if (!info) return
+    if (!info || sendingRef.current) return // double-tap on SEND used to race two saves into two duplicate takes
+    sendingRef.current = true
     setPhase('sending'); setErr('')
-    const main: Answer = wavName ? { q: prompt, a: transcript, source: 'voice', wav: wavName } : { q: prompt, a: transcript, source: 'typed' }
+    const q = promptRef.current ?? prompt
+    const main: Answer = wavName ? { q, a: transcript, source: 'voice', wav: wavName } : { q, a: transcript, source: 'typed' }
     const extras: Answer[] = fups.map((f, i) => (fupAns[i] ? { q: f.q, a: fupAns[i].a, source: fupAns[i].source } : null)).filter(Boolean) as Answer[]
-    const body = JSON.stringify({ answers: [main, ...extras], ...(takeNo ? { take: takeNo } : {}), ...(depth ? { depth } : {}), prompt, prompts: info.prompts, capped, via: 'link' })
+    // client_key: both retry attempts carry the same key, so the server can spot "that save already landed"
+    const body = JSON.stringify({ answers: [main, ...extras], ...(takeNo ? { take: takeNo } : {}), ...(depth ? { depth } : {}), prompt: q, prompts: info.prompts, capped, via: 'link', client_key: nonce.current })
     // two attempts with a beat between: a tunnel/link blip shouldn't cost the person their take. And a non-JSON
     // body (a tunnel's HTML error page) gets a HUMAN message, not a browser riddle.
     let lastErr = ''
@@ -128,10 +156,16 @@ export default function TakePage({ params }: { params: { token: string } }) {
         if (attempt === 1) await new Promise(r => setTimeout(r, 1500))
       }
     }
+    sendingRef.current = false
     setErr('Could not send it: ' + lastErr + ' — tap SEND again in a few seconds.'); setPhase('followups')
   }
 
-  function reset() { setTranscript(''); setWavName(null); setTakeNo(null); setCapped(false); setTyped(''); setFups([]); setFupAns({}); setFupTyping({}); setErr(''); setPhase(info?.brief?.points?.length ? 'brief' : 'ready') }
+  function reset() {
+    setTranscript(''); setWavName(null); setTakeNo(null); setCapped(false); setTyped(''); setFups([]); setFupAns({}); setFupTyping({}); setErr('')
+    promptRef.current = null; sendingRef.current = false
+    nonce.current = `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}` // a NEW take gets a new dedupe key
+    setPhase(info?.brief?.points?.length ? 'brief' : 'ready')
+  }
 
   const S = styles
   if (phase === 'loading') return <main style={S.page}><p style={S.dim}>One second…</p></main>
@@ -179,12 +213,13 @@ export default function TakePage({ params }: { params: { token: string } }) {
 
       {phase === 'follow' && (
         <section style={S.card}>
-          <p style={S.hello}>Real quick, {info?.person.name} — how do you keep up with the team?</p>
-          <p style={S.dimSmall}>So the questions fit how you actually watch. No wrong answer.</p>
+          {/* works for any beat - football, battle rap, a city council - never "are you a superfan" */}
+          <p style={S.hello}>Real quick, {info?.person.name} — how close do you follow this?</p>
+          <p style={S.dimSmall}>So the questions fit how you actually keep up. No wrong answer.</p>
           <div style={S.chips}>
             {([
-              ['Every snap. I don’t miss a game.', 'diehard'],
-              ['Most games, and I follow the storylines.', 'regular'],
+              ['I catch everything, live when I can.', 'diehard'],
+              ['I keep up with most of it and the storylines.', 'regular'],
               ['Highlights and headlines mostly.', 'casual'],
               ['I check in when something big happens.', 'casual'],
             ] as [string, string][]).map(([label, d], i) => (
@@ -200,7 +235,7 @@ export default function TakePage({ params }: { params: { token: string } }) {
           <p style={S.prompt}>{prompt}</p>
           <button style={S.recBtn} onClick={startRecording}>● &nbsp;HOLD THE FLOOR</button>
           <p style={S.dimSmall}>Tap, talk like you would on the phone, tap again to stop. We keep your exact words.</p>
-          <button style={S.linkBtn} onClick={() => setPhase('typing')}>type it instead</button>
+          <button style={S.linkBtn} onClick={() => { promptRef.current = prompt; setPhase('typing') }}>type it instead</button>
           {info?.brief?.points?.length ? <button style={S.linkBtn} onClick={() => setPhase('brief')}>back to the story</button> : null}
         </section>
       )}
@@ -220,7 +255,7 @@ export default function TakePage({ params }: { params: { token: string } }) {
         <section style={S.card}>
           <p style={S.dimSmall}>HERE&apos;S WHAT WE GOT{capped ? ' (first 3 minutes)' : ''}:</p>
           <blockquote style={S.quote}>&ldquo;{transcript}&rdquo;</blockquote>
-          <button style={S.mainBtn} onClick={() => loadFollowups(prompt, transcript)}>THAT&apos;S MY TAKE →</button>
+          <button style={S.mainBtn} onClick={() => loadFollowups(promptRef.current ?? prompt, transcript)}>THAT&apos;S MY TAKE →</button>
           <button style={S.linkBtn} onClick={() => { setErr(''); setPhase('ready') }}>re-record it</button>
         </section>
       )}
@@ -229,7 +264,7 @@ export default function TakePage({ params }: { params: { token: string } }) {
         <section style={S.card}>
           <p style={S.prompt}>{prompt}</p>
           <textarea style={S.ta} rows={6} value={typed} onChange={e => setTyped(e.target.value)} placeholder="Say it in your own words…" />
-          <button style={S.mainBtn} disabled={!typed.trim()} onClick={() => { setTranscript(typed.trim()); setWavName(null); loadFollowups(prompt, typed.trim()) }}>THAT&apos;S MY TAKE →</button>
+          <button style={S.mainBtn} disabled={!typed.trim()} onClick={() => { setTranscript(typed.trim()); setWavName(null); loadFollowups(promptRef.current ?? prompt, typed.trim()) }}>THAT&apos;S MY TAKE →</button>
           <button style={S.linkBtn} onClick={() => setPhase('ready')}>try recording instead</button>
         </section>
       )}

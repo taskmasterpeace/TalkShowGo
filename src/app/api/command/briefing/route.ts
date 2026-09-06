@@ -32,7 +32,7 @@ export async function POST(req: Request) {
     appendLog({ kind: 'briefing', stage: 'evidence', ok: false, ref: b.stringer_id, summary: `briefing · ${b.stringer_id} has no cited evidence · ${stringer.assignment?.text || ''}`, error: 'dossier has no cited evidence to build from' })
     return NextResponse.json({ ok: false, error: 'dossier has no cited evidence to build from', stage: 'evidence', retryable: false }, { status: 422 })
   }
-  const moveCount = Math.min(8, Math.max(3, b.move_count || 5))
+  const moveCount = Math.min(8, Math.max(3, Number(b.move_count) || 5)) // Number() first: "abc" was riding NaN into the prompt
   const t = logTimer()
   try {
     const briefing = await buildBriefing(stringer, String(b.final_question).slice(0, 300), moveCount)

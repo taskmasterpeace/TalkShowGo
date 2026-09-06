@@ -10,9 +10,10 @@
  *        node lab/engine/dossier_report.mjs --latest[=N]           the newest N dossiers (default 1)
  */
 import fs from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 const ARG = Object.fromEntries(process.argv.slice(2).map(a => { const m = a.match(/^--([^=]+)=?(.*)$/); return m ? [m[1], m[2] || true] : [a, true] }))
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '..', '..')
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
 const SDIR = path.join(ROOT, 'lab', 'research', 'stringer')
 const readKey = n => { if (process.env[n]) return process.env[n].trim(); try { const m = fs.readFileSync(path.join(ROOT, '.env'), 'utf8').match(new RegExp('^' + n + '=(.+)$', 'm')); if (m) return m[1].trim() } catch {} try { const v = JSON.parse(fs.readFileSync(path.join(ROOT, 'lab', 'settings', 'keys.json'), 'utf8'))[n]; if (v) return String(v).trim() } catch {} return '' }
 
@@ -32,7 +33,8 @@ Only what the evidence actually supports - never invent. People = humans only. I
     signal: AbortSignal.timeout(60000),
   })
   const j = await r.json()
-  try { return JSON.parse(j.choices[0].message.content) } catch { return { people: [], orgs: [], incidents: [], storylines: [] } }
+  // a failed extraction must READ as failed, never as "research found nobody"
+  try { return JSON.parse(j.choices[0].message.content) } catch { return { people: [], orgs: [], incidents: [], storylines: [], _failed: String(j?.error?.message || 'model returned no parseable JSON').slice(0, 120) } }
 }
 
 async function report(id) {

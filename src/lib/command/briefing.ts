@@ -7,7 +7,7 @@ import path from 'node:path'
 import { loadConfig } from './stringer'
 
 const ROOT = process.cwd()
-const OR_KEY = process.env.OPENROUTER_API_KEY
+const OR_KEY = () => process.env.OPENROUTER_API_KEY // per-call: a key saved in SETTINGS works without a restart
 
 const SYS = `You build an IMPARTIAL BRIEFING that walks a person to an INFORMED opinion, then asks them a question. You are given an evidence ledger (each entry: id, claim, truth_label, source) and THE QUESTION the show will ask.
 Produce an ordered sequence of MOVES that build the context needed to answer the question well. HARD RULES:
@@ -20,14 +20,14 @@ Output STRICT JSON only:
 importance 1(low)-5(high). The QUESTION is provided separately and is NOT a move.`
 
 export async function buildBriefing(stringer: any, finalQuestion: string, moveCount = 5) {
-  if (!OR_KEY) throw new Error('OPENROUTER_API_KEY missing')
+  if (!OR_KEY()) throw new Error('OPENROUTER_API_KEY missing')
   const cfg = loadConfig()
   const ledger = (stringer.evidence || []).filter((e: any) => e.valid_source)
   const ledgerText = ledger.map((e: any) => `${e.id} [${e.truth_label} | ${e.source_name || '?'}] ${e.claim}`).join('\n')
   const user = `THE QUESTION (do not answer it, build toward it): ${finalQuestion}\n\nAim for ${moveCount} moves.\n\nEVIDENCE LEDGER:\n${ledgerText}`
   const t0 = Date.now()
   const r = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-    method: 'POST', headers: { Authorization: 'Bearer ' + OR_KEY, 'Content-Type': 'application/json' },
+    method: 'POST', headers: { Authorization: 'Bearer ' + OR_KEY(), 'Content-Type': 'application/json' },
     body: JSON.stringify({ model: cfg.parser?.model || 'google/gemini-2.5-flash-lite', temperature: 0.2, max_tokens: 3500, response_format: { type: 'json_object' }, messages: [{ role: 'system', content: SYS }, { role: 'user', content: user }] }),
     signal: AbortSignal.timeout(90000),
   })
@@ -61,12 +61,17 @@ export async function buildBriefing(stringer: any, finalQuestion: string, moveCo
 export function saveBriefing(b: any) {
   const dir = path.join(ROOT, 'lab', 'briefings')
   fs.mkdirSync(dir, { recursive: true })
-  fs.writeFileSync(path.join(dir, b.id + '.json'), JSON.stringify(b, null, 2) + '\n')
+  const bp = path.join(dir, b.id + '.json')
+  fs.writeFileSync(bp + '.tmp', JSON.stringify(b, null, 2) + '\n'); fs.renameSync(bp + '.tmp', bp) // atomic: a torn artifact 500s every later read
 }
 
 export function listBriefings(limit = 12): any[] {
   const dir = path.join(ROOT, 'lab', 'briefings')
   if (!fs.existsSync(dir)) return []
-  return fs.readdirSync(dir).filter(f => f.startsWith('brf_') && f.endsWith('.json')).sort().reverse().slice(0, limit)
-    .map(f => { try { return JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')) } catch { return null } }).filter(Boolean)
+  // exact-shape filter: brf_x.agents.json siblings are cast deliveries, not briefings; and ids are
+  // RANDOM strings, so "recent" must come from mtime, never from sorting the names
+  return fs.readdirSync(dir).filter(f => /^brf_[a-z0-9]+\.json$/.test(f))
+    .map(f => ({ f, m: (() => { try { return fs.statSync(path.join(dir, f)).mtimeMs } catch { return 0 } })() }))
+    .sort((a, b) => b.m - a.m).slice(0, limit)
+    .map(({ f }) => { try { return JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')) } catch { return null } }).filter(Boolean)
 }

@@ -19,7 +19,7 @@ export const dynamic = 'force-dynamic'
 export const maxDuration = 60
 
 // the LOG page lists every kind it meets in the file, so a new kind needs no edit to log.ts (another workstream's file)
-const KIND = 'settings' as LogKind
+const KIND: LogKind = 'settings'
 const row = (name: KeyName) => describeKeys().find(k => k.name === name) || null
 const bad = (error: string, status = 400) => NextResponse.json({ ok: false, error }, { status })
 

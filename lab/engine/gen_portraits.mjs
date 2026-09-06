@@ -6,10 +6,11 @@
  * Usage: node lab/engine/gen_portraits.mjs [id]     (no id = every subject missing on disk; an id = force that one)
  */
 import fs from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '..', '..')
-const AENV = fs.readFileSync('D:/git/aiobr/.env', 'utf8')
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
+const AENV = (() => { try { return fs.readFileSync('D:/git/aiobr/.env', 'utf8') } catch { console.error('gen_portraits needs DP keys from D:/git/aiobr/.env (not found on this machine) - set DP_API_KEY/DP_BASE_URL in this repo\'s .env instead'); return (() => { try { return fs.readFileSync(path.join(ROOT, '.env'), 'utf8') } catch { return '' } })() } })()
 const KEY = (AENV.match(/^DP_API_KEY=(.+)$/m) || [])[1]
 const BASE = ((AENV.match(/^DP_BASE_URL=(.+)$/m) || [])[1] || '').replace(/\/$/, '')
 if (!KEY || !BASE) { console.error('no DP creds in aiobr .env'); process.exit(1) }

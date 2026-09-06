@@ -8,6 +8,7 @@
  * end-name tic, catchphrase cap, exemplar/self repeat) are a per-host dial - cast.json `guards.style:false` turns them off.
  */
 import fs from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 
 const ARG = Object.fromEntries(process.argv.slice(2).map(a => { const m = a.match(/^--([^=]+)=?(.*)$/); return m ? [m[1], m[2] || true] : [a, true] }))
@@ -27,7 +28,7 @@ function heartbeat(turnNo, maxTurns, spoken, target) {
     fs.writeFileSync(STATUS_PATH + '.tmp', next); fs.renameSync(STATUS_PATH + '.tmp', STATUS_PATH)   // atomic: a reader never sees a torn file
   } catch { /* heartbeat is best-effort */ }
 }
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1')), '..', '..')
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..')
 const OLLAMA = process.env.ENGINE_OLLAMA_URL || 'http://192.168.1.249:11434'
 const MODELS = {
   'tasha-raw': process.env.ENGINE_MODEL_TASHA || 'hf.co/bartowski/NousResearch_Hermes-4-70B-GGUF:Q4_K_M',
@@ -308,14 +309,24 @@ async function main() {
       // end-name tic: ending every line with your opponent's name reads fake fast
       const endsWithName = l => /,?\s+(marcus|blaze|tasha|king|knowledge|champagne|dwayne)[.!?"']*\s*$/i.test(l.trim())
       if (endsWithName(line) && turns.filter(t => t.id === hostId && endsWithName(t.line)).length >= 2) return 'you keep ending your lines with his name - it has become a tic; end this line on the POINT instead'
-      // catchphrase law: yours max once per episode, another host's NEVER
+      // catchphrase law: yours max once per episode, another host's NEVER.
+      // Match on the SPACELESS line (multi-word phrases like "I said what I said" never matched the old
+      // word-by-word check), and treat a short common-word signature ("Anyway.") as a match only when it
+      // stands as its own sentence - otherwise every host lost turns for saying the ordinary word.
+      const flatTxt = s => String(s).toLowerCase().replace(/[^a-z]/g, '')
+      const escRe = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
       for (const h of cast.hosts) for (const c of (h.catchphrase_rare || [])) {
-        const stem = c.toLowerCase().replace(/[^a-z]/g, '').slice(0, Math.max(4, c.length - 2)) // "Periodt" also catches the "Period." dodge
-        const hasIt = l => l.toLowerCase().replace(/[^a-z ]/g, '').split(/\s+/).some(w => w.startsWith(stem))
-        if (hasIt(line)) {
-          if (h.id !== hostId) return `"${c}" is ${h.name}'s signature, not yours - never use another host's words`
-          if (turns.some(t => t.id === hostId && hasIt(t.line))) return `you already used your catchphrase "${c}" (or a variant of it) this episode - once is the cap`
-        }
+        const f = flatTxt(c)
+        if (f.length < 4) continue
+        const distinctive = f.length >= 7 || c.trim().includes(' ') // 7 keeps "Periodt" policeable by stem; "Anyway" (6) stays sentence-only
+        const stem = f.slice(0, Math.max(6, f.length - 2)) // "Periodt" also catches the "Period." dodge
+        const core = escRe(c.trim().replace(/[.!?…]+$/, ''))
+        const hasIt = distinctive
+          ? (l => flatTxt(l).includes(stem))
+          : (l => new RegExp(`(^|[.!?…]["']?\\s*)${core}\\s*[.!?…]`, 'i').test(String(l).trim())) // standalone-sentence use only
+        if (!hasIt(line)) continue
+        if (h.id !== hostId) { if (distinctive) return `"${c}" is ${h.name}'s signature, not yours - never use another host's words`; continue }
+        if (turns.some(t => t.id === hostId && hasIt(t.line))) return `you already used your catchphrase "${c}" (or a variant of it) this episode - once is the cap`
       }
       // exemplar / self repeat: a draft that is mostly the room's last lines or the host's own known lines
       const recent = turns.slice(-3).map(t => t.line)
@@ -381,7 +392,9 @@ async function main() {
   function seatHuman(slot) {
     usedSlots.add(slot.key)
     const name = (hosts[slot.host]?.name || slot.name || slot.host).toUpperCase()
-    turns.push({ id: slot.host, name, line: slot.text, delivery: 'in their own voice', addressed_to: null, evidence: [], tag: 'delegate', ms: 0, noMerge: true, verbatim: true })
+    // same em-dash scrub every rendered line gets: the editorial gate compares out.includes(t.line)
+    // against the SCRUBBED transcript, so an unscrubbed verbatim line here made punch/mix auto-reject forever
+    turns.push({ id: slot.host, name, line: String(slot.text).replace(/—/g, '...').trim(), delivery: 'in their own voice', addressed_to: null, evidence: [], tag: 'delegate', ms: 0, noMerge: true, verbatim: true })
     spoken += words(slot.text); turnNo++
     heartbeat(turnNo, beat.max_turns, spoken, beat.target_spoken_words)
     console.error(`turn ${turnNo} ${slot.host} [delegate, verbatim] ${words(slot.text)}w :: ${slot.text.slice(0, 70)}`)
@@ -443,8 +456,11 @@ async function main() {
     const slot = (beat.human_slots || []).find(s => !usedSlots.has(s.key) && spoken >= s.after_words)
     if (slot) { seatHuman(slot); continue }
     const pick = pickNext()
-    // quiet host emits backchannel instead of a turn while holding
-    if (pick.id === beat.kk_drop.host && !kkDropped && !isMod(pick.id) && rand() < hosts[pick.id].behavior.backchannel_rate) { backchannel(pick.id); continue }
+    // quiet host emits backchannel instead of a turn while holding - but ONLY an uninstructed turn.
+    // pickNext already consumed the beat (detonation armed, waypoint advanced, reaction cleared), so
+    // swallowing a SCRIPTED pick here meant the withheld receipt could become "Mm." and never fire
+    // while the room reacted to a detonation nobody heard.
+    if (!pick.instruction && pick.id === beat.kk_drop.host && !kkDropped && !isMod(pick.id) && rand() < hosts[pick.id].behavior.backchannel_rate) { backchannel(pick.id); continue }
     await speak(pick.id, pick.instruction, pick.tag)
     // losing bidder backchannels occasionally - but never the moderator (a desk anchor doesn't murmur)
     if (rand() < 0.3) { const others = speakers.filter(h => h.id !== turns[turns.length - 1].id && !isMod(h.id)); const b = others[Math.floor(rand() * others.length)]; if (b && rand() < b.behavior.backchannel_rate) backchannel(b.id) }
@@ -453,7 +469,9 @@ async function main() {
   for (const s of (beat.human_slots || [])) if (!usedSlots.has(s.key)) { seatHuman(s); if (pendingReact) { const p = pendingReact; pendingReact = null; await speak(p.id, p.instruction, p.tag) } }
   if (!kkDropped) await speak(beat.kk_drop.host, beat.kk_drop.instruction)
   const lastRealEnd = [...turns].reverse().find(t => !t.bc)
-  const exitHost = lastRealEnd && lastRealEnd.id === beat.exit.host ? (beat.exit.alt_host || 'tasha-raw') : beat.exit.host
+  // alt fallback must be someone ON this card, not a hardcoded OG host a modern desk doesn't seat
+  const altExit = beat.exit.alt_host || Object.keys(hosts).find(id => id !== beat.exit.host) || beat.exit.host
+  const exitHost = lastRealEnd && lastRealEnd.id === beat.exit.host ? altExit : beat.exit.host
   await speak(exitHost, beat.exit.instruction)
 
   // render for output: merge consecutive same-speaker turns, append evidence tags after the spoken line

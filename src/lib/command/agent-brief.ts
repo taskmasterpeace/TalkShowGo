@@ -6,7 +6,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 const ROOT = process.cwd()
-const OR_KEY = process.env.OPENROUTER_API_KEY
+const OR_KEY = () => process.env.OPENROUTER_API_KEY // per-call: a key saved in SETTINGS works without a restart
 const OR_URL = 'https://openrouter.ai/api/v1/chat/completions'
 const CUPCAKE_URL = 'http://192.168.1.249:11434/api/chat'
 // mirror run_floor.mjs FLOOR_SUB: a reasoner's chain-of-thought breaks a strict-JSON stance call, so brief on its fast sibling
@@ -30,12 +30,12 @@ function parseJsonLoose(text: string): any {
 async function callModel(dna: any, sys: string, user: string, o: { temperature: number; maxTokens: number }): Promise<{ text: string; usage: Usage; ms: number; provider: string }> {
   const t0 = Date.now()
   const tryOR = async () => {
-    if (!OR_KEY) throw new Error('OPENROUTER_API_KEY missing')
+    if (!OR_KEY()) throw new Error('OPENROUTER_API_KEY missing')
     // reasoning: 'low' - a reasoning model (sonnet-5, Renee's engine) otherwise burns the token budget thinking and returns malformed/empty JSON for the stance; non-reasoners ignore it
     const body: any = { model: dna.id, temperature: o.temperature, max_tokens: o.maxTokens, response_format: { type: 'json_object' }, reasoning: { effort: 'low' }, messages: [{ role: 'system', content: sys }, { role: 'user', content: user }] }
     // some routes (e.g. Hermes) return empty or 400 under forced json mode; the prompt already demands strict JSON, so drop it and retry once
     for (let attempt = 0; attempt < 3; attempt++) {
-      const r = await fetch(OR_URL, { method: 'POST', headers: { Authorization: 'Bearer ' + OR_KEY, 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(dna.timeout_ms || 90000) })   // big models (405b) need more than 90s on a packed briefing
+      const r = await fetch(OR_URL, { method: 'POST', headers: { Authorization: 'Bearer ' + OR_KEY(), 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: AbortSignal.timeout(dna.timeout_ms || 90000) })   // big models (405b) need more than 90s on a packed briefing
       const j = await r.json()
       if (!r.ok || j.error) {
         const msg = j.error?.message || ('openrouter ' + r.status)
