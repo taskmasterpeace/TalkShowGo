@@ -54,7 +54,8 @@ export async function POST(req: Request) {
 
   // lock one variant (or the upload) as this show's logo
   if (action === 'lockLogo') {
-    const variant = body.variant // 1|2|3 or "upload"
+    const variant = body.variant // 1|2|3 or "upload" - allowlisted: it lands in a filename
+    if (!['1', '2', '3', 'upload', 1, 2, 3].includes(variant)) return NextResponse.json({ error: 'variant must be 1, 2, 3 or "upload"' }, { status: 400 })
     const src = path.join(LOGODIR, `${slug}_${variant}.png`)
     if (!fs.existsSync(src)) return NextResponse.json({ error: 'no such variant' }, { status: 404 })
     fs.copyFileSync(src, path.join(LOGODIR, `${slug}.png`))

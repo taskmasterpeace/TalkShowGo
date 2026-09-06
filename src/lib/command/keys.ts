@@ -288,8 +288,13 @@ async function verifyWith(kind: VerifyKind, name: KeyName, value: string): Promi
       return { ok: true, detail: 'accepted' }
     }
     case 'exe': {
+      // this EXECUTES the given path - never run a network location or a phantom file from a request body
+      // (a UNC path like \\host\share\x.exe would fetch and run remote code; SMB/WebDAV do the fetching)
+      const v = String(value || '').trim()
+      if (/^\\\\|^\/\//.test(v)) return { ok: false, detail: 'network paths are not allowed here - use a local file path' }
+      if (path.isAbsolute(v) && !fs.existsSync(v)) return { ok: false, detail: 'not found at that path' }
       try {
-        const out = execFileSync(value, ['--version'], { timeout: 10000, windowsHide: true, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] })
+        const out = execFileSync(v, ['--version'], { timeout: 10000, windowsHide: true, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] })
         const line = String(out || '').split('\n').map(s => s.trim()).find(Boolean) || 'ran (no version text)'
         return { ok: true, detail: clip(line, 90) }
       } catch (e: any) {

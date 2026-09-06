@@ -90,18 +90,19 @@ export async function GET(req: Request) {
 /** POST {file, action:'resolve'} — resolve each youtube channel_name to a real channel + latest upload,
  *  via the repo's codified free client (youtubei.js). Writes results into the beat. */
 export async function POST(req: Request) {
-  const { file, action } = await req.json()
+  const { file, action } = await req.json().catch(() => ({} as any))
   if (action !== 'resolve') return NextResponse.json({ error: 'unknown action' }, { status: 400 })
   if (!/^[a-z0-9-]+\.json$/.test(file || '')) return NextResponse.json({ error: 'bad file' }, { status: 400 })
   const p = path.join(ROOT, 'lab', 'beats', file)
-  const beat = JSON.parse(fs.readFileSync(p, 'utf8'))
+  let beat: any
+  try { beat = JSON.parse(fs.readFileSync(p, 'utf8')) } catch { return NextResponse.json({ error: 'beat unreadable' }, { status: 404 }) }
   const today = new Date().toISOString().slice(0, 10)
 
   const { Innertube } = await import('youtubei.js')
   const yt = await Innertube.create({ retrieve_player: false })
   const log: string[] = []
 
-  for (const ch of beat.sources.youtube || []) {
+  for (const ch of beat.sources?.youtube || []) {
     if (!ch.channel_name) continue
     try {
       const res: any = await yt.search(ch.channel_name, { type: 'channel' })
@@ -131,6 +132,12 @@ export async function POST(req: Request) {
       log.push(`ERR ${ch.channel_name}`)
     }
   }
-  fs.writeFileSync(p, JSON.stringify(beat, null, 2) + '\n')
-  return NextResponse.json({ ok: true, log, beat })
+  // the loop above holds the beat across many network calls: re-read NOW and carry over ONLY the
+  // youtube rows we resolved, so anything else written meanwhile (a minted token, a scout add) survives
+  let fresh: any
+  try { fresh = JSON.parse(fs.readFileSync(p, 'utf8')) } catch { return NextResponse.json({ error: 'beat unreadable on re-read - nothing written', log }, { status: 500 }) }
+  fresh.sources = fresh.sources || {}
+  fresh.sources.youtube = beat.sources?.youtube || []
+  fs.writeFileSync(p + '.tmp', JSON.stringify(fresh, null, 2) + '\n'); fs.renameSync(p + '.tmp', p)
+  return NextResponse.json({ ok: true, log, beat: fresh })
 }

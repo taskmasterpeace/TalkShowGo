@@ -10,10 +10,26 @@ export const dynamic = 'force-dynamic'
 const ROOT = process.cwd()
 const j = (p: string) => { try { return JSON.parse(fs.readFileSync(p, 'utf8')) } catch { return null } }
 
+// the cupcake lamp is a courtesy, not worth stalling every page load for: probe fast, remember for a minute
+// (every command page + the layout's ShowSwitcher hit this route; off-LAN that was a 4s stall apiece)
+let gwCache: { at: number; ok: boolean } | null = null
+async function gatewayHealth(): Promise<boolean> {
+  if (gwCache && Date.now() - gwCache.at < 60000) return gwCache.ok
+  let ok = false
+  try { ok = (await fetch((process.env.CUPCAKE_GATEWAY_URL || 'http://192.168.1.249:8700') + '/v1/health', { signal: AbortSignal.timeout(1500) })).ok } catch { ok = false }
+  gwCache = { at: Date.now(), ok }
+  return ok
+}
+
 export async function GET() {
   const beatsDir = path.join(ROOT, 'lab', 'beats')
   const beats = fs.existsSync(beatsDir)
-    ? fs.readdirSync(beatsDir).filter(f => f.endsWith('.json')).map(f => ({ file: f, ...j(path.join(beatsDir, f)) }))
+    ? fs.readdirSync(beatsDir).filter(f => f.endsWith('.json')).map(f => {
+        const beat = { file: f, ...j(path.join(beatsDir, f)) } as any
+        // tokens ARE the take links' whole auth - this aggregate view never needs them (the PEOPLE page fetches its own)
+        if (Array.isArray(beat.people)) beat.people = beat.people.map((p: any) => ({ ...p, token: undefined }))
+        return beat
+      })
     : []
 
   const cast = j(path.join(ROOT, 'lab', 'cast', 'cast.json'))
@@ -50,15 +66,16 @@ export async function GET() {
   const production_skins = j(path.join(ROOT, 'lab', 'production_skins.json'))
   const models = j(path.join(ROOT, 'lab', 'models.json'))
 
-  // health lamps
+  // health lamps - keys law: hydrated process.env is the truth (SETTINGS saves land there), .env is the cold-boot fallback
   const env = (() => { try { return fs.readFileSync(path.join(ROOT, '.env'), 'utf8') } catch { return '' } })()
+  const has = (name: string) => !!process.env[name] || new RegExp(`^${name}=.+`, 'm').test(env)
   const health: Record<string, boolean | null> = {
-    twitter_key: /TWITTERAPI_IO_KEY=.+/.test(env),
-    gateway_key: /CUPCAKE_GATEWAY_KEY=.+/.test(env),
+    twitter_key: has('TWITTERAPI_IO_KEY'),
+    gateway_key: has('CUPCAKE_GATEWAY_KEY'),
     gateway: null,
     breeze_refs: voices.length >= 3,
-    openrouter_key: /OPENROUTER_API_KEY=.+/.test(env),
-    perplexity_key: /PERPLEXITY_API_KEY=.+/.test(env),
+    openrouter_key: has('OPENROUTER_API_KEY'),
+    perplexity_key: has('PERPLEXITY_API_KEY'),
     ytdlp: fs.existsSync(process.env.YTDLP_PATH || 'C:/Users/taskm/AppData/Local/Programs/Python/Python313/Scripts/yt-dlp.exe'),
   }
   const stringers = listStringers(60)   // enough history that per-show filtering on the Research Desk still has material
@@ -80,10 +97,7 @@ export async function GET() {
         return { slug: d, stage: stale ? 'error' : s.stage, stale, pct: s.pct, message: stale ? `stopped reporting during ${s.stage}` : s.message, question: s.question || null, briefing: s.briefing || null, beat: s.beat || briefingBeat[s.briefing] || null, started: s.started || null, updated: s.updated || null, age_s, duration_s: s.duration_s || null, lines: s.lines || null, voice_engine: s.voice_engine || null, pid: s.pid || null, audio_url: s.audio ? `/api/command/audio/shows/${d}/${path.basename(s.audio)}` : null }
       }).filter(Boolean).sort((a: any, b: any) => String(b.started || '').localeCompare(String(a.started || '')))
     : []
-  try {
-    const r = await fetch('http://192.168.1.249:8700/v1/health', { signal: AbortSignal.timeout(4000) })
-    health.gateway = r.ok
-  } catch { health.gateway = false }
+  health.gateway = await gatewayHealth()
 
   return NextResponse.json({ beats, cast, guests, voices, images, audio, manifest, runs, pulls, topics, topicsAll, formats, production_skins, models, stringers, briefings, shows, health })
 }
