@@ -1,0 +1,244 @@
+[
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Good evening, folks. Final score, South Carolina State 31, Florida A&M 13. Was that the trenches, the quarterback play, or the coaching that opened that gap?",
+    "delivery": "even, setting the frame",
+    "addressed_to": "null",
+    "evidence": [
+      "E001"
+    ],
+    "tag": null,
+    "ms": 3174,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Well, Renee, when you look at the tape, the signal-callers really struggled. FAMU's Isaiah Knowles only completed 7 of 22 passes.",
+    "delivery": "focused, smooth delivery",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E008"
+    ],
+    "tag": "interrupting",
+    "ms": 1431,
+    "noMerge": false
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, sacks and shut downs don’t lie...FAMU’s line folded before Knowles even got a chance. Pressure bred panic, and that’s on the trenches, no cap.",
+    "delivery": "confident, decisive",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E002",
+      "E003",
+      "E004"
+    ],
+    "tag": null,
+    "ms": 2161,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Look, Cassius, I hear you, but even with pressure, Keely Watson for SCSU threw two picks, one for an 80-yard touchdown. That's on the signal-caller.",
+    "delivery": "friendly-pushback",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 1448,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Cassius, if the line dictated everything, how does Watson still cough up two picks against that same pressure? Explain that gap.",
+    "delivery": "pointed, level challenge",
+    "addressed_to": "cassius-wynn",
+    "evidence": [],
+    "tag": null,
+    "ms": 4242,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, Watson's picks? That's the fallout from his line getting ghosted all night. You can't throw from a collapsing pocket...FAMU's front four got exposed, and that broke their QB's rhythm.",
+    "delivery": "firm and explanatory",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E002",
+      "E003",
+      "E004"
+    ],
+    "tag": null,
+    "ms": 1554,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "I get that, Cassius, but even ClutchPoints.com said SCSU needs to figure out their quarterback situation, and FAMU's coaching staff has 'a lot to reassess.'",
+    "delivery": "friendly-pushback, serious",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E011",
+      "E012"
+    ],
+    "tag": null,
+    "ms": 1394,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, no shade to the QBs, but the story's the frontline...FAMU's O-line got steamrolled by SCSU's front four, pressure so tight it sealed the trenches' win.",
+    "delivery": "firm and rhythmic",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E004"
+    ],
+    "tag": "interrupting",
+    "ms": 1699,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Cassius, you can't overlook those two interceptions from Keely Watson, especially one going 80 yards the other way. That's a huge swing, regardless of the pocket.",
+    "delivery": "friendly but firm",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E007"
+    ],
+    "tag": null,
+    "ms": 3497,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, interceptions hot, but defense controlled the clock and the cadence...set every snap’s tone before QBs even blinked. Trenches wrote the script, made the game one-sided.",
+    "delivery": "firm and rhythmic",
+    "addressed_to": "andrew-hammond",
+    "evidence": [],
+    "tag": null,
+    "ms": 1824,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "But Cassius, when Keely Watson throws two picks, including that 80-yard house call, that's a momentum killer and a coaching adjustment opportunity missed. You gotta give the QBs credit for that impact.",
+    "delivery": "firm, but friendly",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E007",
+      "E012"
+    ],
+    "tag": null,
+    "ms": 4017,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Here's the thing both of you keep skipping past.",
+    "delivery": "level, unhurried, reframing",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E001"
+    ],
+    "tag": null,
+    "ms": 4251,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Right.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Renee, the box score tells a clear story: Knowles was 7-for-22, and Watson tossed two costly interceptions. That's a quarterback problem.",
+    "delivery": "firm, but friendly",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E008",
+      "E007"
+    ],
+    "tag": null,
+    "ms": 1386,
+    "noMerge": false
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Andrew, a stat line tells you what happened, not why. Cassius says the pocket caused those numbers, you're saying the numbers stand alone. Which is it?",
+    "delivery": "level, pressing for clarity",
+    "addressed_to": "andrew-hammond",
+    "evidence": [],
+    "tag": null,
+    "ms": 3504,
+    "noMerge": false
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Mm.",
+    "delivery": "under them",
+    "addressed_to": null,
+    "evidence": [],
+    "tag": null,
+    "ms": 0,
+    "bc": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, I respect the QB spotlight...but a crumbling front line don't just mess with timing, it breaks the whole offense’s back, and the stat sheet just echoes that pain.",
+    "delivery": "slow, deliberate emphasis",
+    "addressed_to": "andrew-hammond",
+    "evidence": [
+      "E002",
+      "E003",
+      "E004"
+    ],
+    "tag": "interrupting",
+    "ms": 1911,
+    "noMerge": false
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Both sides have a case that survives the follow-up, and neither of you has closed it. We leave this one open tonight, and pick the thread back up next time.",
+    "delivery": "level, wrapping without resolving",
+    "addressed_to": "null",
+    "evidence": [],
+    "tag": null,
+    "ms": 9204,
+    "noMerge": true
+  }
+]

@@ -1,0 +1,25 @@
+{
+  "beat": "sc-state",
+  "show": "SOUTH CAROLINA STATE BULLDOGS DAILY",
+  "kind": "postgame",
+  "answers": "scstate-famu-s1",
+  "desk": [
+    "renee-vaughn",
+    "cassius-wynn",
+    "andrew-hammond"
+  ],
+  "game": {
+    "winner": "South Carolina State Bulldogs",
+    "loser": "Florida A&M",
+    "score": "31-13"
+  },
+  "questions": [
+    "reckoning:Florida A&M",
+    "South Carolina State Bulldogs beat Florida A&M 31-13: what actually decided the game - the trenches, the quarterbacks, or the coaching?"
+  ],
+  "segments": [
+    "scstate-famu-s1-reckoning",
+    "scstate-famu-s1-postgame"
+  ],
+  "built_at": "2026-09-07T15:37:41.366Z"
+}

@@ -25,7 +25,8 @@
     "check:ai": "curl -s http://localhost:11434/api/tags",
     "check:voice": "curl -s http://localhost:8765/health",
     "check:db": "docker exec tsg-postgres pg_isready -U postgres",
-    "scheduler:start": "start-scheduler.bat"
+    "scheduler:start": "start-scheduler.bat",
+    "show:postgame": "node lab/engine/postgame.mjs"
   },
   "dependencies": {
     "@floating-ui/react": "^0.26.28",

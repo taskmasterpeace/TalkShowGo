@@ -2,19 +2,6 @@
   "id": "andrew-hammond",
   "entries": [
     {
-      "show": "atlanta-falcons-2026-team-captains-bijan-erpzy5-102924",
-      "beat": "atlanta-falcons-2026-team-captains-bijan",
-      "date": "2026-09-04",
-      "question": "Did the Falcons pick the right captains for this season, or not?",
-      "stance": "The Falcons made a sound decision appointing a diverse group of leaders representing all key units, a textbook approach to fostering team identity and leadership.",
-      "said": [
-        "Well, Mike, you know, when you see a guy like Divine Deablo representing the defense, and then you've got Jessie Bates right there, it certainly feels like a cohesive unit, doesn't it?",
-        "And Mike, that's exactly it! When you've got leaders like Chris Lindstrom for offense, Nick Folk on special teams, and yes, Divine Deablo for defense, that's how you truly foster team identity.",
-        "Renee, the numbers tell a story too, with seven captains on the field, representing offense, defense, and special teams. That's a full roster of leaders, plain and simple."
-      ],
-      "closing": "And Mike, you're right, that announcement certainly sets the tone, but the real proof, as always, will be when they hit the field this season."
-    },
-    {
       "show": "atlanta-falcons-2026-team-captains-bijan-pfjoz9",
       "beat": "atlanta-falcons-2026-team-captains-bijan",
       "date": "2026-09-04",
@@ -312,6 +299,19 @@
         "A three-star recruit, still got eligibility? Okay, Cassius, that's a real talent upgrade for the trenches, but even a fresh line needs a game plan to stop a dynamic runner like Reed."
       ],
       "closing": "Look, Cassius, you're right, those pancakes are real, but even a great line can't cover for a quarterback who can't consistently connect on throws downfield, and Marcel Reed can make those wow throws."
+    },
+    {
+      "show": "scstate-famu-s1-postgame",
+      "beat": "south-carolina-state-bulldogs-beat-flori",
+      "date": "2026-09-07",
+      "question": "South Carolina State Bulldogs beat Florida A&M 31-13: what actually decided the game - the trenches, the quarterbacks, or the coaching?",
+      "stance": "NO, the quarterbacks and coaching were the real deciding factors: FAMU’s Isaiah Knowles struggled with 7-for-22 passing and SCSU’s Keely Watson threw two costly interceptions, while coaching decisions on both sides shaped the flow and outcome.",
+      "said": [
+        "But Cassius, when Keely Watson throws two picks, including that 80-yard house call, that's a momentum killer and a coaching adjustment opportunity missed. You gotta give the QBs credit for that impact.",
+        "Cassius, you can't overlook those two interceptions from Keely Watson, especially one going 80 yards the other way. That's a huge swing, regardless of the pocket.",
+        "Look, Cassius, I hear you, but even with pressure, Keely Watson for SCSU threw two picks, one for an 80-yard touchdown. That's on the signal-caller."
+      ],
+      "closing": "Renee, the box score tells a clear story: Knowles was 7-for-22, and Watson tossed two costly interceptions. That's a quarterback problem."
     }
   ],
   "name": "Andrew Hammond"

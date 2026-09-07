@@ -1,0 +1,103 @@
+{
+  "topic": "South Carolina State Bulldogs beat Florida A&M 31-13: what actually decided the game - the trenches, the quarterbacks, or the coaching?",
+  "compiled": "2026-09-07T15:36:22.058Z",
+  "question": "South Carolina State Bulldogs beat Florida A&M 31-13: what actually decided the game - the trenches, the quarterbacks, or the coaching?",
+  "entries": [
+    {
+      "id": "E001",
+      "claim": "South Carolina State defeated Florida A&M with a final score of 31-13.",
+      "source_name": "wach.com",
+      "source_type": "research",
+      "url": "https://wach.com/sports/college/south-carolina-state-knocks-off-famu-31-13",
+      "tier": "FACT"
+    },
+    {
+      "id": "E002",
+      "claim": "SCSU's defensive line contributed 4.5 sacks and limited FAMU to 161 total yards.",
+      "source_name": "hbcusports.com",
+      "source_type": "research",
+      "url": "https://hbcusports.com/2026/09/06/five-takeaways-from-south-carolina-states-orange-blossom-classic-win-over-florida-am/",
+      "tier": "FACT"
+    },
+    {
+      "id": "E003",
+      "claim": "SCSU's defensive line 'overwhelmed Florida A&M's offense,' holding them to -1 rushing yards.",
+      "source_name": "clutchpoints.com",
+      "source_type": "research",
+      "url": "https://clutchpoints.com/hbcu/three-thoughts-on-south-carolina-states-decisive-victory-over-florida-am",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E004",
+      "claim": "FAMU's offensive line struggled against the pressure applied by SCSU's front four.",
+      "source_name": "clutchpoints.com",
+      "source_type": "research",
+      "url": "https://clutchpoints.com/hbcu/three-thoughts-on-south-carolina-states-decisive-victory-over-florida-am",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E005",
+      "claim": "SCSU utilized two quarterbacks, Keely Watson and Ronnie Watson.",
+      "source_name": "famuathletics.com",
+      "source_type": "research",
+      "url": "https://famuathletics.com/news/2026/9/6/football-famu-stumbles-to-scsu-in-orange-blossom-classic.aspx",
+      "tier": "FACT"
+    },
+    {
+      "id": "E006",
+      "claim": "Keely Watson completed 10 of 17 passes for 168 yards.",
+      "source_name": "famuathletics.com",
+      "source_type": "research",
+      "url": "https://famuathletics.com/news/2026/9/6/football-famu-stumbles-to-scsu-in-orange-blossom-classic.aspx",
+      "tier": "FACT"
+    },
+    {
+      "id": "E007",
+      "claim": "Keely Watson threw two interceptions, one returned for an 80-yard touchdown by FAMU's Justin Bostic.",
+      "source_name": "famuathletics.com",
+      "source_type": "research",
+      "url": "https://famuathletics.com/news/2026/9/6/football-famu-stumbles-to-scsu-in-orange-blossom-classic.aspx",
+      "tier": "FACT"
+    },
+    {
+      "id": "E008",
+      "claim": "FAMU's quarterback Isaiah Knowles finished the game 7-for-22 with 94 passing yards.",
+      "source_name": "hbcusports.com",
+      "source_type": "research",
+      "url": "https://hbcusports.com/2026/09/06/five-takeaways-from-south-carolina-states-orange-blossom-classic-win-over-florida-am/",
+      "tier": "FACT"
+    },
+    {
+      "id": "E009",
+      "claim": "Mason Pickett-Hicks rushed for 210 yards and two touchdowns on 17 carries.",
+      "source_name": "famuathletics.com",
+      "source_type": "research",
+      "url": "https://famuathletics.com/news/2026/9/6/football-famu-stumbles-to-scsu-in-orange-blossom-classic.aspx",
+      "tier": "FACT"
+    },
+    {
+      "id": "E010",
+      "claim": "SCSU's offense was described as 'a different story' compared to its defense.",
+      "source_name": "clutchpoints.com",
+      "source_type": "research",
+      "url": "https://clutchpoints.com/hbcu/three-thoughts-on-south-carolina-states-decisive-victory-over-florida-am",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E011",
+      "claim": "SCSU's team would need to 'figure out their quarterback situation.'",
+      "source_name": "clutchpoints.com",
+      "source_type": "research",
+      "url": "https://clutchpoints.com/hbcu/three-thoughts-on-south-carolina-states-decisive-victory-over-florida-am",
+      "tier": "ATTRIBUTED_CLAIM"
+    },
+    {
+      "id": "E012",
+      "claim": "FAMU's coaching staff has 'a lot to reassess.'",
+      "source_name": "clutchpoints.com",
+      "source_type": "research",
+      "url": "https://clutchpoints.com/hbcu/three-thoughts-on-south-carolina-states-decisive-victory-over-florida-am",
+      "tier": "ATTRIBUTED_CLAIM"
+    }
+  ]
+}

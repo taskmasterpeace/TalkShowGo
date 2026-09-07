@@ -2,19 +2,6 @@
   "id": "renee-vaughn",
   "entries": [
     {
-      "show": "atlanta-falcons-2026-team-captains-bijan-erpzy5-104325",
-      "beat": "atlanta-falcons-2026-team-captains-bijan",
-      "date": "2026-09-04",
-      "question": "Did the Falcons pick the right captains for this season, or not?",
-      "stance": "MODERATOR: I will not take a side, but press both of you to defend your picks with the facts and explain how these selections represent the team's identity.",
-      "said": [
-        "Good evening. Kevin Stefanski's seven captains cover every unit on this roster, that's confirmed. Mike, Andrew, tell me how that structure actually reflects who this team is, not just who's popular.",
-        "Andrew, you keep repeating that line, but who exactly said it, and where? I need a source before I put it on air.",
-        "Mike, not naming Bijan doesn't settle anything, it just tells us who Stefanski picked, not who's right."
-      ],
-      "closing": "Andrew, you keep repeating that line, but who exactly said it, and where? I need a source before I put it on air."
-    },
-    {
       "show": "are-the-falcons-set-at-quarterback-for-2-rhvfyt",
       "beat": "are-the-falcons-set-at-quarterback-for-2",
       "date": "2026-09-04",
@@ -312,6 +299,19 @@
         "Sixteen pancakes, and he didn't even start the first three games. So which is it, gentlemen, the trenches or the quarterbacks?"
       ],
       "closing": "Both of you keep handing me potential, not proof, so here's where it stands: trenches confirmed, quarterback debated. We'll dig into the coaching angle next week."
+    },
+    {
+      "show": "scstate-famu-s1-postgame",
+      "beat": "south-carolina-state-bulldogs-beat-flori",
+      "date": "2026-09-07",
+      "question": "South Carolina State Bulldogs beat Florida A&M 31-13: what actually decided the game - the trenches, the quarterbacks, or the coaching?",
+      "stance": "MODERATOR: I will stay neutral, pressing both sides to prove whether the trenches or quarterbacks or coaching truly decided this game.",
+      "said": [
+        "Both sides have a case that survives the follow-up, and neither of you has closed it. We leave this one open tonight, and pick the thread back up next time.",
+        "Good evening, folks. Final score, South Carolina State 31, Florida A&M 13. Was that the trenches, the quarterback play, or the coaching that opened that gap?",
+        "Andrew, a stat line tells you what happened, not why. Cassius says the pocket caused those numbers, you're saying the numbers stand alone. Which is it?"
+      ],
+      "closing": "Both sides have a case that survives the follow-up, and neither of you has closed it. We leave this one open tonight, and pick the thread back up next time."
     }
   ],
   "name": "Renee Vaughn"
