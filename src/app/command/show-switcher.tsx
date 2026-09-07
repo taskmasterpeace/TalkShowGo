@@ -23,7 +23,7 @@ export function ShowSwitcher() {
   return (
     <div style={S.bar}>
       <span style={S.rail}>SHOWS</span>
-      <div style={S.scroll}>
+      <div style={S.scroll} className="shows-scroll">
         {shows.map(b => {
           const active = beat?.file === b.file
           const name = String(b.show?.name || b.name || b.id)
@@ -48,7 +48,7 @@ export function ShowSwitcher() {
 const S: Record<string, React.CSSProperties> = {
   bar: { display: 'flex', alignItems: 'stretch', gap: '.5rem', borderBottom: '1px solid var(--cmd-line)', background: 'var(--cmd-bg2, #14110d)', padding: '.5rem .75rem', position: 'sticky', top: 0, zIndex: 20 },
   rail: { alignSelf: 'center', fontFamily: 'var(--font-cmd-mono), monospace', fontSize: '.62rem', letterSpacing: '.25em', color: 'var(--cmd-dim, #8a7f6f)', padding: '0 .5rem 0 0', borderRight: '1px solid var(--cmd-line)' },
-  scroll: { display: 'flex', gap: '.4rem', overflowX: 'auto', flex: 1, scrollbarWidth: 'thin' },
+  scroll: { display: 'flex', gap: '.4rem', overflowX: 'auto', flex: 1, scrollbarWidth: 'none' }, // no visible bar (Robert 2026-09-07); still scrolls by wheel/drag - webkit side hidden in command.css
   tab: { display: 'flex', alignItems: 'center', gap: '.5rem', flex: '0 0 auto', padding: '.35rem .7rem .35rem .4rem', background: 'transparent', border: '1px solid transparent', borderRadius: '.5rem', cursor: 'pointer', color: 'var(--cmd-dim, #9a8f7f)', maxWidth: '15rem' },
   tabOn: { background: 'color-mix(in oklch, var(--cmd-red) 14%, transparent)', border: '1px solid var(--cmd-red)' },
   badge: { width: '2rem', height: '2rem', flex: '0 0 auto', borderRadius: '.4rem', background: '#0d0b08', border: '1px solid var(--cmd-line)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
