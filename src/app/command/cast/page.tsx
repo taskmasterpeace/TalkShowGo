@@ -294,6 +294,21 @@ export default function CastPage() {
                     <div><span style={{ color: 'var(--cmd-red)' }}>BLIND SPOT:</span> {h.print.processing.blind_spot}</div>
                   </div>
                 )}
+                {/* the WHOLE print, readable on demand (Robert 2026-09-07: "can we see the personalities") */}
+                <details className="mt-2">
+                  <summary className="cmd-label" style={{ cursor: 'pointer' }}>▸ FULL PRINT</summary>
+                  <div className="text-xs space-y-2 mt-1" style={{ maxHeight: '22rem', overflowY: 'auto' }}>
+                    {['speech', 'argument', 'emotion', 'knowledge', 'lexicon', 'things_they_say', 'contrast', 'drives'].map(sec => h.print?.[sec] ? (
+                      <div key={sec}>
+                        <div style={{ color: 'var(--cmd-amber)', fontWeight: 700, letterSpacing: '.08em' }}>{sec.replace(/_/g, ' ').toUpperCase()}</div>
+                        {typeof h.print[sec] === 'string' ? <div>{h.print[sec]}</div> : Object.entries(h.print[sec]).map(([k, v]: [string, any]) => (
+                          <div key={k}><span style={{ color: 'var(--cmd-dim)' }}>{k.replace(/_/g, ' ')}:</span> {Array.isArray(v) ? v.join(' · ') : typeof v === 'object' && v ? Object.entries(v).map(([kk, vv]) => `${kk}: ${vv}`).join('  ·  ') : String(v)}</div>
+                        ))}
+                      </div>
+                    ) : null)}
+                    {Array.isArray(h.catchphrase_rare) && h.catchphrase_rare.length ? <div><span style={{ color: 'var(--cmd-amber)', fontWeight: 700 }}>CATCHPHRASE (once per episode):</span> {h.catchphrase_rare.join(' · ')}</div> : null}
+                  </div>
+                </details>
               </div>
             </section>
           )
