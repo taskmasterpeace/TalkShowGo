@@ -20,7 +20,7 @@ judge quality by the TRANSCRIPT** (`segment_final.md`) + the blind Codex judge, 
 > reactions round / drive anatomy / stat-that-bothered-you ritual / the weird detail / the presser review /
 > what-their-side-is-saying / ONE featured collision / look-ahead) fed by a structured GAME PACKET (drives,
 > player lines, injuries, penalties, weather, next game) instead of one question debated to exhaustion.
-> Full analysis: docs/POSTGAME-GAP-ANALYSIS.md. Build: game_packet.mjs -> postgame v2 rundown -> fan voices
+> Full analysis: docs/POSTGAME-GAP-ANALYSIS.md -> APPLICATION-LEVEL REVISION docs/THE-RUNDOWN-ENGINE.md: the round-3 blocks/formats/SHOWPLAN layer already designed this - lab/blocks.json (66 blocks now, 7 new from the distillery) + formats.json base_sequences ARE the rundowns; the build is the SHOWPLAN compiler (compile_rundown.mjs) + builder registry (collision=run_floor, round, scripted-ritual, mono, read-react) + typed STORY PACKETS + the DISTILLERY method per format family. Build: story_packet.mjs -> compile_rundown.mjs -> postgame v2 -> fan voices
 > via take links -> generalize to prep/daily shows.
 > **THE CRITIC PASS (2026-09-08, Robert listened to all six shows; measured across 6 episodes / 230 floor
 > lines / audio gap analysis):** the engine's next war is REPETITION AND RHYTHM, in this order:
