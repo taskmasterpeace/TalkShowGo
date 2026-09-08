@@ -14,6 +14,14 @@ judge quality by the TRANSCRIPT** (`segment_final.md`) + the blind Codex judge, 
 5. If verified better (or neutral + clearly correct), `git -C /d/git/talkshowgo` commit it. Never commit a regression.
 
 ## Roadmap (in priority order)
+> **THE RUNDOWN (2026-09-08, Robert's diagnosis after hearing real postgame shows about OUR game: 'they
+> all act like they're just talking about one subject'):** a real postgame carried SEVENTEEN threads to our
+> two. The architectural fix outranks every prompt tweak: shows become a RUNDOWN of TYPED segments (instant
+> reactions round / drive anatomy / stat-that-bothered-you ritual / the weird detail / the presser review /
+> what-their-side-is-saying / ONE featured collision / look-ahead) fed by a structured GAME PACKET (drives,
+> player lines, injuries, penalties, weather, next game) instead of one question debated to exhaustion.
+> Full analysis: docs/POSTGAME-GAP-ANALYSIS.md. Build: game_packet.mjs -> postgame v2 rundown -> fan voices
+> via take links -> generalize to prep/daily shows.
 > **THE CRITIC PASS (2026-09-08, Robert listened to all six shows; measured across 6 episodes / 230 floor
 > lines / audio gap analysis):** the engine's next war is REPETITION AND RHYTHM, in this order:
 > (1) "Ayo" opens 78% of Cassius lines - no opener-tic guard exists (end-name tic is guarded, line STARTS are not);
