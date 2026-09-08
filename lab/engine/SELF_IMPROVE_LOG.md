@@ -14,6 +14,20 @@ judge quality by the TRANSCRIPT** (`segment_final.md`) + the blind Codex judge, 
 5. If verified better (or neutral + clearly correct), `git -C /d/git/talkshowgo` commit it. Never commit a regression.
 
 ## Roadmap (in priority order)
+> **THE CRITIC PASS (2026-09-08, Robert listened to all six shows; measured across 6 episodes / 230 floor
+> lines / audio gap analysis):** the engine's next war is REPETITION AND RHYTHM, in this order:
+> (1) "Ayo" opens 78% of Cassius lines - no opener-tic guard exists (end-name tic is guarded, line STARTS are not);
+> (2) Andrew opens 64% of lines naming a colleague, Renee 43% - the vocative tic (press-balance's name-targeting
+>     made it worse); (3) a FIXED 0.3s gap between every turn and [interrupting] changes tone but never TIMING -
+> the metronome; (4) turn length locked at 27±5 words across every show - nobody jabs, nobody monologues;
+> (5) 5/6 cold opens are "Welcome back to X! Tonight..." and "time for the closing round" is verbatim in 5 shows -
+> static framing prompts converge; (6) stat drumbeat - "87" said 12x in one episode (number-repetition slips the
+> anaphora guard); (7) Andrew owns 11 of 13 agreement lines - the designated co-signer softening collisions
+> ("Cassius, I hear you but" verbatim in 3 shows); (8) delivery monotony - "confident" 57% of Cassius directions,
+> "level" 68% of Renee's, so each voice sits at one emotional temperature all show. Fix order: guards (openers,
+> vocatives, numbers, agreement) -> render timing (variable gaps, real overlap on [interrupting], backchannels
+> mixed UNDER) -> framing variety (rotate open shapes, feed last-3-opens as negative examples) -> length
+> choreography + arc-aware heat in compile.
 > **KEY REFRAME (iter 6, backed by evidence):** the 3-5 quality plateau is an **EVIDENCE problem, not an engine
 > problem.** The floor engine correctly argues whatever's in the ledger; a one-sided ledger (only roster FACTS,
 > no controversy) yields a one-sided "debate" and a conceding against-host. Bigger models, punch-up, de-polish,
