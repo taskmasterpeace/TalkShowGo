@@ -2,45 +2,6 @@
   "id": "andrew-hammond",
   "entries": [
     {
-      "show": "atlanta-falcons-2026-team-captains-bijan-pfjoz9",
-      "beat": "atlanta-falcons-2026-team-captains-bijan",
-      "date": "2026-09-04",
-      "question": "Is Bijan Robinson ready to be a Falcons captain, or is it too soon?",
-      "stance": "While Bijan Robinson's selection is official, the true measure of readiness for captaincy is about more than just a title; leadership manifests in diverse ways beyond the initial announcement.",
-      "said": [
-        "Well, Mike, you know, the Falcons themselves have said that leadership comes in many forms, and we've got Chris Lindstrom out there as an offensive captain already, so it's not like the offense isn't covered.",
-        "Look, Mike, the organization has made it clear that leadership isn't just about wearing the 'C'. They've got seven captains, including Chris Lindstrom on offense, and that feels like a full roster to me.",
-        "Mike, I hear you, but the Falcons themselves state that leadership comes in many forms, not just the guys with the C on their chest."
-      ],
-      "closing": "Look, Mike, the organization has made it clear that leadership isn't just about wearing the 'C'. They've got seven captains, including Chris Lindstrom on offense, and that feels like a full roster to "
-    },
-    {
-      "show": "atlanta-falcons-2026-team-captains-bijan-erpzy5-104325",
-      "beat": "atlanta-falcons-2026-team-captains-bijan",
-      "date": "2026-09-04",
-      "question": "Did the Falcons pick the right captains for this season, or not?",
-      "stance": "NO, this selection is flawed because while it covers units, it fails to acknowledge that leadership comes in many forms beyond just these seven.",
-      "said": [
-        "And look, Renee, while those guys are absolutely pros, you gotta remember, the organization itself has been on the record saying leadership manifests in a lot of different ways, not just the names on that list.",
-        "Well, Mike, you know, the Falcons themselves have said that leadership comes in many forms, and that's not always just the seven guys with a C on their chest.",
-        "And Mike, you're not wrong, those are great picks, but even the team itself has said that leadership exists beyond those wearing the 'C' on their jerseys."
-      ],
-      "closing": "And Renee, that's exactly it. The Falcons themselves have actually said that leadership within the team can appear in different ways, not just these seven guys."
-    },
-    {
-      "show": "are-the-falcons-set-at-quarterback-for-2-rhvfyt",
-      "beat": "are-the-falcons-set-at-quarterback-for-2",
-      "date": "2026-09-04",
-      "question": "Are the Falcons set at quarterback for 2026, or is it still a problem?",
-      "stance": "While the Falcons have options like Tua Tagovailoa and Michael Penix Jr., the quarterback position remains a central concern, not a settled one, for 2026.",
-      "said": [
-        "Well, Renee, you're right, that's the whole ballgame. If they're still asking if Penix is the guy or if they're back in the draft pool, it tells you 2026 is still an open question.",
-        "And look, Renee, it’s not just the practice reps; DC Stewart Show Podcast folks are saying Tua’s a seasoned veteran, consistent out there. That's a real advantage.",
-        "Look, Mike, even with that pressure, DC Stewart Show Podcast folks also point out Tua’s issues in Miami weren't all on him, so there's some grace there."
-      ],
-      "closing": "Well, Renee, you're right, that's the whole ballgame. If they're still asking if Penix is the guy or if they're back in the draft pool, it tells you 2026 is still an open question."
-    },
-    {
       "show": "qb_iter8",
       "beat": "are-the-falcons-set-at-quarterback-for-2",
       "date": "2026-09-04",
@@ -312,6 +273,39 @@
         "Look, Cassius, I hear you, but even with pressure, Keely Watson for SCSU threw two picks, one for an 80-yard touchdown. That's on the signal-caller."
       ],
       "closing": "Renee, the box score tells a clear story: Knowles was 7-for-22, and Watson tossed two costly interceptions. That's a quarterback problem."
+    },
+    {
+      "show": "st_uvgov3-s1",
+      "beat": "the-splatter-zone-the-moment-the-game-re",
+      "date": "2026-09-18",
+      "question": "Does Tass's record-setting elimination of 7 players in a single game redefine individual impact in Miami paintball?",
+      "stance": "NO: While Tass's 7 eliminations is impressive, it does not redefine individual impact in Miami paintball; it is a remarkable feat but does not fundamentally change how individual impact is understood in the sport.",
+      "said": [
+        "Now hold on, Cassius. That's a heck of a game, no doubt, but one big swing doesn't rewrite the whole playbook for how we measure individual impact."
+      ],
+      "closing": "Now hold on, Cassius. That's a heck of a game, no doubt, but one big swing doesn't rewrite the whole playbook for how we measure individual impact."
+    },
+    {
+      "show": "st_uvgov3-s2",
+      "beat": "the-splatter-zone-the-moment-the-game-re",
+      "date": "2026-09-18",
+      "question": "What does Tass's record imply about the evolving strategies and stakes in Miami paintball?",
+      "stance": "NO: Tass’s record is impressive but doesn’t necessarily imply a strategic shift; it could be an outlier performance rather than evidence that Miami paintball’s stakes or strategies are fundamentally changing.",
+      "said": [
+        "Now, Cassius, that's a big swing, but a single game, even seven eliminations, doesn't always rewrite the whole playbook for how teams approach the field, right?"
+      ],
+      "closing": "Now, Cassius, that's a big swing, but a single game, even seven eliminations, doesn't always rewrite the whole playbook for how teams approach the field, right?"
+    },
+    {
+      "show": "st_wrr9f8-s1",
+      "beat": "the-splatter-zone-the-moment-the-game-re",
+      "date": "2026-09-18",
+      "question": "Does Tass's record-breaking elimination of 7 players in a single game make him the greatest player in Miami paintball history?",
+      "stance": "While Tass's record-breaking performance is absolutely monumental and puts him in a league of his own for that single game, it's a bit premature to crown him the greatest player in Miami paintball history based solely on this one incredible outing. No, Tass's record-breaking elimination of 7 players",
+      "said": [
+        "Now, Cassius, I hear you, but one incredible performance, even a record-setting seven eliminations, doesn't rewrite the entire history book, does it?"
+      ],
+      "closing": "Now, Cassius, I hear you, but one incredible performance, even a record-setting seven eliminations, doesn't rewrite the entire history book, does it?"
     }
   ],
   "name": "Andrew Hammond"

@@ -1,0 +1,70 @@
+[
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Good evening. Tass eliminated seven players in a single Miami paintball game, a Miami record. So does that number redefine individual impact, or is it just one great outing?",
+    "delivery": "even, opening the floor",
+    "addressed_to": "null",
+    "evidence": [
+      "E001",
+      "E002"
+    ],
+    "tag": null,
+    "ms": 4527,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, pull up...this ain't just a one-time flex, Tass just raised the ceiling for every player in Miami. Nobody’s clockin' the bar now without running through that seven-player impact. The game’s changed, period.",
+    "delivery": "confident, energized",
+    "addressed_to": "renee-vaughn",
+    "evidence": [
+      "E001",
+      "E002"
+    ],
+    "tag": null,
+    "ms": 1345,
+    "noMerge": true
+  },
+  {
+    "id": "andrew-hammond",
+    "name": "ANDREW HAMMOND",
+    "line": "Now hold on, Cassius. That's a heck of a game, no doubt, but one big swing doesn't rewrite the whole playbook for how we measure individual impact.",
+    "delivery": "friendly, slightly challenging",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E001"
+    ],
+    "tag": null,
+    "ms": 1654,
+    "noMerge": true
+  },
+  {
+    "id": "renee-vaughn",
+    "name": "RENEE VAUGHN",
+    "line": "Cassius, is that a new standard, or just the current high mark? Andrew, if repeated it's a standard, but a record only counts once. So which are we actually debating, the man's ceiling or the sport's?",
+    "delivery": "level, pressing both",
+    "addressed_to": "cassius-wynn",
+    "evidence": [
+      "E002"
+    ],
+    "tag": null,
+    "ms": 4086,
+    "noMerge": true
+  },
+  {
+    "id": "cassius-wynn",
+    "name": "CASSIUS WYNN",
+    "line": "Ayo, here’s the scoop...the record’s the headline, the new ceiling’s the story. One epic showing flips the game from ‘what if’ to ‘what’s next.",
+    "delivery": "confident, teasing deeper dive",
+    "addressed_to": "renee-vaughn|andrew-hammond|null",
+    "evidence": [
+      "E001",
+      "E002"
+    ],
+    "tag": null,
+    "ms": 1706,
+    "noMerge": true
+  }
+]

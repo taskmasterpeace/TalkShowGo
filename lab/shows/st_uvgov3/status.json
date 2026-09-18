@@ -1,0 +1,136 @@
+{
+  "job": "st_uvgov3",
+  "state": "done",
+  "stage": "done",
+  "pct": 100,
+  "stages": {
+    "sanitize": {
+      "ok": true,
+      "ms": 2,
+      "result": {
+        "events": 2,
+        "desk": [
+          "renee-vaughn",
+          "cassius-wynn",
+          "andrew-hammond"
+        ]
+      }
+    },
+    "synthesize": {
+      "ok": true,
+      "ms": 0,
+      "result": {
+        "id": "str_stpuxzc5",
+        "path": "D:\\git\\talkshowgo\\lab\\research\\stringer\\str_stpuxzc5.json",
+        "dossier": {
+          "schema_version": 1,
+          "id": "str_stpuxzc5",
+          "provenance": "showtime-events",
+          "assignment": {
+            "text": "THE SPLATTER ZONE: the moment the game reported",
+            "mode": "showtime",
+            "kind": "question"
+          },
+          "created_at": "2026-09-18T10:17:14.987Z",
+          "sources": [
+            {
+              "id": "src_game",
+              "publisher": "game-events (showtime)",
+              "medium": "game",
+              "transcript_status": "ok"
+            }
+          ],
+          "evidence": [
+            {
+              "id": "E001",
+              "claim": "Tass eliminated 7 players in a single game on a Miami paintball field",
+              "truth_label": "FACT",
+              "source_id": "src_game",
+              "source_name": "game-events (showtime)",
+              "valid_source": true,
+              "kind": "stat"
+            },
+            {
+              "id": "E002",
+              "claim": "It is a Miami record: no one player had ever taken out 7 in one game",
+              "truth_label": "FACT",
+              "source_id": "src_game",
+              "source_name": "game-events (showtime)",
+              "valid_source": true,
+              "kind": "record"
+            }
+          ]
+        }
+      }
+    },
+    "angles": {
+      "ok": true,
+      "ms": 7864,
+      "result": {
+        "briefs": [
+          {
+            "id": "brf_stc3vzlo",
+            "question": "Does Tass's record-setting elimination of 7 players in a single game redefine individual impact in Miami paintball?"
+          },
+          {
+            "id": "brf_stt9z1nt",
+            "question": "What does Tass's record imply about the evolving strategies and stakes in Miami paintball?"
+          }
+        ]
+      }
+    },
+    "segment1": {
+      "ok": true,
+      "ms": 30229,
+      "result": {
+        "slug": "st_uvgov3-s1"
+      }
+    },
+    "segment2": {
+      "ok": true,
+      "ms": 34207,
+      "result": {
+        "slug": "st_uvgov3-s2"
+      }
+    },
+    "stitch": {
+      "ok": true,
+      "ms": 4052,
+      "result": {
+        "out": "D:\\git\\talkshowgo\\lab\\shows\\st_uvgov3\\episode.md"
+      }
+    },
+    "factwatch": {
+      "ok": true,
+      "ms": 1,
+      "result": {
+        "warnings": 1
+      }
+    },
+    "voice": {
+      "ok": true,
+      "ms": 250236,
+      "result": {
+        "seconds": 168.94
+      }
+    },
+    "mux": {
+      "ok": true,
+      "ms": 60000
+    }
+  },
+  "artifacts": {
+    "transcript": "lab\\shows\\st_uvgov3\\episode.md",
+    "mp3": "lab\\shows\\st_uvgov3\\THE-SPLATTER-ZONE-showtime.mp3",
+    "timeline": "lab\\shows\\st_uvgov3\\THE-SPLATTER-ZONE-showtime.timeline.json",
+    "mp4_16x9": "lab/shows/st_uvgov3/show-16x9.mp4",
+    "mp4_9x16": "lab/shows/st_uvgov3/show-9x16.mp4"
+  },
+  "fact_warnings": [
+    "number \"15\" spoken but not in any input event"
+  ],
+  "started": "2026-09-18T10:17:14.981Z",
+  "error": "voice: Command failed: node lab/engine/render_breeze.mjs segment D:\\git\\talkshowgo\\lab\\shows\\st_uvgov3\\episode.md D:\\git\\talkshowgo\\lab\\shows\\st_uvgov3\\THE-SPLATTER-ZONE-showtime.mp3",
+  "actual_duration_s": 168.94,
+  "finished": "2026-09-18T10:30:57.823Z"
+}

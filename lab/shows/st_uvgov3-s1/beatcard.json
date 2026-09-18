@@ -1,0 +1,129 @@
+{
+  "id": "the-splatter-zone-the-moment-the-game-re",
+  "show": "st_uvgov3-s1",
+  "question": "Does Tass's record-setting elimination of 7 players in a single game redefine individual impact in Miami paintball?",
+  "target_spoken_words": 92,
+  "max_turns": 18,
+  "stances": {
+    "renee-vaughn": "MODERATOR: take NO side and never argue a verdict yourself; referee - press BOTH debaters with pointed, specific questions and make them answer.",
+    "cassius-wynn": "YES: Tass's record-setting elimination of 7 players in a single Miami paintball game clearly redefines individual impact by setting a new, unprecedented bar for what one player can achieve locally.",
+    "andrew-hammond": "NO: While Tass's 7 eliminations is impressive, it does not redefine individual impact in Miami paintball; it is a remarkable feat but does not fundamentally change how individual impact is understood in the sport."
+  },
+  "allowed_evidence": {
+    "renee-vaughn": [
+      "E001",
+      "E002"
+    ],
+    "cassius-wynn": [
+      "E001",
+      "E002"
+    ],
+    "andrew-hammond": [
+      "E001"
+    ]
+  },
+  "participants": [
+    {
+      "id": "renee-vaughn",
+      "name": "Renee Vaughn",
+      "kind": "host"
+    },
+    {
+      "id": "cassius-wynn",
+      "name": "Cassius Wynn",
+      "kind": "host"
+    },
+    {
+      "id": "andrew-hammond",
+      "name": "Andrew Hammond",
+      "kind": "host"
+    }
+  ],
+  "delegates": {
+    "ai": [],
+    "human": []
+  },
+  "human_slots": [],
+  "withheld": [
+    {
+      "host": "cassius-wynn",
+      "evidence": "E002",
+      "turn": 7,
+      "instruction": "NOW detonate this receipt, flat, let it sit: Tass's 7 eliminations is a Miami record, no one had done this before."
+    }
+  ],
+  "anaphora_exempt": [
+    "tass's 7 eliminations",
+    "miami paintball",
+    "record"
+  ],
+  "protected_facts": [
+    {
+      "note": "Tass eliminated 7 players in a single Miami paintball game, setting a Miami record.",
+      "banned_phrasings": [
+        "Tass took out 7 players",
+        "Tass got 7 kills"
+      ]
+    }
+  ],
+  "waypoints": [
+    {
+      "after_words": 25,
+      "host": "cassius-wynn",
+      "note": "Introduce the idea that this record shifts the bar for individual impact in Miami paintball."
+    },
+    {
+      "after_words": 50,
+      "host": "andrew-hammond",
+      "note": "Challenge Cassius by arguing that a single record does not redefine the entire concept of individual impact."
+    },
+    {
+      "after_words": 100,
+      "host": "cassius-wynn",
+      "note": "Counter by emphasizing the uniqueness and precedent-setting nature of Tass's achievement."
+    },
+    {
+      "after_words": 150,
+      "host": "andrew-hammond",
+      "note": "Push back that individual impact is broader than one record and involves consistent performance and team dynamics."
+    },
+    {
+      "after_words": 200,
+      "host": "cassius-wynn",
+      "note": "Reinforce that Tass's record changes expectations for individual players going forward."
+    },
+    {
+      "after_words": 250,
+      "host": "andrew-hammond",
+      "note": "Reiterate that redefining impact requires more than one game; it's about sustained influence."
+    }
+  ],
+  "attribution": {
+    "mode": "A",
+    "label": "SOURCED & COMMITTED",
+    "law": "When a receipt is an ATTRIBUTED_CLAIM, name who said it and where (person/outlet + platform), then COMMIT to your read of it - never hedge it into mush. A FACT you state plainly. Never present an unproven claim as settled fact; never bury a real fact under \"allegedly\"."
+  },
+  "detonation_react": {
+    "host": "andrew-hammond",
+    "instruction": "You didn't see it coming; react with surprise, then defend that a record alone doesn't redefine impact without broader context."
+  },
+  "kk_drop": {
+    "host": "renee-vaughn",
+    "after_turn": 8,
+    "instruction": "Take the floor for your ONE weight-drop: name the thing the others have been circling without seeing. Two or three sentences, NEW words only, unhurried, air around it. End by reframing the question itself."
+  },
+  "opener": {
+    "host": "renee-vaughn",
+    "instruction": "Open flat by stating Tass eliminated 7 players in one Miami paintball game, then stop."
+  },
+  "exit": {
+    "host": "renee-vaughn",
+    "alt_host": "cassius-wynn",
+    "instruction": "Button the segment by summarizing the clash, concede nothing, and tease a deeper dive into Miami paintball's evolving culture next."
+  },
+  "_compiled_from": {
+    "stringer": "str_stpuxzc5",
+    "briefing": "brf_stc3vzlo",
+    "delegates_surfaced": []
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "topic": "THE SPLATTER ZONE: the moment the game reported",
+  "compiled": "2026-09-18T10:33:58.963Z",
+  "question": "Does Tass's record-breaking elimination of 7 players in a single game make him the greatest player in Miami paintball history?",
+  "entries": [
+    {
+      "id": "E001",
+      "claim": "Tass eliminated 7 players in a single game on a Miami paintball field",
+      "source_name": "game-events (showtime)",
+      "source_type": "research",
+      "url": null,
+      "tier": "FACT"
+    },
+    {
+      "id": "E002",
+      "claim": "It is a Miami record: no one player had ever taken out 7 in one game",
+      "source_name": "game-events (showtime)",
+      "source_type": "research",
+      "url": null,
+      "tier": "FACT"
+    }
+  ]
+}

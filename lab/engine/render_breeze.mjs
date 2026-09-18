@@ -338,6 +338,13 @@ const main = async () => {
         parts.push(f)
         console.error(`${i + 1}/${lines.length} ${l.who} [${l.instruction.slice(0, 40)}] ${l.text.slice(0, 50)}`)
       }
+      // TIMELINE: who speaks when (start/dur per line, gap-aware) - the contract the video muxer
+      // (speaker-face podcast now, lip-sync later) builds on without re-parsing anything
+      const GAP = 0.3
+      const wavDur = f => { try { return parseFloat(execSync(`ffprobe -v error -show_entries format=duration -of csv=p=0 "${path.resolve(f)}"`).toString().trim()) || 0 } catch { return 0 } }
+      let t = 0
+      const timeline = lines.map((l, i) => { const dur = wavDur(parts[i]); const e = { who: l.who, text: l.text, start_s: +t.toFixed(3), dur_s: +dur.toFixed(3) }; t += dur + GAP; return e })
+      fs.writeFileSync(out.replace(/\.mp3$/i, '') + '.timeline.json', JSON.stringify({ gap_s: GAP, total_s: +Math.max(0, t - GAP).toFixed(3), lines: timeline }, null, 2))
       concatToMp3(parts, out, tmp, lines.map(l => l.who)); return
     } finally { fs.rmSync(tmp, { recursive: true, force: true }) }
   }

@@ -33,7 +33,7 @@ export function middleware(req: NextRequest) {
   const len = parseInt(req.headers.get('content-length') || '0', 10)
   if (len > MAX_BODY_BYTES) return NextResponse.json({ ok: false, error: 'body too large' }, { status: 413 })
 
-  const gated = pathname.startsWith('/api/command') || pathname === '/command' || pathname.startsWith('/command/')
+  const gated = pathname.startsWith('/api/command') || pathname.startsWith('/api/showtime') || pathname === '/command' || pathname.startsWith('/command/')
   if (!gated) return NextResponse.next()
   if (isLocalOrigin(req)) return NextResponse.next()
 

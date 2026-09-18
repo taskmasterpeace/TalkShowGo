@@ -1,0 +1,30 @@
+{
+  "id": "st-wrr9f8",
+  "name": "THE SPLATTER ZONE",
+  "status": "showtime",
+  "description": "synthetic SHOWTIME beat - game events, not researched fact",
+  "show": {
+    "name": "THE SPLATTER ZONE",
+    "tagline": "Miami paintball, every drop",
+    "show_type": "moderated-collision",
+    "hosts": [
+      "renee-vaughn",
+      "cassius-wynn",
+      "andrew-hammond"
+    ],
+    "intro": {
+      "enabled": true
+    },
+    "outro": {
+      "enabled": true,
+      "template": "One bold on-record prediction about the next match the comments can hold us to."
+    }
+  },
+  "sources": {
+    "youtube": [],
+    "twitter": [],
+    "rss": [],
+    "web": []
+  },
+  "people": []
+}

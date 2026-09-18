@@ -1,0 +1,30 @@
+{
+  "judged_at": "2026-09-18T10:34:15.481Z",
+  "judge": "google/gemini-2.5-flash",
+  "prompt_version": "showtime-rubric-v1",
+  "axes": {
+    "fact_fidelity": 10,
+    "angle_richness": 8,
+    "collision_heat": 7,
+    "character_distinctness": 7,
+    "structure": 9,
+    "repetition_discipline": 6,
+    "direction_variety": 7
+  },
+  "avg": 7.71,
+  "latency_min": 7.4,
+  "latency_tier": "A",
+  "band": "HOME RUN",
+  "fact_violations": [],
+  "notes": {
+    "fact_fidelity": "All factual claims are directly supported by the input events.",
+    "angle_richness": "The show explores whether the record redefines individual impact, sets a new standard, changes team strategy, and implies evolving stakes. This covers 4 distinct angles.",
+    "collision_heat": "There is clear opposition between Speaker 2 and Speaker 3, with Speaker 1 pressing them. A verdict isn't explicitly stated but the debate is sustained.",
+    "character_distinctness": "Speaker 1 is a clear moderator. Speaker 2 is consistently confident and uses 'Ayo'. Speaker 3 is friendly but skeptical. They are distinct enough.",
+    "structure": "The show has a cold open, two debate segments, a closing round with predictions, and a sign-off. The cold open names the moment. A clear verdict is missing, but the predictions serve as a form of conclusion.",
+    "repetition_discipline": "Speaker 2's repeated use of 'Ayo' is a bit much. The number 'seven' is spoken frequently, though it's central to the topic. 'Miami' is also repeated often. 'Single game' and 'individual impact' are also repeated phrases.",
+    "direction_variety": "The directions show some variety, moving from 'even' to 'confident, energized' to 'friendly, slightly challenging' and escalating. There's a good mix of pressing, sharp, and level tones."
+  },
+  "best_moment": "SPEAKER_1 (level, pressing both): Cassius, is that a new standard, or just the current high mark? Andrew, if repeated it's a standard, but a record only counts once. So which are we actually debating, the man's ceiling or the sport's?",
+  "worst_moment": "SPEAKER_2 (confident, sharp, fast): Ayo, it's more than a stat...it's a blueprint. Teams see Tass's seven and know defense ain't enough; they gotta hunt, pressure, dominate early or get buried."
+}

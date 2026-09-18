@@ -1,0 +1,99 @@
+{
+  "job": "st_wrr9f8",
+  "state": "failed",
+  "stage": "segment2",
+  "pct": 44,
+  "stages": {
+    "sanitize": {
+      "ok": true,
+      "ms": 1,
+      "result": {
+        "events": 2,
+        "desk": [
+          "renee-vaughn",
+          "cassius-wynn",
+          "andrew-hammond"
+        ]
+      }
+    },
+    "synthesize": {
+      "ok": true,
+      "ms": 1,
+      "result": {
+        "id": "str_stohgxae",
+        "path": "D:\\git\\talkshowgo\\lab\\research\\stringer\\str_stohgxae.json",
+        "dossier": {
+          "schema_version": 1,
+          "id": "str_stohgxae",
+          "provenance": "showtime-events",
+          "assignment": {
+            "text": "THE SPLATTER ZONE: the moment the game reported",
+            "mode": "showtime",
+            "kind": "question"
+          },
+          "created_at": "2026-09-18T10:33:58.963Z",
+          "sources": [
+            {
+              "id": "src_game",
+              "publisher": "game-events (showtime)",
+              "medium": "game",
+              "transcript_status": "ok"
+            }
+          ],
+          "evidence": [
+            {
+              "id": "E001",
+              "claim": "Tass eliminated 7 players in a single game on a Miami paintball field",
+              "truth_label": "FACT",
+              "source_id": "src_game",
+              "source_name": "game-events (showtime)",
+              "valid_source": true,
+              "kind": "stat"
+            },
+            {
+              "id": "E002",
+              "claim": "It is a Miami record: no one player had ever taken out 7 in one game",
+              "truth_label": "FACT",
+              "source_id": "src_game",
+              "source_name": "game-events (showtime)",
+              "valid_source": true,
+              "kind": "record"
+            }
+          ]
+        }
+      }
+    },
+    "angles": {
+      "ok": true,
+      "ms": 8193,
+      "result": {
+        "briefs": [
+          {
+            "id": "brf_strhp017",
+            "question": "Does Tass's record-breaking elimination of 7 players in a single game make him the greatest player in Miami paintball history?"
+          },
+          {
+            "id": "brf_stpajcby",
+            "question": "What does Tass's record-breaking performance mean for the future of Miami paintball?"
+          }
+        ]
+      }
+    },
+    "segment1": {
+      "ok": true,
+      "ms": 36722,
+      "result": {
+        "slug": "st_wrr9f8-s1"
+      }
+    },
+    "segment2": {
+      "ok": false,
+      "ms": 3467
+    }
+  },
+  "artifacts": {},
+  "client_key": "tass-benchmark-run2",
+  "started": "2026-09-18T10:33:58.908Z",
+  "fact_warnings": [],
+  "error": "segment2: /api/command/briefing/agent: no voice could be briefed — nothing was saved"
+}

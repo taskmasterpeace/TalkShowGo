@@ -2,45 +2,6 @@
   "id": "renee-vaughn",
   "entries": [
     {
-      "show": "are-the-falcons-set-at-quarterback-for-2-rhvfyt",
-      "beat": "are-the-falcons-set-at-quarterback-for-2",
-      "date": "2026-09-04",
-      "question": "Are the Falcons set at quarterback for 2026, or is it still a problem?",
-      "stance": "The Falcons are not set at quarterback for 2026; the organization is in a holding pattern and has not answered who will win the job or if they are the long-term solution.",
-      "said": [
-        "Fair question, and here's the risk: Locked On Falcons flags 2027 as the off-ramp, but they still don't know if Penix is the answer or if they draft again.",
-        "Mike, division strength doesn't answer the actual question. Locked On Falcons itself says the front office won't tip its hand on who wins this job.",
-        "Good evening. Here's where the Falcons sit: Tua and Penix are still competing for that starting job, nothing's decided."
-      ],
-      "closing": "That's the through-line, Andrew, and it means the season itself hinges on a question nobody's answered yet."
-    },
-    {
-      "show": "qb_iter8",
-      "beat": "are-the-falcons-set-at-quarterback-for-2",
-      "date": "2026-09-04",
-      "question": "Are the Falcons set at quarterback for 2026, or is it still a problem?",
-      "stance": "The Falcons are not set at quarterback for 2026; it's an unresolved question that will define their season.",
-      "said": [
-        "Andrew's right, and Mike, you keep dressing up an unanswered question as a highlight reel. Nobody in the building has said who the starter is, that's the whole story.",
-        "Andrew, wide open is right, and here's the follow-up nobody's answered: Tua and Penix are still competing for that job, so how is anyone calling this settled?",
-        "Mike, a great undercard doesn't mean the main event's booked. The Falcons still don't know if Penix is their answer or if they're drafting again in 2027."
-      ],
-      "closing": "Mike, a great undercard doesn't mean the main event's booked. The Falcons still don't know if Penix is their answer or if they're drafting again in 2027."
-    },
-    {
-      "show": "qb_iter9b",
-      "beat": "are-the-falcons-set-at-quarterback-for-2",
-      "date": "2026-09-04",
-      "question": "Are the Falcons set at quarterback for 2026, or is it still a problem?",
-      "stance": "MODERATOR: take NO side and never argue a verdict yourself; referee - press BOTH debaters with pointed, specific questions and make them answer.",
-      "said": [
-        "Andrew, hold that thought. Mike, the report names names: Tua and Penix are actively competing for the job. Is that a stacked card or an open question?",
-        "Mike, spectacle and certainty aren't the same thing, and you keep swapping one for the other. Nobody in that building has named a starter, that's just true.",
-        "Good evening, let's orient the room: Locked On Falcons says the whole season turns on this quarterback question. Mike, is it answered or isn't it?"
-      ],
-      "closing": "Calling it a storyline doesn't answer who starts, Mike. Simple question: name the starter, right now."
-    },
-    {
       "show": "qb_iter10",
       "beat": "are-the-falcons-set-at-quarterback-for-2",
       "date": "2026-09-04",
@@ -312,6 +273,42 @@
         "Andrew, a stat line tells you what happened, not why. Cassius says the pocket caused those numbers, you're saying the numbers stand alone. Which is it?"
       ],
       "closing": "Both sides have a case that survives the follow-up, and neither of you has closed it. We leave this one open tonight, and pick the thread back up next time."
+    },
+    {
+      "show": "st_uvgov3-s1",
+      "beat": "the-splatter-zone-the-moment-the-game-re",
+      "date": "2026-09-18",
+      "question": "Does Tass's record-setting elimination of 7 players in a single game redefine individual impact in Miami paintball?",
+      "stance": "MODERATOR: take NO side and never argue a verdict yourself; referee - press BOTH debaters with pointed, specific questions and make them answer.",
+      "said": [
+        "Cassius, is that a new standard, or just the current high mark? Andrew, if repeated it's a standard, but a record only counts once. So which are we actually debating, the man's ceiling or the sport's?",
+        "Good evening. Tass eliminated seven players in a single Miami paintball game, a Miami record. So does that number redefine individual impact, or is it just one great outing?"
+      ],
+      "closing": "Cassius, is that a new standard, or just the current high mark? Andrew, if repeated it's a standard, but a record only counts once. So which are we actually debating, the man's ceiling or the sport's?"
+    },
+    {
+      "show": "st_uvgov3-s2",
+      "beat": "the-splatter-zone-the-moment-the-game-re",
+      "date": "2026-09-18",
+      "question": "What does Tass's record imply about the evolving strategies and stakes in Miami paintball?",
+      "stance": "MODERATOR: take NO side and never argue a verdict yourself; referee - press BOTH debaters with pointed, specific questions and make them answer.",
+      "said": [
+        "Cassius, last show you called this a new ceiling for everybody. Does one record actually change how teams draft strategy, or is that just talk?",
+        "Here's the thing nobody's said: one game gives us a ceiling, not a trend line."
+      ],
+      "closing": "Here's the thing nobody's said: one game gives us a ceiling, not a trend line."
+    },
+    {
+      "show": "st_wrr9f8-s1",
+      "beat": "the-splatter-zone-the-moment-the-game-re",
+      "date": "2026-09-18",
+      "question": "Does Tass's record-breaking elimination of 7 players in a single game make him the greatest player in Miami paintball history?",
+      "stance": "MODERATOR: take NO side and never argue a verdict yourself; referee - press BOTH debaters with pointed, specific questions and make them answer.",
+      "said": [
+        "Cassius, 'greatest ever' is a career claim. What you've got is one night, one field, one record. So which are we actually voting on here, a legacy or a box score?",
+        "Seven eliminations, one game, a Miami record. Cassius, does one night make a career, or just a headline?"
+      ],
+      "closing": "Cassius, 'greatest ever' is a career claim. What you've got is one night, one field, one record. So which are we actually voting on here, a legacy or a box score?"
     }
   ],
   "name": "Renee Vaughn"
