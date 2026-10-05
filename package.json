@@ -26,7 +26,10 @@
     "check:voice": "curl -s http://localhost:8765/health",
     "check:db": "docker exec tsg-postgres pg_isready -U postgres",
     "scheduler:start": "start-scheduler.bat",
-    "show:postgame": "node lab/engine/postgame.mjs"
+    "show:postgame": "node lab/engine/postgame.mjs",
+    "show:showtime": "node lab/engine/showtime.mjs",
+    "show:grade": "node lab/engine/grade_show.mjs",
+    "check:breeze": "node lab/engine/check_breeze.mjs"
   },
   "dependencies": {
     "@floating-ui/react": "^0.26.28",

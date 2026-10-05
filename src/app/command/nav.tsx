@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutGrid, Radio, Users, Clapperboard, PlayCircle, Shapes, Search, Radar, ScrollText, GitBranch, MonitorPlay, UserRound, UserPlus, Wrench, Settings, Palette } from 'lucide-react'
+import { LayoutGrid, Radio, Users, Clapperboard, PlayCircle, Shapes, Search, Radar, ScrollText, GitBranch, MonitorPlay, UserRound, UserPlus, Wrench, Settings, Palette, Trophy } from 'lucide-react'
 
 // round 3 (2026-09-02): YOUTUBE (rung health, transcripts, clips), PEOPLE (delegates on a beat + their take links),
 // JANITOR (the ecosystem's decisions), SETTINGS (in-app keys + the model lineup)
@@ -20,6 +20,7 @@ const ITEMS = [
   { href: '/command/branding', label: 'BRANDING', icon: Palette, tip: 'A logo for every show: it reads the show and draws 3 options, pick one or upload your own.' },
   { href: '/command/producer', label: 'PRODUCER', icon: Clapperboard, tip: 'Assemble and run a full show from the day’s story.' },
   { href: '/command/tape', label: 'TAPE', icon: PlayCircle, tip: 'Rendered shows and takes — listen back (and delete, soon).' },
+  { href: '/command/ledger', label: 'LEDGER', icon: Trophy, tip: 'Every on-record prediction, graded against what actually happened. The receipts.' },
   { href: '/command/janitor', label: 'JANITOR', icon: Wrench, tip: 'The maintenance crew: audits your sources (dead/squatter/silent) and proposes fixes to approve.' },
   { href: '/command/log', label: 'LOG', icon: ScrollText, tip: 'The activity log — every action the system took, with timing.' },
   { href: '/command/settings', label: 'SETTINGS', icon: Settings, tip: 'API keys and the model lineup.' },

@@ -345,7 +345,14 @@ const main = async () => {
       let t = 0
       const timeline = lines.map((l, i) => { const dur = wavDur(parts[i]); const e = { who: l.who, text: l.text, start_s: +t.toFixed(3), dur_s: +dur.toFixed(3) }; t += dur + GAP; return e })
       fs.writeFileSync(out.replace(/\.mp3$/i, '') + '.timeline.json', JSON.stringify({ gap_s: GAP, total_s: +Math.max(0, t - GAP).toFixed(3), lines: timeline }, null, 2))
-      concatToMp3(parts, out, tmp, lines.map(l => l.who)); return
+      concatToMp3(parts, out, tmp, lines.map(l => l.who))
+      // AUDIO_MANIFEST law ("every rendered file gets a row") - the law now keeps itself
+      try {
+        const manifest = path.join(ROOT, 'lab', 'engine', 'AUDIO_MANIFEST.md')
+        const who = [...new Set(lines.map(l => l.who))].join(', ')
+        fs.appendFileSync(manifest, `| ${new Date().toISOString().slice(0, 16).replace('T', ' ')} | ${path.relative(ROOT, path.resolve(out)).replace(/\\/g, '/')} | words-by: floor engine (${path.basename(seg)}) | voiced-by: Breeze (${who}) | ${Math.round(timeline.reduce((a, l) => a + l.dur_s, 0))}s |\n`)
+      } catch { /* the row is a courtesy; the render already succeeded */ }
+      return
     } finally { fs.rmSync(tmp, { recursive: true, force: true }) }
   }
   console.error('modes: design <host> | candidates [host] | lineup | reel [out] | segment <md> <out>'); process.exit(1)
