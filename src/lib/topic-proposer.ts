@@ -6,6 +6,7 @@
  */
 
 import { supabase } from './db'
+import { DecisionLogger, ProposalDecisionLog } from './decision-logger'
 
 // ============================================
 // TYPES
@@ -71,6 +72,12 @@ export interface TopicProposerOptions {
   startDate?: Date
   endDate?: Date
   targetDate?: string  // YYYY-MM-DD format - convenience for full day
+  includeDecisionLog?: boolean  // Include decision log for auditing
+}
+
+export interface ProposalResult {
+  topics: ProposedTopic[]
+  decisionLog?: ProposalDecisionLog
 }
 
 // ============================================
@@ -111,6 +118,32 @@ const NEWS_INDICATORS = [
 // ============================================
 // DATABASE QUERIES
 // ============================================
+
+/**
+ * Fetch YouTube channel names for a topic
+ */
+async function fetchChannelNames(topicId: string): Promise<string[]> {
+  const { data } = await supabase
+    .from('youtube_channels')
+    .select('channel_name')
+    .eq('topic_id', topicId)
+    .eq('status', 'trusted')
+
+  return (data || []).map(c => c.channel_name)
+}
+
+/**
+ * Fetch Twitter account handles for a topic
+ */
+async function fetchTwitterAccounts(topicId: string): Promise<string[]> {
+  const { data } = await supabase
+    .from('source_accounts')
+    .select('handle')
+    .eq('topic_id', topicId)
+    .eq('status', 'active')
+
+  return (data || []).map(a => `@${a.handle}`)
+}
 
 /**
  * Fetch recent tweets from the database
@@ -365,19 +398,22 @@ function buildDateRange(options: TopicProposerOptions): DateRangeConfig {
  * @param topicId - The topic/niche ID
  * @param options - Date range options (hoursBack, targetDate, or startDate/endDate)
  * @param maxTopics - Maximum number of topics to propose
- * @returns Array of proposed topics ranked by priority
+ * @returns ProposalResult with topics and optional decision log
  */
 export async function proposeTopicsForShow(
   topicId: string,
   options: TopicProposerOptions | number = 24,
   maxTopics: number = 5
-): Promise<ProposedTopic[]> {
+): Promise<ProposalResult> {
   // Support legacy call signature (topicId, hoursBack, maxTopics)
   const opts: TopicProposerOptions = typeof options === 'number'
     ? { hoursBack: options }
     : options
 
   const dateRange = buildDateRange(opts)
+
+  // Initialize decision logger if requested
+  const logger = opts.includeDecisionLog ? new DecisionLogger(topicId) : null
 
   // Log what we're scanning
   if (opts.targetDate) {
@@ -388,6 +424,14 @@ export async function proposeTopicsForShow(
     console.log(`[TopicProposer] Scanning sources for last ${opts.hoursBack || 24} hours...`)
   }
 
+  // Fetch channel and account names for logging
+  const [channelNames, twitterAccounts] = logger
+    ? await Promise.all([
+        fetchChannelNames(topicId),
+        fetchTwitterAccounts(topicId)
+      ])
+    : [[], []]
+
   // Fetch recent content
   const [tweets, videos] = await Promise.all([
     fetchRecentTweets(topicId, dateRange),
@@ -396,22 +440,50 @@ export async function proposeTopicsForShow(
 
   console.log(`[TopicProposer] Found ${tweets.length} tweets and ${videos.length} videos`)
 
+  // Log searches
+  if (logger) {
+    const logDateRange = { start: dateRange.startDate, end: dateRange.endDate }
+    logger.logYouTubeSearch(channelNames, logDateRange, videos.length)
+    logger.logTwitterSearch(twitterAccounts, logDateRange, tweets.length)
+  }
+
   if (tweets.length === 0 && videos.length === 0) {
     console.log('[TopicProposer] No recent content found')
-    return []
+    return {
+      topics: [],
+      decisionLog: logger?.getLog()
+    }
   }
 
   // Cluster by topic
   const clusters = clusterByTopic(tweets, videos)
   console.log(`[TopicProposer] Identified ${clusters.size} topic clusters`)
 
+  // Log clustering
+  if (logger) {
+    logger.logClustering(clusters.size, 'Grouped sources by shared entities (max 2 entities per cluster key)')
+  }
+
+  // Collect all unique entities found
+  const allEntities = new Set<string>()
+  for (const [, cluster] of clusters) {
+    cluster.keywords.forEach(k => allEntities.add(k))
+  }
+  if (logger) {
+    logger.logEntitiesDetected(Array.from(allEntities))
+  }
+
   // Convert clusters to proposed topics
   const proposedTopics: ProposedTopic[] = []
+  const rejectedClusters: Array<{ key: string; engagement: number }> = []
   let priority = 1
 
   for (const [key, cluster] of Array.from(clusters.entries())) {
     // Skip clusters with minimal engagement
-    if (cluster.totalEngagement < 50) continue
+    if (cluster.totalEngagement < 50) {
+      rejectedClusters.push({ key, engagement: cluster.totalEngagement })
+      continue
+    }
 
     // Calculate source count
     const sourceCount = cluster.tweets.length + cluster.videos.length
@@ -458,6 +530,21 @@ export async function proposeTopicsForShow(
     })
   }
 
+  // Log scoring and filtering
+  if (logger) {
+    logger.logScoring('likes + retweets*2 + replies*3 + views*0.001')
+    logger.logFiltering(rejectedClusters.length, 50)
+
+    // Log rejected topics
+    for (const rejected of rejectedClusters) {
+      logger.logTopicRejected(
+        rejected.key.replace('|', ' & '),
+        rejected.engagement,
+        'Engagement below 50 threshold'
+      )
+    }
+  }
+
   // Sort by engagement and return top N
   const ranked = proposedTopics
     .sort((a, b) => b.engagement_score - a.engagement_score)
@@ -468,8 +555,36 @@ export async function proposeTopicsForShow(
     topic.suggested_priority = index + 1
   })
 
+  // Log ranking and selected topics
+  if (logger && ranked.length > 0) {
+    logger.logRanking(ranked[0].headline, ranked[0].engagement_score)
+
+    for (const topic of ranked) {
+      // Find freshest source
+      const allSources = topic.sources
+      const freshest = allSources.reduce((a, b) =>
+        new Date(a.published_at) > new Date(b.published_at) ? a : b
+      )
+
+      logger.logTopicSelected(
+        topic.suggested_priority,
+        topic.headline,
+        topic.engagement_score,
+        topic.source_count,
+        topic.suggested_priority === 1
+          ? 'Highest engagement score'
+          : `Ranked #${topic.suggested_priority} by engagement`,
+        freshest.published_at
+      )
+    }
+  }
+
   console.log(`[TopicProposer] Proposing ${ranked.length} topics`)
-  return ranked
+
+  return {
+    topics: ranked,
+    decisionLog: logger?.getLog()
+  }
 }
 
 /**

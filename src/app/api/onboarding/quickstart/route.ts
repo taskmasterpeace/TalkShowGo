@@ -16,7 +16,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/db'
+import { supabaseAdmin } from '@/lib/db'
 
 export async function POST(request: NextRequest) {
   try {
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if topic with this name already exists
-    const { data: existing } = await supabase
+    const { data: existing } = await supabaseAdmin
       .from('topics')
       .select('id, name')
       .eq('name', name)
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Create the topic
-    const { data: topic, error } = await supabase
+    const { data: topic, error } = await supabaseAdmin
       .from('topics')
       .insert({
         name,
@@ -98,9 +98,12 @@ export async function POST(request: NextRequest) {
     })
   } catch (error) {
     console.error('Quickstart error:', error)
+    const errorMessage = error instanceof Error
+      ? error.message
+      : (error as { message?: string })?.message || JSON.stringify(error)
     return NextResponse.json({
       error: 'Failed to create topic',
-      details: String(error)
+      details: errorMessage
     }, { status: 500 })
   }
 }

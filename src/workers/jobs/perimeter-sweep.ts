@@ -30,8 +30,26 @@ export async function perimeterSweep(data: PerimeterSweepData) {
       .update({ status: 'running', started_at: new Date().toISOString() })
       .eq('id', job_run_id)
 
-    // Get Twitter client
+    // Get Twitter client (returns null if not configured)
     const twitter = getTwitterClient()
+    if (!twitter) {
+      // No Twitter API key - skip gracefully
+      await supabase
+        .from('job_runs')
+        .update({
+          status: 'completed',
+          completed_at: new Date().toISOString(),
+          duration_ms: Date.now() - startTime,
+          items_processed: 0,
+          metadata: {
+            skipped: true,
+            reason: 'No TWITTER_API_KEY configured - Twitter integration disabled',
+          },
+        })
+        .eq('id', job_run_id)
+
+      return { itemsProcessed: 0, tweetsStored: 0, errors: [], skipped: true }
+    }
 
     // Get all active Twitter sources for this topic
     const { data: sources, error: sourcesError } = await supabase

@@ -1,0 +1,352 @@
+{
+  "generated_at": "2025-12-26T09:12:22.373Z",
+  "time_range": "Last 48 hours",
+  "twitter_data": {
+    "tweets_analyzed": 35,
+    "top_mentions": [
+      [
+        "youtube",
+        10
+      ],
+      [
+        "hiphopisrealtv",
+        4
+      ],
+      [
+        "sheridanblog:",
+        2
+      ],
+      [
+        "cheftrez__:",
+        2
+      ],
+      [
+        "urltv:",
+        2
+      ],
+      [
+        "jimchewz:",
+        1
+      ],
+      [
+        "solomon_tech:",
+        1
+      ],
+      [
+        "thedunkcentral",
+        1
+      ],
+      [
+        "blacklove3e:",
+        1
+      ],
+      [
+        "badsportsrefs:",
+        1
+      ]
+    ],
+    "top_keywords": [
+      [
+        "battle",
+        9
+      ],
+      [
+        "vs",
+        7
+      ],
+      [
+        "url",
+        2
+      ]
+    ],
+    "sample_tweets": [
+      {
+        "author": "ChrisUnbias",
+        "text": "RT @Sheridanblog: So frustrating this fraud Kerr is still \"coaching\" and not FIRED.\n\nThis starting lineup is fake BS until he actually clos…",
+        "created_at": "2025-12-18T01:11:13.000Z",
+        "likes": 164,
+        "retweets": 18
+      },
+      {
+        "author": "ChrisUnbias",
+        "text": "Who yall blame the most for battle not happening",
+        "created_at": "2025-12-18T01:06:19.000Z",
+        "likes": 1,
+        "retweets": 0
+      },
+      {
+        "author": "ChrisUnbias",
+        "text": "Has Eazy ever said why he left the venue?",
+        "created_at": "2025-12-18T01:00:58.000Z",
+        "likes": 4,
+        "retweets": 0
+      },
+      {
+        "author": "hiphopisrealtv",
+        "text": "NEW: CASSIDY GOES OFF 😳 “ANYONE CAN GET IT” — FREESTYLE \n\nhttps://t.co/M9lJkBHAPl via @YouTube",
+        "created_at": "2025-12-17T20:02:24.000Z",
+        "likes": 9,
+        "retweets": 3
+      },
+      {
+        "author": "hiphopisrealtv",
+        "text": "RT @JimChewz: @hiphopisrealtv @YouTube Tez been on a different type of time since he battled surf 🫡",
+        "created_at": "2025-12-17T19:13:50.000Z",
+        "likes": 1,
+        "retweets": 1
+      },
+      {
+        "author": "LTBRpodcast",
+        "text": "最新情報ありがとうございます",
+        "created_at": "2025-12-17T19:11:59.000Z",
+        "likes": 8,
+        "retweets": 0
+      },
+      {
+        "author": "15MofeRadio",
+        "text": "RT @ChefTrez__: 🚪 “AT THE DOOR” is about that point where you’re stuck between who you are and who you know you could be. No sugarcoating,…",
+        "created_at": "2025-12-17T16:38:28.000Z",
+        "likes": 57,
+        "retweets": 27
+      },
+      {
+        "author": "hiphopisrealtv",
+        "text": "CORTEZ QUESTIONS IF THERE’S A NEW STAR IN BATTLE RAP 🤔 https://t.co/xZDQGhmx0o via @YouTube",
+        "created_at": "2025-12-17T16:25:12.000Z",
+        "likes": 0,
+        "retweets": 0
+      },
+      {
+        "author": "ChrisUnbias",
+        "text": "RT @solomon_tech: @TheDunkCentral If you're going to attack KD for doing that why don't you start with a LeBron who made a bitch move by jo…",
+        "created_at": "2025-12-17T15:45:58.000Z",
+        "likes": 22,
+        "retweets": 1
+      },
+      {
+        "author": "ChrisUnbias",
+        "text": "RT @BlackLove3e: I THOUGHT KUMINGA WAS THE PROBLEM... ARE YALL UNDERSTANDING IT WAS ALWAYS KERR HE DOING TO RICHARD THE SAME THING HE DID T…",
+        "created_at": "2025-12-17T09:50:02.000Z",
+        "likes": 307,
+        "retweets": 40
+      },
+      {
+        "author": "ChrisUnbias",
+        "text": "RT @BadSportsRefs: If Draymond Green had done this, he’d be spending Christmas in jail",
+        "created_at": "2025-12-17T09:45:06.000Z",
+        "likes": 9119,
+        "retweets": 796
+      },
+      {
+        "author": "ChrisUnbias",
+        "text": "RT @urltv: URL'S OUTSIDE 5 aka \"NIGHT OF THE REBUTTALS!\" 🤟🏾🔥 -  @smackwhite\n\n@cashvilledice\n@metaphormessiah\n\nThis battle is on the URLTV a…",
+        "created_at": "2025-12-17T09:42:59.000Z",
+        "likes": 112,
+        "retweets": 27
+      },
+      {
+        "author": "ChrisUnbias",
+        "text": "RT @Sheridanblog: Oh really? Seniority? Then explain how a 3rd year Podz is in rotation and plays more than Melton and Seth Curry, a 12-yea…",
+        "created_at": "2025-12-17T09:41:21.000Z",
+        "likes": 636,
+        "retweets": 94
+      },
+      {
+        "author": "ChrisUnbias",
+        "text": "RT @BlackIce244: It doesn’t matter who you trade for if Kerr is still coaching the warriors",
+        "created_at": "2025-12-17T07:31:34.000Z",
+        "likes": 299,
+        "retweets": 45
+      },
+      {
+        "author": "ChrisUnbias",
+        "text": "RT @jrichardgoodman: You know what's a bigger miss then the second timeline? Green running his fist through Poole z grill as defending cham…",
+        "created_at": "2025-12-17T07:30:41.000Z",
+        "likes": 88,
+        "retweets": 15
+      },
+      {
+        "author": "ChrisUnbias",
+        "text": "RT @BattleAcademyPA: 😎😎 HE WANT 20K TO FIGHT ME LOL ITS NO ESCAPING THIS HE SOUNDS SO COOL ON HIS BLOGS 😎😎 I CANT WAIT WE WILL CATCH THE FA…",
+        "created_at": "2025-12-17T07:29:01.000Z",
+        "likes": 55,
+        "retweets": 6
+      },
+      {
+        "author": "ChrisUnbias",
+        "text": "https://t.co/uZN4CeV521\n\nRacism",
+        "created_at": "2025-12-17T03:15:57.000Z",
+        "likes": 1,
+        "retweets": 0
+      },
+      {
+        "author": "hiphopisrealtv",
+        "text": "RT @urltv: Happy G-Day To @arsonal103  🎉🍾 💯 \n\nWhat are your favorite bars or Moments from Arsonal? List them below\n\n#youcantcopyrespect htt…",
+        "created_at": "2025-12-16T23:57:09.000Z",
+        "likes": 75,
+        "retweets": 21
+      },
+      {
+        "author": "hiphopisrealtv",
+        "text": "“THIS BATTLE SHOULD’VE CONTINUED” — \n\nCHARLIE CLIPS GIVES TBL THE BLUEPRINT TO RESOLVE CASSIDY VS EAZY BATTLE ISSUES👀\n\n👉 WATCH: https://t.co/DReS9x4lMW https://t.co/MCP9TqanAi",
+        "created_at": "2025-12-16T21:05:46.000Z",
+        "likes": 25,
+        "retweets": 4
+      },
+      {
+        "author": "hiphopisrealtv",
+        "text": "ARSONAL GETS WILD VS VIIXXEN THE ASSASSIN AT GOTG! 😳 https://t.co/YIqe4qM3Oc via @YouTube",
+        "created_at": "2025-12-16T20:56:49.000Z",
+        "likes": 0,
+        "retweets": 0
+      }
+    ]
+  },
+  "youtube_data": {
+    "videos_found": 19,
+    "search_queries": [
+      "youtube battle rap",
+      "hiphopisrealtv battle rap",
+      "sheridanblog: battle rap",
+      "cheftrez__: battle rap",
+      "urltv: battle rap",
+      "battle rap news",
+      "battle rap drama"
+    ],
+    "videos": [
+      {
+        "id": "GVmkBdGO5Cg",
+        "title": "YouTube’s Insane Rap Battle Community",
+        "channel": "Chazington",
+        "published": "6 months ago",
+        "views": "686,246 views"
+      },
+      {
+        "id": "-q6dnsIKAFM",
+        "title": "The Greatest URL 3rd Rounds of All Time! | URLTV",
+        "channel": "Ultimate Rap League",
+        "published": "6 months ago",
+        "views": "648,100 views"
+      },
+      {
+        "id": "IZSjsV1F1rA",
+        "title": "A WARD VS JAKKBOY MAINE | URLTV",
+        "channel": "Ultimate Rap League",
+        "published": "12 hours ago",
+        "views": "45,288 views"
+      },
+      {
+        "id": "nOxbbor2slc",
+        "title": "T-REX SAYS HE BEAT MURDA MOOK & LOADED LUX!  WHEN ASKED WHO’S THE GOAT!",
+        "channel": "hiphopisreal.com",
+        "published": "2 months ago",
+        "views": "11,163 views"
+      },
+      {
+        "id": "snOSZX-Nr_o",
+        "title": "CHARLIE CLIPS GETS REAL ON HITMAN HOLLA, MURDA MOOK & LOADED LUX — WHO’S THE REAL GOAT?!",
+        "channel": "hiphopisreal.com",
+        "published": "2 months ago",
+        "views": "21,848 views"
+      },
+      {
+        "id": "1W-kqvYh53M",
+        "title": "ARSONAL EXPLODES AFTER HIS BATTLE VS JAZ THE RAPPER! 😳",
+        "channel": "hiphopisreal.com",
+        "published": "3 months ago",
+        "views": "14,483 views"
+      },
+      {
+        "id": "qd7yisNhLKU",
+        "title": "FILM ROOM: ANTHONY LAMB BLEW IT (VS LAKERS)",
+        "channel": "Jim Park - The Warriors Oracle",
+        "published": "2 years ago",
+        "views": "1,716 views"
+      },
+      {
+        "id": "PciFTZ6SpJ8",
+        "title": "APOLLO: CHEF TREZ vs LU CASTRO FULL BATTLE",
+        "channel": "TAKEOVA BATTLE LEAGUE",
+        "published": "7 months ago",
+        "views": "172,253 views"
+      },
+      {
+        "id": "WNy6zm8efgo",
+        "title": "LOS PREMEE vs CHEF TREZ - iBattleTV",
+        "channel": "iBattleTV",
+        "published": "1 year ago",
+        "views": "53,731 views"
+      },
+      {
+        "id": "5Qgu6BCGbms",
+        "title": "Devo The  Kid vs Chef Trez//SRBL//Chicago Business 3",
+        "channel": "The Smoke Room Battle League",
+        "published": "1 month ago",
+        "views": "6,640 views"
+      },
+      {
+        "id": "IZSjsV1F1rA",
+        "title": "A WARD VS JAKKBOY MAINE | URLTV",
+        "channel": "Ultimate Rap League",
+        "published": "12 hours ago",
+        "views": "45,288 views"
+      },
+      {
+        "id": "ydyH-DM20LU",
+        "title": "TAY ROC VS LU CASTRO | URLTV",
+        "channel": "Ultimate Rap League",
+        "published": "2 weeks ago",
+        "views": "409,751 views"
+      },
+      {
+        "id": "-q6dnsIKAFM",
+        "title": "The Greatest URL 3rd Rounds of All Time! | URLTV",
+        "channel": "Ultimate Rap League",
+        "published": "6 months ago",
+        "views": "648,100 views"
+      },
+      {
+        "id": "gjZmdvexgUs",
+        "title": "SHOWOFF EXPOSES JAG IN THE BLUE ROOM",
+        "channel": "Rare Breed Ent",
+        "published": "2 days ago",
+        "views": "12,657 views"
+      },
+      {
+        "id": "DyFQ7WwUMQo",
+        "title": "WE SHOULD NOT GAS THIS!!!",
+        "channel": "Rare Breed Ent",
+        "published": "2 days ago",
+        "views": "8,555 views"
+      },
+      {
+        "id": "nkeS-6lPjbY",
+        "title": "TOP 5'S IN 2025 BATTLE RAP",
+        "channel": "Rare Breed Ent",
+        "published": "Streamed 18 hours ago",
+        "views": "3,464 views"
+      },
+      {
+        "id": "GPwR7QyKr50",
+        "title": "BATTLE RAPPER SHOT DEAD AFTER HE BRINGS PICTURE OF RAPPERS DEAD AUNT  * SUBSCRIBE",
+        "channel": "JoeMedia",
+        "published": "6 years ago",
+        "views": "291,293 views"
+      },
+      {
+        "id": "v29TWCIXOHE",
+        "title": "HITMAN HOLLA vs MURDA MOOK FULL BATTLE || TBL",
+        "channel": "TAKEOVA BATTLE LEAGUE",
+        "published": "3 months ago",
+        "views": "2,347,684 views"
+      },
+      {
+        "id": "uJ9Vux7dmZ0",
+        "title": "MURDA MOOK vs ARSONAL: OFFICIAL RELEASE Battle Rap/ BMBL",
+        "channel": "Landslide Tv",
+        "published": "1 year ago",
+        "views": "2,003,752 views"
+      }
+    ]
+  }
+}

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { getTwitterClient } from '@/lib/twitter-api'
+import { getTwitterClient, isTwitterConfigured } from '@/lib/twitter-api'
 
 /**
  * GET /api/twitter/test
@@ -9,7 +9,17 @@ import { getTwitterClient } from '@/lib/twitter-api'
  */
 export async function GET() {
   try {
-    const twitter = getTwitterClient()
+    // Check if Twitter is configured first
+    if (!isTwitterConfigured()) {
+      return NextResponse.json({
+        success: false,
+        configured: false,
+        error: 'Twitter API is not configured',
+        hint: 'Set TWITTER_API_KEY in your .env file to enable Twitter features',
+      })
+    }
+
+    const twitter = getTwitterClient()!
 
     // Test with a well-known account
     const user = await twitter.getUserByUsername('urltv')

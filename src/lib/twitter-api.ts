@@ -355,15 +355,38 @@ export function buildBattleRapSearchQuery(options: {
 // Singleton instance
 let client: TwitterApiClient | null = null
 
-export function getTwitterClient(): TwitterApiClient {
+/**
+ * Check if Twitter API is configured
+ */
+export function isTwitterConfigured(): boolean {
+  return !!process.env.TWITTER_API_KEY
+}
+
+/**
+ * Get Twitter client - returns null if not configured
+ */
+export function getTwitterClient(): TwitterApiClient | null {
+  if (!isTwitterConfigured()) {
+    console.log('[Twitter] API key not configured - Twitter integration disabled')
+    return null
+  }
+
   if (!client) {
-    const apiKey = process.env.TWITTER_API_KEY
-    if (!apiKey) {
-      throw new Error('TWITTER_API_KEY environment variable is required')
-    }
+    const apiKey = process.env.TWITTER_API_KEY!
     client = new TwitterApiClient({ apiKey })
   }
   return client
+}
+
+/**
+ * Get Twitter client - throws if not configured (for APIs that explicitly require Twitter)
+ */
+export function requireTwitterClient(): TwitterApiClient {
+  const twitterClient = getTwitterClient()
+  if (!twitterClient) {
+    throw new Error('Twitter API is not configured. Set TWITTER_API_KEY in your environment to use Twitter features.')
+  }
+  return twitterClient
 }
 
 // Export types

@@ -1,0 +1,537 @@
+{
+  "run_id": "29bde079-9b29-4d74-8cbb-801cf4c01943",
+  "generated_at": "2025-12-30T01:47:50.898Z",
+  "original_video": {
+    "video_id": "lzbGCbVbtHQ",
+    "title": "Unknown Video",
+    "transcript_length": 26727
+  },
+  "extracted": {
+    "topic": "Eazy the Block Captain battle rap career and rise in Philadelphia hip-hop",
+    "entities": [
+      "Eazy the Block Captain",
+      "URL (Ultimate Rap League)",
+      "NY Trap House",
+      "Smack (URL founder)",
+      "Norbs",
+      "Swag Tanner",
+      "Chris Rock",
+      "Avengers",
+      "Laura Croft",
+      "Jedi",
+      "Alapone",
+      "Ross (Rick Ross?)",
+      "Philly battle circuit",
+      "battle rap culture",
+      "Top 10 battlers"
+    ],
+    "events": [
+      "Eazy's early Philly battles",
+      "NY Trap House gateway opportunity",
+      "URL stage debut",
+      "2012 battle style development",
+      "2021 Top Tier Disc release",
+      "Viral culture moment from Top Tier Disc",
+      "Battle rap interviews and responses",
+      "Small room battles vs. main stage",
+      "Rankings progression in Philly circuit"
+    ],
+    "people": [
+      "Eazy the Block Captain (Philly battler)",
+      "Norbs (Smack/URL associate)",
+      "Swag Tanner (battler mentioned in lyrics)",
+      "Chris Rock (referenced in lyrics)",
+      "Smack (URL founder)",
+      "Unnamed Philly battlers from early circuit",
+      "Top tier battlers called out in Top Tier Disc"
+    ],
+    "sub_topics": [
+      "Street battle rap origins",
+      "Independent artist rise without industry co-signs",
+      "Philadelphia hip-hop scene",
+      "Battle rap authenticity and real talk",
+      "Algorithm and cultural influence",
+      "URL league politics and relationships",
+      "Viral moments in battle rap",
+      "Prison and street life themes in lyrics",
+      "Battle rap diss tracks and responses",
+      "Cultural trends and social media virality"
+    ],
+    "summary": "This video documents Eazy the Block Captain's journey from Philadelphia street battler to viral battle rap sensation, highlighting his independent rise without industry support, his strategic move through NY Trap House to URL, and his breakthrough 2021 track 'Top Tier Disc' that called out established battlers and cemented his status. The narrative emphasizes authenticity, cultural influence, and navigating battle rap politics while maintaining creative control."
+  },
+  "supplemental_research": {
+    "youtube_videos_found": 10,
+    "youtube_transcripts_acquired": 5,
+    "interviews_found": 3,
+    "web_results_found": 57,
+    "total_supplemental_sources": 66,
+    "sources": [
+      {
+        "title": "Eazy The Block Captain – THE ALGORITHM",
+        "source_type": "youtube",
+        "url": "https://www.youtube.com/watch?v=lzbGCbVbtHQ",
+        "has_content": true,
+        "content_length": 26727
+      },
+      {
+        "title": "B.E.E.F. | The FULL STORY Of The RIVALRY Between Cassidy & Eazy the Block Captain‼️",
+        "source_type": "youtube",
+        "url": "https://www.youtube.com/watch?v=n3kCFckwUjM",
+        "has_content": true,
+        "content_length": 22131
+      },
+      {
+        "title": "Cassidy Breaks Down the Eazy Battle, Joe Budden’s Superstar Take & If Fans Could Bet on Battle Rap",
+        "source_type": "youtube",
+        "url": "https://www.youtube.com/watch?v=n9Aey4FE2Lk",
+        "has_content": true,
+        "content_length": 88924
+      },
+      {
+        "title": "HURRICANE DU GETS RAW ABOUT EAZY, THEIR PAST, THE CULTURE & THE CASSIDY SITUATION! 😳🔥",
+        "source_type": "youtube",
+        "url": "https://www.youtube.com/watch?v=CVRKqK-qrfM",
+        "has_content": true,
+        "content_length": 68092
+      },
+      {
+        "title": "INSIDE CASSIDY’S PHILLY TAKEOVER — FROM ARRIVAL TO TOTAL CHAOS VS EAZY 🎬",
+        "source_type": "youtube",
+        "url": "https://www.youtube.com/watch?v=viLRfKpI0NI",
+        "has_content": true,
+        "content_length": 27068
+      },
+      {
+        "title": "SCO FIRES BACK: ‘Y’ALL BEEN HATING ON EAZY — THIS AIN’T ABOUT PHILLY, IT’S JEALOUSY!’",
+        "source_type": "youtube",
+        "url": "https://www.youtube.com/watch?v=SwAYAmIuZqw",
+        "has_content": false,
+        "content_length": 0
+      },
+      {
+        "title": "Hitman Holla & Eazy the Block Captain FACEOFF: Physical Altercation at Chrome 23",
+        "source_type": "interview",
+        "url": "https://www.youtube.com/watch?v=-W1rGecxtTE",
+        "has_content": true,
+        "content_length": 30634
+      },
+      {
+        "title": "Drenchszn on JokerOTV Losing His Life, Gillie Claiming Joker K*lled his Son, Ot7Quanny & More",
+        "source_type": "interview",
+        "url": "https://www.youtube.com/watch?v=W4uwE1uJBdU",
+        "has_content": true,
+        "content_length": 44311
+      },
+      {
+        "title": "D Sturdy & PGS Spence on Blowing Up out of Philly, Chalk Hairlines, Tiktok Dances & More",
+        "source_type": "interview",
+        "url": "https://www.youtube.com/watch?v=ORn0KcI5nk4",
+        "has_content": true,
+        "content_length": 47328
+      },
+      {
+        "title": "eazy - Kabel-DSL Internet - Zuper Internet. Zuper günstig.",
+        "source_type": "web",
+        "url": "https://eazy.de/",
+        "has_content": true,
+        "content_length": 178
+      },
+      {
+        "title": "Eazy The Block Captain - YouTube",
+        "source_type": "web",
+        "url": "https://www.youtube.com/@EazyBlockcapt",
+        "has_content": true,
+        "content_length": 160
+      },
+      {
+        "title": "über eazy – mach’s einfach",
+        "source_type": "web",
+        "url": "https://eazy.de/ubereazy",
+        "has_content": true,
+        "content_length": 184
+      },
+      {
+        "title": "Hip Hop Head Quarters1 - Facebook",
+        "source_type": "web",
+        "url": "https://www.facebook.com/hiphopheadquarters1/posts/-philly-rapper-cassidy-dropped-proof-that-eazytheblockcaptain-went-to-pottsville/1493025318924010/",
+        "has_content": true,
+        "content_length": 166
+      },
+      {
+        "title": "eazy - Kabel-DSL Internet - Zuper Internet. Zuper günstig.",
+        "source_type": "web",
+        "url": "https://eazy.de/technologie",
+        "has_content": true,
+        "content_length": 187
+      },
+      {
+        "title": "CASSIDY VS EAZY GOING DOWN IN PHILLY! “I JUST ... - YouTube",
+        "source_type": "web",
+        "url": "https://www.youtube.com/watch?v=T4jJJ-VVZwE",
+        "has_content": true,
+        "content_length": 158
+      },
+      {
+        "title": "The New York Times - Breaking News, US News, World News and …",
+        "source_type": "web",
+        "url": "https://www.nytimes.com/",
+        "has_content": true,
+        "content_length": 140
+      },
+      {
+        "title": "The Ultimate Guide to Finding & Booking Hip-Hop / Trap / R&B Gigs ...",
+        "source_type": "web",
+        "url": "https://beatstorapon.com/blog/the-ultimate-guide-to-finding-booking-hip-hop-trap-rb-gigs-in-2025/",
+        "has_content": true,
+        "content_length": 177
+      },
+      {
+        "title": "New York (state) - Wikipedia",
+        "source_type": "web",
+        "url": "https://en.wikipedia.org/wiki/New_York_(state)",
+        "has_content": true,
+        "content_length": 183
+      },
+      {
+        "title": "Cómo encontrar la URL de una página o imagen - Google Help",
+        "source_type": "web",
+        "url": "https://support.google.com/websearch/answer/118238?hl=es-419&co=GENIE.Platform%3DDesktop",
+        "has_content": true,
+        "content_length": 144
+      },
+      {
+        "title": "URL TV Presents Summer Madness 15 LIVE Discussion Thread",
+        "source_type": "web",
+        "url": "https://www.reddit.com/r/rapbattles/comments/1nmvpmi/url_tv_presents_summer_madness_15_live_discussion/",
+        "has_content": true,
+        "content_length": 155
+      },
+      {
+        "title": "Find the URL of a page or image - Computer - Google Search Help",
+        "source_type": "web",
+        "url": "https://support.google.com/websearch/answer/118238?hl=en&co=GENIE.Platform%3DDesktop",
+        "has_content": true,
+        "content_length": 192
+      },
+      {
+        "title": "2012 (film) - Wikipedia",
+        "source_type": "web",
+        "url": "https://en.m.wikipedia.org/wiki/2012_(film)",
+        "has_content": true,
+        "content_length": 184
+      },
+      {
+        "title": "Battle rap - Wikipedia",
+        "source_type": "web",
+        "url": "https://en.wikipedia.org/wiki/Battle_rap",
+        "has_content": true,
+        "content_length": 163
+      },
+      {
+        "title": "2012 (2009) - IMDb",
+        "source_type": "web",
+        "url": "https://m.imdb.com/title/tt1190080",
+        "has_content": true,
+        "content_length": 183
+      },
+      {
+        "title": "2025-2026 MD Medical School-Specific Discussions",
+        "source_type": "web",
+        "url": "https://forums.studentdoctor.net/forums/2025-2026-md-medical-school-specific-discussions.1198/",
+        "has_content": true,
+        "content_length": 187
+      },
+      {
+        "title": "The Best Hip Hop Albums Of 2025",
+        "source_type": "web",
+        "url": "http://hiphopgoldenage.com/list/the-best-hip-hop-albums-of-2025/",
+        "has_content": true,
+        "content_length": 139
+      },
+      {
+        "title": "2021 - Student Doctor Network Communities",
+        "source_type": "web",
+        "url": "https://forums.studentdoctor.net/attachments/2021-physician-compensation-report_-updated-0821-pdf.354821/",
+        "has_content": true,
+        "content_length": 174
+      },
+      {
+        "title": "Chess Battle Rap Highlights: Epic Moments and Legends | TikTok",
+        "source_type": "web",
+        "url": "https://www.tiktok.com/@thegabewade/video/7533706074919128334",
+        "has_content": true,
+        "content_length": 141
+      },
+      {
+        "title": "XXL Mag & Hit-Boy Collaboration Highlights - TikTok",
+        "source_type": "web",
+        "url": "https://www.tiktok.com/@hitboy/video/7571621576051887390",
+        "has_content": true,
+        "content_length": 165
+      },
+      {
+        "title": "Samara Cyn's 2025 XXL Freshman Freestyle Behind the Scenes",
+        "source_type": "web",
+        "url": "https://www.tiktok.com/@xxl/video/7524820517753261367",
+        "has_content": true,
+        "content_length": 164
+      },
+      {
+        "title": "Store - Battlelog.co",
+        "source_type": "web",
+        "url": "https://battlelog.co/store/",
+        "has_content": true,
+        "content_length": 181
+      },
+      {
+        "title": "RA'SIAH INTERVIEW | PenGame Rap Battle 2025 - YouTube",
+        "source_type": "web",
+        "url": "https://www.youtube.com/watch?v=dSi0K4-BDEg",
+        "has_content": true,
+        "content_length": 161
+      },
+      {
+        "title": "Guides - Battlelog.co",
+        "source_type": "web",
+        "url": "https://battlelog.co/forums/forum/88-guides/",
+        "has_content": true,
+        "content_length": 75
+      },
+      {
+        "title": "Small | Nanoscience & Nanotechnology Journal | Wiley Online …",
+        "source_type": "web",
+        "url": "https://onlinelibrary.wiley.com/journal/16136829?msockid=002da49077cb67b62fb2b242769c6679",
+        "has_content": true,
+        "content_length": 193
+      },
+      {
+        "title": "What two battles would you show to someone new to battle rap to ...",
+        "source_type": "web",
+        "url": "https://www.reddit.com/r/rapbattles/comments/cw5tc7/what_two_battles_would_you_show_to_someone_new_to/",
+        "has_content": true,
+        "content_length": 150
+      },
+      {
+        "title": "Overview - Small - Wiley Online Library",
+        "source_type": "web",
+        "url": "https://onlinelibrary.wiley.com/page/journal/16136829/homepage/productinformation.html?msockid=002da49077cb67b62fb2b242769c6679",
+        "has_content": true,
+        "content_length": 187
+      },
+      {
+        "title": "“TBL GOES CRAZY! Eazy Da Block Captain PUTS CASSIDY IN THE ...",
+        "source_type": "web",
+        "url": "https://www.youtube.com/watch?v=ca9G7cwALcQ",
+        "has_content": true,
+        "content_length": 159
+      },
+      {
+        "title": "听歌追求音质的话，网易云音乐的输出设备选DirectSound ...",
+        "source_type": "web",
+        "url": "https://www.zhihu.com/question/477126825",
+        "has_content": true,
+        "content_length": 92
+      },
+      {
+        "title": "Can someone explain the Norbes situation to me or link me ... - Reddit",
+        "source_type": "web",
+        "url": "https://www.reddit.com/r/rapbattles/comments/odvaz4/can_someone_explain_the_norbes_situation_to_me_or/",
+        "has_content": true,
+        "content_length": 138
+      },
+      {
+        "title": "Log In to Fidelity NetBenefits",
+        "source_type": "web",
+        "url": "https://nb.fidelity.com/static/mybenefits/netbenefitslogin/",
+        "has_content": false,
+        "content_length": 0
+      },
+      {
+        "title": "“And if rap gets jealous 'cause I rock heavy It don't worry me if m ...",
+        "source_type": "web",
+        "url": "https://www.facebook.com/Epr.sevenslash.a/posts/and-if-rap-gets-jealous-cause-i-rock-heavyit-dont-worry-me-if-ms-dont-get-itso-i/1399916094824097/",
+        "has_content": true,
+        "content_length": 157
+      },
+      {
+        "title": "Chris H. on Socratic",
+        "source_type": "web",
+        "url": "https://socratic.org/users/strategic-c",
+        "has_content": true,
+        "content_length": 56
+      },
+      {
+        "title": "You know a thousand rappers are going to be referencing Will Smith ...",
+        "source_type": "web",
+        "url": "https://www.reddit.com/r/hiphop101/comments/tqasso/you_know_a_thousand_rappers_are_going_to_be/",
+        "has_content": true,
+        "content_length": 165
+      },
+      {
+        "title": "SMACK Definition & Meaning - Merriam-Webster",
+        "source_type": "web",
+        "url": "https://www.merriam-webster.com/dictionary/smack",
+        "has_content": true,
+        "content_length": 127
+      },
+      {
+        "title": "Ultimate Rap League - Wikipedia",
+        "source_type": "web",
+        "url": "https://en.wikipedia.org/wiki/Ultimate_Rap_League",
+        "has_content": true,
+        "content_length": 161
+      },
+      {
+        "title": "UNNAMED Definition & Meaning - Merriam-Webster",
+        "source_type": "web",
+        "url": "https://www.merriam-webster.com/dictionary/unnamed",
+        "has_content": true,
+        "content_length": 112
+      },
+      {
+        "title": "The Philly DVD era birthed some rap legends! Artist: @Vodka",
+        "source_type": "web",
+        "url": "https://www.facebook.com/BornFamousCo/posts/the-philly-dvd-era-birthed-some-rap-legends-artist-vodka/5015483211811999/",
+        "has_content": true,
+        "content_length": 157
+      },
+      {
+        "title": "Top Hat | Interactive Learning Platform",
+        "source_type": "web",
+        "url": "https://tophat.com/",
+        "has_content": true,
+        "content_length": 171
+      },
+      {
+        "title": "Debate about Cassidy's battle rap skills and reputation - Facebook",
+        "source_type": "web",
+        "url": "https://www.facebook.com/groups/beatsrhymeslounge/posts/25814882571493496/",
+        "has_content": true,
+        "content_length": 159
+      },
+      {
+        "title": "Eazy The Block Captain vs. Shotgun Suge - YouTube",
+        "source_type": "web",
+        "url": "https://www.youtube.com/watch?v=FFERZxetRgo",
+        "has_content": true,
+        "content_length": 157
+      },
+      {
+        "title": "Ultimate Rap League - YouTube",
+        "source_type": "web",
+        "url": "https://www.youtube.com/channel/UCflIAeM03JFL9ml03LwYF-g",
+        "has_content": true,
+        "content_length": 137
+      },
+      {
+        "title": "The Trap NY (@thetrap_ny) • Instagram photos and videos",
+        "source_type": "web",
+        "url": "https://www.instagram.com/thetrap_ny/",
+        "has_content": true,
+        "content_length": 152
+      },
+      {
+        "title": "雅虎 Yahoo 官方称，雅虎邮箱将在 2 月 28 日停止中国大陆地区服 …",
+        "source_type": "web",
+        "url": "https://www.zhihu.com/question/519208991",
+        "has_content": true,
+        "content_length": 94
+      },
+      {
+        "title": "Norbes: Smack Is the Godfather of Battle Rap - YouTube",
+        "source_type": "web",
+        "url": "https://www.youtube.com/watch?v=4kcI3oHVnzg",
+        "has_content": true,
+        "content_length": 157
+      },
+      {
+        "title": "meaning - swag (slang) -- what does this word really mean?",
+        "source_type": "web",
+        "url": "https://ell.stackexchange.com/questions/48093/swag-slang-what-does-this-word-really-mean",
+        "has_content": true,
+        "content_length": 179
+      },
+      {
+        "title": "Battle of Swag: Lou Williams vs. Nick Young - Liberty Ballers",
+        "source_type": "web",
+        "url": "https://www.libertyballers.com/2012/7/25/3184939/lou-williams-vs-nick-young-swag-swaggy-p-sixers",
+        "has_content": true,
+        "content_length": 153
+      },
+      {
+        "title": "Epic rap battle Chris Rock VS. Supahot Fire! - YouTube",
+        "source_type": "web",
+        "url": "https://www.youtube.com/watch?v=TasiwDoDY0M",
+        "has_content": true,
+        "content_length": 59
+      },
+      {
+        "title": "Avengers (Marvel Cinematic Universe) - Wikipedia",
+        "source_type": "web",
+        "url": "https://en.wikipedia.org/wiki/Avengers_(Marvel_Cinematic_Universe)",
+        "has_content": true,
+        "content_length": 180
+      },
+      {
+        "title": "Avengers: Infinity War Rap Battle | #NerdOut ft DaddyPhatSnaps ...",
+        "source_type": "web",
+        "url": "https://www.youtube.com/watch?v=uUbAFaGojBU",
+        "has_content": true,
+        "content_length": 157
+      },
+      {
+        "title": "Street - Wikipedia",
+        "source_type": "web",
+        "url": "https://en.wikipedia.org/wiki/Street",
+        "has_content": true,
+        "content_length": 190
+      },
+      {
+        "title": "News | The Independent | Today's headlines and latest breaking …",
+        "source_type": "web",
+        "url": "https://www.independent.co.uk/",
+        "has_content": true,
+        "content_length": 150
+      },
+      {
+        "title": "Fakemink's come-up truly needs to be studied… here's all the artists ...",
+        "source_type": "web",
+        "url": "https://www.facebook.com/complexmagMUSIC/posts/fakeminks-come-up-truly-needs-to-be-studied-heres-all-the-artists-that-have-co-s/1326896552804952/",
+        "has_content": true,
+        "content_length": 144
+      },
+      {
+        "title": "Official Philly Tourism and Visitor Information | Visit Philadelphia",
+        "source_type": "web",
+        "url": "https://www.visitphilly.com/",
+        "has_content": true,
+        "content_length": 202
+      },
+      {
+        "title": "RAKIM SAYS BATTLE RAP IS HIP-HOP IN ITS RAWEST ... - YouTube",
+        "source_type": "web",
+        "url": "https://www.youtube.com/watch?v=fRdRN623QMA",
+        "has_content": true,
+        "content_length": 162
+      },
+      {
+        "title": "What is Sliding Window Algorithm? Examples? - Stack Overflow",
+        "source_type": "web",
+        "url": "https://stackoverflow.com/questions/8269916/what-is-sliding-window-algorithm-examples",
+        "has_content": true,
+        "content_length": 176
+      },
+      {
+        "title": "The Game's Harsh Verdict on Today's Hip-Hop: A Cultural Wake-Up ...",
+        "source_type": "web",
+        "url": "https://hiphopandculture.com/the-games-harsh-verdict-on-todays-hip-hop-a-cultural-wake-up-call/",
+        "has_content": true,
+        "content_length": 159
+      }
+    ]
+  },
+  "script_stats": {
+    "word_count": 1616,
+    "estimated_duration_seconds": 647
+  }
+}

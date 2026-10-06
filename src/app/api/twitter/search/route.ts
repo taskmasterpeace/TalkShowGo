@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getTwitterClient, buildBattleRapSearchQuery } from '@/lib/twitter-api'
+import { requireTwitterClient, buildBattleRapSearchQuery } from '@/lib/twitter-api'
 
 /**
  * POST /api/twitter/search
@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const twitter = getTwitterClient()
+    const twitter = requireTwitterClient()
     const results = await twitter.searchTweets(searchQuery, { queryType, cursor })
 
     return NextResponse.json({

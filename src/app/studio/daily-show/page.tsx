@@ -21,8 +21,11 @@ import {
   Users,
   CheckSquare,
   Square,
-  AlertCircle
+  AlertCircle,
+  FileSearch
 } from 'lucide-react'
+import { DecisionLogPanel } from '@/components/decision-log-panel'
+import { ProposalDecisionLog } from '@/lib/decision-logger'
 
 // Types
 interface ShowTemplate {
@@ -215,6 +218,10 @@ export default function DailyShowPage() {
   const [twitterDigest, setTwitterDigest] = useState<TwitterDigest | null>(null)
   const [includeTwitter, setIncludeTwitter] = useState(true)
 
+  // Decision log state
+  const [decisionLog, setDecisionLog] = useState<ProposalDecisionLog | null>(null)
+  const [showDecisionLog, setShowDecisionLog] = useState(false)
+
   // Preview/generation state
   const [previewScript, setPreviewScript] = useState('')
   const [editedScript, setEditedScript] = useState('')
@@ -285,6 +292,10 @@ export default function DailyShowPage() {
             top_tweets: data.twitter_digest.top_tweets || [],
             formatted_script: data.twitter_digest.formatted_script || ''
           })
+        }
+        // Store decision log
+        if (data.decision_log) {
+          setDecisionLog(data.decision_log)
         }
         // Auto-select all topics
         setSelectedTopicIndices(new Set(data.topics?.map((_: unknown, i: number) => i) || []))
@@ -756,6 +767,29 @@ export default function DailyShowPage() {
                     </div>
                   </button>
                 ))}
+
+                {/* Decision Log Toggle */}
+                {decisionLog && (
+                  <div className="mt-6">
+                    <button
+                      onClick={() => setShowDecisionLog(!showDecisionLog)}
+                      className="flex items-center gap-2 px-4 py-2 border-2 border-foreground/50 hover:border-foreground hover:bg-muted transition-all"
+                    >
+                      <FileSearch className="h-4 w-4" />
+                      {showDecisionLog ? 'Hide Decision Log' : 'View Decision Log'}
+                    </button>
+
+                    {showDecisionLog && (
+                      <div className="mt-4 p-4 border-2 border-foreground/30 bg-zinc-950 rounded-lg max-h-[500px] overflow-y-auto">
+                        <h3 className="font-bold mb-4 flex items-center gap-2 text-zinc-200">
+                          <FileSearch className="h-5 w-5" />
+                          Proposal Decision Log
+                        </h3>
+                        <DecisionLogPanel log={decisionLog} />
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {/* Twitter Digest Preview */}
                 {includeTwitter && twitterDigest && (

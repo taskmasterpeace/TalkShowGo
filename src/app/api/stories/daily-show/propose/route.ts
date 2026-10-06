@@ -12,11 +12,13 @@
  *   - end_date: End of date range (ISO string or YYYY-MM-DD)
  *   - max_topics: Maximum topics to return (default: 5)
  *   - include_twitter: Include Twitter digest (default: true)
+ *   - include_decision_log: Include decision log for auditing (default: true)
  */
 
 import { NextRequest, NextResponse } from 'next/server'
 import { proposeTopicsForShow, TopicProposerOptions } from '@/lib/topic-proposer'
 import { buildTwitterDigest, TwitterDigestOptions } from '@/lib/twitter-digest'
+import { supabase } from '@/lib/db'
 
 export async function GET(request: NextRequest) {
   try {
@@ -25,6 +27,7 @@ export async function GET(request: NextRequest) {
     const hoursBack = parseInt(searchParams.get('hours_back') || '24', 10)
     const maxTopics = parseInt(searchParams.get('max_topics') || '5', 10)
     const includeTwitter = searchParams.get('include_twitter') !== 'false'
+    const includeDecisionLog = searchParams.get('include_decision_log') !== 'false'
 
     // Date parameters - these override hours_back
     const targetDate = searchParams.get('target_date')  // YYYY-MM-DD
@@ -39,18 +42,22 @@ export async function GET(request: NextRequest) {
     }
 
     // Build options for date range
-    let dateOptions: TopicProposerOptions = { hoursBack }
+    let dateOptions: TopicProposerOptions = {
+      hoursBack,
+      includeDecisionLog
+    }
     let dateDescription = `${hoursBack}h back`
 
     if (targetDate) {
       // Convenience: target_date gives full 24 hours of that day
-      dateOptions = { targetDate }
+      dateOptions = { targetDate, includeDecisionLog }
       dateDescription = targetDate
     } else if (startDateParam && endDateParam) {
       // Explicit date range
       dateOptions = {
         startDate: new Date(startDateParam),
-        endDate: new Date(endDateParam)
+        endDate: new Date(endDateParam),
+        includeDecisionLog
       }
       dateDescription = `${startDateParam} to ${endDateParam}`
     }
@@ -58,7 +65,37 @@ export async function GET(request: NextRequest) {
     console.log(`[ProposeAPI] Proposing topics for ${topicId} (${dateDescription}, max ${maxTopics})`)
 
     // Propose topics from sources
-    const proposedTopics = await proposeTopicsForShow(topicId, dateOptions, maxTopics)
+    const proposalResult = await proposeTopicsForShow(topicId, dateOptions, maxTopics)
+    const { topics: proposedTopics, decisionLog } = proposalResult
+
+    // Save decision log to database if present
+    if (decisionLog) {
+      const stats = {
+        topics_proposed: decisionLog.topics_proposed,
+        videos_found: decisionLog.searches.youtube.videos_found,
+        tweets_found: decisionLog.searches.twitter.tweets_found,
+        transcripts_fetched: decisionLog.analysis.transcripts_fetched.length,
+        clusters_created: decisionLog.topics_selected.length + decisionLog.topics_rejected.length,
+        clusters_rejected: decisionLog.topics_rejected.length,
+        processing_time_ms: decisionLog.processing_time_ms
+      }
+
+      const { data: savedData, error: saveError } = await supabase
+        .from('proposal_decision_logs')
+        .insert({
+          topic_id: topicId,
+          decision_log: decisionLog,
+          ...stats
+        })
+        .select()
+
+      if (saveError) {
+        console.error('[ProposeAPI] Failed to save decision log:', JSON.stringify(saveError, null, 2))
+        console.error('[ProposeAPI] Error details - code:', saveError.code, 'message:', saveError.message, 'hint:', saveError.hint)
+      } else {
+        console.log('[ProposeAPI] Decision log saved to database, id:', savedData?.[0]?.id)
+      }
+    }
 
     // Optionally include Twitter digest (use same date options)
     let twitterDigest = null
@@ -89,6 +126,7 @@ export async function GET(request: NextRequest) {
         top_tweets: twitterDigest.top_tweets.slice(0, 3),
         formatted_script: twitterDigest.formatted_script
       } : null,
+      decision_log: decisionLog || null,
       message: proposedTopics.length > 0
         ? `Found ${proposedTopics.length} topics to discuss`
         : 'No trending topics found. Try a different date or check your sources.'

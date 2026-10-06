@@ -181,15 +181,14 @@ export async function searchTwitterSentiment(
     trusted_accounts = []
   } = config
 
-  // Check if Twitter API is configured
-  if (!process.env.TWITTER_API_KEY) {
-    console.log('[TwitterSentiment] No API key configured, skipping')
+  // Get Twitter client (returns null if not configured)
+  const client = getTwitterClient()
+  if (!client) {
+    console.log('[TwitterSentiment] Twitter not configured, skipping')
     return null
   }
 
   console.log(`[TwitterSentiment] Searching for reactions around ${event_timeframe.event_date.toISOString().split('T')[0]}`)
-
-  const client = getTwitterClient()
 
   // Build date range: event date -1 day to +7 days (reactions come in over a week)
   const since = new Date(event_timeframe.event_date)
@@ -372,12 +371,6 @@ export async function enrichResearchWithTwitter(
 ): Promise<TwitterSentiment | null> {
   // Check if enabled
   if (options?.enabled === false) {
-    return null
-  }
-
-  // Check if Twitter API is configured
-  if (!process.env.TWITTER_API_KEY) {
-    console.log('[TwitterSentiment] Skipping - no API key')
     return null
   }
 

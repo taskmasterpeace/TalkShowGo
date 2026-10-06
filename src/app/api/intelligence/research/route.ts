@@ -19,7 +19,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server'
-import { runResearch } from '@/lib/intelligence-framework'
+import { runResearchWorkflow } from '@/lib/research-workflow'
 import { runDeepResearch, checkLLMHealth } from '@/lib/deep-research'
 import { checkSearXNGHealth } from '@/lib/web-search'
 
@@ -91,12 +91,12 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // QUICK MODE - YouTube search (default)
-    const result = await runResearch(topic_id, query, {
-      max_results,
-      create_story,
-      story_name,
-      story_type
+    // QUICK MODE - YouTube search with relationship extraction (default)
+    const result = await runResearchWorkflow({
+      topic_id,
+      query,
+      max_videos: max_results,
+      enable_relationship_extraction: true,  // Auto-sync to knowledge graph
     })
 
     return NextResponse.json({
@@ -105,7 +105,11 @@ export async function POST(request: NextRequest) {
       run_id: result.run_id,
       query: result.query,
       videos_found: result.videos_found,
-      story_id: result.story_id,
+      // Relationship extraction stats
+      relationships_extracted: result.relationships_extracted,
+      relationships_synced: result.relationships_synced,
+      graph_entities_created: result.graph_entities_created,
+      // Sources
       sources: result.sources.map(v => ({
         video_id: v.video_id,
         title: v.title,

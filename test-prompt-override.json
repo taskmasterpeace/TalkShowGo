@@ -1,0 +1,4 @@
+{
+  "template": "Create an exciting intro for \"{show_name}\" with host {host_name}.\n\nToday we're covering:\n{story_list}\n\nMake it punchy and engaging!",
+  "notes": "Simplified intro template for testing custom overrides"
+}

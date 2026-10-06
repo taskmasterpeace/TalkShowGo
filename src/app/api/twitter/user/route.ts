@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getTwitterClient } from '@/lib/twitter-api'
+import { requireTwitterClient } from '@/lib/twitter-api'
 
 /**
  * GET /api/twitter/user?username=xxx
@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const twitter = getTwitterClient()
+    const twitter = requireTwitterClient()
     const user = await twitter.getUserByUsername(username)
 
     if (!user) {

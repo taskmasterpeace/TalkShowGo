@@ -12,7 +12,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { getTwitterClient } from '@/lib/twitter-api'
+import { getTwitterClient, isTwitterConfigured } from '@/lib/twitter-api'
 import { getFreeYouTubeClient } from '@/lib/youtube-api'
 import { trackTwitterCall, trackYouTubeCall } from '@/lib/api-usage'
 
@@ -137,6 +137,8 @@ async function pullTwitterTimeline(username: string, topicId?: string, options: 
   if (!username) throw new Error('username is required for twitter_timeline')
 
   const twitter = getTwitterClient()
+  if (!twitter) throw new Error('Twitter API is not configured. Set TWITTER_API_KEY in your environment.')
+
   const result = await twitter.getUserTimeline(username)
 
   trackTwitterCall('user_timeline', result.tweets.length, topicId)
@@ -182,6 +184,8 @@ async function pullTwitterSearch(query: string, topicId?: string, options: any =
   if (!query) throw new Error('query is required for twitter_search')
 
   const twitter = getTwitterClient()
+  if (!twitter) throw new Error('Twitter API is not configured. Set TWITTER_API_KEY in your environment.')
+
   const result = await twitter.searchTweets(query, {
     queryType: options.queryType || 'Latest',
   })
@@ -329,10 +333,19 @@ async function pullAllSources(topicId?: string) {
   let totalNew = 0
   let totalCalls = 0
   let totalCost = 0
+  let skippedTwitter = 0
+
+  // Check if Twitter API is available
+  const hasTwitterApi = isTwitterConfigured()
 
   for (const source of sources) {
     try {
       if (source.platform === 'twitter') {
+        // Skip Twitter sources if no API key configured
+        if (!hasTwitterApi) {
+          skippedTwitter++
+          continue
+        }
         const result = await pullTwitterTimeline(source.username, topicId)
         totalItems = totalItems.concat(result.items)
         totalNew += result.newItems
@@ -356,6 +369,7 @@ async function pullAllSources(topicId?: string) {
     apiCalls: totalCalls,
     cost: totalCost,
     sourcesProcessed: sources.length,
+    skippedTwitterSources: skippedTwitter,
   }
 }
 

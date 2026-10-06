@@ -41,9 +41,12 @@ import {
   MapPin,
   Calendar,
   Package,
+  Network,
+  RefreshCw,
 } from 'lucide-react'
 import { EntityContext } from '@/types/entity-context'
 import Link from 'next/link'
+import { EntityRelationships, GraphStatsSummary } from '@/components/entity-relationships'
 
 // ============================================
 // TYPES
@@ -69,6 +72,7 @@ function EntityCard({
   onLock,
   onUnlock,
   onView,
+  onRelationships,
   enriching,
 }: {
   entity: Entity
@@ -76,6 +80,7 @@ function EntityCard({
   onLock: () => void
   onUnlock: () => void
   onView: () => void
+  onRelationships: () => void
   enriching: boolean
 }) {
   const ctx = entity.metadata || {}
@@ -177,6 +182,14 @@ function EntityCard({
               View
             </Button>
           </Link>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onRelationships}
+            title="View relationships"
+          >
+            <Network className="h-3 w-3" />
+          </Button>
           {enrichmentStatus !== 'locked' ? (
             <>
               <Button
@@ -404,6 +417,8 @@ export default function EntitiesPage() {
   const [enrichingIds, setEnrichingIds] = useState<Set<string>>(new Set())
   const [selectedEntity, setSelectedEntity] = useState<Entity | null>(null)
   const [detailOpen, setDetailOpen] = useState(false)
+  const [relationshipsEntity, setRelationshipsEntity] = useState<Entity | null>(null)
+  const [syncing, setSyncing] = useState(false)
 
   // Fetch entities when topic changes
   useEffect(() => {
@@ -558,6 +573,30 @@ export default function EntitiesPage() {
     }
   }
 
+  const handleSyncGraph = async () => {
+    if (!selectedTopic) return
+    setSyncing(true)
+    try {
+      const res = await fetch('/api/graph/sync', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ topic_id: selectedTopic.id, mode: 'incremental' }),
+      })
+      const result = await res.json()
+      console.log('Graph sync result:', result)
+      if (result.success) {
+        alert(`Synced ${result.entities_synced} entities, ${result.relationships_created} relationships${result.errors?.length ? ` (${result.errors.length} errors)` : ''}`)
+      } else {
+        alert(`Sync failed: ${result.error || 'Unknown error'}`)
+      }
+    } catch (error) {
+      console.error('Graph sync failed:', error)
+      alert('Graph sync failed - check console for details')
+    } finally {
+      setSyncing(false)
+    }
+  }
+
   // Stats
   const stats = {
     total: entities.length,
@@ -604,11 +643,24 @@ export default function EntitiesPage() {
               <Sparkles className="h-4 w-4 mr-2" />
               Enrich Pending ({stats.pending})
             </Button>
+            <Button
+              variant="outline"
+              onClick={handleSyncGraph}
+              disabled={syncing || !selectedTopic}
+              title="Sync entities to knowledge graph"
+            >
+              {syncing ? (
+                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+              ) : (
+                <Network className="h-4 w-4 mr-2" />
+              )}
+              Sync Graph
+            </Button>
           </div>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-5 gap-4">
           <Card className="p-4 text-center">
             <p className="text-2xl font-bold">{stats.total}</p>
             <p className="text-sm text-muted-foreground">Total Entities</p>
@@ -625,6 +677,7 @@ export default function EntitiesPage() {
             <p className="text-2xl font-bold text-orange-600">{stats.locked}</p>
             <p className="text-sm text-muted-foreground">Locked</p>
           </Card>
+          <GraphStatsSummary />
         </div>
 
         {/* Controls */}
@@ -740,6 +793,7 @@ export default function EntitiesPage() {
                   setSelectedEntity(entity)
                   setDetailOpen(true)
                 }}
+                onRelationships={() => setRelationshipsEntity(entity)}
                 enriching={enrichingIds.has(entity.id)}
               />
             ))}
@@ -753,6 +807,25 @@ export default function EntitiesPage() {
           onClose={() => setDetailOpen(false)}
           onSave={handleSaveContext}
         />
+
+        {/* Entity Relationships Dialog */}
+        <Dialog open={!!relationshipsEntity} onOpenChange={() => setRelationshipsEntity(null)}>
+          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2">
+                <Network className="h-5 w-5" />
+                Entity Relationships
+              </DialogTitle>
+            </DialogHeader>
+            {relationshipsEntity && (
+              <EntityRelationships
+                entityId={relationshipsEntity.id}
+                entityName={relationshipsEntity.canonical_name}
+                onClose={() => setRelationshipsEntity(null)}
+              />
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     </AppShell>
   )

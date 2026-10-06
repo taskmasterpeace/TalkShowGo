@@ -265,7 +265,7 @@ export class DailyShowScheduler {
         })
       })
 
-      const result = await response.json()
+      const result = await response.json() as { error?: string; [key: string]: unknown }
 
       if (response.ok) {
         // Log successful run

@@ -29,6 +29,7 @@ import {
   FileStack,
   Radio,
   Key,
+  RefreshCw,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -132,6 +133,13 @@ const secondaryNavigation = [
     indent: true,
   },
   {
+    name: 'Knowledge Graph',
+    href: '/studio/graph',
+    icon: Network,
+    description: 'Explore relationships',
+    indent: true,
+  },
+  {
     name: 'Research',
     href: '/studio/research',
     icon: Brain,
@@ -157,6 +165,13 @@ const secondaryNavigation = [
     href: '/studio/daily-show',
     icon: Radio,
     description: 'Create shows',
+    indent: true,
+  },
+  {
+    name: 'Repurpose',
+    href: '/studio/repurpose',
+    icon: RefreshCw,
+    description: 'Remake videos',
     indent: true,
   },
   {

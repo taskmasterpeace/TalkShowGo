@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getTwitterClient } from '@/lib/twitter-api'
+import { requireTwitterClient } from '@/lib/twitter-api'
 
 /**
  * GET /api/twitter/timeline?username=xxx
@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    const twitter = getTwitterClient()
+    const twitter = requireTwitterClient()
     const timeline = await twitter.getUserTimeline(username, cursor)
 
     return NextResponse.json({

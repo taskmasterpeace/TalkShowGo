@@ -7,6 +7,7 @@
  * Body:
  * - force: boolean (optional) - Force re-enrichment even if locked/recent
  * - niche_keywords: string[] (optional) - Context keywords for better search
+ * - use_perplexity: boolean (optional) - Use Perplexity Sonar instead of SearXNG (recommended for obscure entities)
  *
  * POST /api/entities/[id]/enrich/lock
  * Lock entity to prevent enrichment
@@ -28,7 +29,7 @@ export async function POST(
     const { id: entityId } = await params
     const body = await request.json().catch(() => ({}))
 
-    const { force = false, niche_keywords = [] } = body
+    const { force = false, niche_keywords = [], use_perplexity = false } = body
 
     // Check for lock/unlock actions in path
     const pathname = request.nextUrl.pathname
@@ -62,7 +63,8 @@ export async function POST(
       entity_id: entityId,
       topic_id: entity?.topic_id,
       force,
-      niche_keywords
+      niche_keywords,
+      use_perplexity
     })
 
     return NextResponse.json({

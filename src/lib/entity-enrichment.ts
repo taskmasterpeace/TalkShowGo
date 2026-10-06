@@ -8,6 +8,7 @@
 import { searchWeb, searchEntity, WebSearchResult } from './web-search'
 import { EntityContext, EntityAffiliation, LeagueContext } from '@/types/entity-context'
 import { supabase } from './db'
+import { perplexity, isPerplexityAvailable } from './perplexity'
 
 // Patterns that indicate a female-focused league/organization
 const FEMALE_LEAGUE_PATTERNS = [
@@ -92,6 +93,7 @@ export interface EnrichmentConfig {
   topic_id?: string
   force?: boolean      // Enrich even if already enriched
   niche_keywords?: string[]  // Context keywords for better search
+  use_perplexity?: boolean   // Use Perplexity Sonar instead of SearXNG (recommended for obscure entities)
 }
 
 export interface EnrichmentResult {
@@ -178,36 +180,60 @@ export async function enrichEntity(config: EnrichmentConfig): Promise<Enrichment
     }
   }
 
-  // Determine search strategy based on entity type and existing context
-  const searchQueries = generateSearchQueries(
-    entity.canonical_name,
-    entity.entity_type,
-    existingContext,
-    nicheContext
-  )
+  // Choose enrichment method: Perplexity (better for obscure entities) or SearXNG
+  let enrichment: { context: Partial<EntityContext>; summary: string }
+  let sourcesUsed: string[] = []
 
-  // Execute searches
-  const allResults: WebSearchResult[] = []
-  const sourcesUsed: string[] = []
+  const usePerplexity = config.use_perplexity ?? false
+  console.log(`[Enrichment] use_perplexity flag: ${usePerplexity}`)
 
-  for (const query of searchQueries) {
-    try {
-      const results = await searchWeb(query, { max_results: 5 })
-      allResults.push(...results)
-      sourcesUsed.push(...results.map(r => r.url))
-    } catch (error) {
-      console.error(`Search failed for "${query}":`, error)
-    }
+  let perplexityAvailable = false
+  if (usePerplexity) {
+    perplexityAvailable = await isPerplexityAvailable()
+    console.log(`[Enrichment] Perplexity available: ${perplexityAvailable}`)
   }
 
-  // Extract enrichment from search results using LLM
-  const enrichment = await extractEnrichmentFromResults(
-    entity.canonical_name,
-    entity.entity_type,
-    existingContext,
-    allResults,
-    nicheContext
-  )
+  if (perplexityAvailable) {
+    // Use Perplexity Sonar - much better for obscure/niche entities
+    console.log(`[Enrichment] Using Perplexity for ${entity.canonical_name}`)
+    try {
+      const pplxResult = await enrichWithPerplexity(
+        entity.canonical_name,
+        entity.entity_type,
+        existingContext,
+        nicheContext
+      )
+      enrichment = {
+        context: pplxResult.context,
+        summary: pplxResult.summary
+      }
+      sourcesUsed = pplxResult.sources
+    } catch (error) {
+      console.error('[Enrichment] Perplexity failed, falling back to SearXNG:', error)
+      // Fall back to SearXNG on Perplexity failure
+      const fallback = await enrichWithSearXNG(
+        entity.canonical_name,
+        entity.entity_type,
+        existingContext,
+        nicheContext
+      )
+      enrichment = fallback.enrichment
+      sourcesUsed = fallback.sources
+    }
+  } else {
+    // Use SearXNG + LLM (original method)
+    if (usePerplexity && !perplexityAvailable) {
+      console.log(`[Enrichment] Perplexity requested but not available, using SearXNG`)
+    }
+    const fallback = await enrichWithSearXNG(
+      entity.canonical_name,
+      entity.entity_type,
+      existingContext,
+      nicheContext
+    )
+    enrichment = fallback.enrichment
+    sourcesUsed = fallback.sources
+  }
 
   // Merge with existing context
   const newContext: EntityContext = {
@@ -293,6 +319,51 @@ function generateSearchQueries(
   queries.push(`${name} wikipedia`)
 
   return queries.slice(0, 5) // Limit to 5 queries
+}
+
+/**
+ * Enrich entity using SearXNG + LLM (original method)
+ */
+async function enrichWithSearXNG(
+  entityName: string,
+  entityType: string,
+  existingContext: EntityContext,
+  nicheKeywords: string[]
+): Promise<{ enrichment: { context: Partial<EntityContext>; summary: string }; sources: string[] }> {
+  console.log(`[Enrichment] Using SearXNG for ${entityName}`)
+
+  // Generate search queries based on entity type and context
+  const searchQueries = generateSearchQueries(
+    entityName,
+    entityType,
+    existingContext,
+    nicheKeywords
+  )
+
+  // Execute searches
+  const allResults: WebSearchResult[] = []
+  const sourcesUsed: string[] = []
+
+  for (const query of searchQueries) {
+    try {
+      const results = await searchWeb(query, { max_results: 5 })
+      allResults.push(...results)
+      sourcesUsed.push(...results.map(r => r.url))
+    } catch (error) {
+      console.error(`Search failed for "${query}":`, error)
+    }
+  }
+
+  // Extract enrichment from search results using LLM
+  const enrichment = await extractEnrichmentFromResults(
+    entityName,
+    entityType,
+    existingContext,
+    allResults,
+    nicheKeywords
+  )
+
+  return { enrichment, sources: sourcesUsed }
 }
 
 /**
@@ -420,6 +491,125 @@ Only include fields where you found actual information. Do not make up data.`
       context: {},
       summary: 'Failed to extract enrichment from search results'
     }
+  }
+}
+
+/**
+ * Enrich entity using Perplexity Sonar API
+ * Much better for obscure/niche entities than SearXNG
+ */
+async function enrichWithPerplexity(
+  entityName: string,
+  entityType: string,
+  existingContext: EntityContext,
+  nicheKeywords: string[]
+): Promise<{ context: Partial<EntityContext>; summary: string; sources: string[] }> {
+  const nicheContext = nicheKeywords.length > 0 ? nicheKeywords.join(', ') : 'general'
+
+  console.log(`[Perplexity] Researching entity: ${entityName} in context: ${nicheContext}`)
+
+  try {
+    // Use Perplexity's entity research with enhanced schema for gender
+    const query = `Research ${entityName} in the context of ${nicheContext}. Find their role, gender (male/female), affiliations, social media handles, and any notable information. Known info: ${JSON.stringify(existingContext)}`
+
+    const result = await perplexity.search({
+      query,
+      systemPrompt: `You are a research assistant specializing in ${nicheContext}.
+Provide accurate, verifiable information only.
+For gender, only include if explicitly stated or clearly evident from pronouns/context.
+If the person RUNS or OWNS a gender-specific organization (like a women's league), that does NOT mean they are that gender.
+
+Respond in JSON format:
+{
+  "role": "primary role/occupation",
+  "sub_roles": ["other roles"],
+  "gender": "male or female ONLY if certain",
+  "affiliations": [{"name": "org", "type": "league/team/company", "status": "current/former"}],
+  "platforms": {"twitter_handle": "@...", "youtube_channel_id": "UC...", "instagram_handle": "@..."},
+  "is_commentator": true/false,
+  "notes": "notable information",
+  "summary": "one sentence summary"
+}`,
+      model: 'sonar',
+      search_recency_filter: 'month',
+      temperature: 0.2,
+    })
+
+    // Parse the response - Perplexity returns markdown, extract JSON
+    let parsed: Record<string, unknown> = {}
+    try {
+      // Try to find JSON in the response
+      const jsonMatch = result.answer.match(/```json\n?([\s\S]*?)\n?```/)
+      if (jsonMatch) {
+        parsed = JSON.parse(jsonMatch[1])
+      } else {
+        // Try parsing the whole thing
+        parsed = JSON.parse(result.answer)
+      }
+    } catch {
+      // If JSON parsing fails, try to extract info from the text
+      console.log('[Perplexity] Response not JSON, extracting from text')
+      parsed = {
+        notes: result.answer.slice(0, 500),
+        summary: 'Information found but not in structured format'
+      }
+    }
+
+    // Build context from Perplexity response
+    const context: Partial<EntityContext> = {}
+
+    if (parsed.role && !existingContext.role) {
+      context.role = parsed.role as string
+    }
+    if (parsed.sub_roles && Array.isArray(parsed.sub_roles) && parsed.sub_roles.length > 0) {
+      context.sub_roles = parsed.sub_roles as string[]
+    }
+    if (parsed.affiliations && Array.isArray(parsed.affiliations) && parsed.affiliations.length > 0) {
+      context.affiliations = parsed.affiliations as EntityAffiliation[]
+    }
+    if (parsed.platforms && typeof parsed.platforms === 'object') {
+      context.platforms = {
+        ...existingContext.platforms,
+        ...(parsed.platforms as Record<string, string>)
+      }
+    }
+    if (parsed.is_commentator !== undefined && existingContext.is_commentator === undefined) {
+      context.is_commentator = parsed.is_commentator as boolean
+    }
+    if (parsed.notes && !existingContext.notes) {
+      context.notes = parsed.notes as string
+    }
+
+    // GENDER VALIDATION - same logic as SearXNG path
+    if (parsed.gender && !existingContext.gender) {
+      const genderValidation = validateGenderInference(
+        entityName,
+        parsed.gender as string,
+        (parsed.role as string) || existingContext.role,
+        (parsed.affiliations as EntityAffiliation[]) || existingContext.affiliations,
+        (parsed.notes as string) || existingContext.notes
+      )
+
+      context.gender = genderValidation.gender as 'male' | 'female' | 'other' | 'unknown'
+
+      if (genderValidation.needs_review) {
+        context.gender_needs_review = true
+        context.gender_review_reason = genderValidation.review_reason
+        if (genderValidation.league_context) {
+          context.league_context = genderValidation.league_context
+        }
+        console.log(`[Perplexity] Gender flagged for review: ${genderValidation.review_reason}`)
+      }
+    }
+
+    return {
+      context,
+      summary: (parsed.summary as string) || 'Enriched via Perplexity Sonar',
+      sources: result.citations || []
+    }
+  } catch (error) {
+    console.error('[Perplexity] Enrichment failed:', error)
+    throw error
   }
 }
 

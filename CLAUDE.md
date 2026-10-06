@@ -42,7 +42,7 @@ npm run build
 npm run lint
 
 # Run database migrations (apply a specific migration)
-docker exec -i tsg-postgres psql -U postgres -d talkshowgo < supabase/migrations/XXX_name.sql
+docker exec -i tsg-postgres psql -U postgres -d contentkingdom < supabase/migrations/XXX_name.sql
 
 # Reset Docker (wipe data and restart)
 npm run docker:reset
@@ -71,7 +71,7 @@ npx playwright test tests/branding.spec.ts
 | Item | Value |
 |------|-------|
 | App Name | TalkShowGo |
-| Database | talkshowgo |
+| Database | contentkingdom |
 | Container Prefix | tsg-* (tsg-postgres, tsg-redis, tsg-worker, etc.) |
 | Logo | /public/logo.svg |
 | User-Agent | TalkShowGo/1.0 |
@@ -113,6 +113,118 @@ useEffect(() => {
 ```
 
 **Never** use local topic state or hardcoded topic IDs in pages.
+
+---
+
+## Niche/Topic Architecture
+
+TalkShowGo is designed as a **multi-tenant system** where each niche (topic) has its own isolated data:
+
+### Data Segmentation by Niche
+
+| Table | Has topic_id | Description |
+|-------|:---:|-------------|
+| `topics` | N/A | Root table - defines niches |
+| `source_accounts` | ✓ | Twitter/YouTube/RSS sources |
+| `youtube_channels` | ✓ | YouTube channel sources |
+| `youtube_videos` | ✓ | Video metadata + transcripts |
+| `entities` | ✓ | People, organizations, events |
+| `claims` | ✓ | Extracted claims from content |
+| `story_candidates` | ✓ | Story ideas and drafts |
+| `research_packages` | ✓ | Complete research bundles |
+| `show_templates` | ✓ | Daily show templates |
+| `daily_show_schedules` | ✓ | Automation schedules |
+| `daily_show_runs` | ✓ | Generated shows |
+| `pronunciation_dictionary` | ✓ | Niche-specific pronunciations |
+| `prompt_overrides` | ✓ | Niche-specific prompt tweaks |
+
+### Creating a New Niche
+
+**Quick Setup (API)**:
+```bash
+curl -X POST http://localhost:3000/api/onboarding/quickstart \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Hood Content",
+    "description": "Street news and culture",
+    "initial_entities": ["CHICAGO", "ATLANTA", "DRILL"],
+    "initial_patterns": ["shot", "arrested", "beef", "speaks on"],
+    "hours_back": 72,
+    "min_sources": 2
+  }'
+```
+
+**Step-by-Step Setup**:
+1. Create topic: `POST /api/topics`
+2. Configure intel: `PUT /api/topics/{id}/config`
+3. Add YouTube channels: `POST /api/topics/{id}/youtube`
+4. Add Twitter sources: `POST /api/source-accounts`
+5. Test monitor: `POST /api/intelligence/monitor`
+6. Check status: `GET /api/onboarding?topic_id=xxx`
+
+### Onboarding Status
+
+Check onboarding progress for any niche:
+```bash
+GET /api/onboarding?topic_id=864dbcf4-e1f7-4b1a-86ed-c18007439ad5
+```
+
+Returns progress through 7 steps:
+1. Create Topic ✓
+2. Add YouTube Channels
+3. Add Twitter Sources (optional)
+4. Configure Known Entities
+5. Configure Story Patterns
+6. Test Monitor Mode
+7. Test Research Mode
+
+### Database Clients
+
+**Two Supabase clients** are available in `src/lib/db.ts`:
+
+```typescript
+import { supabase, supabaseAdmin } from '@/lib/db'
+
+// supabase - Anon key (restricted, for client-side)
+// supabaseAdmin - Service role key (full access, server-side only)
+```
+
+Use `supabaseAdmin` for:
+- Creating/deleting topics
+- Creating/deleting source accounts
+- Any INSERT/UPDATE/DELETE on protected tables
+
+Use `supabase` for:
+- Read-only operations from client components
+- Operations that should respect Row Level Security
+
+### Knowledge Graph Segmentation
+
+Entities in Memgraph include `topic_id` for filtering:
+
+```typescript
+// In knowledge-graph.ts
+interface GraphEntity {
+  id: string
+  name: string
+  type: 'person' | 'organization' | 'event' | 'league'
+  topic_id?: string  // Filter by niche
+}
+```
+
+Graph API supports topic filtering:
+```bash
+GET /api/graph/full?topic_id=864dbcf4-...
+POST /api/graph/sync  # Body: { "topic_id": "..." }
+```
+
+### What's NOT Segmented (Global)
+
+These are intentionally shared across all niches:
+- `hosts` - AI narrator personalities (shared pool)
+- `show_formats` - Format definitions
+- `producers` - Producer profiles
+- `prompt_templates` - Base prompt library
 
 ---
 

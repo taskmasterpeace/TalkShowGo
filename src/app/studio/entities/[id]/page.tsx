@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, use } from 'react'
+import { useState, useEffect } from 'react'
 import { AppShell } from '@/components/layout'
 import {
   Card,
@@ -129,9 +129,9 @@ function AffiliationEditor({
 export default function EntityDetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>
+  params: { id: string }
 }) {
-  const { id: entityId } = use(params)
+  const { id: entityId } = params
   const router = useRouter()
 
   const [entity, setEntity] = useState<Entity | null>(null)

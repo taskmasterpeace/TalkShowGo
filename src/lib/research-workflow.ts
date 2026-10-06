@@ -19,6 +19,10 @@ import { searchWeb, WebSearchResult } from './web-search'
 // Import will be added after research-docs.ts is created
 // import { generateResearchDocs } from './research-docs'
 
+// Relationship extraction imports
+import { extractRelationshipsFromSources, ExtractionResult } from './relationship-extractor'
+import { syncRelationshipsToGraph } from './graph-sync'
+
 // Document types for legal/allegation stories
 export interface DocumentSearchResult {
   type: 'court_record' | 'news_article' | 'official_document' | 'social_media'
@@ -64,6 +68,9 @@ export interface WorkflowOptions {
   enable_document_search?: boolean     // Default false - auto-enabled when allegations detected
   document_types?: string[]            // ['paperwork', 'court records', 'arrest']
   document_location?: string           // State/city for court record searches
+  // Relationship extraction options
+  enable_relationship_extraction?: boolean  // Default true - extract relationships to knowledge graph
+  use_llm_extraction?: boolean              // Default true - use LLM for deep transcript analysis
 }
 
 export interface ResearchSource {
@@ -145,12 +152,18 @@ export interface WorkflowResult {
   // Research package (if generate_package=true)
   research_package_id?: string
 
+  // Relationship extraction stats
+  relationships_extracted: number
+  relationships_synced: number
+  graph_entities_created: number
+  extraction_result?: ExtractionResult
+
   // Errors
   errors: WorkflowError[]
 }
 
 export interface WorkflowError {
-  stage: 'query_interpretation' | 'search' | 'filter' | 'download' | 'transcribe' | 'docs' | 'document_search' | 'interview_lookup' | 'twitter_sentiment' | 'research_package'
+  stage: 'query_interpretation' | 'search' | 'filter' | 'download' | 'transcribe' | 'docs' | 'document_search' | 'interview_lookup' | 'twitter_sentiment' | 'research_package' | 'relationship_extraction'
   video_id?: string
   entity_name?: string
   message: string
@@ -1053,6 +1066,10 @@ export async function runResearchWorkflow(
     // Document search stats
     documents_searched: false,
     documents_found: 0,
+    // Relationship extraction stats
+    relationships_extracted: 0,
+    relationships_synced: 0,
+    graph_entities_created: 0,
     // Results
     sources: [],
     interviews: [],
@@ -1377,6 +1394,58 @@ export async function runResearchWorkflow(
     }
   }
 
+  // STEP 9: Extract relationships and sync to knowledge graph
+  if (options.enable_relationship_extraction !== false && result.sources.length > 0) {
+    console.log('[ResearchWorkflow] Step 9: Extracting relationships...')
+    try {
+      // Get known entities from query plan
+      const knownEntities = result.query_plan?.entities?.map(e => e.name) || []
+
+      // Extract relationships from all sources
+      const extractionResult = await extractRelationshipsFromSources(
+        result.sources,
+        result.interviews,
+        knownEntities,
+        { useLLM: options.use_llm_extraction !== false }
+      )
+
+      result.extraction_result = extractionResult
+      result.relationships_extracted = extractionResult.relationships.length
+
+      console.log(`[ResearchWorkflow] Extracted ${extractionResult.relationships.length} relationships`)
+      console.log(`  - From titles: ${extractionResult.stats.from_titles}`)
+      console.log(`  - From interviews: ${extractionResult.stats.from_interviews}`)
+      console.log(`  - From transcripts: ${extractionResult.stats.from_transcripts}`)
+
+      // Sync to knowledge graph if we have relationships
+      if (extractionResult.relationships.length > 0) {
+        console.log('[ResearchWorkflow] Syncing relationships to knowledge graph...')
+        const syncResult = await syncRelationshipsToGraph(extractionResult.relationships, {
+          minConfidence: 0.5,
+          topicId: options.topic_id,  // Link entities to this niche
+        })
+
+        result.relationships_synced = syncResult.relationships_created
+        result.graph_entities_created = syncResult.entities_created
+
+        console.log(`[ResearchWorkflow] Graph sync complete:`)
+        console.log(`  - Relationships created: ${syncResult.relationships_created}`)
+        console.log(`  - Entities created: ${syncResult.entities_created}`)
+
+        if (syncResult.errors.length > 0) {
+          console.warn(`[ResearchWorkflow] Graph sync had ${syncResult.errors.length} errors`)
+        }
+      }
+    } catch (error) {
+      console.error('[ResearchWorkflow] Relationship extraction error:', error)
+      errors.push({
+        stage: 'relationship_extraction',
+        message: String(error),
+        recoverable: true
+      })
+    }
+  }
+
   result.errors = errors
   result.completed_at = new Date().toISOString()
 
@@ -1413,6 +1482,12 @@ export async function runResearchWorkflow(
   // Research package
   if (result.research_package_id) {
     console.log(`  - Research package ID: ${result.research_package_id}`)
+  }
+  // Relationship extraction stats
+  if (result.relationships_extracted > 0) {
+    console.log(`  - Relationships extracted: ${result.relationships_extracted}`)
+    console.log(`  - Relationships synced to graph: ${result.relationships_synced}`)
+    console.log(`  - Graph entities created: ${result.graph_entities_created}`)
   }
 
   return result

@@ -45,8 +45,8 @@ export const API_PRICING = {
   },
 }
 
-// Track Perplexity credits separately (5 free per month)
-export const PERPLEXITY_MONTHLY_CREDITS = 5
+// Track Perplexity credits separately (was 5, increased for dev testing)
+export const PERPLEXITY_MONTHLY_CREDITS = 100
 
 // ============================================
 // TYPES
